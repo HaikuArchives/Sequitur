@@ -9,15 +9,15 @@ namespace BExperimental {
 class _EXPORT BBitmapButton;
 }
 
-#include "BitmapButton.h"
+#include <be/experimental/BitmapButton.h>
 
 #include <Screen.h>
 #include <Window.h>
 
 #include <Debug.h>
 
-#include "BitmapTools.h"
-#include "ColorTools.h"
+#include <be/experimental/BitmapTools.h>
+#include <be/experimental/ColorTools.h>
 
 #define AUTO_BITMAP_GENERATION 1
 #define FANCY_OVER_SHADOWS 1

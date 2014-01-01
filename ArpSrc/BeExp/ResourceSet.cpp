@@ -12,7 +12,7 @@ class _EXPORT BResourceSet;
 #define USE_RESOURCES 1
 #define HAVE_CURSORS 1
 
-#include "ResourceSet.h"
+#include <be/experimental/ResourceSet.h>
 
 #if HAVE_CURSORS
 #include <Cursor.h>
@@ -705,7 +705,7 @@ enum {
 
 static void read_png_data(png_structp png_ptr,
 						  png_bytep data,
-						  png_uint_32 length)
+						  png_size_t length)
 {
 	BDataIO* io = (BDataIO*)png_get_io_ptr(png_ptr);
 	ssize_t amount = io->Read(data, length);
@@ -735,10 +735,10 @@ BResourceSet::BitmapObject* BResourceSet::read_png_image(BDataIO* stream)
 		return 0;
 	}
 	
-	if (setjmp(png_ptr->jmpbuf)) {
-		png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp) NULL);
-		return 0;
-	}
+//P	if (setjmp(png_ptr->jmpbuf)) {
+//P		png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp) NULL);
+//P		return 0;
+//P	}
 	
 	png_set_read_fn(png_ptr, stream, read_png_data);
 	png_set_sig_bytes(png_ptr, PNG_CHECK_BYTES);
