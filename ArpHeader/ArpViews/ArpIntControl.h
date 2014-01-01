@@ -131,7 +131,7 @@ public:
 	
 protected:
 	virtual void	ComputeDimens(ArpDimens& dimens);
-	virtual void	Layout();
+	virtual void	LayoutView();
 
 	/* If subclasses want to override the drawing, here's where.
 	 */

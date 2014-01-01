@@ -638,7 +638,7 @@ void AmMotionEditor::ComputeDimens(ArpDimens& cur_dimens)
 
 void AmMotionEditor::Layout(void)
 {
-	inherited::Layout();
+	inherited::LayoutView();
 }
 
 static BMenuField* new_view_as_field(BRect f)

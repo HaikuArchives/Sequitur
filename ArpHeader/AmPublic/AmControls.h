@@ -141,7 +141,7 @@ public:
 
 protected:
 	virtual void		ComputeDimens(ArpDimens& dimens);
-	virtual void		Layout();
+	virtual void		LayoutView();
 
 private:
 	typedef ArpLayoutControl inherited;
@@ -259,7 +259,7 @@ public:
 
 protected:
 	virtual void	ComputeDimens(ArpDimens& dimens);
-	virtual void	Layout();
+	virtual void	LayoutView();
 
 private:
 	typedef ArpLayoutControl	inherited;

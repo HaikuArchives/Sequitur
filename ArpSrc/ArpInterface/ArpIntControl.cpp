@@ -474,9 +474,9 @@ void ArpIntControl::ComputeDimens(ArpDimens& cur_dimens)
 	dx.AddBody(12);
 }
 
-void ArpIntControl::Layout()
+void ArpIntControl::LayoutView()
 {
-	inherited::Layout();
+	inherited::LayoutView();
 	SetDivider(BodyFrame().left - LayoutFrame().left);
 }
 #endif
