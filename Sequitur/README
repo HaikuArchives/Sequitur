@@ -1,0 +1,41 @@
+Sequitur
+MIDI Sequencing for BeOS
+
+------------------------------------------------------------------------
+
+Version 2.1 / 03 August 2002
+
+Copyright ©2000-2002 by Angry Red Planet, Eric Hackborn, Dianne Hackborn,
+and Daniel Civello.  All rights reserved.
+
+This software and all accompanying documentation is released as
+freeware.  Users are granted the right to use this software without
+restriction, and distribute it freely provided no contents are removed
+or modified in any way.  This software comes with no guarantees or
+warranties.  The authors are not responsible in any way for any damage
+that occurs as a result of using this software.  Please direct any questions
+or requests to Eric Hackborn, at <hackborn@angryredplanet.com>.
+
+------------------------------------------------------------------------
+
+THANKS TO
+
+Mike Masquith, Jamie, Kent Tessman, Gianmario Scotti, Jimmy Packes, and
+everyone else who was sent in bugs, features, and encouragement.
+
+The authors of Bars&Pipes for developing a modern, extensible, and
+well thought-out sequencer over a decade ago, one that in many regards
+remains unmatched even today.
+
+Joe DeAngelis for many conversations on how a decent sequencer should
+work, advice, and overall happy thoughts.
+
+APT Grafix, for some excellent, freely available textures.
+http://www.aptgrafix.co.uk/s
+
+------------------------------------------------------------------------
+
+GETTING STARTED
+
+Please see the Quick Start guide in the Documentation folder for a jumpstart
+on using Sequitur.

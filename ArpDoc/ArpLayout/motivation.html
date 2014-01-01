@@ -1,0 +1,64 @@
+@chapter 0
+@package ArpLayout
+@title Motivation
+
+<h3>Yet Another Layout Library...</h3>
+
+<p>This layout library was started back in the days of DR8.  It didn't change
+for a long time after that first prototype because, until R4, manually
+resizing BViews has been too slow
+to (IMHO) make a layout library based on them practical.  However,
+now with the coming of R4 and its new Begin/EndViewTransaction()
+mechanism -- as well as the fact that there <em>still</em> doesn't
+seem to be a layout library that completely meets our needs -- I have
+cleaned up the code so that it is semi-usable (at least for my needs),
+and decided to release what I have as open source.</p>
+
+<p>The main features/goals of this library are:</p>
+
+<ul>
+<li> <strong>Integrate well with the rest of the BeOS system.</strong>
+     This means it should
+     use the existing Be-supplied controls wherever appropriate, with
+     as little modification to them as possible.  It also should make use of
+     other existing OS services (such as the BMessage) instead of
+     implementing its own.<p>
+
+<li> <strong>Be light-weight and simple.</strong>  Related to the
+     first requirement, the library should introduce as few new
+     concepts as possible and require little memory and code in addition
+     to the existing Be classes.<p>
+
+<li> <strong>Distributed as Open Source.</strong>  So that someone
+     using the library does not become dependent on the person who
+     created the source.<p>
+
+<li> <strong>Automatically conform to any font size(s) and automatically
+     resize layout to conform to its exterior dimensions.</strong>
+     Which goes without saying, I suppose.  More pointedly, I don't
+     want to have to think about where controls should be placed in
+     terms of pixels, "dialog units", or anything like that.  I don't
+     care.  I just want to generally specify their positions relative
+     to each other, and let the program take care of the pixel location
+     details.<p>
+
+<li> <strong>A flexible and well defined layout architecture.</strong>
+     This means to provide the equivalent of the traditional concept of
+     "layout managers."  Organize a view hierarchy as user
+     interface controls that are placed inside parent containers, where
+     the latter actually determine where to place the basic controls on
+     the screen.  (But hopefully we can learn something from X and
+     other implementations of this, and do a better job at it...)<p>
+
+<li> <strong>Include the ability to embed a layout hierarchy in a
+     larger BView hierarchy.</strong>  In other words, the layout
+     library should not depend on having any control over the
+     surrounding window.  You should be able to create a layout
+     of controls and pass this as a root BView to
+     some other containing object that knows nothing about the
+     layout library being used.<p>
+
+</ul>
+
+<p>Be sure to look at the source code in <code>ArpTest/ArpLayout</code>
+to get a feel for one (possible) way to use the library!</p>

@@ -1,0 +1,755 @@
+#define _BUILDING_AmKernel 1
+
+#ifndef AMKERNEL_AMPERFORMER_H
+#include "AmKernel/AmPerformer.h"
+#endif
+
+#ifndef ARPKERNEL_ARPDEBUG_H
+#include <ArpKernel/ArpDebug.h>
+#endif
+
+#include <Autolock.h>
+#include <scheduler.h>
+
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+ArpMOD();
+
+//#define SHOW_ERROR 1
+
+//#include <iostream>
+
+static inline AmTime do_realtime_to_pulse(bigtime_t time, int32 bpm,
+										  AmTime baseBeat, bigtime_t baseTime)
+{
+	// This is the number of sequencer pulses that are
+	// running every minute.
+	const bigtime_t PPM = bigtime_t(PPQN)*bpm;
+	
+	return AmTime( baseBeat + ( ((time-baseTime)*PPM) / (60*1000000) ) );
+}
+
+static inline bigtime_t do_pulse_to_realtime(AmTime pulse, int32 bpm,
+											 AmTime baseBeat, bigtime_t baseTime)
+{
+	// This is the number of sequencer pulses that are
+	// running every minute.
+	const bigtime_t PPM = bigtime_t(PPQN)*bpm;
+	
+	// This is the number of microseconds from the start of
+	// the song that the next event should be performed.
+	return ((bigtime_t(pulse-baseBeat) * 60*1000000) / PPM) + baseTime;
+}
+
+AmTime realtime_to_pulse(bigtime_t time, int32 bpm, AmTime baseBeat, bigtime_t baseTime)
+{
+	return do_realtime_to_pulse(time, bpm, baseBeat, baseTime);
+}
+
+bigtime_t pulse_to_realtime(AmTime pulse, int32 bpm, AmTime baseBeat, bigtime_t baseTime)
+{
+	return do_pulse_to_realtime(pulse, bpm, baseBeat, baseTime);
+}
+
+namespace ArpPrivate {
+
+struct song_entry
+{
+	AmEvent* song;
+	bool restart;
+	bool finished;
+	BList sections;
+	
+	song_entry(AmEvent* song = 0, bool restart = false);
+	~song_entry();
+};
+
+song_entry::song_entry(AmEvent* inSong, bool inRestart)
+	: song(inSong), restart(inRestart), finished(false)
+{
+}
+
+song_entry::~song_entry()
+{
+	song->DeleteChain();
+}
+
+}	// namespace ArpPrivate
+
+using namespace ArpPrivate;
+
+/* ----------------------------------------------------------------
+   AmPerformer Implementation
+   ---------------------------------------------------------------- */
+   
+AmPerformer::AmPerformer()
+	: mDataSem(B_BAD_SEM_ID),
+	  mPlayThread(B_BAD_THREAD_ID),
+	  mPlaying(false), mFlushRequested(false),
+	  mSharedBPM(120), mSharedTempoBeat(0), mSharedTempoTime(0),
+	  mSetBPM(true),
+	  mBaseTime(0),  mPosition(NULL), mNewEvents(NULL),
+	  mNextPos(0), mNextNew(0)
+{
+}
+
+AmPerformer::~AmPerformer()
+{
+	Stop();
+}
+
+int32 AmPerformer::BPM() const
+{
+	return mBPM;
+}
+
+void AmPerformer::SetBPM(int32 BPM)
+{
+	BAutolock l(mTimeAccess);
+	mSharedBPM = BPM;
+	mSetBPM = true;
+}
+
+AmTime AmPerformer::CurrentTime() const
+{
+	BAutolock l(mTimeAccess);
+	
+	if (mDataSem < B_OK) return -1;
+	
+	// This is the real time that has elapsed since the last tempo change.
+	const bigtime_t realtime = system_time() - mSharedTempoTime;
+	
+	// This is the number of sequencer pulses that are
+	// running every minute.
+	const bigtime_t PPM = bigtime_t(PPQN)*mSharedBPM;
+	
+	// This is the number of sequencer pulses that have elapsed
+	// since mSharedTempoTime.
+	return AmTime(((realtime*PPM)/(60*1000000)) + mSharedTempoBeat);
+}
+
+bigtime_t AmPerformer::FutureTime(AmTime pulse) const
+{
+	BAutolock l(mTimeAccess);
+	
+	if (mDataSem < B_OK) return -1;
+	
+	return do_pulse_to_realtime(pulse, mSharedBPM,
+								mSharedTempoBeat, mSharedTempoTime);
+}
+
+AmTime AmPerformer::RealtimeToPulse(bigtime_t time, bool includeFuture) const
+{
+	if (!includeFuture && time > system_time()) return -1;
+	
+	BAutolock l(mTimeAccess);
+	
+	if (mDataSem < B_OK) return -1;
+	if (time < mSharedTempoTime) return -1;
+	
+	return do_realtime_to_pulse(time, mSharedBPM,
+								mSharedTempoBeat, mSharedTempoTime);
+}
+
+bigtime_t AmPerformer::PulseToRealtime(AmTime pulse, bool includeFuture) const
+{
+	BAutolock l(mTimeAccess);
+	
+	if (mDataSem < B_OK) return -1;
+	if (pulse < mSharedTempoBeat) return -1;
+	
+	const bigtime_t time = do_pulse_to_realtime(pulse, mSharedBPM,
+												mSharedTempoBeat, mSharedTempoTime);
+	
+	if (!includeFuture && time > system_time()) return -1;
+	
+	return time;
+}
+
+bool AmPerformer::IsPlaying() const
+{
+	return mPlaying;
+}
+
+bool AmPerformer::IsRunning() const
+{
+	return mDataSem >= B_OK;
+}
+
+status_t AmPerformer::Start(AmEvent* song, uint32 flags)
+{
+	Stop();
+	
+	BAutolock l(mAccess);
+	
+	#if ArpDEBUG
+	int32 sugPri = suggest_thread_priority(B_AUDIO_PLAYBACK,
+										   1000000/32, 2000, 100);
+	ArpD(cdb << ADH << "Suggested thread pri=" << sugPri << endl);
+	#endif
+	
+	ASSERT(mDataSem == BAD_SEM_ID);
+	ASSERT(mPlayThread == B_BAD_THREAD_ID);
+	
+	mSharedTempoBeat = 0;
+	mSharedTempoTime = system_time();
+	mSetBPM = true;
+	
+	mDataSem = create_sem(0, "ARP™ Midi Performer Data Queue");
+	if( mDataSem < B_OK ) {
+		Stop();
+		return (status_t)mPlayThread;
+	}
+	
+	mPlayThread = spawn_thread(PlayThreadEntry, "ARP™ Midi Performer",
+							   B_REAL_TIME_PRIORITY, this);
+	if( mPlayThread < B_OK ) {
+		Stop();
+		return (status_t)mPlayThread;
+	}
+	
+	status_t ret = Append(song, flags|AMPF_RESTART);
+	if( ret < B_OK ) {
+		Stop();
+		return ret;
+	}
+	
+	ret = resume_thread(mPlayThread);
+	if( ret < B_OK ) {
+		Stop();
+	}
+	
+	return ret >= B_OK ? B_OK : ret;
+}
+
+status_t AmPerformer::Append(AmEvent* song, uint32 flags)
+{
+	BAutolock l(mAccess);
+	
+	if( mDataSem < B_OK ) {
+		if (song) return Start(song, flags|AMPF_RESTART);
+		return B_OK;
+	}
+	
+	const int32 N = mSongs.CountItems();
+	
+	if ((flags&AMPF_RESTART) || N < 1) {
+		if (N > 0) {
+			ArpD(cdb << ADH << "Marking last song as finished" << endl);
+			song_entry* entry = reinterpret_cast<song_entry*>(mSongs.ItemAt(N-1));
+			entry->finished = true;
+		}
+		if (song) {
+			ArpD(cdb << ADH << "Adding new song entry" << endl);
+			song_entry* entry = new song_entry(song, (flags&AMPF_RESTART) ? true : false);
+			entry->finished = (flags&AMPF_FINISHED) ? true : false;
+			mSongs.AddItem(entry);
+		}
+	} else {
+		song_entry* orig = reinterpret_cast<song_entry*>(mSongs.ItemAt(N-1));
+		if (song) {
+			ArpD(cdb << ADH << "Merging new song events into existing song" << endl);
+			if (orig->song) {
+				// Pull out closest event we know of to the end, for
+				// better performance,
+				AmEvent* last = (orig->sections.CountItems() > 0)
+							   ? ((AmEvent*)(orig->sections.ItemAt(
+							   					orig->sections.CountItems()-1)))
+							   : 0;
+				if (!last) last = orig->song;
+				
+				// This is the last event in the current song.
+				AmEvent* tail = last->TailEvent();
+				
+				// Merge new events into the song, and make sure the song
+				// still points to the head of the chain.
+				tail->MergeList(song, true);
+				orig->song = orig->song->HeadEvent();
+				
+				// If any of the new events appear before the last events
+				// of the old song, we still want to mark the next segment
+				// as after the last event of the old song.  Make that
+				// adjustment here.
+				tail = tail->NextEvent();
+				if (tail) song = tail;
+			} else {
+				orig->song = song;
+			}
+		}
+		if (flags&AMPF_RESTART) orig->restart = true;
+		if (flags&AMPF_FINISHED) {
+			ArpD(cdb << ADH << "Marking current song as finished" << endl);
+			orig->finished = true;
+		}
+		ArpD(cdb << ADH << "Adding new section to song" << endl);
+		orig->sections.AddItem(song);
+	}
+	
+	// Make sure the playback thread is running.
+	ArpD(cdb << ADH << "Resuming performer thread" << endl);
+	return release_sem(mDataSem);
+}
+
+void AmPerformer::Stop()
+{
+	mAccess.Lock();
+	
+	ArpD(cdb << ADH << "Stopping performer." << endl);
+	
+	sem_id dataSem = mDataSem;
+	mDataSem = B_BAD_SEM_ID;
+	if (dataSem > B_OK) delete_sem(dataSem);
+	thread_id playThread = mPlayThread;
+	playThread = B_BAD_THREAD_ID;
+	
+	mAccess.Unlock();
+	
+	status_t ret;
+	if (playThread >= B_OK) wait_for_thread(playThread, &ret);
+	
+	ArpD(cdb << ADH << "Performer is stopped." << endl);
+	
+	// All resources should have been cleaned up by the thread.
+	// Did it do the right thing?
+	ASSERT(mSongs.CountItems() == 0);
+	ASSERT(mDataSem == B_BAD_SEM_ID);
+	ASSERT(mPlayThread == B_BAD_THREAD_ID);
+}
+
+// ---------------- The Performer ----------------
+
+int32 AmPerformer::PlayThreadEntry(void* arg)
+{
+	ArpD(cdb << ADH << "Enter the performer." << endl);
+	AmPerformer *obj = (AmPerformer *)arg;
+	
+	int32 ret = B_OK;
+	
+	bool repeat = true;
+	while (repeat) {
+		repeat = false;
+		ret = obj->RunPerformance();
+		{
+			BAutolock l(&obj->mAccess);
+			if (ret == B_OK && obj->mDataSem >= B_OK
+					&& obj->mPlayThread == find_thread(NULL)) {
+				// If more songs arrived while stopping, restart.
+				if (obj->mSongs.CountItems() > 0) {
+					repeat = true;
+					continue;
+				}
+			}
+			
+			// Clean up any remaining data.
+			song_entry* entry=NULL;
+			while( (entry=(song_entry*)obj->mSongs.RemoveItem(0L)) != NULL ) {
+				delete entry;
+			}
+			
+			if( obj->mPosition ) obj->mPosition->DeleteChain();
+			obj->mPosition = NULL;
+			if( obj->mNewEvents ) obj->mNewEvents->DeleteChain();
+			obj->mNewEvents = NULL;
+			obj->mPlayThread = B_BAD_THREAD_ID;
+			
+			if (obj->mDataSem >= B_OK) {
+				delete_sem(obj->mDataSem);
+				obj->mDataSem = B_BAD_SEM_ID;
+			}
+		}
+	}
+	
+	ArpD(cdb << ADH << "Exit the performer." << endl);
+	return ret;
+}
+
+bigtime_t AmPerformer::EventTimeToRealTime(AmTime event) const
+{
+	// This is the number of sequencer pulses that are
+	// running every minute.
+	const bigtime_t PPM = bigtime_t(PPQN)*mBPM;
+	
+	// This is the number of microseconds from the start of
+	// the song that the next event should be performed.
+	return (bigtime_t(event-mTempoBeat) * 60*1000000) / PPM;
+}
+
+AmTime AmPerformer::RealTimeToEventTime(bigtime_t real) const
+{
+	// This is the number of sequencer pulses that are
+	// running every minute.
+	const bigtime_t PPM = bigtime_t(PPQN)*mBPM;
+	
+	return AmTime( mTempoBeat + ( (real*PPM) / (60*1000000) ) );
+}
+
+AmEvent** AmPerformer::FindNextEvent()
+{
+	if( mPosition && (!mNewEvents || !mRestart) &&
+			(!mNewEvents || (mPosition->QuickCompare(mNewEvents) <= 0)) ) {
+		if( mRestart ) {
+			#if 1
+			mTempoBeat = mPosition->Time();
+			mBaseTime = system_time();
+			#else
+			mTempoBeat = 0;
+			mBaseTime = system_time() - EventTimeToRealTime(mPosition->Time());
+			#endif
+			mTempoTime = mBaseTime;
+		}
+		mRestart = false;
+		return &mPosition;
+	} else if( mNewEvents ) {
+		return &mNewEvents;
+	}
+	
+	return 0;
+}
+
+AmTime AmPerformer::NextEventBeat(bool* out_found)
+{
+	if( mPosition && (!mNewEvents || !mRestart) &&
+			(!mNewEvents || (mPosition->QuickCompare(mNewEvents) <= 0)) ) {
+		if( mRestart ) {
+			#if 1
+			mTempoBeat = mPosition->Time();
+			mBaseTime = system_time();
+			#else
+			mTempoBeat = 0;
+			mBaseTime = system_time() - EventTimeToRealTime(mPosition->Time());
+			#endif
+			mTempoTime = mBaseTime;
+		}
+		mRestart = false;
+		*out_found = true;
+		return mPosition->Time();
+	} else if( mNewEvents ) {
+		*out_found = true;
+		return mNewEvents->Time();
+	}
+	
+	*out_found = false;
+	return B_INFINITE_TIMEOUT;
+}
+
+bigtime_t AmPerformer::WaitTillEvent(AmEvent* event)
+{
+	if( !event ) return 0;
+	
+	bigtime_t nextTime = EventTimeToRealTime(event->Time());
+	
+	ArpD(cdb << ADH << "Next note at " << nextTime
+				<< " us (" << (float(nextTime)/1000000) << " secs)"
+				<< ", mBaseTime=" << mBaseTime << endl);
+	
+	// And this is the system time at which to perform the event.
+	nextTime += mTempoTime;
+	
+	const bigtime_t curTime = system_time();
+	
+	if( nextTime > curTime ) {
+		// Wait until the desired system time.
+		while( mDataSem >= B_OK &&
+			   acquire_sem_etc(mDataSem, 1, B_ABSOLUTE_TIMEOUT, nextTime) == B_INTERRUPTED ) {
+		}
+	}
+	
+	ArpD(cdb << ADH << "Done waiting, time now is "
+				<< (system_time()-mBaseTime)
+				<< " us (" << (float(system_time()-mBaseTime)/1000000) << " secs)"
+				<< ", mBaseTime=" << mBaseTime << endl);
+	
+	return (mDataSem >= B_OK && nextTime < system_time()) ? nextTime : 0;
+}
+
+AmEvent* AmPerformer::NextEvents()
+{
+	bool haveEvent = false;
+	AmTime nextBeat = NextEventBeat(&haveEvent);
+	
+	bigtime_t nextTime = (nextBeat < B_INFINITE_TIMEOUT)
+					   ? (EventTimeToRealTime(nextBeat) + mTempoTime)
+					   : B_INFINITE_TIMEOUT;
+	
+	ArpD(cdb << ADH << "Next note at " << nextTime
+				<< " us (" << (float(nextTime)/1000000) << " secs)"
+				<< ", mBaseTime=" << mBaseTime << endl);
+	
+	bigtime_t curTime = system_time();
+	
+	if( nextTime > curTime ) {
+		// Wait until the desired system time.
+		status_t err = mDataSem;
+		while( mDataSem >= B_OK &&
+			   (err=acquire_sem_etc(mDataSem, 1, B_ABSOLUTE_TIMEOUT, nextTime)) == B_INTERRUPTED ) {
+		}
+	}
+	
+	ArpD(cdb << ADH << "Done waiting, time now is "
+				<< (system_time()-mBaseTime)
+				<< " us (" << (float(system_time()-mBaseTime)/1000000) << " secs)"
+				<< ", mBaseTime=" << mBaseTime << endl);
+	
+	// Bail now if we are shutting down.
+	if (mDataSem < B_OK) {
+		ArpD(cdb << ADH << "NextEvents(): Premature execution." << endl);
+		return NULL;
+	}
+	
+	// After all the time that has gone by, this is the last beat that
+	// should have already been played.
+	curTime = system_time();
+	const AmTime endBeat = RealTimeToEventTime(curTime-mTempoTime)+1;
+	ArpD(cdb << ADH << "NextEvents(): Collecting up to beat " << endBeat << endl);
+	
+	// Now collect all of the events to be performed at this time.  In the
+	// case of premature executation, we just won't find any events and return
+	// NULL to try again.
+	AmEvent* result = NULL;
+	if (mPosition) {
+		#if defined(ArpDEBUG)
+		ArpDB() {
+			ArpD(cdb << ADH << "NextEvents(): Cutting mPosition " << mPosition << endl);
+			ArpD(cdb << ADH << "Original chain:" << endl);
+			if (mPosition) mPosition->PrintChain(AmEvent::PRINT_ADDRESS);
+		}
+		#endif
+		result = mPosition->CutAtTime(endBeat, &mPosition);
+		#if defined(ArpDEBUG)
+		ArpDB() {
+			ArpD(cdb << ADH << "NextEvents(): cut front=" << result
+					<< ", back=" << mPosition << endl);
+			ArpD(cdb << ADH << "Front chain:" << endl);
+			if (result) result->PrintChain(AmEvent::PRINT_ADDRESS);
+			ArpD(cdb << ADH << "Back chain:" << endl);
+			if (mPosition) mPosition->PrintChain(AmEvent::PRINT_ADDRESS);
+		}
+		#endif
+	}
+	if (mNewEvents) {
+		ArpD(cdb << ADH << "NextEvents(): Cutting mNewEvents " << mPosition << endl);
+		AmEvent* extra = mNewEvents->CutAtTime(endBeat, &mNewEvents);
+		ArpD(cdb << ADH << "NextEvents(): cut front=" << extra
+				<< ", back=" << mNewEvents << endl);
+		if (extra) {
+			if (!result) {
+				ArpD(cdb << ADH << "NextEvents(): Using mNewEvents." << endl);
+				result = extra;
+			} else {
+				result = result->MergeList(extra, true)->HeadEvent();
+				ArpD(cdb << ADH << "NextEvents(): head of merge=" << result << endl);
+			}
+		}
+	}
+	
+	return result;
+}
+
+void AmPerformer::ExecuteEvent(AmEvent* event, am_filter_params* params)
+{
+	// Run the event through its next filter, which it presumably
+	// will in some way "perform".  (Since any filters that reach
+	// this place will be marked as an output filter.)
+	AmFilterHolderI* filter = event->NextFilter();
+	if( filter ) {
+		event->SetNextFilter(filter->DefSuccessor());
+		event = filter->Filter()->RealtimeEvent(event);
+		AmEvent* pos = event;
+		while (pos) {
+			if (pos->NextFilter()) pos = pos->NextEvent();
+			else {
+				AmEvent* last = pos;
+				if (pos == event) event = pos = pos->NextEvent();
+				else pos = pos->NextEvent();
+				last->Delete();
+			}
+		}
+		if( event ) {
+			ArpD(cdb << ADH << "Filter generated events:"
+						<< endl << ADH; event->Print());
+			event = event->HeadEvent();
+			if( mNewEvents ) mNewEvents = mNewEvents->MergeList(event)->HeadEvent();
+			else mNewEvents = event;
+		}
+	} else {
+		// Just delete this event.
+		ArpD(cdb << ADH << "Dropping event without filter:"
+					<< endl << ADH; event->Print());
+		event->DeleteChain();
+	}
+}
+
+void AmPerformer::ConsumeEvents()
+{
+	BAutolock l(&mAccess);
+	
+	song_entry* entry = (song_entry*)mSongs.ItemAt(0L);
+	if (!entry)
+		return;
+	
+	AmEvent* nextSection = NULL;
+	
+	const int32 N = entry->sections.CountItems();
+	if (N > 1 || (N > 0 && entry->finished)) {
+		nextSection = (AmEvent*)entry->sections.RemoveItem(0L);
+	}
+	
+	mFinished = (mSongs.CountItems() > 1) ? false : entry->finished;
+	
+	if (!entry->finished && !nextSection) {
+		// If this song is not yet finished, but there is no more
+		// data, then leave it and wait for more.
+		ArpD(cdb << ADH << "*** End of song data, but not finished." << endl);
+		return;
+	}
+	
+	ASSERT(mPosition == NULL);
+	mPosition = entry->song;
+	mRestart = entry->restart;
+	
+	entry->song = NULL;
+	entry->restart = false;
+	
+	if (nextSection) {
+		AmEvent* prev = nextSection->PrevEvent();
+		if (prev) prev->SetNextEvent(NULL);
+		nextSection->SetPrevEvent(NULL);
+		entry->song = nextSection;
+		ArpD(cdb << ADH << "Playing next song section from " << mPosition
+				<< " to " << entry->song << endl);
+	} else {
+		ArpD(cdb << ADH << "Finish playing song " << entry << endl);
+		mSongs.RemoveItem(0L);
+		delete entry;
+	}
+}
+
+static bigtime_t lastTimer, thisTimer;
+
+int32 AmPerformer::RunPerformance()
+{
+	mRestart = false;
+	mFinished = false;
+	mPosition = NULL;
+	mNewEvents = NULL;
+	mNextPos = 0;
+	mNextNew = 0;
+	mBPM = mSharedBPM;
+	mTempoBeat = 0;
+	mBaseTime = system_time();
+	mTempoTime = mBaseTime;
+	ArpD(lastTimer = system_time());
+	
+	am_filter_params params;
+	#if SHOW_ERROR
+	bigtime_t error = 0;
+	#endif
+	
+	while( mDataSem >= B_OK ) {
+		mPlaying = true;
+		
+		// Get the next event to perform.  If there are no more events
+		// in the current song, move to the next song in the mSongs BList.
+		ArpD(cdb << ADH << "Ready for next: mPosition="
+					<< mPosition << ", mNewEvents=" << mNewEvents << endl);
+		if( mPosition == NULL ) {
+			ConsumeEvents();
+			
+			#if 0
+			if( !mPosition && !mNewEvents ) {
+				mAccess.Lock();
+				sem_id dataSem = B_BAD_SEM_ID;
+				if (mPlayThread == find_thread(NULL)) {
+					dataSem = mDataSem;
+				}
+				mAccess.Unlock();
+				// If asked to stop, or reached end of last song, that's it.
+				if( dataSem < B_OK || mFinished ) break;
+				
+				// Wait for more song data to appear.
+				ArpD(cdb << ADH << "Waiting for more to play." << endl);
+				mPlaying = false;
+				acquire_sem(dataSem);
+				continue;
+			}
+			#endif
+		}
+		
+		{
+			// Propogate current song location up to callers.
+			BAutolock l(mTimeAccess);
+			if (mSetBPM) {
+				if (mBPM != mSharedBPM) {
+					bigtime_t cur = system_time();
+					mTempoBeat = RealTimeToEventTime(cur-mTempoTime);
+					mTempoTime = cur;
+				}
+				mBPM = mSharedBPM;
+			} else mSharedBPM = mBPM;
+			mSharedTempoBeat = mTempoBeat;
+			mSharedTempoTime = mTempoTime;
+			mSetBPM = false;
+		}
+		
+		ArpD(thisTimer = system_time());
+		
+		ArpD(cdb << ADH << "Start=" << lastTimer << ", end=" << thisTimer
+						<< ", taken=" << (thisTimer-lastTimer) << endl);
+		
+		#if SHOW_ERROR
+		if( error > 0 ) {
+			printf("Error: %Ld\n", error);
+			error = 0;
+		}
+		#endif
+		
+		AmEvent* events = NextEvents();
+		AmTime curBeat = -100000;
+		while( events ) {
+			if( curBeat != events->Time() ) {
+				curBeat = events->Time();
+				params.performance_time = EventTimeToRealTime(curBeat)+mTempoTime;
+			}
+			
+			AmEvent* cur = events;
+			events = events->NextEvent();
+			cur->SetPrevEvent(NULL);
+			cur->SetNextEvent(NULL);
+			
+			// Directly process tempo events.
+			if( cur->Type() == AmEvent::TEMPOCHANGE_TYPE ) {
+				printf("Changing tempo...\n");
+				AmTempoChange* tempo =
+					dynamic_cast<AmTempoChange*>(cur);
+				if( tempo ) {
+					const int32 newTempo = tempo->Tempo();
+					if( newTempo != mBPM ) {
+						mBPM = newTempo;
+						mTempoTime = params.performance_time;
+						mTempoBeat = curBeat;
+						printf("New tempo is %ld bpm, at time %lld and beat %lld\n",
+								mBPM, params.performance_time, curBeat);
+					}
+				}
+			}
+			
+			ExecuteEvent(cur, &params);
+			#if SHOW_ERROR
+			bigtime_t delta = system_time()-params.performance_time;
+			if( delta > error ) error = delta;
+			#endif
+		}
+	}
+	
+	// Send any waiting events.
+	params.performance_time = system_time();
+	while( mNewEvents ) {
+		AmEvent* next = mNewEvents;
+		mNewEvents = mNewEvents->RemoveEvent();
+		ExecuteEvent(next, &params);
+	}
+	
+	return 0;
+}

@@ -1,0 +1,3 @@
+Not much has been put in place to handle dealing with data from a card.  I don't have one, so I had to guess at some of the values, (note to self:  The preset and hyperpreset SetNumber() methods are where the guessing occurs) and in some cases nothing at all was put in.
+
+The Morpheus should be in its main mode (i.e. neither the Master, Preset, Midimap, nor Hyper buttons are lit) and set to channel 1.  Exfiler will operate fine if this is not the case, but realtime playback will not be correct.

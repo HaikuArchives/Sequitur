@@ -1,0 +1,339 @@
+
+# Copyright (c)1998 by Angry Red Planet.
+#
+# This code is distributed under a modified form of the
+# Artistic License.  A copy of this license should have
+# been included with it; if this wasn't the case, the
+# entire package can be obtained at
+# <URL:http://www.angryredplanet.com/>.
+#
+# ----------------------------------------------------------------------
+#
+# tools/makeupdate
+#
+# Create an update file from the current development.
+#
+# ----------------------------------------------------------------------
+#
+# Known Bugs
+# ~~~~~~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# To Do
+# ~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# History
+# ~~~~~~~
+#
+# Dec 6, 1998:
+#	First public release.
+#
+#
+
+NEWDIR=$1
+
+OPT_CHECKONLY=""
+
+while [ 1 ]; do
+	case "$1" in
+		-- )		shift; break								;;
+		--check )	shift; OPT_CHECKONLY="on"					;;
+		--* )		echo "*** Error: Unknown option $1"; exit	;;
+		* )			break										;;
+	esac
+done
+
+if [ $# -lt 1 ]; then
+	echo "Usage: makeupdate project [checkpoint.zip]"
+	echo "- \"project\" is the directory containing your current project work."
+	echo "- \"checkpoint.zip\" is a zip file containing the last checkpoint"
+	echo "  of this project."
+	echo ""
+	echo "If \"checkpoint.zip\" is not supplied, it will default to \"{project}-ckp.zip\""
+	exit
+fi
+
+CURDIR=$1
+
+if [ ! -e "$CURDIR" ]; then
+	echo "*** Error: Directory \"$CURDIR\" does not exist."
+	exit
+fi
+
+if [ $# -lt 2 ]; then
+	CHECKPOINT=$CURDIR-ckp.zip
+else
+	CHECKPOINT=$2
+fi
+
+if [ ! -e "$CHECKPOINT" ]; then
+	echo "*** Error: Old Checkpoint \"$CHECKPOINT\" does not exist."
+	exit
+fi
+
+# --------------- Define Standard Files and Directories ----------------
+
+BASEDIR="$(pwd)"
+TEMPDIR="$BASEDIR/$CURDIR.UpdateInfo.$$"
+TOOLSDIR="$(dirname $0)"
+
+FINALZIP="$CURDIR-upd.zip"
+MANIFEST="$CURDIR-Manifest.txt"
+DELMANIFEST="$CURDIR-Deleted.txt"
+SUMMARY="$CURDIR-Summary.txt"
+
+BACKUPDIR=Backup
+
+DATESTRING="$(date "+%Y-%m-%d-%H%M")"
+
+BACKUPCKP="${BACKUPDIR}/$DATESTRING.${CURDIR}.zip"
+
+CURFILELIST="$TEMPDIR/curfile_list.txt"
+OLDFILELIST="$TEMPDIR/oldfile_list.txt"
+MODFILELIST="$TEMPDIR/modfile_list.txt"
+NEWDIRLIST="$TEMPDIR/newdir_list.txt"
+NEWFILELIST="$TEMPDIR/newfile_list.txt"
+DELFILELIST="$BASEDIR/deleted-files.txt"
+
+# --------------- Load Standard Functions ----------------
+
+. "$TOOLSDIR/Question.sh"
+. "$TOOLSDIR/whence.sh"
+
+# --------------- Initialize Temporaries ----------------
+
+if [ "$(whence zip)" = "" ]; then
+	echo "*** Error: zip command not available.  Unable to continue."
+	exit
+fi
+
+echo "Ready to create an update archive of $CURDIR."
+
+if [ -e "$TEMPDIR" ]; then
+	echo "An old update directory $TEMPDIR exists."
+	Question "Replace it with new update" "yes" ""
+	case $ANSWER in
+		y* )	;;
+		* )		echo "*** Aborting."
+				exit
+				;;
+	esac
+	rm -rf "$TEMPDIR"
+fi
+
+Cleanup() {
+	echo "Cleaning up temporaries..."
+	rm -rf "$TEMPDIR"
+	if [ $# -gt 0 ]; then exit $1
+	fi
+}
+
+trap 'echo "*** Break requested."; Cleanup 1' 1 2 3 15
+
+mkdir --parents "$TEMPDIR"
+
+if [ -e "$DELMANIFEST" -o -e "$MANIFEST" -o -e "$SUMMARY" ]; then
+	echo "One or more of the summary files already exist."
+	echo "($DELMANIFEST, $MANIFEST, or $SUMMARY)."
+	Question "Replace them" "yes" ""
+	case $ANSWER in
+		y* )	;;
+		* )		echo "*** Aborting."
+				Cleanup 1
+				;;
+	esac
+	if [ -e "$DELMANIFEST" ]; then rm "$DELMANIFEST"; fi
+	if [ -e "$MANIFEST" ]; then rm "$MANIFEST"; fi
+	if [ -e "$SUMMARY" ]; then rm "$SUMMARY"; fi
+fi
+
+if [ -e /boot/develop/lib/x86/libroot.so.LIB ]; then
+	echo "Note: Unable to perform a clean under R3."
+	Question "Have you cleaned this under R4?" "no" ""
+	case $ANSWER in
+		y* )	;;
+		* )		echo "Go do it now!"
+				Cleanup 1
+				;;
+	esac
+else
+	echo "Cleaning project directory ${CURDIR} (i.e., make clean)..."
+	(cd "$CURDIR"; make clean >/dev/null)
+fi
+
+echo "Extracting last checkpoint \"$CHECKPOINT\"..."
+
+(cd "$TEMPDIR"; unzip $BASEDIR/$CHECKPOINT >/dev/null)
+
+echo "Creating a list of current project files..."
+
+find "$CURDIR" -print > "$CURFILELIST"
+
+# --------------- Figure Out What Has Changed ----------------
+
+echo "Finding new and changed files..."
+
+# make sure the files exist and are empty
+rm -f "$NEWFILELIST"
+rm -f "$NEWDIRLIST"
+rm -f "$MODFILELIST"
+touch "$NEWFILELIST"
+touch "$NEWDIRLIST"
+touch "$MODFILELIST"
+
+OLDIFS=$IFS
+IFS=
+exec 3< "$CURFILELIST"
+while read LINE 0<&3
+do
+	if [ -e "$TEMPDIR/$LINE" ]; then
+		if [ -f "$TEMPDIR/$LINE" ]; then
+			if diff "$TEMPDIR/$LINE" "$LINE" >/dev/null; then
+				: # no change
+			else
+				echo >> "$MODFILELIST" "$LINE"
+				#echo "$LINE: Has Changed."
+			fi
+		fi
+	else
+		if [ -d "$LINE" ]; then
+			echo >> "$NEWDIRLIST" "$LINE"
+		elif [ -f "$LINE" ]; then
+			echo >> "$NEWFILELIST" "$LINE"
+			#echo "$LINE: A new file."
+		else
+			echo "Warning: skipping new entry $LINE, unknown type."
+		fi
+	fi
+done
+exec 3<&-
+IFS=$OLDIFS
+
+echo "Finding deleted files..."
+
+touch "$DELMANIFEST"
+
+(cd "$TEMPDIR"; find "$CURDIR" -print > "$OLDFILELIST")
+
+OLDIFS=$IFS
+IFS=
+exec 3< "$OLDFILELIST"
+while read LINE 0<&3
+do
+	if [ -e "$LINE" ]; then
+		:
+	else
+		echo >> "$DELMANIFEST" "$LINE"
+	fi
+done
+exec 3<&-
+IFS=$OLDIFS
+
+echo "Making manifest file..."
+
+touch "$MANIFEST"
+find ARP -type f -printf '"%p" ' | xargs -e md5sum > "$MANIFEST"
+
+NUMNEWFILE=$(wc -l "$NEWFILELIST" | awk '{print $1'})
+NUMNEWDIR=$(wc -l "$NEWDIRLIST" | awk '{print $1'})
+NUMMOD=$(wc -l "$MODFILELIST" | awk '{print $1'})
+NUMMANIFEST=$(wc -l "$MANIFEST" | awk '{print $1'})
+NUMDELMANIFEST=$(wc -l "$DELMANIFEST" | awk '{print $1'})
+
+echo "Writing change summary file..."
+	
+touch "$SUMMARY"
+echo >> "$SUMMARY" "SUMMARY OF CHANGES:"
+echo >> "$SUMMARY" ""
+if [ $NUMNEWFILE -gt 0 ]; then
+	echo >> "$SUMMARY" "There were $NUMNEWFILE new files:"
+	cat >> "$SUMMARY" "$NEWFILELIST"
+else
+	echo >> "$SUMMARY" "No new files found."
+fi
+echo >> "$SUMMARY" ""
+
+if [ $NUMNEWDIR -gt 0 ]; then
+	echo >> "$SUMMARY" "There were $NUMNEWDIR new directories:"
+	cat >> "$SUMMARY" "$NEWDIRLIST"
+else
+	echo >> "$SUMMARY" "No new directories found."
+fi
+echo >> "$SUMMARY" ""
+
+if [ $NUMMOD -gt 0 ]; then
+	echo >> "$SUMMARY" "There were $NUMMOD modified files:"
+	cat >> "$SUMMARY" "$MODFILELIST"
+else
+	echo >> "$SUMMARY" "No modified files found."
+fi
+
+echo "Result: $NUMNEWFILE new and $NUMMOD modified files, $NUMNEWDIR new directories."
+echo "A total of $NUMMANIFEST active files; $NUMDELMANIFEST deleted from last checkpoint."
+
+if [ "$OPT_CHECKONLY" != "" ]; then
+	echo "This is a \"check\" only.  Not creating archives."
+	exit 0
+fi
+
+# --------------- Create The Update Archive ----------------
+
+echo "Creating final update archive \"$FINALZIP\"..."
+
+echo >> "$NEWFILELIST" "$DELMANIFEST"
+echo >> "$NEWFILELIST" "$MANIFEST"
+echo >> "$NEWFILELIST" "$SUMMARY"
+
+if [ -e "$FINALZIP" ]; then
+	Question "Destination exists.  Replace it" "yes" ""
+	case $ANSWER in
+		y* )	;;
+		* )		echo "*** Aborting."
+				Cleanup 1
+				;;
+	esac
+	rm "$FINALZIP"
+fi
+
+cat "$NEWDIRLIST" "$NEWFILELIST" "$MODFILELIST" | zip -y "$FINALZIP" -@ >/dev/null
+
+# --------------- Create A New Checkpoint ----------------
+
+echo "Moving previous checkpoint to \"$BACKUPCKP\"..."
+
+if [ ! -e "$BACKUPDIR" ]; then
+	echo "Creating backup directory."
+	mkdir --parents "$BACKUPDIR"
+fi
+
+if [ -e "$BACKUPCKP" ]; then
+	Question "Destination exists.  Replace it" "yes" ""
+	case $ANSWER in
+		y* )	;;
+		* )		echo "*** Aborting."
+				Cleanup 1
+				;;
+	esac
+	rm "$BACKUPCKP"
+fi
+
+copyattr --data "$CHECKPOINT" "$BACKUPCKP"
+
+if [ $? -ne 0 ]; then
+	echo "*** Error: Unable to copy file.  Aborting."
+	Cleanup 1
+	exit
+fi
+
+rm -f "$CHECKPOINT"
+
+echo "Creating new checkpoint \"$CHECKPOINT\"..."
+
+zip -ry "$CHECKPOINT" "$CURDIR" >/dev/null
+
+Cleanup
+
+echo "All done!"

@@ -1,0 +1,10 @@
+x.  MIDIMAPS
+When editing channel programs, the program names displayed are based on the names of the data in the device snapshot that the Midimap resides in.  For example, if the current device snapshot does not contain the data from Morpheus bank 2 (Hyperpresets), then selecting bank 2 in a Midimap channel will cause the program name to be displayed as simply a number.
+
+
+x. Number Controls
+Can be set by clicking and dragging or typing.  When typing, entering 0 through 9 appends that value at the end of the number.  Pressing the UP and DOWN arrow keys increment and decrement by 1.  Pressing the RIGHT and LEFT keys increment and decrement by ten.  Pressing + forces the number to be positive, pressing - forces it to be negative.
+
+
+DEVICE MANAGE WINDOW
+When copying items, all of the currently selected patches are copied.  When pasting, the paste begins at the first selected patch and overwrites each successive patch until all items are pasted or the end of the bank is reached.

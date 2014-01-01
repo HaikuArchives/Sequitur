@@ -1,0 +1,30 @@
+ExFiler uses its own XML DTD for input / output, called ExML.
+
+For tags, composite attributes is typically capitalized, simple attributes are lowercase.  This equates to the C++ code:  Classes are capitalized, member variables are lowercase.
+
+The tags are:
+
+<DataType> - A single data type for a specific synthesizer.  It has the following tags:
+
+<name> - The name of the data type.  There is a single name entry per data type.
+<data> - The system exclusive data for a single entry of this data type.  There can be any number of data entries for each data type; data types are responsible for knowing how to parse and install each data entry.
+
+
+KNOWN PROBLEMS
+Anyone who develops a synth driver with a data type with a name of </DataType> will cause unreadable output to be written.
+
+
+EXAMPLE
+An example file looks like this:
+
+<Instrument>
+	<manu id>F00</manu id>
+	<prod id>0C</prod id>
+	<dev id>00</dev id> -- wait!  Studio info, right?
+	<in>sonic_vibes/1</in> -- wait!  Studio info, right?
+	<out>sonic_vibes/1</out> -- wait!  Studio info, right?
+	<DataType>
+		<name>Preset - ROM</name>
+		<data>18...34</data>
+	</DataType>
+</Instrument>

@@ -1,0 +1,47 @@
+ArpIndexedListAccess
+This class provides public access to the functionality of the ArpIndexedList class.
+
+
+CHAIN ACCESSING METHODS
+
+status_t HeadNode(ArpIndexedNode *node)
+Finds the first node in the list and places it in *node.  If nothing goes wrong, B_OK is returned.  Otherwise B_ERROR is returned.
+
+status_t TailNode(ArpIndexedNode *node)
+Finds the last node in the list and places it in *node.  If nothing goes wrong, B_OK is returned.  Otherwise B_ERROR is returned.
+
+status_t ChainHeadFrom(int32 index, ArpIndexedNode *node)
+Given the index, it finds the head node in the chain containing index, and places that node in *node.  If nothing goes wrong, B_OK is returned.  Otherwise B_ERROR is answered.
+
+status_t NodeAt(int32 index, ArpIndexedNode *node,
+				int32 startPos = 0, int32 direction = ARP_FORWARDS)
+This method finds the node at the specified index and places it in *node.  If no node could be found B_ERROR is returned, otherwise B_OK is returned.
+	The direction argument determines what to do if there is no node exactly the supplied index: ARP_FORWARDS increases the index until one is found, ARP_BACKWARDS decreases the index until one is found.
+	The startPos argument determines what to do if there is more than one node at the supplied index.  With the default of 0, the first node at the index is always returned.  With a value of 1, the second node at the index is always returned.  In this manner all nodes at a given index can be accessed.
+
+int32 Count()
+The number of nodes in the list is returned.
+
+
+CHAIN MANIPULATION METHODS
+
+status_t AddNode(ArpIndexedNode *node)
+Add the node at its appropriate place in the list.  Answer B_OK if everything is fine, B_ERROR otherwise.
+
+status_t RemoveNode(ArpIndexedNode *node)
+Remove the node from the list, but do not delete it.  Answer B_OK if everything is fine, B_ERROR otherwise.  This method should be only used by knowledgeable clients or subclasses -- generally speaking, a node should only exist inside its list and be deleted when removed.
+
+void DeleteOnlyNodes()
+Delete all the ArpIndexedNodes stored in the list, but leave the data they wrap intact.  This should only be used by knowledgeable clients who know the wrapped data is held elsewhere.
+
+
+UTILITY METHODS
+
+ArpIndexedList* Copy()
+Answer a new ArpIndexedList.  No nodes (and therefore data that they wrap) are copied.
+
+void ReplaceWith(ArpIndexedList *ail)
+Replace the all data (chain information, primarily) with that stored in *ail.  This was written as a convenience for file IO and ideally should not be necessary, but at the very lesat should not be used by anyone else.
+
+void Print()
+Write information about this list to stdout.

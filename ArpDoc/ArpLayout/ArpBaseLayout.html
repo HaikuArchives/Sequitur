@@ -1,0 +1,880 @@
+<!doctype HTML public "-//W3O//DTD W3 HTML 3.2//EN">
+<HTML>
+<HEAD>
+<TITLE>ArpCommon: ArpBaseLayout Class</TITLE>
+</HEAD>
+ <BODY 
+  BGCOLOR="#e0e0e0"
+  TEXT="#000000" 
+  LINK="#a02000" 
+  VLINK="#505050" 
+  ALINK="#a04000" 
+ >
+<div align=center>
+<table bgcolor="#eedddd">
+<tr>
+<td><a href="index.html">Table Of Contents</td>
+<td>Master Index</td>
+</tr>
+</table>
+</div>
+
+<HR>
+<H1><A NAME="ArpBaseLayout">ArpBaseLayout</A></H1>
+
+<P>Derived from: none.
+</P>
+<P>Inherited by: none.
+</P>
+<P>
+Declared in:  <A HREF="../../ArpHeader/ArpLayout/ArpBaseLayout.h">ArpHeader/ArpLayout/ArpBaseLayout.h</A> 
+</P>
+<P>
+Package: <A HREF="index.html">ArpLayout</A>
+</P>
+<P> 
+<H6><A HREF="ArpBaseLayout.summary.html"><i>Summary</i></A></H6>
+<p>
+This is the base class for the layout architecture, defining
+the interaction between objects in a hierarchy.  It is not intended
+to be directly instantiated.  To use it, you will need to inherit
+from one of the pre-build subclasses (ArpLayoutView for a full
+BView object, or ArpLayout for a view-less container class).
+Alternatively, you can mix-in ArpBaseLayout with an existing
+BView-based class.
+</p><p>
+<img src="../images/bug.gif">   I'm not very happy with the parameters and globals stuff.
+        Possibly, it should just disappear -- that would shave
+        about 1/3 off the size of this class...
+
+</p><p>
+<img src="../images/bug.gif">   The SetError() stuff should go away -- it hasn't been
+        useful ever since the post-R8 days of exceptions.
+        This also implies that performing a series of nested
+        allocations will cause a leak if one of the allocations
+        throws an exception.  This needs to be fixed.
+
+</p><p>
+<img src="../images/bug.gif">   The cur_dimens member variable should be made private
+        to the class.
+
+</p>
+<HR><H2>Constructor</H2><HR>
+<H3><A NAME="ArpBaseLayout()">ArpBaseLayout()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="ArpBaseLayout()">ArpBaseLayout()</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="ArpBaseLayout()">ArpBaseLayout(BMessage* data, bool final=true)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Default constructor and destructor.  Note that the archiving
+        constructor has an additional non-standard parameter, 'final'.
+        This is used for restoring the object's parameters.  When you
+        implement your own constructor, you should call
+        InstantiateParams() on 'data' if 'final' is true.  Otherwise,
+        you should ignore the parameters.  In addition, when you call
+        your superclass's constructor, you should pass in 'final' as
+        false.  In this way, the parameters are not applied until the
+        lowest subclass, ensuring that when the DoParams() method is
+        called the entire object has been initialized.
+</p>
+<HR><H2>Member Functions</H2><HR>
+<H3><A NAME="AddGlobals()">AddGlobals()</A>
+see <A HREF="#SetGlobals()">SetGlobals()</A></H3>
+<HR>
+<H3><A NAME="AddLayoutChild()">AddLayoutChild()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="AddLayoutChild()">virtual ArpBaseLayout* AddLayoutChild(ArpBaseLayout* v, const BMessage&amp; c = ArpNoParams, ArpBaseLayout* before = NULL)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="CountLayoutChildren()">int32				CountLayoutChildren(void)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="FindLayoutable()">ArpBaseLayout*		FindLayoutable(const char* name)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="LayoutChildAt()">ArpBaseLayout*		LayoutChildAt(int32 index)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="LayoutParent()">ArpBaseLayout*		LayoutParent(void)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="LayoutRemoveSelf()">bool				LayoutRemoveSelf(void)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="NextLayoutSibling()">ArpBaseLayout*		NextLayoutSibling(void)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="PreviousLayoutSibling()">ArpBaseLayout*		PreviousLayoutSibling(void)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="RemoveLayoutChild()">virtual	bool		RemoveLayoutChild(ArpBaseLayout* child)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Child manipulation.  Work just like BView's respective
+        functions.  These should -always- be called instead
+        those in BView -- they will take care of doing the
+        correct things with the layoutable's associated BView
+        object and parent/children.
+</p>
+<HR>
+<H3><A NAME="Archive()">Archive()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="Archive()">virtual status_t	Archive(BMessage* data, bool deep=true)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Standard archiving interface.
+</p>
+<HR>
+<H3><A NAME="AttachLayoutWindow()">AttachLayoutWindow()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="AttachLayoutWindow()">void AttachLayoutWindow(BWindow* window)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+This method is called by mixed-in BView classes when they
+        are attached to or detached from a window.
+</p>
+<HR>
+<H3><A NAME="AttachView()">AttachView()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="AttachView()">virtual void AttachView(BView* par_view, BView* before = 0)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+BView management.  This function is called whenever the
+        layoutable's parent BView changes -- the parameter passed
+        in will either be a valid BView to which this object
+        should attach itself, or NULL if it should detach itself
+        from its current parent.  It is GUARANTEED not to be called
+        with a valid BView if the object is already attached to
+        another BView.
+</p><p>
+        The default implementation of this function takes care of
+        three cases:
+</p><p>
+        (1) If this object does not itself have an owner BView,
+            it calls AttachView() on all of its children.
+</p><p>
+        (2) Otherwise, if par_view is non-NULL, it adds its owner
+            BView to par_view.
+</p><p>
+        (3) Otherwise, if InView() is currently valid, it removes
+            its owner BView that.
+</p><p>
+        You can override this function to, for example, attach
+        any extra BViews created by your subclass, which do not
+        have their own ArpBaseLayout object (that is, they are not
+        a visible part of the layout system).  In such a case,
+        though, you will almost certainly still want to call the
+        inherited form of this function.
+</p>
+<HR>
+<H3><A NAME="ComputeDimens()">ComputeDimens()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="ComputeDimens()">virtual void ComputeDimens()</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Dimensioning.  When a recomputation of the object is
+        needed (indicated with InvalidateDimens() above),
+        ComputeDimens() will be called and should fill
+        in cur_dimens with the appropriate information.  By
+        default, this sets its dimensions to be the same as its
+        first child, or zero.
+</p>
+<HR>
+<H3><A NAME="Constraints()">Constraints()</A>
+see <A HREF="#SetConstraints()">SetConstraints()</A></H3>
+<HR>
+<H3><A NAME="CountLayoutChildren()">CountLayoutChildren()</A>
+see <A HREF="#AddLayoutChild()">AddLayoutChild()</A></H3>
+<HR>
+<H3><A NAME="DrawLayout()">DrawLayout()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="DrawLayout()">virtual void DrawLayout(BView* inside, BRect region)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Object rendering.  This function is called whenever the
+        object should draw itself.  It is not useful to override
+        in layout objects that are incorporated with actual
+        BViews, which should be overriding the BView Draw()
+        function.  Conversely, a subclass of BView should always
+        call its ArpBaseLayout DrawLayout() function to be sure
+        its children are drawn.
+        You should also always call the superclass when overriding
+        this function to be sure your children are drawn.
+</p>
+<HR>
+<H3><A NAME="Error()">Error()</A>
+see <A HREF="#SetError()">SetError()</A></H3>
+<HR>
+<H3><A NAME="FindLayoutable()">FindLayoutable()</A>
+see <A HREF="#AddLayoutChild()">AddLayoutChild()</A></H3>
+<HR>
+<H3><A NAME="FocusShown()">FocusShown()</A>
+see <A HREF="#SetFocusShown()">SetFocusShown()</A></H3>
+<HR>
+<H3><A NAME="GetConstraintSuites()">GetConstraintSuites()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="GetConstraintSuites()">virtual void GetConstraintSuites(BMessage *data)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+This method fills in a standard suite BMessage, but one
+        that describes the properties this ArpBaseLayout parent
+        object understands in its child constraints.
+</p>
+<p><strong>See also:</strong>
+<a href="#QueryConstraint()">QueryConstraint()</a></p>
+<HR>
+<H3><A NAME="Globals()">Globals()</A>
+see <A HREF="#SetGlobals()">SetGlobals()</A></H3>
+<HR>
+<H3><A NAME="HintLayoutChild()">HintLayoutChild()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="HintLayoutChild()">virtual BRect		HintLayoutChild(ArpBaseLayout* before = NULL)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Predict where a child will appear in its container.  The
+        arguments define where the child will be inserted, just
+        like AddLayoutChild().  The return value is a rectangle
+        identifying the location in the container that the child
+        will be placed.  Note that the size and shape of this
+        rectangle should not be taken as gospel -- it is only
+        intended as a guide, for showing a cursor for an insertion
+        point in the layout.
+</p>
+<HR>
+<H3><A NAME="InView()">InView()</A>
+see <A HREF="#OwnerView()">OwnerView()</A></H3>
+<HR>
+<H3><A NAME="InstantiateParams()">InstantiateParams()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="InstantiateParams()">status_t InstantiateParams(BMessage* data)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+This function extracts the parameter information out
+        of a BMessage archive and applied it to the object.
+        You should call it in your constructor that takes
+        a BMessage archive when its 'final' parameter is true.
+</p>
+<HR>
+<H3><A NAME="InvalidateDimens()">InvalidateDimens()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="InvalidateDimens()">void InvalidateDimens(void)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Call this function to cause a recomputation
+        the next time dimension information is requested.
+</p>
+<HR>
+<H3><A NAME="InvalidateView()">InvalidateView()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="InvalidateView()">void InvalidateView(void)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Call this function to cause the view to be redrawn.
+</p>
+<HR>
+<H3><A NAME="IsLayoutRoot()">IsLayoutRoot()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="IsLayoutRoot()">virtual bool IsLayoutRoot(void)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Subclasses should override this to return true if they are the
+        root of a layout heirarchy.  This tells ArpBaseLayout that their
+        associated BView should never be positioned or resized.  For the
+        most part, only ArpRootLayout need to be concerned about this.
+</p>
+<HR>
+<H3><A NAME="Layout()">Layout()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="Layout()">virtual void Layout()</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Subclass layout.  This function is called whenever the
+        object size and/or position has changed, and it needs
+        reposition its children.  By default, it just places
+        the first child within its entire frame.
+</p>
+<HR>
+<H3><A NAME="LayoutActivated()">LayoutActivated()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="LayoutActivated()">bool LayoutActivated(void)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<HR>
+<H3><A NAME="LayoutAllAttached()">LayoutAllAttached()</A>
+see <A HREF="#LayoutWindow()">LayoutWindow()</A></H3>
+<HR>
+<H3><A NAME="LayoutAllDetached()">LayoutAllDetached()</A>
+see <A HREF="#LayoutWindow()">LayoutWindow()</A></H3>
+<HR>
+<H3><A NAME="LayoutAttachedToWindow()">LayoutAttachedToWindow()</A>
+see <A HREF="#LayoutWindow()">LayoutWindow()</A></H3>
+<HR>
+<H3><A NAME="LayoutBounds()">LayoutBounds()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="LayoutBounds()">BRect	LayoutBounds()</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Retrieve layoutable's frame, from interior coordinate
+        space -- that is, the rendering frame relative to its
+        nearest parent BView.
+        For objects that have their own associated BView, this
+        frame is always positioned at (0,0), as you would expect.
+        Otherwise, 'left' and 'top' are the offsets needed to
+        draw at the appropriate place in InView().
+        This is the region to use, for example, when drawing and
+        positioning children inside the object.
+</p><p>
+<img src="images/warning.gif" align=left>This implies that the ArpBaseLayout coordiate
+        system is not directly compatible with BView's
+        ScrollTo() et al.  I'm not sure what will need to be
+        done to make these interact together correctly.
+
+</p>
+<p><strong>See also:</strong>
+<a href="#LayoutFrame()">LayoutFrame()</a></p>
+<HR>
+<H3><A NAME="LayoutChildAt()">LayoutChildAt()</A>
+see <A HREF="#AddLayoutChild()">AddLayoutChild()</A></H3>
+<HR>
+<H3><A NAME="LayoutChildSpace()">LayoutChildSpace()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="LayoutChildSpace()">virtual int 		LayoutChildSpace()</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Check to see if there is space in the container for children.
+        This function should return the number of children it can
+        take, in addition to those currently in it.
+        If your object does not take children, always return 0 (the
+        default case); if it can take one child, return 1 if it
+        currently has none and 0 if it does; if it can take any
+        number of children, always return INT_MAX; etc.
+</p>
+<HR>
+<H3><A NAME="LayoutDetachedFromWindow()">LayoutDetachedFromWindow()</A>
+see <A HREF="#LayoutWindow()">LayoutWindow()</A></H3>
+<HR>
+<H3><A NAME="LayoutDimens()">LayoutDimens()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="LayoutDimens()">const ArpLayoutDimens& LayoutDimens(void)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Dimensioning.
+        LayoutDimens() is called by others to retrieve this
+        object's dimensioning information.  It, in turn, will
+        call ComputeDimens() if they need to be recomputed.
+</p>
+<HR>
+<H3><A NAME="LayoutFrame()">LayoutFrame()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="LayoutFrame()">BRect	LayoutFrame()</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Retrieve the layoutables's frame, relative to its parent.
+        This is the size of the frame, with left and top being
+        relative to the closest parent BView's coordinate system
+        (That is, -not- necessarily relative to the BView it is
+        in; see LayoutBounds() for that.)
+        This is the frame that should be used when calling
+        LayoutTo() et. al.
+</p>
+<p><strong>See also:</strong>
+<a href="#LayoutBounds()">LayoutBounds()</a></p>
+<HR>
+<H3><A NAME="LayoutGetSupportedSuites()">LayoutGetSupportedSuites()</A>
+see <A HREF="#LayoutMessageReceived()">LayoutMessageReceived()</A></H3>
+<HR>
+<H3><A NAME="LayoutHandler()">LayoutHandler()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="LayoutHandler()">virtual BHandler* LayoutHandler()</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Associated BHandler information.  An ArpBaseLayout object
+        should always have a BHandler -- either its own, or that
+        of the BView class a subclass has mixed in.
+</p>
+<HR>
+<H3><A NAME="LayoutInhibit()">LayoutInhibit()</A>
+see <A HREF="#SetLayoutInhibit()">SetLayoutInhibit()</A></H3>
+<HR>
+<H3><A NAME="LayoutMessageReceived()">LayoutMessageReceived()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="LayoutGetSupportedSuites()">virtual status_t LayoutGetSupportedSuites(BMessage *data)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="LayoutMessageReceived()">virtual status_t LayoutMessageReceived(BMessage *message)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="LayoutResolveSpecifier()">virtual status_t LayoutResolveSpecifier(BHandler** result, BMessage *msg, int32 index, BMessage *specifier, int32 form, const char *property)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+These methods are echoes of the corresponding BHandler
+        methods.  A subclass of ArpBaseLayout that actually
+        includes the BHandler object should override the
+        associated BHandler method, call these first, and if
+        they return an error use the regular BHandler method.
+</p>
+<HR>
+<H3><A NAME="LayoutName()">LayoutName()</A>
+see <A HREF="#SetLayoutName()">SetLayoutName()</A></H3>
+<HR>
+<H3><A NAME="LayoutParent()">LayoutParent()</A>
+see <A HREF="#AddLayoutChild()">AddLayoutChild()</A></H3>
+<HR>
+<H3><A NAME="LayoutRemoveSelf()">LayoutRemoveSelf()</A>
+see <A HREF="#AddLayoutChild()">AddLayoutChild()</A></H3>
+<HR>
+<H3><A NAME="LayoutResolveSpecifier()">LayoutResolveSpecifier()</A>
+see <A HREF="#LayoutMessageReceived()">LayoutMessageReceived()</A></H3>
+<HR>
+<H3><A NAME="LayoutWindow()">LayoutWindow()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="LayoutAllAttached()">virtual void LayoutAllAttached()</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="LayoutAllDetached()">virtual void LayoutAllDetached()</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="LayoutAttachedToWindow()">virtual void LayoutAttachedToWindow()</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="LayoutDetachedFromWindow()">virtual void LayoutDetachedFromWindow()</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="LayoutWindow()">virtual BWindow* LayoutWindow()</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Window attachment.  These work just like the corresponding
+        BView functions.
+</p>
+<HR>
+<H3><A NAME="MoveLayout()">MoveLayout()</A>
+see <A HREF="#SetLayout()">SetLayout()</A></H3>
+<HR>
+<H3><A NAME="NextLayoutSibling()">NextLayoutSibling()</A>
+see <A HREF="#AddLayoutChild()">AddLayoutChild()</A></H3>
+<HR>
+<H3><A NAME="OwnerView()">OwnerView()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="InView()">BView*	InView()</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="OwnerView()">virtual BView*	OwnerView()</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Associated BView information.  If this ArpBaseLayout
+        is associated with an actual BView, OwnerView() must
+        return a pointer to it before AddLayoutChild() can be
+        called on this object.  The BView must then remain
+        constant for the entire time the layoutable has a parent
+        or any children.
+        InView() returns the actual view the layoutable exists
+        in -- this is either OwnerView() if there is one, or the
+        closest parents' OwnerView().
+</p>
+<HR>
+<H3><A NAME="Params()">Params()</A>
+see <A HREF="#SetParams()">SetParams()</A></H3>
+<HR>
+<H3><A NAME="PreviousLayoutSibling()">PreviousLayoutSibling()</A>
+see <A HREF="#AddLayoutChild()">AddLayoutChild()</A></H3>
+<HR>
+<H3><A NAME="QueryConstraint()">QueryConstraint()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="QueryConstraint()">virtual status_t QueryConstraint(const char* name, BMessage* data)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Return the default value (and possibly other information)
+        of a particular constraint that this parent understands.
+</p>
+<p><strong>See also:</strong>
+<a href="#GetConstraintSuites()">GetConstraintSuites()</a></p>
+<HR>
+<H3><A NAME="RefreshGlobals()">RefreshGlobals()</A>
+see <A HREF="#SetGlobals()">SetGlobals()</A></H3>
+<HR>
+<H3><A NAME="RemoveLayoutChild()">RemoveLayoutChild()</A>
+see <A HREF="#AddLayoutChild()">AddLayoutChild()</A></H3>
+<HR>
+<H3><A NAME="RequestLayout()">RequestLayout()</A>
+see <A HREF="#SetLayout()">SetLayout()</A></H3>
+<HR>
+<H3><A NAME="ResizeLayout()">ResizeLayout()</A>
+see <A HREF="#SetLayout()">SetLayout()</A></H3>
+<HR>
+<H3><A NAME="SetConstraints()">SetConstraints()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="Constraints()">ArpMessage&			Constraints(void)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="SetConstraints()">ArpBaseLayout*		SetConstraints(const ArpMessage&amp; c)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Unlike parameters and globals, constraints are
+        not defined by an object itself.  Instead, they are
+        used by its parent object to hold child-specific
+        information about how it is to be layed out.  A subclass
+        implementation needs to worry little about this:
+        The ArpBaseLayout class takes care of storing and
+        retrieving the values, by simply copying them into
+        a local ArpMessage object and returning that object
+        when requested.
+</p>
+<HR>
+<H3><A NAME="SetError()">SetError()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="Error()">status_t			Error()</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="SetError()">ArpBaseLayout*		SetError(status_t err)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Error control.  These functions are used to set and get
+        the error state of an object, i.e. if a NULL child object
+        was added, meaning a child somewhere ran out of memory.
+        These are safe to call on NULL objects.
+</p>
+<HR>
+<H3><A NAME="SetFocusShown()">SetFocusShown()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="FocusShown()">bool FocusShown(void)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="SetFocusShown()">virtual void SetFocusShown(bool state, bool andParent=true)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Focus rendering control.  This is intended as a more
+        general replacement of BScrollView's mechanism for
+        informing its child that it is attached.  When a child
+        has received focus but can not display this itself, it
+        should call its SetFocusShown() function with true; the
+        default ArpBaseLayout implementation of this function
+        simply calls its parent with the same value -- thus the
+        need to show focus will move up the instance hierarchy
+        until it reaches a parent that can take care of it.
+        In this way, any container object can show its children's
+        focus.
+</p><p>
+        (The basic need for this is that ArpLayout implements its own
+        BScrollView-type object that works better with the
+        rest of the ArpBaseLayout system; however, it can't
+        register itself with things like BListView because it
+        isn't really a BScrollView.)
+</p>
+<HR>
+<H3><A NAME="SetGlobals()">SetGlobals()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="AddGlobals()">virtual status_t	AddGlobals(const ArpMessage* gl)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="Globals()">const ArpMessage*	Globals(void)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="RefreshGlobals()">bool				RefreshGlobals(const ArpMessage* gl)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="SetGlobals()">ArpBaseLayout*		SetGlobals(const ArpMessage* gl)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Globals are values that apply to an entire tree of
+        layout objects.  They are used primarily to define
+        common attributes that apply across the layout; this
+        is intended to make it easy to create visually
+        consistent interfaces that are easy to dynamically
+        modify as the program executes.
+</p><p>
+        The global interface is, like parameters, through an
+        ArpMessage object.  Unlike parameters, however, the
+        layout object does not have to make a copy of the values
+        contained in the message.  Instead, it just stores
+        a reference to the message.  Since it always has a
+        reference to the message, it can look up values when
+        needed.  This is important because the parameters
+        above usually specify a global variable that contains
+        the parameter's value, rather than directly specifying
+        the value itself.
+</p><p>
+        By indirectly defining parameter values through this
+        global name space, a change in a global parameter value
+        can easily be propagated into all of the objects that
+        it is used in.  This is made easier by the second
+        function, RefreshGlobals().  The function is called with
+        an ArpMessage that contains only the changed global
+        values -- the object can then determine what changed,
+        and limit the computation that it needs to do.  Note
+        that this only informs the object about a change in
+        global values; the application itself needs to make
+        sure the ArpMessage set by SetGlobals() has actually
+        changed.
+</p><p>
+        In addition, changes to the global data space are
+        propagated to all of a layout object's children: both
+        SetGlobals() and RefreshGlobals() call the same function
+        on their children, and a child retrieves the global
+        values from its parent when it is attached.
+</p><p>
+        The last method, AddGlobals(), is used by subclasses to
+        add new values to the global parameter space.  The default
+        implementation propagates up the view hierarchy, until the
+        ArpBaseLayout that contains the global data is reached.  It
+        returns an error if it couldn't add the value(s) -- for
+        example, if one already exists of a different type.
+</p>
+<p><strong>See also:</strong>
+<a href="#SetParams()">SetParams()</a></p>
+<HR>
+<H3><A NAME="SetLayout()">SetLayout()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="MoveLayout()">virtual void	MoveLayout(float left, float top, bool force = false)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="RequestLayout()">virtual void	RequestLayout(bool force = false)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="ResizeLayout()">virtual void	ResizeLayout(float width, float height, bool force = false)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="SetLayout()">virtual void	SetLayout(const BRect&amp; frame, bool force = false)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+These are called to position the object.  If the call
+        results in a change, all of the children will automatically be
+        updated as well.
+</p>
+<HR>
+<H3><A NAME="SetLayoutActivated()">SetLayoutActivated()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="SetLayoutActivated()">virtual void SetLayoutActivated(bool state)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Window activation.  This is the same as BView::WindowActivated(),
+        but we need to do additional tracking of that state for
+        ArpBaseLayout objects without an attached BView.  Setting this
+        flag also sets it for all the children; if you override this,
+        be sure to also call the superclass.
+</p>
+<HR>
+<H3><A NAME="SetLayoutInhibit()">SetLayoutInhibit()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="LayoutInhibit()">bool	LayoutInhibit(void)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="SetLayoutInhibit()">virtual ArpBaseLayout*	SetLayoutInhibit(bool state)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Set this to true to keep the view from refreshing during
+        partial updates.  If false, it will perform a new layout
+        any time its (or one of its childrens') dimensions change.
+        When changed to false from being true, any stored-up
+        changes will occur then and there.
+</p>
+<HR>
+<H3><A NAME="SetLayoutName()">SetLayoutName()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="LayoutName()">const char*			LayoutName(void)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="SetLayoutName()">ArpBaseLayout*		SetLayoutName(const char* inname)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Quick and easy access to the associated BHandler's name.
+</p>
+<HR>
+<H3><A NAME="SetParams()">SetParams()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="Params()">const ArpMessage	Params(const char* name)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="SetParams()">ArpBaseLayout*		SetParams(const ArpMessage&amp; p)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Parameters are values that apply to a specific view object.
+        This is primarily modifiable state information, such as
+        the background color, font to use, various control
+        flags, etc.  Their interpretation is derived entirely
+        from the particular view object in which they are set.
+</p><p>
+        The parameter interface is through a standard ArpMessage.
+        When setting parameters, a reference to an ArpMessage
+        object is passed in, and the ArpBaseLayout object retrieves
+        all the values contained in it that it understands.
+        The message is no longer referenced by the object after
+        the function returns, and can be safely deleted.  The
+        object usually stores the values it finds in its own
+        members, rather than another ArpMessage, so that they
+        are easy to access.
+</p><p>
+        When retrieving an object's parameters, an ArpMessage
+        is returned.  The caller can either specify a particular
+        parameter name it is interested in, and only that one will
+        be placed in the return message, or it can specify NULL
+        to have the object return all of its parameters.
+</p><p>
+        The ArpBaseLayout base class defines these common
+        parameters:
+</p><dl>
+        
+<dt>  BackgroundColor (char*).</dt>
+        <dd>            Default: "BackgroundColor".
+            The name of the background pen the view should use.
+            This is actually the name of a variable in the
+            global name space that contains an rgb_color value.
+        
+<dt>  ForegroundColor (char*).</dt>
+        <dd>            Default: "ForegroundColor".
+            The name of the foreground color of the view, i.e.
+            the color text is drawn in on top of the background.
+        
+<dt>  BasicFont (char*).</dt>
+        <dd>            Default: "PlainFont".
+            The name of the font that normal text should be
+            drawn in.
+        
+</dl>
+<p><strong>See also:</strong>
+<a href="#SetGlobals()">SetGlobals()</a></p>
+<HR>
+<H3><A NAME="cur_dimens()">cur_dimens()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="cur_dimens()">	ArpLayoutDimens	cur_dimens</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+These are the current dimensions, filled in by
+        ComputeDimens().  This should go away.
+</p>

@@ -1,0 +1,92 @@
+<!doctype HTML public "-//W3O//DTD W3 HTML 3.2//EN">
+<HTML>
+<HEAD>
+<TITLE>ArpCommon: ArpLayout Class</TITLE>
+</HEAD>
+ <BODY 
+  BGCOLOR="#e0e0e0"
+  TEXT="#000000" 
+  LINK="#a02000" 
+  VLINK="#505050" 
+  ALINK="#a04000" 
+ >
+<div align=center>
+<table bgcolor="#eedddd">
+<tr>
+<td><a href="index.html">Table Of Contents</td>
+<td>Master Index</td>
+</tr>
+</table>
+</div>
+
+<HR>
+<H1><A NAME="ArpLayout">ArpLayout</A></H1>
+
+<P>Derived from: BHandler, ArpBaseLayout
+</P>
+<P>Inherited by: 
+</P>
+<P>
+Declared in:  <A HREF="../../ArpHeader/ArpLayout/ArpLayout.h">ArpHeader/ArpLayout/ArpLayout.h</A> 
+</P>
+<P>
+Package: <A HREF="index.html">ArpLayout</A>
+</P>
+<P> 
+<H6><A HREF="ArpLayout.summary.html"><i>Summary</i></A></H6>
+<p>
+This is the class you should derive from when implementing a
+layout manager that doesn't need a full BView context.  It
+is a mix-in of ArpBaseLayout and BHandler, creating a full class
+that can be used in the layout hierarchy.  You can also instantiate
+this raw class if you just want to place spacers in a layout.
+</p>
+<HR><H2>Constructor</H2><HR>
+<H3><A NAME="ArpLayout()">ArpLayout()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="ArpLayout()">ArpLayout(const char* name = 0)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Create a new layout object with the given name.
+</p>
+<HR><H2>Member Functions</H2><HR>
+<H3><A NAME="ARPLAYOUT_ARCHIVEHOOKS()">ARPLAYOUT_ARCHIVEHOOKS()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="ARPLAYOUT_ARCHIVEHOOKS()">ARPLAYOUT_ARCHIVEHOOKS(ArpLayout, BHandler, false)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Implement BHandler archiving and re-hydrating
+        interfaces.
+</p>
+<HR>
+<H3><A NAME="ARPLAYOUT_HANDLERHOOKS()">ARPLAYOUT_HANDLERHOOKS()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="ARPLAYOUT_HANDLERHOOKS()">ARPLAYOUT_HANDLERHOOKS(BHandler)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Implement standard BHandler methods.
+</p>
+<HR>
+<H3><A NAME="ARPLAYOUT_SUITEHOOKS()">ARPLAYOUT_SUITEHOOKS()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="ARPLAYOUT_SUITEHOOKS()">ARPLAYOUT_SUITEHOOKS(BHandler)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Implement BHandler::GetSupportedSuites() method.
+</p>

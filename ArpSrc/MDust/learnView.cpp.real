@@ -1,0 +1,352 @@
+/*
+	Copyright 1999, Be Incorporated.   All Rights Reserved.
+	This file may be used under the terms of the Be Sample Code License.
+*/
+
+#include "MDust/learnView.h"
+#include "MDust/MParticle.h"
+#include <unistd.h>
+#include <opengl/GL/glu.h>
+
+bool steadyFlag;
+sem_id read_board_sem, write_board_sem;
+
+static long lifeThread(learnView *);
+static long drawThread(learnView *);
+static long frameThread(learnView *);
+
+// FIX: the Frame() and IncrementFrame() methods should have
+// a BAutolock on them so the frame value isn't read while written.
+
+learnView::learnView(BRect R)
+		: BGLView(	R,
+					"lifeglview",
+					B_FOLLOW_ALL,
+					0, 
+					BGL_RGB | BGL_DEPTH | BGL_DOUBLE ),
+		mSpace(0), mFrame(0)
+{
+	mSpace = new MSpace(BOARD_SIZE, BOARD_SIZE, BOARD_SIZE);
+	srand(getpid());
+	continuous = false;
+	singleStep = true;
+	xangle = yangle = zangle = 0;
+	_QuitRequested = false;
+
+	MParticle*	particle;
+//	if ((particle = new MParticle(20, 15, 15)) != 0) mSpace->AddParticle(particle);
+
+
+	if ((particle = new MParticle(59, 1, 1, 0.6)) != 0) mSpace->AddParticle(particle);
+	if ((particle = new MParticle(1, 59, 1, 0.3)) != 0) mSpace->AddParticle(particle);
+	if ((particle = new MParticle(1, 1, 59, 0.8)) != 0) mSpace->AddParticle(particle);
+//	if ((particle = new MParticle(30, 30, 30, 0.8)) != 0) mSpace->AddParticle(particle);
+
+//	if ((particle = new MParticle(10, 8, 2, 0.6)) != 0) mSpace->AddParticle(particle);
+//	if ((particle = new MParticle(4, 5, 16, 0.3)) != 0) mSpace->AddParticle(particle);
+//	if ((particle = new MParticle(15, 15, 20, 0.8)) != 0) mSpace->AddParticle(particle);
+
+//	if ((particle = new MParticle(3, 9, 11)) != 0) mSpace->AddParticle(particle);
+//	if ((particle = new MParticle(23, 12, 28)) != 0) mSpace->AddParticle(particle);
+//	if ((particle = new MParticle(29, 2, 4)) != 0) mSpace->AddParticle(particle);
+	
+	// initialize the semaphores
+	::read_board_sem = create_sem(0, "read");
+	::write_board_sem = create_sem(1, "write");
+}
+
+learnView::~learnView()
+{
+	delete mSpace;
+}
+
+MSpace* learnView::Space() const
+{
+	return mSpace;
+}
+
+uint32 learnView::Frame() const
+{
+	return mFrame;
+}
+
+void learnView::IncrementFrame(uint32 delta)
+{
+	mFrame += delta;
+//printf("frame is %ld\n", mFrame);
+}
+
+void
+learnView::AttachedToWindow()
+{
+	BGLView::AttachedToWindow();
+	LockGL();
+
+	// enable backface culling
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	
+	glEnable(GL_DEPTH_TEST);
+
+glEnable(GL_BLEND);
+glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	glShadeModel(GL_FLAT);
+	glClearColor(0.0,0.0,0.0,0.0);
+	
+	glMatrixMode(GL_PROJECTION);
+//	glFrustum(-BOARD_SIZE,BOARD_SIZE,-BOARD_SIZE,BOARD_SIZE,
+//			-BOARD_SIZE,BOARD_SIZE);
+	glLoadIdentity();
+//	glFrustum(-1, 1, -1, 1, 1.5, 20.0);
+//	glMatrixMode(GL_MODELVIEW);
+//	gluLookAt(0, 0, 0, 30, 30, 30, 0, 1, 0);
+
+	glOrtho(-BOARD_SIZE,BOARD_SIZE,-BOARD_SIZE,BOARD_SIZE,
+			-BOARD_SIZE,BOARD_SIZE);
+	
+	UnlockGL();
+
+	// start a thread to compute the board generations
+	lifeTID = spawn_thread((thread_entry)lifeThread, "lifeThread", 
+							B_NORMAL_PRIORITY, this);
+	resume_thread(lifeTID);
+
+	// start a thread which does all of the drawing
+	drawTID = spawn_thread((thread_entry)drawThread, "drawThread",
+								B_NORMAL_PRIORITY, this);
+	resume_thread(drawTID);
+}
+
+void
+learnView::MessageReceived(BMessage *msg)
+{
+	switch(msg->what) {
+	 case 'strt':
+		Start();
+	 	break;
+	 case X_SPIN_STOP:
+	 	xspin = 0;
+		break;
+	 case X_SPIN_POS:
+	 	xspin = 1.;
+	 	break;
+	 case X_SPIN_NEG:
+	 	xspin = -1.;
+	 	break;
+	 case Y_SPIN_STOP:
+	 	yspin = 0;
+		break;
+	 case Y_SPIN_POS:
+	 	yspin = 1.;
+	 	break;
+	 case Y_SPIN_NEG:
+	 	yspin = -1.;
+	 	break;
+	 case Z_SPIN_STOP:
+	 	zspin = 0;
+		break;
+	 case Z_SPIN_POS:
+	 	zspin = 1.;
+	 	break;
+	 case Z_SPIN_NEG:
+	 	zspin = -1.;
+	 	break;
+	 case LIFE_4555:
+	 	break;
+	 case LIFE_5766:
+	 	break;
+	 case CONTINUOUS:
+	 	continuous = (continuous) ? false : true;
+	 	BMenuItem *item;
+	 	msg->FindPointer("source", (void**)&item);
+	 	item->SetMarked(continuous);
+	 	break;
+	 case SINGLE_STEP:
+	 	singleStep = true;
+	 	break;
+	 default:
+	 	BView::MessageReceived(msg);
+	}
+}
+
+void learnView::Display()
+{
+	LockGL();
+	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glPushMatrix();
+	
+//	glLoadIdentity();
+//	gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	
+	// nicer angle to view the board
+//	glRotatef(45, 1,1,1);
+	
+	// rotate for action!
+//printf("xangle %d yangle %d zangle %d\n", xangle, yangle, zangle);
+//	glRotatef(xangle, 1,0,0);
+//	glRotatef(yangle, 0,1,0);
+//	glRotatef(zangle, 0,0,1);
+		
+	// center the board
+	float trans = BOARD_SIZE/2. *(1 + 0.2); // 0.2 = gap size
+	glTranslatef(-trans,-trans,-trans);
+	
+	DrawFrame();
+	glTranslatef(-trans,-trans,-trans);
+	
+	glPopMatrix();
+	//printf("calling swap buffers...\n");
+	SwapBuffers();
+	
+	UnlockGL();
+}
+
+
+void
+learnView::ExitThreads()
+{
+	status_t status;
+	int32 count = 0;
+	_QuitRequested = true;
+
+	release_sem(write_board_sem);
+	release_sem(read_board_sem);
+	
+	while (Window()->IsLocked()) {
+		Window()->Unlock();
+		count++;
+	};
+	wait_for_thread(drawTID, &status);
+	wait_for_thread(lifeTID, &status);
+	if (frameTID >= 0) kill_thread(frameTID);
+	
+	while (count--) Window()->Lock();
+}
+
+void learnView::Start()
+{
+	if (frameTID >= 0) kill_thread(frameTID);
+	if (mSpace == 0) return;
+	mFrame = 0;
+	// start a thread to increment the frame
+	frameTID = spawn_thread((thread_entry)frameThread, "frameThread", 
+							B_NORMAL_PRIORITY, this);
+	resume_thread(frameTID);
+}
+
+void
+learnView::SpinCalc()
+{
+	// increase the angles in the direction they are headed,
+	// but keep them under 360 degrees
+	if(xspin)
+	{
+		xangle += (int)(xspin * 2);
+		xangle = xangle % 360;
+	}
+	if(yspin)
+	{
+		yangle += (int)(yspin * 2);
+		yangle = yangle % 360;
+	}
+	if(zspin)
+	{
+		zangle += (int)(zspin * 2);
+		zangle = zangle % 360;
+	}
+	
+	
+}
+
+void learnView::DrawFrame()
+{
+	if (mSpace != 0) mSpace->Draw(this);
+}
+
+static long drawThread(learnView *mv)
+{
+	int generations = -1;
+	while(!(mv->QuitPending()))
+	{
+		mv->SpinCalc();
+		mv->Display();
+		
+		if(mv->continuousMode() && steadyFlag)
+		{
+			mv->continuousMode(false);
+		}
+
+		if(mv->continuousMode() || mv->singleStepMode())
+		{
+			if(acquire_sem_etc(read_board_sem, 1, B_TIMEOUT, 
+								100) != B_TIMED_OUT)
+//			if (mv->mSpaceLock.ReadLock())
+			{
+//printf("draw!\n");
+				//printf("got semaphore...\n");
+				generations++;
+				mv->singleStepMode(false);
+				release_sem(write_board_sem);
+//				mv->mSpaceLock.ReadUnlock();
+			}
+		}
+		else
+		{
+			// if the display isn't rotating, give the cpu a break!
+			if(!mv->spinning())
+				snooze(500000);		
+		}
+	}
+	
+	return 1;
+}
+
+static long
+lifeThread(learnView *mv)
+{
+	uint32		lastFrame = mv->Frame();
+	
+	while(!(mv->QuitPending()))
+	{
+//printf("try!\n");
+//		if (mv->mSpaceLock.WriteLock()) {
+		acquire_sem(write_board_sem);
+//printf("\tsucceed!\n");
+			if(mv->QuitPending())
+			{
+				// semaphore was released from ExitThreads
+				break;
+			}
+			if ( (mv->Frame() != lastFrame)
+					&& (mv->Space() != 0) ) {
+				lastFrame = mv->Frame();
+				mv->Space()->Increment(false);
+			}
+			// "post" the next generation		
+
+//			mv->mSpaceLock.WriteUnlock();
+//		}
+		release_sem(read_board_sem);
+	}
+
+	return 1;
+}
+
+static long frameThread(learnView *mv)
+{
+	while(!(mv->QuitPending()))
+	{
+//		acquire_sem(write_board_sem);
+		if(mv->QuitPending()) break;
+		snooze(2000);
+//		snooze(1000000);
+		mv->IncrementFrame(1);
+//		release_sem(read_board_sem);
+	}
+	return 1;
+}
+

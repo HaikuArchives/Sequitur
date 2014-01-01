@@ -1,0 +1,107 @@
+# Copyright (c)1998 by Angry Red Planet.
+#
+# This code is distributed under a modified form of the
+# Artistic License.  A copy of this license should have
+# been included with it; if this wasn't the case, the
+# entire package can be obtained at
+# <URL:http://www.angryredplanet.com/>.
+#
+# ----------------------------------------------------------------------
+#
+# Makefiles/add-on
+#
+# Common makefile for add-ons.
+#
+# ----------------------------------------------------------------------
+#
+# Known Bugs
+# ~~~~~~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# To Do
+# ~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# History
+# ~~~~~~~
+#
+# Dec 6, 1998:
+#	First public release.
+#
+#
+
+#--------------------------------------------------------
+#	Standard rules for building an add-on.
+#
+#	Include this file in your library makefile to use
+#	the normal build rules.
+#
+#	Input:
+#		IMG_NAME: The name of the add-on; all source files
+#				  should include this as a prefix.
+#		ADDON_PATH: Path from add-on directory to be installed.
+#		ARPROOT: ARP source root directory
+#
+#	Output:
+#		Everything.
+#--------------------------------------------------------
+
+#--------------------------------------------------------
+#	High-level Project Information
+#--------------------------------------------------------
+
+#	specify the type of image to create
+	IMG_TYPE	= ADD-ON
+	
+# first include the common rules for setting up all
+# platform-specific information
+
+include $(ARPROOT)/makefiles/platform
+
+#--------------------------------------------------------
+#	Project Specific Information
+#--------------------------------------------------------
+
+#	specify the list of source files
+	SRCS		= $(shell echo $(IMG_NAME)*.cpp)
+	HEADERS		= $(shell echo $(IMG_NAME)*.h)
+
+ifeq ($(CPU), PPC)
+	CFLAGS		= -str pool -ansi strict -bool on -requireprotos
+	CFLAGS		+= -str ro -toc_data on 
+endif
+
+	SYSLOCAL_INCLUDES	+= $(ARPROOT)/ArpHeader/
+
+# Special rules for copying library into public directory
+
+	DEST_DIR	= add-ons/$(ADDON_PATH)/
+	PUBLIC_TARGET	= $(DEST_DIR)$(TARGET_NAME)
+
+# define the actual work to be done	
+
+default: $(PUBLIC_TARGET)
+	@echo >/dev/null
+
+release: default
+
+$(PUBLIC_TARGET): $(TARGET)
+	mkdir --parent $(shell dirname $@)
+	$(COPY) $< $@
+	@[ -e $<.xSYM ] || $(COPY) $<.xSYM $@.xSYM > /dev/null 2>&1
+	@[ -e $<.xMAP ] || $(COPY) $<.xMAP $@.xMAP > /dev/null 2>&1
+
+clean:: clean_project
+	rm -f $(PUBLIC_TARGET) $(PUBLIC_TARGET).xSYM $(PUBLIC_TARGET).xMAP $(PUBLIC_TARGET).dbg
+
+dist:: dist_project
+	@echo >/dev/null
+	
+	# include common build rules for above definitions
+
+include ../makefiles/project
+
+depends: $(DEPENDENCIES)
+	@echo >/dev/null

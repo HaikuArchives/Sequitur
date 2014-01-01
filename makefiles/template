@@ -1,0 +1,134 @@
+# Copyright (c)1998 by Angry Red Planet.
+#
+# This code is distributed under a modified form of the
+# Artistic License.  A copy of this license should have
+# been included with it; if this wasn't the case, the
+# entire package can be obtained at
+# <URL:http://www.angryredplanet.com/>.
+#
+# ----------------------------------------------------------------------
+#
+# Makefiles/template
+#
+# Example of using the 'platform' and 'project' makefiles.
+#
+# Based on:
+#
+#	Generic Crossplatform Makefile
+#	Author:	stephen beaulieu <hippo@be.com>
+#	Copyright 1998 Be, Inc.  All Rights Reserved
+#
+# ----------------------------------------------------------------------
+#
+# Known Bugs
+# ~~~~~~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# To Do
+# ~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# History
+# ~~~~~~~
+#
+# Dec 6, 1998:
+#	First public release.
+#
+#
+
+#-------------------------------------------------------
+#
+#	Generic Crossplatform Makefile
+#
+#	Author:	stephen beaulieu <hippo@be.com>
+#	        Dianne Hackborn <hackbod@angryredplanet.com>
+#
+#	Questions, comments & concerns to <devsupport@be.com>
+#
+#	Copyright 1998 Be, Inc.  All Rights Reserved
+#
+#	Fill out the Project Specific Information section
+#	Use a \ to continue information on different lines
+#	example: SRCS = source1.cpp \
+#					source2.cpp
+#
+#	When done simply cd to the directory in the terminal
+#	and type make.  The objects and binary will appear
+#	in an obj.x86 or obj.PPC folder.
+#
+#--------------------------------------------------------
+
+#--------------------------------------------------------
+#	High-level Project Information
+#	See /boot/develop/makefiles/platform for a more
+#	detailed description of these parameters.
+#--------------------------------------------------------
+
+#	specify the name of the project
+	IMG_NAME	= 
+	
+#	specify the type of image to create
+	IMG_TYPE	= 
+	
+# first include the common rules for setting up all
+# platform-specific information
+
+include /boot/develop/makefiles/platform
+
+#--------------------------------------------------------
+#	Project Specific Information
+#	See /boot/develop/makefiles/project for a more
+#	detailed description of these parameters.
+#--------------------------------------------------------
+
+#	specify the list of source files; this example compiles all
+#	source files in the root directory
+	SRCS		= $(shell ls 2>/dev/null -1 *.c *.cpp)
+
+	CFLAGS		= -str pool -str ro -toc_data on -ansi strict \
+				  -bool on -requireprotos
+				  
+#	specify the list of resource files
+	RSRCS		=
+	
+#	specify any additional beos shared libraries needed.
+	ADD_BESHLIBS	= 
+
+#	specify additional non-beos shared libraries needed.
+	ADD_SHLIBS		= 
+
+#	specify any additional beos static libraries needed.
+	ADD_BESTLIBS	=
+
+#	specify additional non-beos static libraries needed.
+	ADD_STLIBS		= 
+
+#	specify any additional system include paths.
+	SYSTEM_INCLUDES	=
+	SYSLOCAL_INCLUDES	= 
+
+#	specify any additional local include paths.
+	LOCAL_INCLUDES	=
+
+#--------------------------------------------------------
+#	Build Rules
+#--------------------------------------------------------
+
+# define the actual work to be done	
+
+default: $(TARGET)
+	@echo >/dev/null
+
+clean: clean_project
+	@echo >/dev/null
+
+# include common build rules for above definitions
+
+include /boot/develop/makefiles/project
+
+# the standard target to rebuild dependencies
+
+depends: $(DEPENDENCIES)
+	@echo >/dev/null

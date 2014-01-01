@@ -1,0 +1,14 @@
+1.
+The effects data in the Morpheus doesn't seem to use its standard 2's complement encoding:  The minimum value for the feedback parameter is usually -127 (sometimes 0, though), which should have a byte structure of
+	00000001
+	01111111
+but instead has a byte structure of
+	00000001
+	00000001
+
+My hack to fix this is in ExEffectParam::ReadFrom() -- if the parameter happens to be Feedback, and if the mMin value has been translated to 129 (which is what the second value translates to in 2's complement), then just change it to -127.
+
+2.
+In ExInstrumentMap::ReadFrom(), the instrument data received from the Morpheus omits
+the first item, 'None.'  So here it's added manually.  However, its added at numbe 1792, which
+is correct for the Morpheus, but might be incorrect for the UltraProteus.

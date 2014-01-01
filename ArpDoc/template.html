@@ -1,0 +1,702 @@
+<<
+# Scandoc template file.
+# This is an example set of templates that is designed to create several different
+# kinds of index files. It generates a "master index" which intended for use with
+# a frames browser; A "package index" which is the root page of the index, and then
+# "package files" containing documentation for all of the classes within a single
+# package.
+
+# =======================================================================
+# For quick and superficial customization, simply change these variables
+# =======================================================================
+$doc_dir = "ArpDoc";
+$root_dir = "../";										# relative to $doc_dir.
+$image_directory = "images/";							# relative to $doc_dir.
+$company_name = "Angry Red Planet";
+$short_company_name = "ARP";
+$project_name = 'ArpCommon';
+$company_logo = $image_directory . "arp_pic.jpeg";		# change this to an image tag.
+$copyright = '&copy 1999 Angry Red Planet';
+$index_background = $image_directory . "slate.jpg";
+$page_background  = $image_directory . "greytile.jpg";
+$bullet1_image = $image_directory . "ball1.gif";
+$bullet2_image = $image_directory . "ball2.gif";
+
+# =======================================================================
+# For each package, generate all documentation.
+# =======================================================================
+if( ! -e "$doc_dir" ) {
+	mkdir($doc_dir, 0777);
+}
+if( ! -d $doc_dir ) {
+	die "Location $doc_dir is not a directory."
+}
+
+foreach $p (packages()) {
+	my $package_dir = $doc_dir . "/" . $p->name();
+	if( ! -e $package_dir ) {
+		mkdir($package_dir, 0777);
+	}
+	if( ! -d $package_dir ) {
+		die "Location $package_dir is not a directory."
+	}
+	
+	write_index($p, "$package_dir/", "../");
+	write_todo($p, "$package_dir/", "../");
+	write_globals($p, "$package_dir/", "../");
+	
+	# Generate explanatory chapters.
+	foreach $c ($p->chapters()) {
+		write_chapter($p, $c, "$package_dir/", "../");
+	}
+	
+	# Generate detailed class documentation
+	foreach $c ($p->classes()) {
+		write_class($p, $c, "$package_dir/", "../");
+	}
+}
+
+# =========================================
+# Generate index for package.
+sub write_index {
+	my $p = $_[0];
+	my $dir = $_[1];
+	my $doc = $_[2];
+	
+	file $dir . "index.html";
+
+	&writeHeader("$project_name: " . $p->name() . " Package", $p->name(), $doc . $company_logo);
+	
+	if ($p->chapters() || $p->globals()) {
+		>><HR>
+		<H1 ALIGN=CENTER><FONT COLOR="#ff0000">Chapters</FONT></H1>
+		<<
+		
+		# Write out summary of chapters in package.
+		foreach $e ($p->chapters()) {
+			>><h2>$(e.sequence). <a href="$(e.sequence).$(e.name).html">$(e.name)</a></h2>
+			<<
+			#print &processDescription( $e->shortdescription(), $doc );
+		}
+
+		if ($p->globals()) {
+			>><h2><a href="XX-Globals.html">Global Functions and Variables</a></h2>
+			<<
+		}
+	}
+	
+	if ($p->classes()) {
+		>><HR>
+		
+		<H1 ALIGN=CENTER><FONT COLOR="#ff0000">Classes</FONT></H1>
+		<<
+		
+		# Write out summary of classes in package.
+		foreach $e ($p->classes()) {
+			>><h2><a href="$(e.name).html">$(e.name)</a>
+			&nbsp;<small><a href="$doc$root_dir$(e.sourcefile)" taget="Definition">(header file)</a>
+			</small>
+			</h2>
+			<<
+			print &processDescription( $e->shortdescription(), $doc );
+		}
+	}
+
+	# Write out pointer to to-do and footer of package.
+	if (&todolist_files()) {
+		>><HR>
+		
+		<H1 ALIGN=CENTER><a href="to-do.html"><FONT COLOR="#ff0000">To-Do List</FONT></a></H1>
+		<<
+	}
+	
+	&writeFooter();
+}
+
+# =========================================
+# Generate "To-do list" for package.
+sub write_todo {
+	my $p = $_[0];
+	my $dir = $_[1];
+	my $doc = $_[2];
+	
+
+	if (&todolist_files()) {
+		file $dir . "to-do.html";
+		
+		&writeHeader("$project_name: " . $p->name() . " To-Do", $p->name(), $doc . $company_logo);
+		
+		>><h1>To-do list for $(p->name())</h1>
+		
+		<DL>
+		<<
+		foreach $f (&todolist_files()) {
+			my @m = &todolist_entries( $f );
+			if ($f =~ /([^\/]+)$/) { $f = $1; }
+			>><DT><p>$f:</p></DT>
+			<DD><UL>
+			<<
+			foreach $text (@m) {
+				if ($text)
+				{
+					print "<LI>", &processDescription( $text, $doc ), "\n";
+				}
+			}
+			>></UL>
+			<<
+		}
+		>></DL>
+		<<
+		
+		&writeFooter();
+	}
+}
+
+# =========================================
+# Generate chapter of package.
+sub write_chapter {
+	my $p = $_[0];
+	my $c = $_[1];
+	my $dir = $_[2];
+	my $doc = $_[3];
+
+	file $dir . $c->sequence() . "." . $c->name() . ".html";
+	
+	&writeHeader("$project_name: " . $p->name() . $c->name(), $p->name(), $doc . $company_logo);
+	
+	>><HR>
+	
+	<H1 ALIGN=CENTER><FONT COLOR="#ff0000">$(c.name)</FONT></H1>
+	<<
+	
+	print $c->text();
+	
+	&writeFooter();
+}
+
+# =========================================
+# Generate file of global methods and variables for package.
+sub write_globals {
+	my $p = $_[0];
+	my $dir = $_[1];
+	my $doc = $_[2];
+
+	if ( ! $p->globals() ) {
+		return;
+	}
+
+	file $dir . "XX-Globals.html";
+		
+	&writeHeader("$project_name: " . $p->name() . " Globals", $p->name(), $doc . $company_logo);
+	
+	>><h1>Globals in $(p.name)</h1>
+	<<
+	
+	my $m;
+	
+	# Collect member functions together, grouping by "seealso"
+	# references.
+	my %funcMap;
+	foreach $m ($p->globals()) {
+		my @list = ();
+		my $name = $m->name();
+		my $seealso = "";
+		my $desc = $m->description();
+		$desc =~ s/\s*//;
+		if( $desc eq "" && $m->seealso() ) {
+			my @s = $m->seealso;
+			$seealso = member_ref(@s[0]->name());
+			if( $seealso ne "" ) {
+				$name = $seealso;
+			}
+		}
+		#print "<p>Adding member: $name, ref=$seealso</p>\n";
+		if( exists $funcMap{$name} ) {
+			@list = @{ $funcMap{$name} };
+		}
+		push @list, $m;
+		#print "<p>Current member is: $m</p>\n";
+		#print "<p>New list is: @list</p>\n";
+		@{ $funcMap{$name} } = @list;
+		#my @funcs = sort keys %funcMap;
+		#print "<p>funcs: @funcs</p>\n";
+	}
+	
+	my @funcs = sort keys %funcMap;
+	my $name = "";
+	
+	foreach $m ($p->globals()) {
+		$name = $m->name();
+		my $typename = $name;
+		if ($m->type() eq 'func') {
+			$typename .= '()';
+		}
+		if (exists $funcMap{$name}) {
+			>><HR>
+			<H3><A NAME="$name">$typename</A></H3>
+			<<
+			&funclist( @{ $funcMap{$name} } );
+		} elsif( $m->seealso() ) {
+			my @s = $m->seealso;
+			$seealso = member_ref(@s[0]->name());
+			if( $seealso ne "" ) {
+				>><HR>
+				<H3><A NAME="$name">$typename</A>
+				see <A HREF="#$seealso()">$seealso()</A></H3>
+				<<
+			}
+		}
+	}
+		
+	&writeFooter();
+}
+
+# =========================================
+# Generate description for class.
+sub write_class {
+	my $p = $_[0];
+	my $c = $_[1];
+	my $dir = $_[2];
+	my $doc = $_[3];
+	
+	file $dir . $c->name() . ".html";
+
+	&writeHeader("$project_name: " . $c->name() . " Class", "", "");
+	
+	>><div align=center>
+	<table bgcolor="#eedddd">
+	<tr>
+	<td><a href="index.html">Table Of Contents</td>
+	<td>Master Index</td>
+	</tr>
+	</table>
+	</div>
+	
+	<HR>
+	<H1><A NAME="$(c.name)">$(c.name)</A></H1>
+	
+	<<
+	
+	# Output base class list
+	print "<P>Derived from: ";
+	if ($c->baseclasses()) {
+		my @t = ();
+		foreach $b ($c->baseclasses()) {
+			my $name = $b->name();
+			push @t, $name;
+		}
+		print join( ', ', @t );
+	} else {
+		print "none.";
+	}
+	print "\n</P>\n";
+	
+	# Output subclasses list
+	print "<P>Inherited by: ";
+	if ($c->baseclasses()) {
+		my @t = ();
+		foreach $s ($c->subclasses()) {
+			my $name = $s->name();
+			push @t, $name;
+		}
+		print join( ', ', @t );
+	} else {
+		print "none.";
+	}
+	print "\n</P>\n";
+	
+	>><P>
+	Declared in:  <A HREF="$doc$root_dir$(c.sourcefile)">$(c.sourcefile)</A> 
+	</P>
+	<P>
+	Package: <A HREF="index.html">$(p.name)</A>
+	</P>
+	<P> 
+	<H6><A HREF="$(c.name).summary.html"><i>Summary</i></A></H6>
+	<<
+	
+	print &processDescription( $c->description(), $doc );
+	
+	my $m;
+	
+	# Collect member functions together, grouping by "seealso"
+	# references.
+	my %funcMap;
+	foreach $m ($c->memberfuncs()) {
+		my @list = ();
+		my $name = $m->name();
+		my $seealso = "";
+		my $desc = $m->description();
+		$desc =~ s/\s*//;
+		if( $desc eq "" && $m->seealso() ) {
+			my @s = $m->seealso;
+			$seealso = member_ref(@s[0]->name());
+			if( $seealso ne "" ) {
+				$name = $seealso;
+			}
+		}
+		#print "<p>Adding member: $name, ref=$seealso</p>\n";
+		if( exists $funcMap{$name} ) {
+			@list = @{ $funcMap{$name} };
+		}
+		push @list, $m;
+		#print "<p>Current member is: $m</p>\n";
+		#print "<p>New list is: @list</p>\n";
+		@{ $funcMap{$name} } = @list;
+		my @funcs = sort keys %funcMap;
+		#print "<p>funcs: @funcs</p>\n";
+	}
+	
+	my @funcs = sort keys %funcMap;
+	my $first = 1;
+	my $name = "";
+	#print "<p>funcs: @funcs</p>\n";
+	# Output class constructor method(s)
+	foreach $name (@funcs) {
+		#print "<p>Doing function: $name</p>\n";
+		if( $name eq $c->name() ) {
+			if( $first != 0 ) {
+				print "<HR><H2>Constructor</H2>";
+				$first = 0;
+			}
+			>><HR>
+			<H3><A NAME="$name()">$name()</A></H3>
+			<<
+			&funclist( @{ $funcMap{$name} } );
+		}
+	}
+	
+	$first = 1;
+	foreach $m ($c->memberfuncs()) {
+		$name = $m->name();
+		if ($name ne $c->name()) {
+			if( $first != 0 ) {
+				print "<HR><H2>Member Functions</H2>";
+				$first = 0;
+			}
+			if (exists $funcMap{$name}) {
+				>><HR>
+				<H3><A NAME="$name()">$name()</A></H3>
+				<<
+				&funclist( @{ $funcMap{$name} } );
+			} elsif( $m->seealso() ) {
+				my @s = $m->seealso;
+				$seealso = member_ref(@s[0]->name());
+				if( $seealso ne "" ) {
+					>><HR>
+					<H3><A NAME="$name()">$name()</A>
+					see <A HREF="#$seealso()">$seealso()</A></H3>
+					<<
+				}
+			}
+		}
+	}
+	
+	$first = 1;
+	# Output class member variables
+	foreach $m ($c->membervars()) {
+		if( $first != 0 ) {
+			print "<HR><H2>Data Members</H2>";
+			$first = 0;
+		} else {
+			print "<HR>\n";
+		}
+		&variable( $m, $doc );
+	}
+}
+
+# =========================================
+# Generate summary for class.
+sub write_summary {
+	my $p = $_[0];
+	my $c = $_[1];
+	my $dir = $_[2];
+	my $doc = $_[3];
+	
+	file $dir . $p->name() . ".summary.html";
+
+	>><!doctype HTML public "-//W3O//DTD W3 HTML 3.2//EN">
+	<HTML>
+	<HEAD>
+	<TITLE>$project_name: $(c.name) Class</TITLE>
+	</HEAD>
+	 <BODY 
+	  BGCOLOR="#e0e0e0"
+	  TEXT="#000000" 
+	  LINK="#a02000" 
+	  VLINK="#505050" 
+	  ALINK="#a04000" 
+	 >
+	<<
+	
+	
+	foreach $c ($p->classes()) {
+		>><h3><img src="$bullet1_image" width=18 height=17 align=texttop>
+		<a href="$(c.url)">$(c.fullname)</h3></a>
+		<ul>
+		<<
+		foreach $m ($c->members()) {
+			>><li><a href="$(m.url)">$(m.longname)</a>
+			<<
+		}
+		>></ul>
+		<<
+	}
+}
+
+sub member_ref {
+	my $ref = $_[0];
+	#print "<p>Getting member_ref for: $ref</p>\n";
+	if( $ref =~ /^[a-zA-Z_].*\(\)/ ) {
+		$ref =~ tr/()//d;
+		return $ref;
+	}
+	return "";
+}
+
+# Subroutine to generate documentation for a member function or global function
+sub funclist {
+	my @flist = @_;
+	my $f;
+	
+	my %funcnames = { };
+	
+	>><BLOCKQUOTE>
+	<TABLE>
+	<<
+	foreach $f (@flist) {
+		print "<TR><TD><font size=+1>\n";
+		if ($f->keywords()) {
+			>><!-- $(f.keywords) -->
+			<<
+		}
+		>><a name="$(f.name)()">$(f.fullname)</a>
+		</font></TD></TR>
+		<<
+		$funcnames{$f->name()} = 1;
+	}
+	>></TABLE>
+	</BLOCKQUOTE>
+	<<
+
+	my $first = 1;
+	foreach $f (@flist) {
+		if ($f->params() || $f->returnval() || $f->exceptions()) {
+			if( $first ) {
+				print "<dl>\n";
+				$first = 0;
+			}
+		}
+		if ($f->params()) {
+			>>
+			<dt><b>Parameters</b><dd>
+			<table width=85%><tr><td colspan=2><hr size=3></td></tr>
+			<<
+			foreach $a ($f->params()) {
+				>><tr valign=top><th align=right>
+				$(a.name)</th><td><<
+				print &processDescription( $a->description(), $doc );
+				>></td></tr>
+				<<
+			}
+			>><tr><td colspan=2><hr size=3></td></tr></table>
+			<<
+		}
+		
+		if ($f->returnval()) {
+			>><dt><b>Return Value</b>
+			<dd><<
+			print &processDescription( $f->returnval(), $doc );>></dd>
+			<<
+		}
+		
+		if ($f->exceptions()) {
+			>><dt><b>Exceptions</b><dd>
+			<table width=85%><tr><td colspan=2><hr size=3></td></tr>
+			<<
+			foreach $a ($f->exceptions()) {
+				>><tr valign=top><th align=right>
+				$(a.name)</th><td><<
+				print &processDescription( $a->description(), $doc );
+				>></td></tr>
+				<<
+			}
+			>><tr><td colspan=2><hr size=3></td></tr></table>
+			<<
+		}
+	}
+	
+	if (! $first) {
+		print "</dl>\n";
+	}
+	
+	foreach $f (@flist) {
+		print &processDescription( $f->description(), $doc );
+	}
+	
+	my @r = ();
+	foreach $f (@flist) {
+		my $a;
+		foreach $a ($f->seealso()) {
+			my $name = $a->name();
+			my $ref = member_ref($name);
+			if( $ref ne "" ) {
+				if (! exists $funcnames{$ref}) {
+					push @r, "<a href=\"#$ref()\">$ref()</a>";
+					@funcnames{$ref} = 1;
+				}
+			} else {
+				push @r, "<a href=\"$name.html\">$name</a>";
+			}
+		}
+	}
+	if( @r ) {
+		print "<p><strong>See also:</strong>\n";
+		print join( ',', @r );
+		print "</p>\n";
+	}
+}
+
+# Subroutine to generate documentation for a member variable or global variable.
+sub variable {
+	my $v = $_[0];
+	my $doc = $_[1];
+	
+	if ($v->keywords()) {
+		print "<!-- $(v.keywords) -->";
+	}
+
+	>>
+	<a name="$(f.name)">$(v.fullname)</a>
+	<blockquote>
+	<<print &processDescription( $v->description(), $doc );>>
+	<<
+	if ($v->seealso()) {
+		>><p><string>See also:</strong>
+		<<
+		$comma = 0;
+		foreach $a ($v->seealso()) {
+			if ($comma) { print ","; }
+			$comma = 1;
+			>>$(a.name)</a>
+			<<
+		}
+		>></p>
+		<<
+	}
+}
+
+sub writeHeader {
+	my $title = $_[0];
+	my $project = $_[1];
+	my $logo = $_[2];
+	
+	>><!doctype HTML public "-//W3O//DTD W3 HTML 3.2//EN">
+	<HTML>
+	<HEAD>
+	<TITLE>$title</TITLE>
+	</HEAD>
+	 <BODY 
+	  BGCOLOR="#e0e0e0"
+	  TEXT="#000000" 
+	  LINK="#a02000" 
+	  VLINK="#505050" 
+	  ALINK="#a04000" 
+	 >
+	<<
+	
+	if( $project ne "" ) {
+		>><div align=center> 
+		
+		<table width="100%" bgcolor="#000000" border=0 cellspacing=0 cellpadding=0> 
+		<tr>
+		<td align=left valign=center>
+		<font color="#FF8030">
+		<H2 align=center>$company_name</H2> 
+		<h1 align=center>$project</h1>
+		</font>
+		<td align=right valign=center>
+		<br>
+		<br>
+		<p align=center><img src="$logo"></p>
+		<br>
+		<br>
+		</table> 
+		
+		</div>
+		
+		<br><br><br>
+		<<
+	}
+}
+
+sub writeFooter {
+	>><HR>
+	
+	<H1 ALIGN=CENTER><FONT COLOR="#ff0000">Copyright</FONT></H1>
+	
+	<p>All files and code contained in this package are
+	Copyright &copy;1998 Angry Red Planet, except where otherwise noted.
+	
+	The files contained here-in are distributed under a modifed
+	form of the <a href="../../\@License.html">Artistic License</a>.
+	See the file <code>\@License.html</code> or <code>\@License.txt</code>
+	for a copy of this license.</p>
+	
+	<table width="100%">
+	<tr>
+	<td align=left>
+	<p>Generated by <a href="http://www.sylvantech.com/~talin/projects/scandoc/scandoc.html"><b>ScanDoc</b></a></p>
+	</td>
+	<td align=right>
+	<p>Last Updated: $date</p>
+	</p>
+	</tr>
+	</table>
+	
+	</BODY>
+	</HTML>
+	<<
+}
+
+sub processDescription {
+	my $docdir = $_[1];
+    local ($_) = $_[0] . " ";
+	
+#print "<p>Raw Description:</p>\n<p>$_</p>\n";
+	
+	s:^\s+::;				# Remove whitespace from beginning
+	s:\n\s*\n:\n</p><p>\n:g;			# Replace multiple CR's with paragraph markers
+	s:\@heading\s(.*)\n:</p><h3>$1</h3>:g;	# Handle heading text
+
+	s:\@begindl\s:\n</p><dl>\n:g;			# Handle definition lists
+	s:\@term\s(.*)\n:\n<dt>$1</dt>\n:g;
+	s:\@definition\s:<dd>:g;
+	s:\@enddl:\n</dl><p>\n:g;				# Handle definition lists
+
+	s:\@formatted\s:\n</p><pre>\n:g;		# Handle pre-formatted text.
+	s:\@unformatted\s:\n</pre><p>\n:g;		# Handle pre-formatted text.
+	s:<pre>[ \t]*\n:<pre>:g;				# Strip empty newline off <pre>.
+	s:\s*</pre>:\n</pre>:g;					# Strip space before </pre>.
+	
+	# Put multiple CRs back into formatted text.
+	while( s:(<pre>[^\t]*)</p><p>([^\t]*</pre>):$1$2:g ) { }
+	
+    # Handle embedded image tags
+    s:\@caution\s:\n</p><p>\n<img src=\"${docdir}${image_directory}caution.gif\" align=left>:g;
+    s:\@warning\s:\n</p><p>\n<img src=\"${docdir}${image_directory}warning.gif\" align=left>:g;
+    s:\@bug\s:\n</p><p>\n<img src=\"${docdir}${image_directory}bug.gif\">:g;
+    s:\@tip\s:\n</p><p>\n<img src=\"${docdir}${image_directory}tip.gif\">:g;
+
+    s:\s+$:\n:;				# Remove whitespace from end
+    
+    if ($_ ne "") {
+		$_ = "<p>\n" . $_ . "\n</p>\n";
+	}
+	
+#print STDERR "Before <p> strip:\n$_\n";
+	s:<p>\s*</p>::g;						# Remove any empty paragraphs.
+#print STDERR "After <p> strip:\n$_\n";
+	
+    return $_;
+}

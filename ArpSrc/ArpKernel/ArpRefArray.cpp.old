@@ -1,0 +1,92 @@
+/*
+	
+	ArpRefArray.cpp
+	
+	Copyright (c)1998 by Angry Red Planet.
+
+	This code is distributed under a modified form of the
+	Artistic License.  A copy of this license should have
+	been included with it; if this wasn't the case, the
+	entire package can be obtained at
+	<URL:http://www.angryredplanet.com/>.
+*/
+
+#ifndef ARPCOMMON_ARPREFARRAY_H
+#include <ArpCommon/ArpRefArray.h>
+#endif
+
+#ifndef ARPCOMMON_ARPDEBUG_H
+#include <ArpCommon/ArpDebug.h>
+#endif
+
+ArpRefArrayBase::ArpRefArrayBase(int init_size=0)
+	: size(0), top(0), array(NULL)
+{
+	SetSize(init_size);
+}
+
+ArpRefArrayBase::~ArpRefArray()
+{
+	SetSize(0);
+}
+	
+void ArpRefArrayBase::SetSize(long new_size)
+{
+	T** new_array = NULL;
+	DB(DBALL,cdb << "ArpRefArray: SetSize(" << new_size
+				<< "), oldsize=" << size << endl);
+	if( new_size > 0 ) new_array = new T*[new_size];
+	long i = 0;
+	if( array && size ) {
+		for( ; i<size && i<new_size; i++ ) {
+			new_array[i] = array[(top+i)%size];
+		}
+	}
+	for( ; i<new_size; i++ ) new_array[i] = NULL;
+	if( array && size ) {
+		for( ; i<size; i++ ) {
+			if( array[(top+i)%size] != NULL ) {
+				array[(top+i)%size]->Deref();
+			}
+		}
+	}
+	if( array ) delete array;
+	array = new_array;
+	size = new_size;
+	top = 0;
+}
+
+void ArpRefArrayBase::ScrollView(int offset)
+{
+	if( size <= 0 ) return;
+	top = (top+offset)%size;
+	if( offset > 0 ) {
+		for( long i=0; i<offset; i++ ) {
+			SetElem(size-i-1,NULL);
+		}
+	} else {
+		offset = -offset;
+		for( long i=0; i<offset; i++ ) {
+			SetElem(i,NULL);
+		}
+	}
+}
+	
+void* ArpRefArrayBase::GetVoidElem(long index)
+{
+	if( size <= 0 ) return NULL;
+	index = (index+top)%size;
+	return array[index];
+}
+
+void ArpRefArrayBase::SetVoidElem(long index, void* val)
+{
+	if( size <= 0 ) return;
+	index = (index+top)%size;
+	if( val ) val->Ref();
+	if( array[index] != NULL ) array[index]->Deref();
+	array[index] = val;
+}
+
+#endif
+

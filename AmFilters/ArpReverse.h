@@ -1,0 +1,72 @@
+/* ArpReverse.h
+ * Copyright (c)2002 by Eric Hackborn
+ *
+ * ----------------------------------------------------------------------
+ *
+ * Known Bugs
+ * ~~~~~~~~~~
+ *
+ *	- None!  Ha ha!
+ *
+ * ----------------------------------------------------------------------
+ *
+ * History
+ * ~~~~~~~
+ * 2002.10.21				hackborn@angryredplanet.com
+ * Created this file
+ */
+#include <be/app/Message.h>
+#include <be/interface/View.h>
+#include "AmPublic/AmFilterI.h"
+
+/*****************************************************************************
+ * ARP-REVERSE-FILTER
+ * Time-reverse all notes in range.  Only works as a tool.
+ *****************************************************************************/
+class ArpReverseFilterAddOn;
+
+class ArpReverseFilter : public AmFilterI
+{
+public:
+	ArpReverseFilter(	ArpReverseFilterAddOn* addon,
+						AmFilterHolderI* holder,
+						const BMessage* config);
+	virtual ~ArpReverseFilter();
+	
+	virtual status_t	PutConfiguration(const BMessage* values);
+	
+	virtual AmEvent*	HandleEvent(AmEvent* event,
+									const am_filter_params* params = NULL);
+	virtual AmEvent*	HandleBatchEvents(	AmEvent* event,
+											const am_filter_params* params = NULL,
+											const AmEvent* lookahead = NULL);
+	
+private:
+	ArpReverseFilterAddOn*	mAddOn;
+	AmFilterHolderI*		mHolder;
+};
+
+/*****************************************************************************
+ * ARP-REVERSE-FILTER-ADD-ON
+ *****************************************************************************/
+class ArpReverseFilterAddOn : public AmFilterAddOn
+{
+public:
+	ArpReverseFilterAddOn(const void* cookie)
+		: AmFilterAddOn(cookie)
+	{
+	}
+	
+	virtual VersionType Version(void) const				{ return VERSION_CURRENT; }
+	virtual BString		Name() const					{ return "Reverse"; }
+	virtual BString		Key() const						{ return "arp:Reverse"; }
+	virtual BString		ShortDescription() const		{ return "Time-reverse all events"; }
+	virtual void		LongDescription(BString& name, BString& str) const;
+	virtual BString		Author() const					{ return "Eric Hackborn"; }
+	virtual BString		Email() const					{ return "hackborn@angryredplanet.com"; }
+	virtual void		GetVersion(int32* major, int32* minor) const;
+	virtual type Type() const							{ return THROUGH_FILTER; }
+	virtual BBitmap* Image(BPoint requestedSize) const;
+	virtual AmFilterI* NewInstance(	AmFilterHolderI* holder,
+									const BMessage* config = 0);
+};

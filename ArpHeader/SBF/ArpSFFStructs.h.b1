@@ -1,0 +1,200 @@
+/*
+ * Copyright (c)1998 by Angry Red Planet.
+ *
+ * This code is distributed under a modified form of the
+ * Artistic License.  A copy of this license should have
+ * been included with it; if this wasn't the case, the
+ * entire package can be obtained at
+ * <URL:http://www.angryredplanet.com/>.
+ *
+ * ----------------------------------------------------------------------
+ *
+ * ArpSFFStructs.h
+ *
+ * Definition of the structures used in ARP's "structured file format".
+ *
+ * ----------------------------------------------------------------------
+ *
+ * Known Bugs
+ * ~~~~~~~~~~
+ *
+ * Still in development.
+ *
+ * ----------------------------------------------------------------------
+ *
+ * To Do
+ * ~~~~~
+ *
+ * ----------------------------------------------------------------------
+ *
+ * History
+ * ~~~~~~~
+ *
+ * Feb. 6, 1999:
+ *	Created this file.
+ *
+ */
+
+#ifndef ARPSFF_ARPSFFSTRUCTS_H
+#define ARPSFF_ARPSFFSTRUCTS_H
+
+#ifndef _SUPPORT_DEFS_H
+#include <be/support/SupportDefs.h>
+#endif
+
+// Signature:
+// \211 (0x89) S F F \r \n B I N A R Y \032 \n \f \000
+
+struct ArpSFFLongChunkS {
+	// This is the basic type of the chunk.  Chunk types are defined by
+	// the structured file format, and are what actually define the
+	// "structure" of a particular file.  You may only choose from one
+	// of the types defined below.
+	uint64 mType;
+	/*
+		Case definitions of mType field:
+		
+		A:	Must be upper case (byte order detection.)
+		B:	Uppercase: Start tag; Lowercase: End tag.
+		C:	Unnused (always uppercase)
+		D:	Unnused (always uppercase)
+		E:	Unnused (always uppercase)
+		F:	Unnused (always uppercase)
+		G:	Unnused (always uppercase)
+		H:	Must be lower case (byte order detection.)
+	*/
+	enum {
+		'CHNKDATa'		// A basic piece of data.
+		'DPDNGRPa'		// A group of dependent chunks.
+		'FORMDATa'		// A set of chunks that work together
+						// (e.g., a bitmap and its palette.)
+		'CATALOGa'		// A set of independent, related chunks
+						// (e.g., two different bitmap formats of the same picture.)
+		'CONTINUa'		// A continuation chunk.
+	};
+	
+	// This is the name of the chunk, which defines the type of data it
+	// contains.
+	uint64 mName;
+	/*
+		Case definitions of mName field:
+		
+		A:	Uppercase: Required for enclosing group; Lowercase: optional.
+		B:	Uppercase: Not safe to copy; Lowercase: safe to copy.
+		C:	Unnused (always uppercase)
+		D:	Unnused (always uppercase)
+		E:	Unnused (always uppercase)
+		F:	Unnused (always uppercase)
+		G:	Unnused (always uppercase)
+		H:	Unnused (always uppercase)
+	*/
+	enum {
+		'UNNAMEDa'		// No name is given to this chunk.  This is
+						// only valid for dependency and catalog chunks.
+	};
+	
+	// This is the length of data in this chunk, -including- the header
+	// and trailing CRC error detection integer.
+	// Note that chunks must always be aligned on 4-byte boundaries,
+	// so the actual amount of bytes to the next chunk is
+	// (mLength+3)&0xFFFFFFFC.
+	// If this has the value -1, the length of this chunk is not known.
+	// This is only valid for one of the grouping chunks, in which case
+	// that group will be ended by an end tag that contains no data.
+	int64 mLength;
+	
+	// This field is used for growing or shrinking the data in a chunk.
+	// If 0, this is a normal chunk.  If less than zero, this is the
+	// number of bytes in the chunk's mLength that aren't actually used.
+	// If greater than zero, this is the location of a continuation chunk.
+	// The location is relative to the start of this chunk header.
+	int64 mContinuation;
+	
+	// Unique object identifier for this chunk.  Zero if not associated
+	// with an object.
+	uint32 mObject;
+	
+	...
+	
+	uint32 mCRC;
+};
+
+
+	
+
+struct ArpSFFShortChunkS {
+	uint16 mType;
+	uint16 mLength;
+};
+
+enum {
+	ARPSFF_FLAGS_MASK = 0xFF00,
+	ARPSFF_TYPE_MASK = 0x00FF,
+	
+	ARPSFF_SHORTCHUNK = 0x8000,
+	ARPSFF_DIVIDER = 0x4000,
+	ARPSFF_USERTYPE = 0x2000,
+	
+	ARPSFF_BOOLFALSE_TYPE = 0x0000,		// 0 bytes
+	ARPSFF_BOOLTRUE_TYPE = 0x0001,		// 0 bytes
+	ARPSFF_STRING_TYPE = 0x0002,		// n bytes
+	ARPSFF_INT32_TYPE = 0x0003,			// 4 bytes
+	ARPSFF_FLOAT_TYPE = 0x0004,			// 4 bytes
+	ARPSFF_ARGB8_TYPE = 0x0006,			// 4 bytes
+	ARPSFF_DOUBLE_TYPE = 0x0005,		// 8 bytes
+};
+
+
+
+
+/* Table of CRCs of all 8-bit messages. */
+unsigned long crc_table[256];
+
+/* Flag: has the table been computed? Initially false. */
+int crc_table_computed = 0;
+
+/* Make the table for a fast CRC. */
+void make_crc_table(void)
+{
+	unsigned long c;
+	int n, k;
+
+	for (n = 0; n < 256; n++) {
+		c = (unsigned long) n;
+		for (k = 0; k < 8; k++) {
+			if (c & 1)
+				c = 0xedb88320L ^ (c >> 1);
+			else
+				c = c >> 1;
+		}
+		crc_table[n] = c;
+	}
+	crc_table_computed = 1;
+}
+
+/* Update a running CRC with the bytes buf[0..len-1]--the CRC
+   should be initialized to all 1's, and the transmitted value
+   is the 1's complement of the final running CRC (see the
+   crc() routine below)). */
+
+unsigned long update_crc(unsigned long crc, unsigned char *buf,
+                         int len)
+{ 
+	unsigned long c = crc;
+	int n;
+
+	if (!crc_table_computed)
+		make_crc_table();
+	for (n = 0; n < len; n++) {
+		c = crc_table[(c ^ buf[n]) & 0xff] ^ (c >> 8);
+	}
+	return c;
+}
+
+/* Return the CRC of the bytes buf[0..len-1]. */
+unsigned long crc(unsigned char *buf, int len)
+{
+	return update_crc(0xffffffffL, buf, len) ^ 0xffffffffL;
+}
+
+#endif

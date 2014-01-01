@@ -1,0 +1,17 @@
+If you try to launch Sequitur and the first thing that happens is it crashes, chances are you are running BeOS Personal Edition and your soundcard is supported by the Be Operating System.  Peter Goodeve, the author of Music Weaver, tracked down this problem and has provided an easy fix for it.  From his website (http://jwgibbs.cchem.berkeley.edu/~pete/beos/MW_PE.html), he supplies these instructions:
+
+	The trivial reason for this is that the internal synth (not
+	the MusicWeaver itself) is looking for a file of instruments
+	named 'big_synth.sy' in /boot/beos/etc/synth, but it doesn't
+	exist -- under that name.  Be have promised a fix/patch
+	for this, but in the meantime applying your own cure is easy
+	-- create a link from 'big_synth.sy' to 'Patches111.hsb' in the
+	above folder. Probably the simplest method is to open a
+	Terminal and do:
+
+		cd /boot/beos/etc/synth
+		ln -s Patches111.hsb big_synth.sy
+
+Thanks to Pete for finding and fixing this problem!
+
+If you follow Pete's directions and are still getting a crash, please contact Eric Hackborn at hackborn@angryredplanet.com

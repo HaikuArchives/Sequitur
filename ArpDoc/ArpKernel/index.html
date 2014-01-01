@@ -1,0 +1,341 @@
+<!doctype HTML public "-//W3O//DTD W3 HTML 3.2//EN">
+<HTML>
+<HEAD>
+<TITLE>ARP Kernel Library</TITLE>
+</HEAD>
+ <BODY 
+  BGCOLOR="#e0e0e0"
+  TEXT="#000000" 
+  LINK="#a02000" 
+  VLINK="#505050" 
+  ALINK="#a04000" 
+ >
+
+<div align=center> 
+
+<table width="100%" bgcolor="#000000" border=0 cellspacing=0 cellpadding=0> 
+<tr>
+<td align=left valign=center>
+<font color="#FF8030">
+<H2 align=center>Angry Red Planet</H2> 
+<h1 align=center>Kernel Library</h1>
+</font>
+<td align=right valign=center>
+<br>
+<br>
+<p align=center><img src="../images/arp_pic.jpeg"></p>
+<br>
+<br>
+</table> 
+
+</div>
+
+<br><br><br>
+
+<p>The ArpKernel library is a miscellaneous collection of
+classes that are useful in a lot of other places and/or don't
+warrant a library of their own.  Not all of the classes are
+described here: there are a number that are still under
+development, archaic, or simply not very useful, which would
+not be too worthwhile to include in any documentation
+beyond their existing source code.</p>
+
+<HR>
+
+<H1 ALIGN=CENTER><FONT COLOR=#ff0000>Classes</FONT></H1>
+
+<H2>
+ArpAboutView
+<small>
+<a href="../../ArpHeader/ArpKernel/ArpAboutView.h">(header file)</a>
+</small>
+</H2>
+
+<p>This is a subclass of BView that implements Angry Red Planet's
+standard animated "about" box.  It is given the program's title,
+version, and lines of text describing the application, and generates
+a view with the ARP logo and description text animating around it.</p>
+
+<H2>
+ArpAboutWindow
+<small>
+<a href="../../ArpHeader/ArpKernel/ArpAboutWindow.h">(header file)</a>
+</small>
+</H2>
+
+<p>A thin subclass of BWindow that contains an ArpAboutView as its
+single child.  This makes it possible to bring up a full "about" box
+with a couple lines of code.</p>
+
+<H2>
+ArpAddonManager
+<small>
+<a href="../../ArpHeader/ArpKernel/ArpAddonManager.h">(header file)</a>
+</small>
+</H2>
+
+<p>This class keeps track of a set of add-ons in which a program
+is interested.  It is derived from ArpMultiDir, providing
+all of that class's functionality of searching through
+multiple directories for files.  On top of that, the
+ArpAddonManager keeps track of the add-ons it finds and
+provides an interface for accessing them.</p>
+
+<p>The ultimate intention is to have this also perform a watch on
+the directory to see any new additions to the available add-ons,
+but that functionality is not yet implemented.</p>
+
+<H2>
+ArpColor
+<small>
+<a href="../../ArpHeader/ArpKernel/ArpColor.h">(header file)</a>
+</small>
+</H2>
+
+<p>This is a small wrapper around the rgb_color structure, making
+it more natural to use in an OO world.</p>
+
+<H2>
+ArpConfigurableI
+<small>
+<a href="../../ArpHeader/ArpKernel/ArpConfigurableI.h">(header file)</a>
+</small>
+</H2>
+
+<p>This is an abstract interface for an object that can be "configured".
+It defines methods for getting and setting the objects current state as
+a BMessage, and a method for creating a set of BView hierarchies that can
+be presented to the user for manipulating the state of the object.</p>
+
+<H2>
+ArpConfigureFile
+<small>
+<a href="../../ArpHeader/ArpKernel/ArpConfigureFile.h">(header file)</a>
+</small>
+</H2>
+
+<p>An ArpConfigureFile contains one or more ArpConfigurableI interfaces
+for objects that together can be thought of as a complete "configuration set".
+The class provides operations that you can do on this set of configurable
+objects: extract all of their currently settings into a single BMessage,
+apply a previously created settings BMessage to the objects, and read and
+write these BMessage settings from and to files.  In addition, when a
+settings file has been associated with the object, you can be supplied node
+monitor messages when that file changes.</p>
+
+<H2>
+ArpConfigureImpl
+<small>
+<a href="../../ArpHeader/ArpKernel/ArpConfigureImpl.h">(header file)</a>
+</small>
+</H2>
+
+<p>This is a helper class that provides a standard implementation for
+configuration views.  By using this class, all you need to do to implement
+a configuration view is to create the controls in your view, and then call
+the ArpConfigureImpl AttachedToWindow(), DetachedFromWindow(), and
+MessageReceived() methods in the cooresponding places in your view.</p>
+
+<p>Currently, this class only provides implementations for BCheckBox
+(bool and int32 parameters) and BTextControl (string and int32 parameters)
+objects.</p>
+
+<H2>
+ArpConfigurePanel
+<small>
+<a href="../../ArpHeader/ArpKernel/ArpConfigurePanel.h">(header file)</a>
+</small>
+</H2>
+
+<p>There are actually two classes in this file.  The class it is named
+for, ArpConfigurePanel, is-a BTabView that automatically generates its
+tabs from an ArpConfigureFile's ArpConfigurableI interfaces that are passed
+to it.  The second class, ArpConfigureView, places an ArpConfigurePanel
+in a larger view with tools for managing the state of the configurable
+objects.  With this second class, almost all of the details of creating
+"settings"-type windows is automatically done for you.</p>
+
+<H2>
+ArpConfigureWatch
+<small>
+<a href="../../ArpHeader/ArpKernel/ArpConfigureWatch.h">(header file)</a>
+</small>
+</H2>
+
+<p>This is a helper class for inplementing ArpConfigurableI classes that
+can have configuration views changing and watching them.  Currently, this
+involves managing a set of configuration views that are registered as
+watching your own configurable view.  To use this class, all you need to
+do is call its MessageReceived() function to handle the messages these views
+will send to you.</p>
+
+<H2>
+ArpDebug
+<small>
+<a href="../../ArpHeader/ArpKernel/ArpDebug.h">(header file)</a>
+</small>
+</H2>
+
+<p>In this file are a set of macros that are used by the rest of the
+ARP class libraries to produce debugging output.  The output is
+iostream-based, and this file includes additional definitions for
+writing some common object (such as BRect and BMessage) to an
+output stream.</p>
+
+<H2>
+ArpDocumentButton
+<small>
+<a href="../../ArpHeader/ArpKernel/ArpDocumentButton.h">(header file)</a>
+</small>
+</H2>
+
+<p>This is a widget for a "document drag and drop" button.  The button
+acts like a normal button, where presses will be set as a BMessage to the
+target you select.  In addition, the class can act as an intermediate for
+drag-and-drop operations, providing a drag-and-drop interface for opening
+and saving documents.</p>
+
+<H2>
+ArpMessage
+<small>
+<a href="../../ArpHeader/ArpKernel/ArpMessage.h">(header file)</a>
+</small>
+</H2>
+
+<p>This is a small wrapper around the BMessage class.  It has two
+main purposes:</p>
+
+<ul>
+<li> New methods are added for finding and adding BFont objects
+and rgb_color structures.
+<li> A new interface for getting and setting values in a message
+is defined, which is intended to make constructing ArpLayout
+hierarchies easier.  They are based on the idea of having the
+"set" function return a reference to the ArpMessage it was called
+on, so multiple sets can be batched up together.
+
+<p>For example, a function that requires a single argument that is
+a BMessage with some parameters could be called with:</p>
+
+<blockquote><pre>
+MyFunc(ArpMessage()
+           .SetInt32("SomeParamter", 14)
+           .SetString("SomeOtherParamter", "aValue")
+       );
+</pre></blockquote>
+</ul>
+
+<p>In addition, this class defines a new type -- <code>ARP_INDIRECT_TYPE</code>
+-- that is used by the ArpLayout library to implement its "global values".
+</p>
+
+<H2>
+ArpMultiDir
+<small>
+<a href="../../ArpHeader/ArpKernel/ArpMultiDir.h">(header file)</a>
+</small>
+</H2>
+
+<p>This is-a BDirectory that actually contains multiple directories,
+usually representing a "search path".  It overrides the BDirectory
+interface to make these all look like one big directory to the
+rest of the world, so that they don't have to worry about which or
+how many directories they are supposed to be looking through.</p>
+
+<H2>
+ArpNotificationRegistry
+<small>
+<a href="../../ArpHeader/ArpKernel/ArpNotificationRegistry.h">(header file)</a>
+</small>
+</H2>
+
+<p>This class stores a list of BHandlers that have an "interest" in
+some piece of data.  When the owner of this class wants to, it can
+ask the ArpNotificationRegistry to report a change to all of its
+interested BHandlers.</p>
+
+<H2>
+ArpRef
+<small>
+<a href="../../ArpHeader/ArpKernel/ArpRef.h">(header file)</a>
+</small>
+</H2>
+
+<p>This file contains various pieces for reference counted objects.  It
+contains the following classes:</p>
+
+<dl>
+<dt> ArpBaseRef
+<dd> A common base class for anything that is going to hold a reference
+on an object.  It is primarily useful for debugging: objects are given
+this class when their reference count is changes, to they can track who
+is holding them, and it contains a string identifier naming the holder.
+
+<dt> ArpRef and ArpCRef
+<dd> These are template classes that implement a "reference counting
+pointer".  That is, they look and feel like a pointer to the object
+they are templatized on (or a const pointer, in the case of ArpCRef),
+but assigning objects to them automatically calls the AddReference()
+and RemReference() as appropriate.  By using these classes, you
+pretty much never need to call the reference functions directly
+yourself, avoiding a lot of bugs that happen in keeping track of
+reference counts.
+
+<dt>ArpRefableI
+<dd> This is an abstract interface that an object that wishes to
+be reference counted (and work with the above classes) must implement.
+
+<dt>ArpRefable
+<dd> A generic implementation of the above interface.
+</dl>
+
+<H2>
+ArpString
+<small>
+<a href="../../ArpHeader/ArpKernel/ArpString.h">(header file)</a>
+</small>
+</H2>
+
+<p>Our own implementation of a string class.  This was written long
+before BString existing, and may never have been written if there
+had been a BString back then.  On the other hand, it provides a number
+of features that I believe BString doesn't:</p>
+
+<ul>
+<li> You can store static literals in an ArpString, without having to copy them.
+<li> Its internal string buffer implementation tries to avoid copying
+     string data when assigning one ArpString to another.
+<li> It fully supports strings with embedded \0 characters.
+<li> A NULL string pointer is considered a valid value by ArpString,
+     and can be assigned to it and retrieved again.
+</ul>
+
+<p>In addition, there are some helper classes in this file to help in
+dealing with ArpString objects:</p>
+
+<dl>
+<dt> ArpStrTok
+<dd> An OO implementation of strtok().  Takes advantage of the ArpString
+     buffer copying feature to help in reducing the number of string
+     copies while still being non-destructive of the input string.
+<dt> ArpParseUrl
+<dd> A simple function that extracts the various fields from some
+     common URL forms.
+<dt> ArpUnescapeURL
+<dd> Parses URL escape sequences in a string.
+</dl>
+
+<HR>
+
+<H1 ALIGN=CENTER><FONT COLOR=#ff0000>Copyright</FONT></H1>
+
+<p>All files and code contained in this package are
+Copyright &copy;1998 Angry Red Planet, except where otherwise noted.</p>
+
+<p>The files contained here-in are distrubuted under a modifed
+form of the <a href="../../@License.html">Artistic License</a>.
+See the file <code>@License.html</code> or <code>@License.txt</code>
+for a copy of this license.</p>
+
+</BODY>
+</HTML>

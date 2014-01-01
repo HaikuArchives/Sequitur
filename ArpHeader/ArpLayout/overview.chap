@@ -1,0 +1,228 @@
+@chapter 2
+@package ArpLayout
+@title Overview
+
+<p>The ArpLayout library implements a traditional "layout manager / control"
+GUI architecture.  That is, there are two fairly distinct types of
+classes:</p>
+
+<dl>
+<dt> Controls
+<dd> <p>These are the parts of the interface that the user interacts with.
+     A control always a BView, because it needs to see user events such
+     as the keyboard and mouse to provide something the user can
+     interact with.</p>
+
+     <p>In addition to all of the functionality of a BView, a control must
+     be able to report accurate information about its dimensions based
+     on its current font and other parts of the environment.  This is
+     similar to the existing BView::GetPreferredSize() method, but
+     includes a bit more information and <em>must</em> return a
+     useful value, whatever the object's current state.</p>
+
+     <p>(Unfortunately, the GetPreferredSize() implemented in a lot of the
+     Be-supplied
+     classes is either touchy about returning correct information
+     or doesn't return anything useful at all.)</p>
+
+<dt> Layout Managers
+<dd> <p>These are the objects used to construct an actual
+     layout hierarchy.  A layout manager contains one or more child
+     objects, and implements a specific algorithm to determine where
+     the children should be placed within the manager's screen space
+     (i.e. its Bounds() rectangle) and how big they should be.
+     Ideally, the library architecture should allow a layout manager
+     class to implement any arbitrary layout algorithm it likes.</p>
+
+     <p>The children of a layout manager may be either basic controls
+     or other layout managers.  Building a tree of layout managers
+     and controls defines an explicit relationship between the various
+     user interface objects, so that they will automatically be
+     correctly positioned based on the font(s) being used and the
+     size of the containing area.</p>
+
+     <p>A layout manager is often not associated with an actual
+     BView -- it does not need to directly interact with the user,
+     so there is no need to include all of that overhead.  Two
+     layout managers currently come with the ArpLayout library,
+     ArpRunningBar and ArpScrollArea.</p>
+</dl>
+
+<p>The core piece of the ArpLayout library is a class called
+ArpLayoutable.  This is a simple base class (derived only from
+BArchivable) that defines the abstract interface between parent
+and child in the layout hierarchy.  Its major pieces of
+functionality are:</p>
+
+<dl>
+<dt> The ability to query an object for its desired dimensions.
+<dd> A layout manager uses this capability of its children to determine
+     how best to place them.
+<dt> Managing the position and size of an object.
+<dd> A layout manager uses this capability of its children to actually
+     put them where it wants them to go.
+<dt> The ability to associate "constraints" with an object.
+<dd> These are used as parameters to the layout manager, which
+     provides additional information about how to place
+     the child that they are associated with.
+<dt> The association of a BView with an ArpLayoutable.
+<dd> An ArpLayoutable object may not be associated with
+     a BView if it doesn't need to interact with the
+     user.  There are various functions to manage this situation.
+</dl>
+
+<H2>The Layout Hierarchy</H2>
+
+<p>At the most fundamental level, ArpLayoutable provides a set of functions for
+managing a hierarchy of object.  These directly match the ones found in BView:</p>
+
+<blockquote><table>
+	<tr> <td>AddLayoutChild() <td>AddChild() </tr>
+	<tr> <td>RemoveLayoutChild() <td>RemoveChild() </tr>
+	<tr> <td>LayoutParent() <td>Parent() </tr>
+	<tr> <td>CountLayoutChildren() <td>CountChildren() </tr>
+	<tr> <td>LayoutChildAt() <td>ChildAt() </tr>
+	<tr> <td>NextLayoutSibling() <td>NextSibling() </tr>
+	<tr> <td>PreviousLayoutSibling() <td>PreviousSibling() </tr>
+	<tr> <td>LayoutRemoveSelf() <td>LayoutRemoveSelf() </tr>
+	<tr> <td>FindLayoutable() <td>FindView() </tr>
+</table></blockquote>
+
+<p>This is an important point: The ArpLayoutable class defines an
+<em>additional</em> hierarchy, on top of the existing BView hierarchy.
+This relationship is easy to derive -- the underlying BView hierarchy
+is simply the ArpLayoutable hierarchy with all of the objects that
+do not have an associated BView object removed.</p>
+
+<p>Another way to think of this is as light-weight ArpLayoutable objects
+sitting "in-between" the full BViews, guiding them in the layout.
+For example, consider a simple BView hierarchy such as this:</p>
+
+<blockquote><pre>
+BView Root -+- BMenuBar
+            +- BTextView
+            +- BBox ------+- BButton
+                          +- BButton
+                          +- BButton
+</pre></blockquote>
+
+<p>This may be embedded within a larger ArpLayoutable hierarchy
+that runs like this:</p>
+
+<blockquote><pre>
+View/Layout Root - VerticalGroup -+- Wrap - BMenuBar
+                                  +- Wrap - BTextView
+                                  +- Wrap - BBox --- HorizontalGroup -+- Wrap - BButton
+                                                                      +- Wrap - BButton
+                                                                      +- Wrap - BButton
+</pre></blockquote>
+
+<p>Which would probably result in a window that looks something like this:</p>
+
+<blockquote><pre>
+ _____________
+/Layout Window\_____________________________
+|                                           |
+| BMenuBar                                  |
+|-------------------------------------------|
+|                                           |
+|                                           |
+|                 BTextView                 |
+|                                           |
+|                                           |
+|-------------------------------------------|
+|                                           |
+| /--- BBox ------------------------------\ |
+| |                                       | |
+| | +---------+  +---------+  +---------+ | |
+| | | BButton |  | BButton |  | BButton | | |
+| | +---------+  +---------+  +---------+ | |
+| |                                       | |
+| \---------------------------------------/ |
+|                                           |
+|___________________________________________|
+</pre></blockquote>
+
+<p>A few things to note:</p>
+
+<ul>
+<li> "View/Layout Root" is a class that combines a BView and an ArpLayoutable
+      into a single object that represents the "root" of a layout hierarchy.
+      You don't need to use this class, but every ArpLayoutable hierarchy
+      <em>must</em> have some ArpLayoutable with an associated BView at its
+      top level.
+<li>  "Wrap" indicates a place where we "wrap" a raw BView-based object into
+      an ArpLayoutable object, so that it can be included in the layout
+      hierarchy.  While ArpLayoutable objects without BViews are allowed,
+      BViews without ArpLayoutables are not -- they implicitly end the
+      layout hierarchy.  (Note that this does -not- say you can not attach
+      raw BView objects to other BViews in the hierarchy.  Simply that
+      any such objects obviously cannot directly participate in the layout
+      operation.)
+</ul>
+
+<H2>Wrapping BViews</H2>
+
+<p>Wrapping is an important operation.  It is accomplished with the
+ArpViewWrapper class, which is-a ArpLayoutable that knows how to do
+useful things with a raw BView.  In particular, it can massage the
+BView in such a way that a number of the Be-supplied controls will
+return useful information from GetPreferredSize(), and then fill this
+information into the ArpLayoutable dimensions.  It also uses special
+functions of ArpLayoutable to mark its object as one that owns a
+BView, so that the ArpLayoutable will do the correct thing with
+coordinate spaces and other details.</p>
+
+<p>The ArpViewWrapper can be used in one of two ways.  The simplest
+is to instantiate it, passing in an instance of the BView it is to
+wrap in its constructor.  This will magically include the BView in
+the layout hierarchy (assuming it reports a useful preferred size).
+Alternatively, one can create a subclass that is a mix-in of the
+ArpViewWrapper and BView-based object it is associated with.
+This method is
+used in places where special code must be written to report
+size information about the BView or otherwise modify its default
+behavior.</p>
+
+<H2>Constraints</H2>
+
+<p>In order to perform any kind of complicated layout operation,
+a layout manager will need to associate some special information with
+its children.  This is additional information attached to a specific
+child, which is used to control how it is placed in the container's
+area.  Examples of constraints are such things as a "weight", which
+controls how much of the parent's space is given to one child in
+relation to its others, or "gravity", which determines how a child
+will be placed in a larger area that it does not need.</p>
+
+<p>Constraints are a difficult issue because they have two conflicting
+needs: the child must own the constraints, but only the parent knows
+what they are.</p>
+
+<p>ArpLayout solves this problem by implementing constraints as a
+BMessage.  Every ArpLayoutable includes a BMessage that contains
+its constraints.  The ArpLayoutable object owns this BMessage object
+as part of its data, but doesn't touch it: instead, there is an
+interface for its parent to retrieve it and examine or modify it
+as needed.</p>
+
+<H2>Parameters and Globals</H2>
+
+<p>The ArpLayoutable class includes an additional capability, the
+management of "parameters" associated with a single object
+and "globals" associated with an entire layout hierarchy.</p>
+
+<p>Note: this is NOT an intrinsic part of the layout architecture.
+In fact, I am tempted to remove it -- it adds a lot of additional
+complexity to the library that could just be dropped and, as
+a first prototype of an idea, I am not sure that I am happy with
+how it turned out.  (I am particularily not satisfied with how poorly
+the Be-supplied controls react to the dynamic environment I was trying
+to create, that is another story...)</p>
+
+<p>On the other hand, this <em>does</em> make it quite a bit easier
+to write an example program that shows off how the ArpLayout
+library works.  So for now, I am leaving it in...  but I am not
+going to include any more real documentation on it.  The ArpLayoutable
+class header includes fairly extensive comments on how these two
+things work, if you are interested.</p>

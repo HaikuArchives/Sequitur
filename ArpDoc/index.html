@@ -1,0 +1,181 @@
+<!doctype HTML public "-//W3O//DTD W3 HTML 3.2//EN">
+<HTML>
+<HEAD>
+<TITLE>ARP Common Libraries</TITLE>
+</HEAD>
+ <BODY 
+  BGCOLOR="#e0e0e0"
+  TEXT="#000000" 
+  LINK="#a02000" 
+  VLINK="#505050" 
+  ALINK="#a04000" 
+ >
+
+<div align=center> 
+
+<table width="100%" bgcolor="#000000" border=0 cellspacing=0 cellpadding=0> 
+<tr>
+<td align=left valign=center>
+<font color="#FF8030">
+<H2 align=center>Angry Red Planet</H2> 
+<h1 align=center>Common Libraries</h1>
+</font>
+<td align=right valign=center>
+<br>
+<br>
+<p align=center><img src="images/arp_pic.jpeg"></p>
+<br>
+<br>
+</table> 
+
+</div>
+
+<br><br><br>
+
+<p>This package is a set of class libraries that we have created in the
+course of developing various Angry Red Planet programs, particularily
+ArpTelnet (the source for which is available in a separate distribution).</p>
+
+<p>This code is being released open source under a slight various of
+the <a href="../@License.html">Artistic License</a>.  The intention is
+to make it as easy as possible for people to make use of the contained
+classes, but to encourage any changes they make to them to be rolled
+back into the Open Source distribution.  The license also has provisions
+for renaming modified packages that are not rolled back into the main
+distribution, so that we can avoid problems like conflicting shared
+library names.</p>
+
+<p>The current distribution of this code can always be found at the
+<a href="http://www.angryredplanet.com/">Angry Red Planet</a> web
+site,
+<a href="http://www.angryredplanet.com/">http://www.angryredplanet.com/</a>.
+Questions or comments should be directed either to
+<a href="http://www.angryredplanet.com/~hackbod/">Dianne Hackborn</a> at
+<a href="mailto:hackbod@angryredplanet.com">&lt;hackbod@angryredplanet.com&gt;</a>,
+or
+<a href="http://www.angryredplanet.com/~hackborn/">Eric Hackborn</a> at
+<a href="mailto:hackborn@angryredplanet.com">&lt;hackborn@angryredplanet.com&gt;</a>.
+</p>
+
+<HR>
+
+<H1 ALIGN=CENTER><FONT COLOR=#ff0000>Contents</FONT></H1>
+
+<p>The main purpose of this current distribution is to make available
+our layout class library for people to play with and comment on, and to
+provide all of the libraries needed to compile the ArpTelnet application.</p>
+
+<p>Please be aware that this is something like an 0.4 release of this code.
+All of the documentation here has been fairly quickly put together -- you
+will need to look through the headers and maybe sometimes (okay, probably always)
+even the source
+code to really use it.  We hope to get it cleaned up a bit, with a lot more
+documentation, but it is going to take time.  Inspite of that, hopefully it will be
+useful "as-is" to some people out there; and if you have any questions or
+comments, do please contact us!</p>
+
+<p>The following main pieces are included in this package:</p>
+
+<H2><a href="ArpCollections/index.html">ArpCollections</a></H2>
+
+<p>This is a small set of various collection classes we have developed.
+Probably the most useful to the rest of the world are the template classes
+<code>ArpVectorI</code>, <code>ArpSTLVector</code>, and <code>ArpPtrVector</code>:
+these are intended to supply an "abstract vector" interface that can be
+exposed in methods in public interfaces (particularily those in shared
+libraries), as well as a couple common implementations of it.</p>
+
+<H2><a href="ArpKernel/index.html">ArpKernel</a></H2>
+
+<p>This is our "core" set of classes -- it is basically a miscellaneous grab-bag
+of things that are useful in many other places.  Included here are wrappers around
+messages and rgb_color structures, a class for iterating over multiple
+directories, a helper for managing add-ons, a generic implemention of
+"configuration panels" in an add-on, a smattering of debug macros, reference
+counting, and even Our Very Own String Class.</p>
+
+<H2><a href="FFont/index.html">FFont</a></H2>
+
+<p>This is the FFont class I previously released, which provides a
+BFlattenable method for BFont objects.</p>
+
+<H2><a href="ArpLayout/index.html">ArpLayout</a></H2>
+
+<p>This is one of the the main parts of the current distribution, the BView layout
+classes.  These provide a common framework for creating control layouts that
+are automatically font sensitive and resizeable.</p>
+
+<H2><a href="ArpTerminal/index.html">ArpTerminal</a></H2>
+
+<p>This library contains a complete "terminal widget" with add-on emulators
+and other spiffy stuff.  The terminal can be used at varying levels -- from
+a raw class with little support (ArpCoreTerminal), to a full-fledged "terminal
+with add-on emulators and remote device protocol" (ArpRemoteTerminal).  The
+library does not include any actual emulator implementations (see the ArpTelnet
+source distribution for the VT200 emulator), nor remote devices (see the ArpNetwork
+library for a TELNET device, and the ArpTelnet distribution for a "shell" device).</p>
+
+<H2><a href="ArpNetwork/index.html">ArpNetwork</a></H2>
+
+<p>This library mostly contains classes for working with sockets that are soon
+to be obsoleted by the new Genki network classes.  It is included here because
+it also contains the ArpTelnet class, a remote device for ArpCoreTerminal that
+implements the TELNET protocol.</p>
+
+<H2>Other Stuff</H2>
+
+<p>In addition to the above class libraries, there are a couple other pieces
+to help in building and managing the distribution.  The <code>makefiles</code>
+directory contains some common makefile pieces that the other parts of the
+package make use of to build themselves.  The <code>tools</code> directory
+contains some scripts that we use internally to manage the distribution.
+(Being only two people, we don't have a need yet for a full blown change
+management system -- so we wrote these scripts just to help in passing
+changes back and forth to each other.)</p>
+
+<HR>
+
+<H1 ALIGN=CENTER><FONT COLOR=#ff0000>Building</FONT></H1>
+
+<blockquote>
+<p>Note: if you just want a quick peek at what the ArpLayout library can do,
+you might to download one of the binary distributions, which includes just
+a pre-compiled binary of the ArpLayout test program.</p>
+</blockquote>
+
+<p>The libraries are only distributed in source code form, so before using
+them you will have to build them.  (To just build the ArpTelnet application,
+download the ArpTelnet source distribution and follow the direction there.)
+To build the ArpLayoutable library test program, perform the following steps:</p>
+
+<ol>
+<li> Open a Terminal window.
+<li> Change your current directory (cd) to the ARP/ArpTest/ArpLayout directory.
+<li> Enter "make release".
+</ol>
+
+<p>After much grinding, you should end up with the ArpCollections, ArpKernel,
+and ArpLayout libraries in the ArpLib directory, and the ArpLayout
+test program in ArpTest/ArpLayout.  Right now, there are very few test
+programs or examples, so the only thing for you to immediately play with
+is the ArpLayout test program.</p>
+
+<p>To do development, you should build a version of the library with
+debugging symbols.  To accomplish this, run a "make clean" and then a plain
+"make" in the root ARP directory.  This will build <em>all</em> of the
+libraries in the distribution, including ArpTerminal and ArpNetwork.</p>
+
+<HR>
+
+<H1 ALIGN=CENTER><FONT COLOR=#ff0000>Copyright</FONT></H1>
+
+<p>All files and code contained in this package are
+Copyright &copy;1999 Angry Red Planet, except where otherwise noted.</p>
+
+<p>The files contained here-in are distrubuted under a modifed
+form of the <a href="../@License.html">Artistic License</a>.
+See the file <code>@License.html</code> or <code>@License.txt</code>
+for a copy of this license.</p>
+
+</BODY>
+</HTML>

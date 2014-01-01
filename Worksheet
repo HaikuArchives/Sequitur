@@ -1,0 +1,100 @@
+pwd
+cd /Secondary/Development
+cd /Secondary/Development/ARP
+cd /Secondary/Development/ARP/ArpSrc/ArpKernel
+cd /Secondary/Development/ARP/ArpSrc/ArpCollections
+cd /Secondary/Development/ARP/ArpSrc/ArpLayout
+cd /Secondary/Development/ARP/ArpSrc/AmKernel
+cd /Secondary/Development/ARP/ArpSrc/ArpMidiViews
+cd /Secondary/Development/ARP/ArpSrc/ArpNetwork
+cd /Secondary/Development/ARP/ArpSrc/ArpTerminal
+cd /Secondary/Development/ARP/ArpSrc/ArpViewKernel
+cd /Secondary/Development/ARP/ArpSrc/BeExp
+cd /Secondary/Development/ARP/ArpSrc/FFont
+cd /Secondary/Development/ARP/ArpSrc/Sequitur
+cd /Secondary/Development/ARP/ArpTest/ArpMidi
+cd /Secondary/Development/ARP/ArpTest/ArpLayout
+cd /Secondary/Development/ARP/ArpTest
+cd /Secondary/Development/ARP/ArpTermEmu
+cd /Secondary/Development/ARP/ArpTelnet
+cd /Secondary/Development/ARP/MsgEdit
+cd /Secondary/Development/ARP/ExFiler
+cd /Secondary/Development/ARP/Sequitur
+cd /Secondary/Development/ARP/AmFilters
+cd /Secondary/Development/ARP/printmsg
+cd /Secondary/Development/ARP/sortdir
+cd /boot/home/personal/ARP/Gooey
+cd /boot/home/personal/ARP/ExFiler
+grep "ArpExecFilters" ../ArpSrc/AmKernel/*.*
+grep "AMFF_" ../AmFilters/*.*
+
+export CONCURRENT_JOBS=3
+make
+make release
+make depends
+make clean
+make dist
+
+export MALLOC_DEBUG=15
+unset MALLOC_DEBUG
+export MESSAGE_DEBUG=1
+unset MESSAGE_DEBUG
+
+obj.x86/ExFiler
+./Sequitur
+dist.x86/Sequitur-2.0-x86/Sequitur
+MALLOC_DEBUG=10 dist.x86/Sequitur-2.0-x86/Sequitur
+MALLOC_DEBUG=10 ./Sequitur
+LOCK_DEBUG=10 ./Sequitur
+/boot/develop/bdb/bdb ./Sequitur
+profile ./Sequitur
+
+export MALLOC_DEBUG=15
+unset MALLOC_DEBUG
+echo $MALLOC_DEBUG
+
+./Sequitur --debug=AmTransport,AmPerformer&
+./Sequitur --debug=AmTransport&
+./Sequitur --debug=AmPerformer&
+./Sequitur --debug=ArpConfigureImpl&
+./Sequitur --debug=AmStdFilters&
+./Sequitur --debug=AmStandardMidiFile&
+./Sequitur --debug=AmTransport >out.txt 2>&1 &
+/boot/home/Desktop/bdb ./Sequitur&
+obj.x86/ArpMidiFilterTest1&
+obj.x86/LayoutTest&
+
+ARP/tools/makebackup ARP
+ARP/tools/makedist ARP
+ARP/tools/makeupdate ARP
+ARP/tools/applyupdate ARP
+
+Gooey --debug=PropListView&
+(cd /Secondary/Development/ARP; scandoc -i ArpDoc/template.html ArpHeader/ArpLayout/*.chap ArpHeader/ArpLayout/*.h)
+
+zip -r ../NewStuff.zip * /boot/develop/makefiles
+(cd /Secondary/; tar -cvf /dev/disk/floppy/raw NewStuff.zip)
+
+Primitives
+grep "AmTrackRef" ../ArpHeader/AmPublic/*.h
+grep "ArpLookPolicyWindow" ../ArpSrc/*/*.h
+grep "DrawBitmap" ArpSrc/*/*.cpp
+
+
+ARP/ArpLib/obj.x86/ArpDocumentButton.rsrc: FAILED (Doesn't exist.)
+ARP/Sequitur/Motions/4_14 Pulse: FAILED (Doesn't exist.)
+ARP/ArpHeader/ArpKernel/ArpColor.h: FAILED
+ARP/ArpHeader/BeExp/ToolTip.h: FAILED
+ARP/ArpHeader/FFont/FFont.h: FAILED
+ARP/ArpHeader/Sequitur/SeqApplication.h: FAILED
+ARP/ArpSrc/AmKernel/AmDefs.cpp: FAILED
+ARP/ArpSrc/AmKernel/AmDevice.cpp: FAILED
+ARP/ArpSrc/ArpKernel/ArpConfigurePanel.cpp: FAILED
+ARP/ArpSrc/ArpKernel/ArpDebug.cpp: FAILED
+ARP/ArpSrc/ArpKernel/ArpMessage.cpp: FAILED
+ARP/ArpSrc/ArpLayout/ArpLayoutDefs.cpp: FAILED
+ARP/ArpSrc/ArpLayout/ArpRootLayout.cpp: FAILED
+ARP/ArpSrc/BeExp/ToolTip.cpp: FAILED
+ARP/ArpSrc/FFont/FFont.cpp: FAILED
+ARP/Worksheet: FAILED
+ARP/tools/applyupdate: FAILED

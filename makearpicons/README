@@ -1,0 +1,498 @@
+ArpTelnet:
+A telnet client with add-on emulators.
+
+Version 1.3.1 / August 3, 1998
+
+Copyright ©1998 by Angry Red Planet and Dianne Hackborn.
+All rights reserved.
+
+This program is not public domain, nor freely distributable.
+Please direct any questions or requests to Dianne Hackborn,
+at <hackbod@lucent.com> or <hackbod@angryredplanet.com>.
+
+The files contained here-in must be distributed together, as
+they came in the original archive.  You are free to edit and
+pervert the source files, but you may not distribute such
+changes without my express concent.  I would also appreciate
+patches for any fixes or enhancements you make, so that I
+can integrate them back into this distribution; any such
+contributions will be meet with great appreciation and accolades.
+
+Based (increasingly loosly) on WebTerm, a Web-based terminal applet
+written in Java, which is Copyright (C)1996 by the National Alliance for
+Computational Science and Engineering (NACSE).
+See <URL:http://www.nacse.org/> for more information.
+
+------------------------------------------------------------------------
+
+THANKS TO
+
+Jon Watte for many hints on using sockets under BeOS.
+
+Gustav Kalvesten for reporting the problem with XTerm's title text
+sequences.
+
+Tom Spindler for pointing me to "vttest" and sending over a copy.
+
+Rich $alz and Per Lindberg for vttest, which has made the VT
+emulation much more solid...  it's not completely there yet, but getting
+much better.
+
+------------------------------------------------------------------------
+
+CONTENTS
+
+This archive contains the ArpTelnet application, a VT200-based add-on
+emulator for it, and source code.  These are organized into three directories:
+
+	src/ArpTermEmu is the VT200/VT100/VT52/XTerm emulator add-on.
+		Full source for this is provided.
+
+	src/ArpTelnet is the actual TELNET application.  Again, full source is
+		provided for your edification and perversion.
+
+	src/makefiles generic support makefiles for building all this stuff.
+
+To build the application, you will need to get the ArpCommon distrubution
+and move the resulting directory to src/ArpCommon.  Then open a bash shell, CD
+to ARP/ArpTelnet, and type "make".  This will build both the emulator and application.
+
+------------------------------------------------------------------------
+
+STATUS
+
+NOTE: If you find any VT200 or X-Terminal sequences that do not
+behave as they should, please let me know what they are and what
+you think they should do, so that I can fix them!
+
+The following major are the major (known) existing problems with ArpTelnet
+and the terminal classes:
+
+(1) There is no user interface yet for controlling emulator and telnet
+    options.
+(2) There is no user interface to control how much screen history is
+    available.
+(3) There is no user interface to set the colors the terminal uses.
+    [But of course everyone has the same tastes as I do, so who
+     needs to use any other colors?? ;)]
+(4) There is no way to save the current settings so that they will
+    be used the next time the application starts up.
+(5) Bold text does not look good with the default Courier BT font.
+    This is because the terminal uses an actual bold font style; Courier's
+    bold style just doesn't look very different from its plain style at small
+    point sizes.
+(6) There are likely many ugly bugs lurking in the telnet code...
+(7) When the window is rapidly resized, it will not get correctly
+    redrawn.  This appears to be a problem with keeping the
+    vertical scroll bar at the bottom of its container, and not
+    correctly setting up to draw the newly visible top of the
+    terminal view when it gets exposed.
+(8) There's currently very little documentation, particularily
+    relating to writing a terminal emulator.  I do now supply the
+    complete source to the VT200 emulator, though, which is
+    probably a decent place to start in writing your own.
+(9) If your PPP session gets hung up while a telnet session is
+    active, the application will hang.
+
+------------------------------------------------------------------------
+
+USAGE
+
+To use ArpTelnet, just start it by either double-clicking on its command
+line or running it from the shell.  You will then see the main terminal window
+appear.  Most of its user interface is in the menu bar at the top; here is a
+brief description of what the menus do:
+
+FILE
+
+	Connect:  Start a new telnet session.  When selected, a window will
+		appear asking for the host and port to connect with.  The
+		default port is 23, the standard TELNET protocol port.
+	Disconnect:  End the current telnet session.
+
+	About ArpTelnet:  Show enlightening information about the application.
+	Test Screen: Write some example text to the terminal.
+
+	Quit:  Exit the application.
+
+EDIT
+
+	Copy:  Place any currently highlighted text into the clipboard.
+	Paste:  Send any text in the clipboard to the telnet session.
+	Select All:  Highlight all of the terminal's text.
+
+TERMINAL
+
+	Usable Size:  Change the logical usable size.  This is the area
+		of the terminal's screen that can be used by programs
+		running in it.  Options are:
+
+		80 x 24:  80 column wide, 24 columns high.
+		80 x 25:  80 column wide, 25 columns high.
+		80 Columns:  80 column wide, high enough to fill the window.
+		132 x 24:  132 column wide, 24 columns high.
+		132 x 25:  132 column wide, 25 columns high.
+		132 Columns:  132 column wide, high enough to fill the window.
+		Lock At n x m:  Lock the terminal size at the window's
+			current size.
+		Size With Window:  Make terminal width and height follow
+			the window's size.
+
+	Font Family:  Select font used by the terminal.  It will try to
+		find appropriate bold, italic and plain fonts in the family;
+		if it can't do so, characters in those attributes will just
+		use the plain font.
+
+	Font Size:  Select the font size to use.
+
+	Encoding:  Select the character encoding to use.  The terminal only
+		deals in 8-bit character codes, rather than the BeOS's native
+		Unicode multibyte character codes.  This menu allows you to
+		select the Unicode symbols assigned to these 256 character
+		codes.
+
+	History Use:  Select how lines should be moved into the screen's
+		history.  Options are:
+
+		Off:  Nothing is put in the history.
+		Minimal:  Only lines that scroll off the top of the screen are
+			place into the history.
+		Normal:  Minimal plus text in the screen when it is cleared.
+		Aggressive:  Normal plus any text that is scrolled up so
+			that it disappears.
+
+	Operation Modes:  Various other operating modes.
+
+		LF -> CRLF:  If on, a LF characters received by the terminal
+			are transformed into a CR and LF character.
+		Swap Backspace/Del:  If on, the codes sent out by the backspace
+			and delete keys are swapped.  That is, pressed BACKSPACE
+			results in character code 0x127, and pressing DELETE results
+			in CTRL-H.
+		Wrap Cursor:  If on, adding text to the far right of the screen
+			causes the cursor to wrap to the next line.
+		Inverse:  If on, the terminal's colors are reversed.
+
+		Verify Paste: If on, pasting text to the terminal will first
+			display the text to sent, for verification and
+			editing.
+		Quick Paste: If on, pressing the secondary mouse button will either:
+			(1) immediately copy the currently highlighted region to the
+			terminal; or, if no text has been highlighted, (2) perform a paste
+			of the clipboard as if Edit/Paste had been selected.
+		Scroll on Input: Make the cursor visible on user input,
+			if it isn't already.
+		Scroll on Output: Make the cursor visible on terminal output,
+			if it isn't already.
+
+	Soft Reset:  Perform a soft reset of the terminal and emulator
+		state
+	Hard Reset:  Perform a full reset of the terminal and emulator
+		state
+	Resize To Fit:  Resize the window so that it perfectly fits the
+		size selected in the "Usable Size" menu.
+
+EMULATION
+
+	This menu allows you to select for use among the available
+	add-on emulations.  In addition, its last item -- About Emulator --
+	displays various human-readable bits of information about the
+	emulator that is currently being used.
+
+------------------------------------------------------------------------
+
+HISTORY
+
+July 31, 1998 (Version 1.4):
+
+	Terminal:
+	• Added option to have ENTER send a CRLF pair.
+
+July 31, 1998 (Version 1.3.1):
+
+	Terminal:
+	• Fixed handling of DEL key.
+	• Added back output of CTRL-space keypresses.
+	• Moved the "Encoding" menu to be after the font menus.
+	• Fixed a bug that would garble text pastes of more than
+	  500 or so characters.
+
+July 31, 1998 (Version 1.3):
+
+	It's been a while, and unfortunately not much to show for it.
+	The biggest change is that everything now compile for the
+	Intel platform (yay!).  However, I have also made a few small
+	improvements:
+
+	Terminal:
+	• Added the BFont character encoding concept to the teminal.
+	  You can now specify which character encoding the terminal
+	  will use, and it will do all the necessary conversions.  Note that
+	  Unicode encoding is not supported, though I would like it to
+	  be some day...
+	• Added option to swap backspace and delete keys.
+	• Added "Quick Paste" option, which works somewhat similar
+	  to Be's terminal secondary button paste.
+	• A few small fixes to the TELNET networking stuff.  In particular,
+	  errors when opening a socket will now be reported.
+
+	VT200 Emulator:
+	• No changes, but the source is now included...
+
+August 16, 1997 (Version 1.2):
+
+	Terminal:
+	• The paste verification display is now located at the
+	  cursor position, to (hopefully) make it more visible.
+	• The terminal can now scroll to make the cursor visible
+	  on data input or ouput.
+	• Copy/Cut now includes font style information for
+	  StyledEdit.
+	• Added new terminal modes menu items: "Verify Paste," 
+	  "Scroll on Input," and "Scroll on Output."
+	• The TELNET disconnect implementation is now much more
+	  robust.
+
+July 31, 1997 (Version 1.1):
+
+	Terminal:
+	• Screen was not being redrawn after selecting soft/hard
+	  reset.
+	• A soft reset now does not change the cursor position.
+
+	VT200 Emulator:
+	• TermXToCol() and TermYToRow() in TerminalCore were
+	  returning incorrect values, making mouse reports from
+	  the VT200 emulator wrong.
+	• Cursor position report was one row and column too short.
+	• Cursor movement sequences should have been transforming
+	  0-position movements into 1 character position.
+	• The ANSI terminator character (ST) was not being processed,
+	  due to some signed character comparisons that should have
+	  been unsigned.  This caused the X-term sequence changing
+	  the window title to eat all incoming characters until the
+	  terminal was reset.
+
+July 26, 1997 (Version 1):
+
+	• First release of ArpTelnet as a separate distribution.
+
+The rest of this document is intended for programmers; if you are just
+interested in using the application, there's no reason to read any further...
+
+------------------------------------------------------------------------
+
+TERMINAL OVERVIEW
+
+The executable program shows the basic terminal class, with two
+emulators (defining five particular emulations) available: ArpEmulator
+is a basic "dumb terminal," which is statically linked with the program and
+thus always available; ArpVT200 is a VT200 emulator that is available
+as a add-on.  The terminal I/O is then attached to an ArpTelnet object,
+which transform terminal character streams into the low-level TELNET
+protocol.
+
+The VT200 emulator is fairly complete.  You can play around with it
+by typing text when a TELNET session isn't active: in this case, all the
+text you type is simply echoed back to the screen.  Here are some of
+the more rewarding VT200 escape sequences:
+
+	<ESC>[0m   -- Plain boring text.
+	<ESC>[1m   -- Bold text style.
+	<ESC>[4m   -- Underscore text style.
+	<ESC>[5m   -- Italic text style.
+	<ESC>[7m   -- Inverse text style.
+	<ESC>[22m  -- Bold text style off.
+	<ESC>[24m  -- Underscore text off.
+	<ESC>[25m  -- Italic text off.
+	<ESC>[27m  -- Inverse text off.
+	<ESC>[3Nm  -- Set foreground color, where N is the color number.
+	<ESC>[4Nm  -- Set background color, where N is the color number.
+
+	<ESC>[T;Br -- Set scroll region top to row T and bottom to row B.
+
+	<ESC>[L    -- Insert line(s) at cursor.
+	<ESC>[M    -- Delete line(s) at cursor.
+	<ESC>[P    -- Delete character(s) at cursor.
+	<ESC>[@    -- Insert character(s) at cursor.
+	<ESC>[X    -- Erase character(s) at cursor.
+	<ESC>[J    -- Erase in display.
+
+Note also that the cursor keys send out appropriate VT200 sequences,
+so they can be used to move the cursor around the screen.
+
+------------------------------------------------------------------------
+
+TERMINAL CLASSES
+
+Most of the ArpTelnet classes are implemented in the ArpCommon class
+library.  This library contains classes for the terminal, telnet client, VT200
+emulator, add-on manager, and various other useful things.  You will need
+the library distribution to rebuild the telnet application from its source; it
+should be available from the same place at which you got the application
+distribution.
+
+Briefly, the most important classes that ArpTelnet uses in the library are:
+
+	TERMINAL CLASSES
+
+	ArpTerminalInterface is an abstract interface to a terminal-like
+		device.
+	ArpCoreTerminal is the basic terminal implementation and view.
+	ArpTerminal is based on ArpCoreTerminal and adds cut&paste
+		and emulation support.
+	ArpRemoteTerminal is a subclass of ArpTerminal that talks with
+		a remote BMessenger. The message protocol it implements
+		is defined in ArpTerminalMsg.
+
+	EMULATION CLASSES
+
+	ArpEmulatorInterface is an abstract interface to the code that
+		implements a particular emulator.
+	ArpEmulator is a useful base class of a terminal emulator; it also
+		implements a dumb emulation.
+	ArpVT200 is an actual VT200/VT52/XTerm terminal emulation.
+	ArpEmulatorManager keeps track of all the terminal emulations
+		that are available, both as add-ons and those that are
+		statically linked to the application.
+
+	TELNET CLASSES
+
+	ArpTelnet implements the TELNET client protocol.  The class
+		understands the ArpTerminalMsg protocol, and can be
+		attached to a ArpRemoteTerminal object to create a
+		complete telnet client.
+
+------------------------------------------------------------------------
+
+ARCHITECTURE
+
+The important pieces of the terminal are:
+
+• ArpTerminalInterface.h
+
+	Defines an abstract programmable interface to a terminal-like
+	device.  This is the interface that the terminal class exports
+	to its plug-in emulators, which they in turn use to implement
+	their particular emulation.  This interface is used both to write
+	text to the terminal display, and send data to the remote device.
+
+• ArpCoreTerminal.h
+
+	Implements the core functionality of ArpTerminalInterface, and inherits
+	from BView to render its screen and interact with the user.  On its
+	own, it is not very useful: it does not know about emulations, so all
+	you can do is receive raw user input as you would from any BView,
+	and perform raw terminal operations as defined by ArpTerminalInterface.
+
+• ArpTerminal.h
+
+	Builds on ArpCoreTerminal to implement a complete terminal with
+	emulation.  You can connect this to an object that implements an
+	ArpEmulatorInterface, and they will work together to work with a
+	character I/O stream that conforms to the selected terminal type.
+	In addition, the user can highlight regions of text with the mouse,
+	and perform standard cut&paste operations.  This class does not
+	know anything about remote devices, though, so you will need to
+	subclass it and override TermSendRemote() to process user input.
+
+• ArpTerminalMsg.h
+
+	This is the early definition of a system to communicate between
+	an instance of the terminal class and some remote device, based
+	on BMessages.  The intention is to provide a character-stream-like
+	interface to a terminal, but with the ability to also exchange
+	higher-level information.  In particular, it can be used to negotiate
+	with the terminal about the actual terminal emulation that the remote
+	device would like to use and to negotiate about the terminal size.
+
+• ArpRemoteTerminal.h
+
+	A subclass of ArpTerminal that implements the above ArpTerminalMsg.h
+	protocol.  One simply attaches a BMessenger to the class, and it
+	communicates with the terminal and its emulator through the BMessage
+	protocol.  This class can also interface with an ArpEmulatorManager to
+	keep track of the emulations that are currently available.
+
+• ArpEmulatorInterface.h
+
+	Defines an abstract base class that is an interface to an add-on
+	emulator; particular implementations will derive from this class,
+	overriding its functions to implement their emulation,
+  
+• ArpEmulator.h
+
+	Defines the common base class upon which a particular emulation
+	can be build.  While not required to write an emulator, this class
+	takes care of a lot of thr grunge work of parsing BMessages and other
+	house-keeping.  In addition, this base class can be used by itself as
+	the prototypical "dumb" terminal.
+  
+• ArpVT200.h
+
+	A subclass of ArpEmulator that implements a fairly complete
+	XTerm/VT200/VT100/VT52 emulation mode.
+  
+• Loopback.h
+
+	This is an example of a [very] simple remote device that uses
+	the above TerminalMsg.h protocol.  It simply echoes all text it
+	receives back to the terminal that sent it.
+
+For another view, here are the layers of the implementation, going from most
+basic (at the top) to the more fleshed out classes (at the bottom).  Abstract interface
+classes are  in *red*.
+
+  +----------------------+
+  |*ArpTerminalInterface*|
+  +----------------------+
+             ||
+             \/
+     +-----------------+
+     | ArpCoreTerminal |
+     +-----------------+
+             ||
+             \/                  ArpEmulatorAddon >-----\
+       +-------------+       +----------------------+   |
+       | ArpTerminal |. . . .|*ArpEmulatorInterface*|   |
+       +-------------+       |----------------------+   |
+             ||                         \/              |
+             ||                    ArpEmulator          |   ArpMultiDir
+             ||                         \/              |        \/
+             ||                     ArpVT200            |  ArpAddonManager
+             \/                                         V        \/
+   +-------------------+                               +--------------------+
+   | ArpRemoteTerminal |. . . . . . . . . . . . . . . .| ArpEmulatorManager |
+   +-------------------+                               +--------------------+
+ 
+
+And here is a diagram of the basic architecture, showing how instances of
+these classes work together and interact with the outside world.  In general,
+it shows that the ArpEmulatorInterface collects data -- both coming from the
+user and from the remote device -- that it then transforms: input from the
+user becomes a character stream the remote device can understand, and the
+character stream from the remote device becomes the basic terminal
+operations needed to display it.  The ArpEmulatorInterface then uses its
+ArpTerminalInterface to send the character stream to the remote device or
+execute the basic terminal operations, respectively.
+
+(Although note that, since the ArpTerminal actually contains an ArpEmulator,
+to the external user this appears much simpler.  In general, everything just
+attaches to the ArpTerminal, and data is then routed with its Emulator()
+through system as shown here.)
+
+     +-----------+ Draw(), etc. +--------------------------+
+     |  SCREEN   |<=============|   ArpTerminalInterface   |
+     +-----------+              +--------------------------+
+                                 /\   /\                 ||
+                     TermSendTTY ||   || TermSendRemote  ||
+                                 ||   ||                 ||
+ +-----------+ EmulateToRemote +----------------------+  || Subclass,
+ | KEYBOARD  |================>| ArpEmulatorInterface |  || BMessage,
+ +-----------+                 +----------------------+  || etc.
+                                          /\             ||
+                             EmulateToTTY ||             ||
+                                          ||             \/
+                                          +-----------------+
+                                          |  Remote Device  |
+                                          +-----------------+

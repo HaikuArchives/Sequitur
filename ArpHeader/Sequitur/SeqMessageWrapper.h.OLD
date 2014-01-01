@@ -1,0 +1,52 @@
+/* SeqMessageWrapper.h
+ * Copyright (c)2002 by Eric Hackborn.
+ * All rights reserved.
+ *
+ * This code is not public domain, nor freely distributable.
+ * Please direct any questions or requests to Eric Hackborn,
+ * at <hackborn@angryredplanet.com>.
+ *
+ * ----------------------------------------------------------------------
+ *
+ * Known Bugs
+ * ~~~~~~~~~~
+ *
+ *	- None!  Ha ha!
+ *
+ * ----------------------------------------------------------------------
+ *
+ * History
+ * ~~~~~~~
+ * 2001.05.06		hackborn@angryredplanet.com
+ * Extracted the no view from AmPublic/AmViewFactory.  That REALLY
+ * was not the correct place for it.
+ */
+
+#ifndef SEQUITUR_SEQMESSAGEWRAPPER_H
+#define SEQUITUR_SEQMESSAGEWRAPPER_H
+
+#include <be/app/Message.h>
+#include <be/support/String.h>
+
+/*************************************************************************
+ * SEQ-MESSAGE-WRAPPER
+ * This simple class adds some behaviour to the BMessage for dealing
+ * with special constructs.  It's intended for preference messages.
+ *************************************************************************/
+class SeqMessageWrapper
+{
+public:
+	SeqMessageWrapper(BMessage* msg);
+
+
+	status_t	SetFactoryInt32Preference(	const char* fac, const char* view,
+											const char* name, int32 i32, int32 n = 0);
+	status_t	GetFactoryInt32Preference(	const char* fac, const char* view,
+											const char* name, int32* outI32, int32 n = 0) const;
+
+private:
+	BMessage*		m_Msg;
+};
+
+
+#endif 

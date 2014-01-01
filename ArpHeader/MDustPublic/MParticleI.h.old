@@ -1,0 +1,98 @@
+/* MParticle.h
+ * Copyright (c)2000 by Eric Hackborn.
+ * All rights reserved.
+ *
+ * This code is not public domain, nor freely distributable.
+ * Please direct any questions or requests to Eric Hackborn,
+ * at <hackborn@angryredplanet.com>.
+ *
+ * ----------------------------------------------------------------------
+ *
+ * To Do
+ * ~~~~~~~~~~
+ *
+ *	- Nothing!
+ *
+ * ----------------------------------------------------------------------
+ *
+ * Known Bugs
+ * ~~~~~~~~~~
+ *
+ *	- None!  Ha ha!
+ *
+ * ----------------------------------------------------------------------
+ *
+ * History
+ * ~~~~~~~
+ * 04.14.00		hackborn
+ * Created this file.
+ */
+
+#ifndef MDUSTPUBLIC_MPARTICLEI_H
+#define MDUSTPUBLIC_MPARTICLEI_H
+
+#include <vector.h>
+#include <be/opengl/GLView.h>
+#include "ArpMidiPublic/ArpMidiEventsI.h"
+// Forward references
+class MSpaceI;
+
+/***************************************************************************
+ * M-PARTICLE-I
+ * This is the superclass for all types of particles in the MDust system.
+ * Particles come in two flavours: planets and stars.  Planets produce
+ * MIDI and / or audio data, stars, process MIDI and / or audio data.
+ * All types of particles know how to draw themselves appropriately.
+ ***************************************************************************/
+class MParticleI
+{
+public:
+	virtual ~MParticleI()	{ }
+
+	virtual bool IsPlanet() const = 0;
+	virtual bool IsStar() const = 0;
+
+	virtual float DistanceTo(MParticleI* particle) const = 0;
+
+	virtual float X() const = 0;
+	virtual float Y() const = 0;
+	virtual float Z() const = 0;
+	virtual float Mass() const = 0;
+	virtual float AttractionStrength() const = 0;
+	virtual float DesiredDistance() const = 0;
+	/* These methods are for calculating a new position
+	 */
+	virtual void CalculateVelocity(MSpaceI* space, bool print) = 0;
+	virtual void ApplyVelocity(MSpaceI& space, bool print) = 0;
+	/* The Generate() method requests that the particle fill up its
+	 * playback buffer with any relevant data at the given tick.
+	 * Generally, only planets will generate data.
+	 */
+	virtual void Generate(ArpMidiT tick) = 0;
+	/* The Process() method requests that the particle process data
+	 * in any surrounding particles that it should be affecting.
+	 * Generally, only stars will process data.
+	 */
+	virtual void Process(ArpMidiT tick, MSpaceI& space) = 0;
+	/* This method is used to perform any generated data.  Generally,
+	 * since only planets will generate data, only planets will
+	 * do anything with this method.
+	 */
+	virtual void Perform(MSpaceI& space) = 0;
+	/* Draw the particle to the supplied view.  The x y and z limits
+	 * define the grid on which this particle can be placed, and
+	 * therefore define the bounding box of the 3D space.
+	 */
+	virtual void Draw(	BGLView* onView,
+						int32 xLimit,
+						int32 yLimit,
+						int32 zLimit) = 0;
+	/* Temp for testing in a 2D space.
+	 */
+	virtual void Draw(	BView* view,
+						float halfWidth,
+						float halfHeight) = 0;
+};
+typedef vector<MParticleI*>		particle_vec;
+
+#endif

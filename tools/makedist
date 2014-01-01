@@ -1,0 +1,230 @@
+
+# Copyright (c)1998 by Angry Red Planet.
+#
+# This code is distributed under a modified form of the
+# Artistic License.  A copy of this license should have
+# been included with it; if this wasn't the case, the
+# entire package can be obtained at
+# <URL:http://www.angryredplanet.com/>.
+#
+# ----------------------------------------------------------------------
+#
+# tools/makedist
+#
+# Create an distribution of the ARP common libraries.
+#
+# ----------------------------------------------------------------------
+#
+# Known Bugs
+# ~~~~~~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# To Do
+# ~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# History
+# ~~~~~~~
+#
+# Dec 6, 1998:
+#	First public release.
+#
+#
+
+NEWDIR=$1
+
+OPT_CHECKONLY=""
+
+while [ 1 ]; do
+	case "$1" in
+		-- )		shift; break								;;
+		--* )		echo "*** Error: Unknown option $1"; exit	;;
+		* )			break										;;
+	esac
+done
+
+if [ $# -lt 1 ]; then
+	echo "Usage: makedist project [section]"
+	echo "- \"project\" is the directory containing your current project."
+	echo "- \"section\" is an optional specific section in the project."
+	echo ""
+	echo "Creates file named \"project[-section].zip\" that contains all of the"
+	echo "(Public) sections of the project directory.  If \"section\" is"
+	echo "supplied, all of the (Public[-section]) sections are used."
+	exit
+fi
+
+CURDIR=$1
+
+if [ ! -e "$CURDIR" ]; then
+	echo "*** Error: Directory \"$CURDIR\" does not exist."
+	exit
+fi
+
+SECTION=""
+if [ $# -gt 1 ]; then
+	SECTION="-$2"
+fi
+
+# --------------- Define Standard Files and Directories ----------------
+
+PUBLICSPEC="(Public${SECTION})"
+DISTNAME="${CURDIR}${SECTION}"
+FINALZIP="${DISTNAME}.zip"
+
+BASEDIR="$(pwd)"
+TEMPDIR="$BASEDIR/${DISTNAME}.UpdateInfo.$$"
+TOOLSDIR="$(dirname $0)"
+
+BACKUPDIR=Backup
+
+DATESTRING="$(date "+%Y-%m-%d-%H%M")"
+
+BACKUPDIST="${BACKUPDIR}/$DATESTRING.${DISTNAME}-dist.zip"
+
+PUBLICFILELIST="$TEMPDIR/public_list.txt"
+INCLUDEFILELIST="$TEMPDIR/include_list.txt"
+
+# --------------- Load Standard Functions ----------------
+
+. "$TOOLSDIR/Question.sh"
+. "$TOOLSDIR/whence.sh"
+
+# --------------- Initialize Temporaries ----------------
+
+if [ "$(whence zip)" = "" ]; then
+	echo "*** Error: zip command not available.  Unable to continue."
+	exit
+fi
+
+echo "Ready to create a distribution of ${DISTNAME}."
+
+if [ -e "$TEMPDIR" ]; then
+	echo "An old update directory $TEMPDIR exists."
+	Question "Replace it with new update" "yes" ""
+	case $ANSWER in
+		y* )	;;
+		* )		echo "*** Aborting."
+				exit
+				;;
+	esac
+	rm -rf "$TEMPDIR"
+fi
+
+Cleanup() {
+	echo "Cleaning up temporaries..."
+	rm -rf "$TEMPDIR"
+	if [ $# -gt 0 ]; then exit $1
+	fi
+}
+
+trap 'echo "*** Break requested."; Cleanup 1' 1 2 3 15
+
+mkdir --parents "$TEMPDIR"
+
+if [ -e /boot/develop/lib/x86/libroot.so.LIB ]; then
+	echo "Note: Unable to perform a clean under R3."
+	Question "Have you cleaned this under R4?" "no" ""
+	case $ANSWER in
+		y* )	;;
+		* )		echo "Go do it now!"
+				Cleanup 1
+				;;
+	esac
+else
+	echo "Cleaning project directory ${CURDIR} (i.e., make clean)..."
+	(cd "$CURDIR"; make clean >/dev/null)
+fi
+
+# --------------- Figure Out What To Include ----------------
+
+echo "Finding public parts in distribution \"$FINALZIP\"..."
+
+find "$CURDIR" -name "$PUBLICSPEC" -print > "$PUBLICFILELIST"
+
+NUMPUBLICFILE=$(wc -l "$PUBLICFILELIST" | awk '{print $1'})
+
+echo "Found $NUMPUBLICFILE public sections."
+
+echo "Determining all files to include in distribution \"$FINALZIP\"..."
+
+# make sure the files exist and are empty
+rm -f "$INCLUDEFILELIST"
+touch "$INCLUDEFILELIST"
+
+OLDIFS=$IFS
+IFS=
+exec 3< "$PUBLICFILELIST"
+while read LINE 0<&3
+do
+	if [ -f "$LINE" ]; then
+		IFS=$OLDIFS
+		filedir=$(dirname "$LINE")
+		filelist=$(cat "$LINE")
+		if [ "$filelist" = "" -o "$filelist" = "*" ]; then
+			for i in ${filedir}/*; do
+				if [ -f "$i" ]; then
+					echo >> "$INCLUDEFILELIST" "$i"
+				fi
+			done
+			# echo >> "$INCLUDEFILELIST" "$filedir"
+		else
+			echo >> "$INCLUDEFILELIST" "$LINE"
+			for i in $filelist; do
+				echo >> "$INCLUDEFILELIST" "$filedir/$i"
+			done
+		fi
+		IFS=
+	else
+		echo "*** Warning: $LINE is not a file."
+	fi
+done
+exec 3<&-
+IFS=$OLDIFS
+
+NUMINCLUDEFILE=$(wc -l "$INCLUDEFILELIST" | awk '{print $1'})
+
+echo "Found $NUMINCLUDEFILE files and directories to include."
+
+# --------------- Create A New Distribution ----------------
+
+if [ -e "$FINALZIP" ]; then
+
+	echo "Moving previous checkpoint to \"$BACKUPDIST\"..."
+	
+	if [ ! -e "$BACKUPDIR" ]; then
+		echo "Creating backup directory."
+		mkdir --parents "$BACKUPDIR"
+	fi
+	
+	if [ -e "$BACKUPDIST" ]; then
+		Question "Destination exists.  Replace it" "yes" ""
+		case $ANSWER in
+			y* )	;;
+			* )		echo "*** Aborting."
+					Cleanup 1
+					;;
+		esac
+		rm "$BACKUPDIST"
+	fi
+	
+	copyattr --data "$FINALZIP" "$BACKUPDIST"
+	
+	if [ $? -ne 0 ]; then
+		echo "*** Error: Unable to copy file.  Aborting."
+		Cleanup 1
+		exit
+	fi
+	
+	rm -f "$FINALZIP"
+fi
+
+echo "Creating new distribution \"$FINALZIP\"..."
+
+cat "$INCLUDEFILELIST" | zip -y9 "$FINALZIP" -@
+
+Cleanup
+
+echo "All done!"

@@ -1,0 +1,114 @@
+# Copyright (c)1998 by Angry Red Planet.
+#
+# This code is distributed under a modified form of the
+# Artistic License.  A copy of this license should have
+# been included with it; if this wasn't the case, the
+# entire package can be obtained at
+# <URL:http://www.angryredplanet.com/>.
+#
+
+#--------------------------------------------------------
+#	High-level Project Information
+#--------------------------------------------------------
+
+
+	ARPROOT		= ../..
+	IMG_NAME	= AmKernel
+	
+#	we are building a dynamic library.
+	IMG_TYPE	= SHARED
+	
+#	specify version of project
+	VERSION		= 0.001
+	
+# first include the common rules for setting up all
+# platform-specific information
+
+include $(ARPROOT)/makefiles/platform
+
+#--------------------------------------------------------
+#	Project Specific Information
+#--------------------------------------------------------
+
+#	specify the list of source files
+	SRCS		= $(shell ls 2>/dev/null -1 *.cpp *.S)
+
+	RSRC_DIRS	= $(shell ls 2>/dev/null -1 *.r)
+
+ifeq ($(CPU), ppc)
+	CFLAGS		= -str pool -ansi strict -bool on -requireprotos
+	CFLAGS		+= -str ro -toc_data on 
+	LDFLAGS		= -dead on
+endif
+
+#	specify the list of resource files
+	RSRCS		=
+	
+#	specify any additional beos shared libraries needed.
+	ADD_BESHLIBS	= midi midi2 translation media
+
+#	specify additional non-beos shared libraries needed.
+	ADD_SHLIBS		= $(CPPLIB) experimental png z
+
+#	specify any additional beos static libraries needed.
+	ADD_BESTLIBS	= /boot/develop/lib/x86/libexperimental.a
+
+#	specify additional non-beos static libraries needed.
+	ADD_STLIBS		= $(ARPROOT)/ArpLib/$(OBJ_DIR)/libArpViews.a \
+					  $(ARPROOT)/ArpLib/$(OBJ_DIR)/libArpLayout.a \
+					  $(ARPROOT)/ArpLib/$(OBJ_DIR)/libArpKernel.a \
+					  $(ARPROOT)/ArpLib/$(OBJ_DIR)/libArpCollections.a \
+					  $(ARPROOT)/ArpLib/$(OBJ_DIR)/libBeExp.a \
+					  $(ARPROOT)/ArpLib/$(OBJ_DIR)/libFFont.a
+
+#	specify any additional system include paths.
+	SYSTEM_INCLUDES		=
+	SYSLOCAL_INCLUDES	= $(ARPROOT)/ArpHeader/
+
+#	specify any additional local include paths.
+	LOCAL_INCLUDES	= $(ARPROOT)/ArpHeader/
+
+#--------------------------------------------------------
+#	Build Rules
+#--------------------------------------------------------
+
+# Special rules for copying library into public directory
+
+	DEST_DIR			= $(ARPROOT)/ArpLib/
+	PUBLIC_TARGET		= $(DEST_DIR)$(TARGET)
+	LIB_RSRC_DIRS		= $(addprefix $(OBJ_DIR)/, $(RSRC_DIRS:.r=.rsrc))
+	PUBLIC_LIB_RSRCDIRS	= $(addprefix $(DEST_DIR), $(LIB_RSRC_DIRS))
+
+# define the actual work to be done	
+
+#default::
+#	echo "$(RSRC_DIRS)"
+	
+#default:: PUBLIC_ALL
+#	@echo >/dev/null
+
+release:: PUBLIC_ALL
+
+PUBLIC_ALL:: $(PUBLIC_TARGET) $(PUBLIC_LIB_RSRCDIRS)
+
+$(PUBLIC_TARGET): $(TARGET)
+	@[ -d $(shell dirname $@) ] || mkdir $(shell dirname $@) > /dev/null 2>&1
+	$(COPY) $< $@
+
+$(PUBLIC_LIB_RSRCDIRS): $(LIB_RSRC_FILES)
+	@for i in $(LIB_RSRC_DIRS) xxx; do (					\
+		if [ "$$i" != "xxx" ]; then							\
+			echo "$(COPY) $$i $(DEST_DIR)$$i";				\
+			$(COPY) $$i $(DEST_DIR)$$i;						\
+		fi;													\
+	) done
+
+clean:: clean_project
+	-rm -rf $(PUBLIC_TARGET) $(PUBLIC_LIB_RSRCDIRS)
+
+# include common build rules for above definitions
+
+include $(ARPROOT)/makefiles/project
+
+depends:: $(DEPENDENCIES)
+	@echo >/dev/null

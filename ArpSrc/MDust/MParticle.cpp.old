@@ -1,0 +1,337 @@
+/* MParticle.cpp
+ */
+#include <assert.h>
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
+#include "MDust/MParticle.h"
+#include "MDust/MSpace.h"
+
+static uint8	red = 255;
+static uint8	green = 0;
+static uint8	blue = 0;
+static uint8	color_delta = 30;
+
+//float surgeProtect(float value)
+//{
+//	if (value > 0.14) return 0.14;
+//	return value;
+//}
+
+float surgeProtect(float value)
+{
+	if (value > 0.0014) return 0.0014;
+	return value;
+}
+
+/***************************************************************************
+ * M-PARTICLE
+ ***************************************************************************/
+MParticle::MParticle(	float startX,
+						float startY,
+						float startZ,
+						float mass)
+		: mQuadric(0), mMass(mass),
+		mSize(4)
+{
+	mStartPos.Set(startX, startY, startZ);
+	mSpeed.Set(0, 0, 0);
+	mVelocity.Set(0, 0, 0);	
+	mDrift.Set(0, 0, 0);
+	if ((mQuadric = gluNewQuadric()) != 0) {
+		gluQuadricDrawStyle(mQuadric, GLU_FILL);
+		gluQuadricNormals(mQuadric, GLU_SMOOTH);
+	}
+	mCurrPos = mStartPos;
+	mNextPos = mStartPos;
+
+	// Set myself for 'neon'
+	mFriction = 0.2;
+	mMass = 0.1;
+	mAttractionStrength = 0.00025;
+	mDesiredDistance = 0.005;
+	mSize = 0.2;
+	
+	mColor.red = red;
+	mColor.green = green;
+	mColor.blue = blue;
+	if (green == 0) {
+		if (blue + color_delta > 255) {
+			blue = 255;
+			green = color_delta;
+		} else {
+			blue += color_delta;
+		}
+	} else {
+		if (green + color_delta > 255) {
+			green = 0;
+			blue = 0;
+		} else {
+			green += color_delta;
+		}
+	}
+
+}
+
+MParticle::~MParticle()
+{
+	if (mQuadric != 0) gluDeleteQuadric(mQuadric);
+}
+
+void MParticle::SetFriction(float friction)
+{
+	mFriction = friction;
+}
+
+float MParticle::DistanceTo(MParticleI* particle) const
+{
+	float	xDist = (particle->X() - mCurrPos.x);
+	float	yDist = (particle->Y() - mCurrPos.y);
+	float	zDist = (particle->Z() - mCurrPos.z);
+	return sqrt(xDist*xDist + yDist*yDist + zDist*zDist);
+}
+
+float MParticle::X() const
+{
+	return mCurrPos.x;
+}
+
+float MParticle::Y() const
+{
+	return mCurrPos.y;
+}
+
+float MParticle::Z() const
+{
+	return mCurrPos.z;
+}
+
+float MParticle::Mass() const
+{
+	return mMass;
+}
+
+float MParticle::AttractionStrength() const
+{
+	return mAttractionStrength;
+}
+
+float MParticle::DesiredDistance() const
+{
+	return mDesiredDistance;
+}
+
+void MParticle::CalculateVelocity(MSpaceI* space, bool print)
+{
+	assert(space != 0);
+	mVelocity.Set(0, 0, 0);
+	mDrift.Set(0, 0, 0);
+	MParticleI*	particle;
+	for (uint32 k=0; (particle = space->ParticleAt(k)) != 0; k++) {
+		MPoint		vel(0, 0, 0);
+		if (particle != this) {
+			float	xDist = (particle->X() - mCurrPos.x);
+			float	yDist = (particle->Y() - mCurrPos.y);
+			float	zDist = (particle->Z() - mCurrPos.z);
+			float	dist = sqrt(xDist*xDist + yDist*yDist + zDist*zDist);
+
+			float	force = (( mMass * particle->Mass()) / (dist * dist));
+			force = 0.01;
+
+			float	xFactor = 1, yFactor = 1, zFactor = 1;
+			CalculateFactors(	&xFactor, &yFactor, &zFactor,
+								fabs(xDist), fabs(yDist), fabs(zDist) );
+//			CalculateFactors(	&xFactor, &yFactor, &zFactor,
+//								fabs(xDist), fabs(yDist), -1 );
+
+float	delta = surgeProtect( force * particle->AttractionStrength() + (0.0002 / dist) );
+//float	delta = surgeProtect( force * particle->AttractionStrength() );
+if (xDist < 0) vel.x -= delta * xFactor;
+else if (xDist > 0) vel.x += delta * xFactor;
+
+if (yDist < 0) vel.y -= delta * yFactor;
+else if (yDist > 0) vel.y += delta * yFactor;
+
+if (zDist < 0) vel.z -= delta * zFactor;
+else if (zDist > 0) vel.z += delta * zFactor;
+
+if (print)
+printf("delta is %f, with dist it's %f\n", delta,
+		surgeProtect( force * particle->AttractionStrength() + (0.0002 / dist) ));
+
+//if (TravellingAway(particle, dist, vel)) printf("TRAVELLING AWAY\n");
+//else printf("TRAVELLING TOWARDS\n");
+#if 0
+MCube	cube = CubeFor(mCurrPos, vel);
+if ( cube.Contains(MPoint(particle->X(), particle->Y(), particle->Z())) )
+	printf("CUBE CONTAINS\n");
+else
+	printf("CUBE DOES NOT CONTAIN\n");
+#endif
+
+mVelocity += vel;
+
+			// Add the drift.  Drift captures the desired distance that I want
+			// to maintain from all other particles.
+			if (dist < mDesiredDistance) {
+				if (xDist < 0) mDrift.x = -1;
+				else if (xDist > 0) mDrift.x = 1;
+				if (yDist < 0) mDrift.y = -1;
+				else if (yDist > 0) mDrift.y = 1;
+			}
+
+		}
+	}
+
+	if (print) {
+		printf("\tx vel: %f, y vel: %f\n", mVelocity.x, mVelocity.y);
+	}
+}
+
+void MParticle::CalculateFactors(	float* xFactor, float* yFactor, float* zFactor,
+									float xDist, float yDist, float zDist )
+{
+	// X is the baseline
+	if ( (xDist > yDist) && (xDist > zDist) ) {
+		*yFactor = yDist / xDist;
+		*zFactor = zDist / xDist;
+		return;
+	}
+	// Y is the baseline
+	if ( (yDist > xDist) && (yDist > zDist) ) {
+		*xFactor = xDist / yDist;
+		*zFactor = zDist / yDist;
+		return;
+	}
+	// Z is the baseline
+	if ( (zDist > xDist) && (zDist > yDist) ) {
+		*xFactor = xDist / zDist;
+		*yFactor = yDist / zDist;
+		return;
+	}
+	// X and Y are the baseline
+//	if ( xDist < yDist ) {
+//		xFactor = xDist / yDist;
+//	} else if ( yDist < xDist ) {
+//		yFactor = yDist / xDist;
+//	}
+}
+
+/* This method nudges the particle closer to its partner particle.
+ */
+//void MParticle::ApplyDesiredDistance(MParticleI* toParticle, MPoint& velocity)
+//{
+//	
+//}
+
+void MParticle::ApplyVelocity(MSpaceI& space, bool print)
+{
+	mSpeed += (mVelocity * mFriction);
+	mCurrPos += mSpeed;
+//	mCurrPos += (mDrift * mFriction);
+//	if (print) {
+//		printf("\tx speed: %f, y spped: %f\n", mSpeed.x, mSpeed.y);
+//	}
+
+	MParticleI*	particle;
+	for (uint32 k=0; (particle = space.ParticleAt(k)) != 0; k++) {
+		if (particle != this) {
+			float	xDist = (particle->X() - mCurrPos.x);
+			float	yDist = (particle->Y() - mCurrPos.y);
+			float	zDist = (particle->Z() - mCurrPos.z);
+//			float	dist = sqrt(xDist*xDist + yDist*yDist + zDist*zDist);
+			float	xFactor = 1, yFactor = 1, zFactor = 1;
+			CalculateFactors(	&xFactor, &yFactor, &zFactor,
+								fabs(xDist), fabs(yDist), fabs(zDist) );
+//			if (dist < mDesiredDistance) {
+//				mCurrPos.x +=
+//			}
+			float	num = particle->AttractionStrength() * mFriction;
+			if (xDist < 0) mCurrPos.x -= num * xFactor;
+			else if (xDist > 0) mCurrPos.x += num * xFactor;
+			if (yDist < 0) mCurrPos.y -= num * yFactor;
+			else if (yDist > 0) mCurrPos.y += num * yFactor;
+			if (zDist < 0) mCurrPos.z -= num * zFactor;
+			else if (zDist > 0) mCurrPos.z += num * zFactor;
+		}
+	}
+}
+
+void MParticle::Draw(	BView* view,
+						float halfWidth,
+						float halfHeight)
+{
+	BPoint	pt(	(mCurrPos.x * halfWidth) + halfWidth,
+				(mCurrPos.y * halfHeight) + halfHeight );
+
+	float	size2d = 40;
+	view->SetDrawingMode(B_OP_ALPHA);
+	view->SetBlendingMode(B_CONSTANT_ALPHA, B_ALPHA_OVERLAY);
+	float	delta = (size2d / 2) / 5;
+	float	size = size2d / 2;
+	view->SetHighColor(mColor.red, mColor.green, mColor.blue, 44);
+	view->FillEllipse(	BPoint(pt.x, pt.y),
+						size,
+						size);
+	size -= delta;
+	view->SetHighColor(mColor.red, mColor.green, mColor.blue, 74);
+	view->FillEllipse(	BPoint(pt.x, pt.y),
+						size,
+						size);
+	size -= delta;
+	view->SetHighColor(mColor.red, mColor.green, mColor.blue, 104);
+	view->FillEllipse(	BPoint(pt.x, pt.y),
+						size,
+						size);
+	size -= delta;
+	view->SetHighColor(mColor.red, mColor.green, mColor.blue, 144);
+	view->FillEllipse(	BPoint(pt.x, pt.y),
+						size,
+						size);
+	size -= delta;
+	view->SetHighColor(mColor.red, mColor.green, mColor.blue, 255);
+	view->FillEllipse(	BPoint(pt.x, pt.y),
+						size,
+						size);
+
+}
+
+bool MParticle::TravellingAway(	MParticleI* particle,
+								float currDistance,
+								MPoint& velocity)
+{
+	float	xDist = ( particle->X() - (mCurrPos.x + velocity.x) );
+	float	yDist = (particle->Y() - (mCurrPos.y + velocity.y) );
+	float	zDist = (particle->Z() - (mCurrPos.z + velocity.z) );
+	float	newDist = sqrt(xDist*xDist + yDist*yDist + zDist*zDist);
+	return newDist > currDistance;
+}
+
+MCube MParticle::CubeFor(MPoint position, MPoint velocity)
+{
+	MCube	cube;
+	if (velocity.x < 0) {
+		cube.left = position.x + velocity.x;
+		cube.right = position.x;
+	} else {
+		cube.left = position.x;
+		cube.right = position.x + velocity.x;
+	}
+
+	if (velocity.y < 0) {
+		cube.top = position.y + velocity.y;
+		cube.bottom = position.y;
+	} else {
+		cube.top = position.y;
+		cube.bottom = position.y + velocity.y;
+	}
+
+	if (velocity.z < 0) {
+		cube.back = position.z + velocity.z;
+		cube.front = position.z;
+	} else {
+		cube.back = position.z;
+		cube.front = position.z + velocity.z;
+	}
+	return cube;
+}

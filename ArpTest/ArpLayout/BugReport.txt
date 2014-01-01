@@ -1,0 +1,50 @@
+I have run into a number of related strangenesses when installing
+new MIME types into the system.  My program has code that looks
+like this:
+
+	BMimeType mt;
+	mt.SetTo("application/x-vnd.ARP.ArpTelnetConfig");
+	if( !mt.IsInstalled() ) {
+		DB(DBALL, cdb << "Config type not installed, installing it."
+					<< endl);
+		mt.Install();
+		mt.SetShortDescription("ArpTelnet Configuration");
+		mt.SetLongDescription("BMessage archive of ArpTelnet program settings.");
+		mt.SetPreferredApp(AppSig);
+		mt.Unset();
+	}
+
+When I run this, it successfully installs the MIME type.  However, if I later try to remove this type with FileTypes, it does not completely "take" -- the type will be removed from filetypes, but its application/x-vnd.ARP.ArpTelnetConfig file still exists.  If I exit and then go back into FileTypes, this MIME type will be back, but its description and preferred app information will no longer exist.  However, I can physically delete that MIME file to make sure it goes away.
+
+I also ran into a problem when I had the above code, but called "Install()" after the other functions.  I realize this is incorrect, but it had a result that I think should be fixed: I now have a MIME type that is impossible to completely remove.  If I remove it from FileTypes, its associated file is also deleted.   However, if I again run my program, the IsInstalled() function will return true, and that MIME type will suddenly re-appear...  without any of the other attributes that I added to it, above.
+
+It looks like this MIME type is still in the __mime_table file, even after I delete it with FileTypes, so that might be where it is coming from.
+
+One final problem I have is with this code:
+
+	BMimeType mt;
+	mt.SetTo("application/x-vnd.Be.URL.telnet");
+	if( mt.InitCheck() == B_OK ) {
+		DB(DBALL, cdb << "Checking URL telnet type..." << endl);
+		if( mt.IsInstalled() ) {
+			DB(DBALL, cdb << "Already exists, checking preferred app."
+							<< endl);
+			char prefapp[B_MIME_TYPE_LENGTH];
+			prefapp[0] = 0;
+			if( mt.GetPreferredApp(prefapp) == B_OK ) {
+				DB(DBALL, cdb << "Current preferred app is: "
+								<< prefapp << endl);
+				if( strcmp(prefapp, AppSig) != 0 ) {
+					DB(DBALL, cdb << "Asking user to replace it."
+										<< endl);
+					BAlert* myAlert = ...
+					int cmd = myAlert->Go();
+					if( cmd == 2 ) {
+						mt.SetPreferredApp(AppSig);
+					}
+				}
+			}
+		}
+	}
+
+In this case, I use FileTypes to set the preferred type of this MIME type to "None".  [The type has already been created.]  However, if I run my program after exiting FileTyped, the preferred app returned this code is set back to my application signature.  Again, this information seems to still be hanging around in __mime_table after I change it in FileTypes, if that is the problem.

@@ -1,0 +1,351 @@
+<html>
+<head>
+<title>FFont Class</title>
+</head>
+<body>
+<h1>FFont Class</h1>
+
+<p>Primary author: <b>Dianne Hackborn</b>
+<tt><a href="mailto:hackbod@enteract.com">&lt;hackbod@enteract.com&gt;</a></tt><br>
+Header file: <b>FFont.h</b><br>
+Derived from: <b>BFont</b></p>
+
+<hr>
+<h2>Overview</h2>
+<hr>
+
+<h3>Goal</h3>
+
+<p>The original purpose of this code was to define a standard low-level
+representation for BFont objects when they are added to BMessage
+objects, which could be widely used in the Be developer community.  By
+using such a common representation, applications can be sure that they
+will be able to communicate with each other about font information.  This
+is important for such things as dropping fonts onto another application
+to control its GUI presentation, getting and setting the font used for
+text in scripting, and most anywhere else that font information will be
+moving between applications.</p>
+
+<p>In the process of discussing this representation, it became apparent
+that what was also needed was a simple high-level interface to use it,
+both to explain its purpose and to make it easier for other developers
+to incorporate it into their code.  The FFont class and its associated
+definitions are the end result of this discussion.</p>
+
+<hr>
+<h3>Author and Legalities</h3>
+
+<p>The primary author of this code is Dianne Hackborn
+<tt><a href="mailto:hackbod@enteract.com">&lt;hackbod@enteract.com&gt;</a></tt>,
+with contributions from Marco Nelissen, Jon Watte, Attila Mezei,
+Jon Ragnarsson, Rainer Riedl, David Mirchell, Ingmar Krusch, and
+others on the Be Developer Talk mailing list.</p>
+
+<p>This code and related documentation is released to the public domain,
+and may be used however you see fit.  However, if you make enhancements,
+I ask that you get in contact with me (Dianne), so that they can be
+rolled into the official version and made available to others.  I can be
+contact through e-mail at either
+<tt><a href="mailto:hackbod@lucent.com">&lt;hackbod@lucent.com&gt;</a></tt>,
+or
+<tt><a href="mailto:hackbod@enteract.com">&lt;hackbod@enteract.com&gt;</a></tt>.
+</p>
+
+<hr>
+<h3>Quick Use</h3>
+
+<p>Most of your needs for manipulating fonts in BMessage objects
+can probably be handled through two simple functions.  These are modelled
+after how hypothetical <tt>BMessage::FindFont()</tt> and
+<tt>BMessage::FindFont()</tt> functions would presumably work, if they
+were defined in BeOS.</p>
+
+<p>Thus, adding the current BeOS plain font to a BMessage object is as
+simple as:</p>
+
+<blockquote><pre>BMessage msg;    // Target message
+if( AddMessageFont(&msg, "MyFont", be_plain_font) != B_NO_ERROR ) {
+    // something bad happened...
+}
+</pre></blockquote>
+
+<p>This font may later be extracted with a similar function call:</p>
+
+<blockquote><pre>BFont font(be_plain_font);    // Retrieved font
+if( FindMessageFont(&msg, "MyFont", 0, &font) != B_NO_ERROR ) {
+	// unable to retrieve font...
+}
+</pre></blockquote>
+
+<p>One thing you should be aware of when retrieving a font as shown
+above: while not discussed here, it is possible to store partial
+font representations.  Thus <tt>FindMessageFont()</tt> may only change
+a few or even none of the attributes of the target font object.  You
+should thus always be sure to initialize the object with values you
+can live with.</p>
+
+<p>(The example here initializes the target font with the user's plain
+font; you will typically initialize it with whatever your "current" font
+is.  This allows you you to receive partial fonts that, for example,
+only change the size of whatever font you are currently using.)</p>
+
+<hr>
+<h3>FFont and Extensions</h3>
+
+<p>The complete flattened font representation is defined by the FFont
+class, which is a subclass of BFont.  It adds two main enhancements
+to BeOS's built-in font class:</p>
+
+<ol>
+	<li> <p>The FFont class implements a BFlattenable interface, so that
+		it can be placed in a BMessage or otherwise used in the same
+		way as any other
+		flattenable object.  The flattened representation of an FFont
+		is defined so that it can be safely moved across different
+		machines and platforms.  See the BFlattenable class in the
+		BeBook's support kit chapter for more information on using
+		this interface.</p>
+		
+	<li> <p>Each FFont object carries with it an additional "attribute
+		mask."  This is used to indicate which of the object's
+		various BFont attributes (family and style, size, rotation,
+		etc.) are "important."  It is used to perform partial copies
+		between font objects, and is stored in the font's flattened
+		representation so that the receiver of a font can be directed
+		to change only part of its current font.</p>
+</ol>
+
+<p>The FFont attribute mask is modelled after the mask used in BView's
+<tt>SetFont()</tt> function; in fact, it uses the exact same bit
+definitions, such as B_FONT_SIZE, B_FONT_FAMILY_AND_STYLE.  The current
+mask is set and retrieved just like other font attributes, with the
+new functions <tt>SetMask()</tt> and <tt>Mask()</tt>.</p>
+
+<p>Beyond being part of a font's flattened information, the attribute mask
+is used in only two places, the new FFont functions
+<tt>UpdateTo()</tt> and <tt>UpdateFrom()</tt>.  These functions copy
+a font's attributes to/from (respectively) another font object, but
+only those attributes for which the source font's cooresponding mask
+bit is <tt>true</tt>.</p>
+
+<p>For example, the following function will copy and font family and size
+name from the system plain font into an existing BFont:</p>
+
+<blockquote><pre>void GetPlainFamilyStyle(BFont* dest)
+{
+    FFont pfont(be_plain_font);             // Copy the plain font
+    pfont.SetMask(B_FONT_FAMILY_AND_STYLE); // Select only family & style
+    pfont.UpdateTo(dest);                   // Copy into destination
+}
+</pre></blockquote>
+
+<p><b>NOTE</b>: Clearing particular bits in the attribute mask of a font
+does <em>not</em> mean that their corresponding BFont values can be
+set to anything.  An FFont object should always remain a valid, reasonable
+BFont object, regardless of how the FFont mask is set.</p>
+
+<hr>
+<h2>Constructor and Destructor</h2>
+<hr>
+
+<h3>FFont()</h3>
+
+<blockquote><pre>FFont();
+FFont(const BFont &amp;font);
+FFont(const BFont *font);
+
+FFont(const FFont &amp;font);
+FFont(const FFont *font);</pre></blockquote>
+
+<p>Like a normal BFont, a new FFont can be initialized with either the default
+values, or a pointer or reference to a BFont object from which it is to be copied.
+In addition, initializing from a pointer or reference to another FFont object
+will also copy the other's attribute mask.  (When not copying from
+another FFont, the new object's attribute mask is initialize to
+B_FONT_ALL.)</p>
+
+<hr>
+<h2>Operators</h2>
+<hr>
+
+<h3>operator=()</h3>
+
+<blockquote><pre>FFont&amp; operator=(const BFont &amp;font); 
+FFont&amp; operator=(const FFont &amp;font); 
+</pre></blockquote>
+
+<p>Either BFont or FFont objects can be assigned to an existing
+FFont object.  If a BFont is assigned to an FFont, the destination
+object's attribute mask is reset to B_FONT_ALL; in contrast, if another
+FFont is assigned to it, the original's attribute mask is copied over.</p>
+
+<hr>
+<h2>Methods</h2>
+<hr>
+
+<h3>SetMask(), Mask()</h3>
+
+<blockquote><pre>void SetMask(uint32 mask);
+uint32 Mask(void) const;
+</pre></blockquote>
+
+<p>In addition to all the normal BFont attributes, and FFont also
+has an "attribute mask."  This is an integer mask that indicates which
+of the basic BFont attributes (family and style name, size, rotation,
+encoding, etc.) are "important."  The mask takes on the same values
+as BView's SetFont() function: B_FONT_FAMILY_AND_STYLE, B_FONT_SIZE,
+B_FONT_ROTATION, B_FONT_ENCODING, etc., which can be logically or'ed
+together to select the various attributes.  The value B_FONT_ALL stands
+for all attributes, and is the default.</p>
+
+<p>Note that clearing a certain attribute mask bit does <em>not</em>
+mean that the corresponding BFont attribute can be anything.  These
+bits are only a guide, and the FFont should always be valid and
+reasonable even if they are ignored.</p>
+
+<hr>
+<h3>UpdateTo(), UpdateFrom()</h3>
+
+<blockquote><pre>void UpdateTo(BFont* font, uint32 mask = B_FONT_ALL) const;
+void UpdateTo(FFont* font, uint32 mask = B_FONT_ALL) const;
+void UpdateFrom(const FFont* font, uint32 mask = B_FONT_ALL);
+</pre></blockquote>
+
+<p>These methods copy one FFont to or from another font object, respecting
+the source font's attribute bits.  This can be thought of as similar to
+BView's SetFont() method, but where the object being set is another font.
+</p>
+
+<p>The actual attributes that are copied is determined by taking the
+logical and of the source font object and the <em>mask</em> parameter
+that is passed in as the second argument.  Thus the default is to copy
+only those attributes for which the source font's attribute mask bits
+are set.</p>
+
+<p><em>UpdateTo()</em> copies the attributes from the member's object
+into another selected BFont or FFont.  If the destination is an FFont,
+the attribute mask of the source is logically or'ed into the destination's
+mask, indicating that all its existing values plus the newly changed
+ones are "important."</p>
+
+<p><tt>font1->UpdateTo(font2,mask)</tt> is equivalent to
+<tt>font2->UpdateFrom(font1,mask)</tt> if both <tt>font1</tt> and
+<tt>font2</tt> are FFont objects.</p>
+
+<p>As an example, this code will copy the family and style of the
+system plain font into in existing BFont object named <em>myFont</em>:</p>
+<blockquote><pre>FFont(be_plain_font).UpdateTo(myFont,B_FONT_FAMILY_AND_STYLE);
+</pre></blockquote>
+
+<hr>
+<h3>IsFixedSize(), TypeCode(), FlattenedSize(),
+AllowsTypeCode(), Flatten(), Unflatten()</h3>
+
+<blockquote><pre>virtual bool      IsFixedSize() const;
+virtual	type_code TypeCode() const;
+virtual	ssize_t   FlattenedSize() const;
+virtual	bool      AllowsTypeCode(type_code code) const;
+virtual	status_t  Flatten(void *buffer, ssize_t size) const;
+virtual	status_t  Unflatten(type_code c, const void *buf, ssize_t size);
+</pre></blockquote>
+
+<p>These methods implement the complete BFlattenable interface.  See
+support/BFlattenable for more information on how to use them.</p>
+
+<p>A flattened font is stored with the type code FFont::FONT_TYPE, which
+is defined as <tt>'FONt'</tt>.  The flattened representation includes all
+BFont attributes (family name, style name, size, shear, rotation, spacing
+encoding, face, flags), plus the FFont's attribute mask.  This last is
+used so that the source of a message can indicate which of the font
+attributes are important.  For example, if you are interested in only
+changing the font size used by another application, you could flatten
+an FFont that is set to the desired size and only has the B_FONT_SIZE
+attribute bit set.</p>
+
+<p><b>NOTE</b>: If you are sending a partially defined font as described
+above, you <em>must</em> be sure to still set the other attributes to
+reasonable values.  The receiver of the font is free to ignore the
+attribute mask you send, and directly use the entire font description
+it is given.</p>
+
+<hr>
+<h3>Test()</h3>
+<blockquote><pre>static void Test(void);
+</pre></blockquote>
+
+<p>This static inline function can be used to perform a brief sanity
+check of the FFont implementation.  When called, it creates various
+FFont objects and performs operations on them, printing the results of
+these to stdout.</p>
+
+<p>Note that this test does not pretend to be either comprehensive or
+particularily understandable.</p>
+
+<hr>
+<h2>Convenience Functions</h2>
+
+<p>These are functions that are not a formal part of the FFont class
+itself, but provide a simple interface to how FFont objects are most
+commonly used.</p>
+
+<hr>
+<h3>AddMessageFont()</h3>
+
+<blockquote><pre>status_t
+AddMessageFont(BMessage* msg, const char *name, const FFont *font);
+status_t
+AddMessageFont(BMessage* msg, const char *name, const BFont *font);
+</pre></blockquote>
+
+<p>This function is the moral equivalent to having an "AddFont()" method
+as part of the BMessage interface; since we don't, a global function is
+provided instead.</p>
+
+<p>Calling <b>AddMessageFont()</b> adds the given BFont or FFont object
+<em>font</em>
+to the BMessage object <em>msg</em>, under the name <em>name</em>.  The
+BMessage method <b>AddFlat()</b> is used internally to accomplish this.</p>
+
+<p>If <em>font</em> is an actual FFont, the given object is added to the
+message exactly as is.  If <em>font</em> is instead a basic BFont, an
+equivalent FFont object is added with its attribute mask set
+to B_FONT_ALL.</p>
+
+<p>Any errors encountered by this function are reported as per the
+standard BMessage add methods.</p>
+
+<hr>
+<h3>FindMessageFont()</h3>
+
+<blockquote><pre>status_t
+FindMessageFont(const BMessage* msg, const char *name,
+                int32 index, FFont *font);
+status_t
+FindMessageFont(const BMessage* msg, const char *name,
+                int32 index, BFont *font);
+</pre></blockquote>
+
+<p>This function is the moral equivalent to having a "FindFont()" method
+as part of the BMessage interface; since we don't, a global function is
+provided instead.</p>
+
+<p>Calling <b>FindMessageFont()</b> looks for an FFont object in the
+given BMessage <em>msg</em>, under the name <em>name</em> and at
+index number <em>index</em>.  If one is found, it is placed in the
+destination font object <em>font</em>.  The
+BMessage method <b>FindFlat()</b> is used internally to accomplish this.</p>
+
+<p>If <em>font</em> points to an actual FFont, it is filled with the
+exact font information found in the message.  Otherwise, if <em>font</em>
+points to a basic BFont object, the font mask attributes in the BMessage
+are used to determine which of the attributes of the destination object
+are changed.  This latter case is the equivalent of retrieving a
+complete FFont object and using its UpdateTo() method to copy it into
+the final destination BFont.</p>
+
+<p>Any errors encountered by this function are reported as per the
+standard BMessage find methods.  If an error occurs, the destination
+object <em>font</em> is left unchanged.</p>
+
+</body>
+</html>

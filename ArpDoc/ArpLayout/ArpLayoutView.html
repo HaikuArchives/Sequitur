@@ -1,0 +1,70 @@
+<!doctype HTML public "-//W3O//DTD W3 HTML 3.2//EN">
+<HTML>
+<HEAD>
+<TITLE>ArpCommon: ArpLayoutView Class</TITLE>
+</HEAD>
+ <BODY 
+  BGCOLOR="#e0e0e0"
+  TEXT="#000000" 
+  LINK="#a02000" 
+  VLINK="#505050" 
+  ALINK="#a04000" 
+ >
+<div align=center>
+<table bgcolor="#eedddd">
+<tr>
+<td><a href="index.html">Table Of Contents</td>
+<td>Master Index</td>
+</tr>
+</table>
+</div>
+
+<HR>
+<H1><A NAME="ArpLayoutView">ArpLayoutView</A></H1>
+
+<P>Derived from: BView, ArpBaseLayout
+</P>
+<P>Inherited by: 
+</P>
+<P>
+Declared in:  <A HREF="../../ArpHeader/ArpLayout/ArpLayoutView.h">ArpHeader/ArpLayout/ArpLayoutView.h</A> 
+</P>
+<P>
+Package: <A HREF="index.html">ArpLayout</A>
+</P>
+<P> 
+<H6><A HREF="ArpLayoutView.summary.html"><i>Summary</i></A></H6>
+<p>
+ArpLayoutView is-a mix-in of a BView and an ArpBaseLayout.
+</p><p>
+Essentially, it
+is the moral equivalent of BView, but for classes that want to implement
+controls that automatically work with the ArpLayout architecture. When
+implementing a subclass, you should implement all of the normal BView stuff
+(possibly except GetPreferredSize()), as well as the ArpLayoutable methods
+you need to override.
+</p><p>
+In particular, you should always override
+ComputeDimens() to return the appropriate dimensions of your object. Layout 
+managers also must override Layout() to correctly place their children.
+
+</p>
+<HR><H2>Constructor</H2><HR>
+<H3><A NAME="ArpLayoutView()">ArpLayoutView()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="ArpLayoutView()">ArpLayoutView(const char* name, uint32 flags=B_WILL_DRAW)</a>
+</font></TD></TR>
+<TR><TD><font size=+1>
+<a name="ArpLayoutView()">ArpLayoutView(BRect frame, const char* name, uint32 resizeMask, uint32 flags=B_WILL_DRAW)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Create a new instance of the class, with the given name and
+        view flags.  The second form, with frame and resizeMask
+        arguments, should rarely be used -- the initial
+        frame and resizing behavior are entirely handled by the
+        ArpLayout classes.
+</p>

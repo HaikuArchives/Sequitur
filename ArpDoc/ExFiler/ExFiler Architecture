@@ -1,0 +1,15 @@
+The system is built around three classes that are designed to be loaded dynamically:  ExDeviceAddonI, ExDeviceI, and ExBankI.
+
+ExDeviceAddonI
+This is a simple class that contains the basic indentifying characteristics of a device -- its name, its MMA information, etc.  It is the entry point into a dynamically-added device.
+
+ExDeviceI
+The ExDevice class represents an inteface to a single type of hardware device.  It is currently specific to MIDI devices, which it talks to via its MidiService, but in the future it should also support SMDI devices.  Its state information consists primarily of ExBankI objects.
+
+ExBankI
+This class represents a single bank of data in a device.  Banks are composed of ExParamI objects, one for every possible parameter in the device.
+
+
+There is another side to the mechanism, which is storing actual data.  This is accomplished via the ExDeviceSnapshotI and ExBankSnapshotI classes.
+
+The device snapshot stores a collection of bank snapshots, one bank snapshot for each bank in the device.  The bank snapshots store collections of ExPatchI objects, where each patch represents a single piece of data.  One device snapshot represents the entire state of a single hardware device at a given point in time.

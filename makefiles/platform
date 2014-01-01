@@ -1,0 +1,346 @@
+# Copyright (c)1998 by Angry Red Planet.
+#
+# This code is distributed under a modified form of the
+# Artistic License.  A copy of this license should have
+# been included with it; if this wasn't the case, the
+# entire package can be obtained at
+# <URL:http://www.angryredplanet.com/>.
+#
+# ----------------------------------------------------------------------
+#
+# Makefiles/platform
+#
+# Set up platform-dependent information.
+#
+# Based on:
+#
+#	Generic Crossplatform Makefile
+#	Author:	stephen beaulieu <hippo@be.com>
+#	Copyright 1998 Be, Inc.  All Rights Reserved
+#
+# ----------------------------------------------------------------------
+#
+# Known Bugs
+# ~~~~~~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# To Do
+# ~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# History
+# ~~~~~~~
+#
+# Dec 6, 1998:
+#	First public release.
+#
+#
+
+#--------------------------------------------------------
+#	(Mostly) Project Independent Information
+#
+#	Include this file at the front of your project
+#	makefile to set up platform-specific variables.
+#
+#	Input:
+#		IMG_NAME: The name of the project
+#		IMG_TYPE: APP, SHARED, ADD-ON, or STATIC
+#		CPU: (optional) Target platform; x86 or ppc.
+#		FULL_DIR: (optional) Full path to project root directory.
+#		OPTIMIZER: (optional) Optimization level flags.
+#
+#	Output:
+#		TARGET_NAME: The name of the final project target,
+#			based on IMG_NAME and IMG_TYPE.
+#		TARGET: Final project target and path to it.
+#		LDFLAGS: Linker flags needed to create IMG_TYPE.
+#		CPPLIB: The standard C++ library.
+#		CPU: Target platform.
+#		COPY: Command to copy a file, including attributes.
+#		FULL_DIR: Full path to project root directory.
+#		OBJ_DIR: Directory to place objects; obj.$(CPU).
+#		DEFAULT_LIBS: Standard objects to always link against.
+#		MIMESET: Tool to set MIME info.
+#		BEHEADERS: Full path to Be standard header files.
+#		LIB_EXTENSION: Extension of shared library files.
+#		OPTIMIZER: Optimization level flags.
+#		BELIBRARIES: Full path to Be standard libraries.
+#		MWLIBRARIES: Full path to Metrowerks libraries.
+#		CC: C language compiler.
+#		CPLATFLAGS: Standard C compiler flags.
+#		LD: Linker.
+#		LDPLATFLAGS: Basic linker flags.
+#		XRES: Tool to add resources.
+#		AR: Archiver tool
+#		ARGLAGS: Archiver flags
+#--------------------------------------------------------
+
+#	determine the CPU if not specified on the command line
+ifndef CPU
+	MACHINE =$(shell uname -m)
+ifeq ($(MACHINE), BePC)
+	CPU = x86
+else
+	CPU = ppc
+endif
+endif
+
+ifeq ($(CPU), ppc)
+	OTHER_CPU = x86
+else
+	OTHER_CPU = ppc
+endif
+
+#	set the full directory variable if not specified
+ifeq ($(FULL_DIR),)
+	FULL_DIR	:= $(shell pwd)
+endif
+
+#	set flag for performing a 'release' build
+ifneq (,$(findstring release,$(MAKECMDGOALS)))
+	RELEASE_BUILD := yes
+endif
+
+#	define the target for distrubution files
+ifndef DIST_TARGET
+	DIST_TARGET	:= $(shell pwd)/dist.$(CPU)/$(IMG_NAME)-$(VERSION)-$(CPU)
+	CLEANDIST := yes
+else
+	CLEANDIST := no
+endif
+
+	DEFINE_VERSION :=
+	
+#	set up version information
+ifndef VERSION
+	ifdef SUBREV_CODE
+		VERSION := $(VERSION_CODE).$(REVISION_CODE).$(SUBREV_CODE)
+		DEFINE_VERSION += -DPROGRAM_VERSION_CODE=$(VERSION_CODE)
+		DEFINE_VERSION += -DPROGRAM_REVISION_CODE=$(REVISION_CODE)
+		DEFINE_VERSION += -DPROGRAM_SUBREV_CODE=$(SUBREV_CODE)
+	else
+		ifdef REVISION_CODE
+			VERSION := $(VERSION_CODE).$(REVISION_CODE)
+			DEFINE_VERSION += -DPROGRAM_VERSION_CODE=$(VERSION_CODE)
+			DEFINE_VERSION += -DPROGRAM_REVISION_CODE=$(REVISION_CODE)
+		else
+			ifdef VERSION_CODE
+				VERSION := $(VERSION_CODE)
+				DEFINE_VERSION += -DPROGRAM_VERSION_CODE=$(VERSION_CODE)
+			endif
+		endif
+	endif
+endif
+
+	DEFINE_VERSION += -DPROGRAM_VERSION=\"$(VERSION)\"
+	
+#	set the object directory
+ifndef RELEASE_BUILD
+	OBJ				:= obj.$(CPU)
+	OBJ_DIR			:= obj.$(CPU)
+else
+	OBJ				:= obj.$(CPU)
+	OBJ_DIR			:= obj.$(CPU)
+endif
+
+#	specify the directory for libraries 
+	BELIBRARIES		=	/boot/develop/lib/$(CPU)
+	MWLIBRARIES		=	/boot/develop/lib/$(CPU)
+
+#	specify the default libraries
+	DEFAULT_LIBS	=	be root
+
+#	specify the MIMESET tool
+	MIMESET			= mimeset
+
+#	specify the command to copy a file and attributes
+ifeq ($(shell [ -e /bin/copyattr ] && echo "YES"), YES)
+	COPY			= copyattr --data
+else
+	COPY			= cp
+endif
+
+#		specify the path to the headers
+		BEHEADERS		= /boot/develop/headers 
+
+#		set the initial compiler flags
+ifndef RELEASE_BUILD
+		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -fno-implement-inlines
+#		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -fno-implement-inlines -fcheck-memory-usage -D_KERNEL_MODE
+else
+		CPLATFLAGS		= 
+endif
+
+#		specify the basic linker flags
+		LDPLATFLAGS		=
+
+#		specify the tool to add resources
+		XRES			= xres
+
+#		set the Archiver tool and flags
+		AR		= $(LD)
+		ARFLAGS	+= -xml -o
+
+#	platform specific settings
+ifeq ($(CPU), x86)
+
+#		specify flags to cause compiler to generate dependencies
+		MK_DEPS_FLAGS	= -M
+							
+#		specify the compiler
+		CC				= gcc
+
+#		specify flags for including files
+		INCLUDE_FLAG	= -I
+		SYSINCLUDE_SEP	=
+		SYSINCLUDE_FLAG	= -isystem
+		
+#		specify the library extension
+		LIB_EXTENSION	=
+
+#		specify the optimizer setting
+ifdef RELEASE_BUILD
+		CPLATFLAGS	+= -O3 -DNDEBUG=1
+else
+		CPLATFLAGS	+= -O0
+endif
+
+#		show lots of warning messages
+		CPLATFLAGS += -Wall -Wno-multichar -Wno-ctor-dtor-privacy
+
+#		specify the linker
+		LD				= gcc
+
+#		specify additional linker flags
+ifdef RELEASE_BUILD
+#		LDPLATFLAGS		+= -Xlinker --strip-all --strip-debug
+		LDPLATFLAGS		+= --strip-debug
+endif
+
+		ifeq ($(IMG_TYPE), APP)
+			LDPLATFLAGS += -Xlinker -soname=_APP_
+		else
+		ifeq ($(IMG_TYPE), SHARED)
+			LDPLATFLAGS += -nostart -Xlinker -soname=lib$(IMG_NAME).so
+		else
+		ifeq ($(IMG_TYPE), ADD-ON)
+			LDPLATFLAGS += -nostart -Xlinker -soname=$(IMG_NAME)
+		else
+		ifeq ($(IMG_TYPE), STATIC)
+		
+		else
+		ifeq ($(IMG_TYPE), DRIVER)
+			CPLATFLAGS += -no-fpic
+			LDPLATFLAGS += -nostdlib /boot/develop/lib/x86/_KERNEL_
+		endif
+		endif
+		endif
+		endif
+		endif
+
+		ifneq ($(IMG_TYPE), STATIC)
+			#MAPNAME			= $(TARGET).xMAP
+			#MAPFLAGS		= -Xlinker -Map $(MAPNAME)
+			MAPNAME			=
+			MAPFLAGS		=
+			SYMBOLNAME		=
+			SYMBOLFLAGS		=
+		endif
+		
+#		specify the Standard C++ link library
+		CPPLIB			= stdc++.r4
+
+else
+
+ifeq ($(CPU), ppc)
+
+#		specify flags to cause compiler to generate dependencies
+		MK_DEPS_FLAGS	= -make
+							
+#		specify the compiler
+		CC				= mwcc$(CPU)
+		
+#		specify flags for including files
+		INCLUDE_FLAG	= -i
+		SYSINCLUDE_SEP	= -i-
+		SYSINCLUDE_FLAG	= -i
+		
+#		specify the library extension
+		LIB_EXTENSION	=
+
+#		specify the optimizer setting
+ifdef RELEASE_BUILD
+		CPLATFLAGS		+= -O7 -DNDEBUG=1
+endif
+
+#		specify additional compiler flags
+		CPLATFLAGS		+= 
+		
+#		specify the linker
+		LD				= mwld$(CPU)
+
+		LDPLATFLAGS		+= -nodefaults \
+							$(BELIBRARIES)/glue-noinit.a \
+							$(BELIBRARIES)/init_term_dyn.o \
+							$(BELIBRARIES)/start_dyn.o 
+							
+							# -imagebase 0x80000000 \
+
+#		specify additional linker flags
+		LDPLATFLAGS		+= \
+							-export pragma \
+							-init _init_routine_ \
+							-term _term_routine_
+
+		ifeq ($(IMG_TYPE), APP)
+			LDPLATFLAGS		+=	-xma
+		else
+		ifeq ($(IMG_TYPE), SHARED)
+			LDPLATFLAGS		+=	-xms
+		else
+		ifeq ($(IMG_TYPE), ADD-ON)
+			LDPLATFLAGS		+=	-xms
+		else
+		ifeq ($(IMG_TYPE), STATIC)
+			LDPLATFLAGS		+=	-xml
+		else
+		ifeq ($(IMG_TYPE), DRIVER)
+	
+		endif 
+		endif 
+		endif 
+		endif
+		endif
+
+		ifneq ($(IMG_TYPE), STATIC)
+			MAPNAME			= $(TARGET).xMAP
+			MAPFLAGS		= -map $(MAPNAME)
+			SYMBOLNAME		= $(TARGET).xSYM
+			SYMBOLFLAGS		= -sym full -osym $(SYMBOLNAME)
+		endif
+		
+#		specify the Standard C++ link library
+		CPPLIB			= mslcpp_2_2
+		#CPPLIB			= $(shell cd $(MWLIBRARIES); ls libmslcpp*.a )
+
+endif
+endif
+
+	TARGET_NAME		= $(IMG_NAME)
+	
+ifeq ($(IMG_TYPE), SHARED)
+	TARGET_NAME = lib$(IMG_NAME).so
+endif
+
+ifeq ($(IMG_TYPE), ADD-ON)
+	TARGET_NAME = $(IMG_NAME)
+endif
+
+ifeq ($(IMG_TYPE), STATIC)
+	TARGET_NAME = lib$(IMG_NAME).a
+endif
+
+#	specify where to create the application binary
+	TARGET		:=$(OBJ_DIR)/$(TARGET_NAME)

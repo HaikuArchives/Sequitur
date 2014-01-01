@@ -1,0 +1,128 @@
+
+# Copyright (c)1998 by Angry Red Planet.
+#
+# This code is distributed under a modified form of the
+# Artistic License.  A copy of this license should have
+# been included with it; if this wasn't the case, the
+# entire package can be obtained at
+# <URL:http://www.angryredplanet.com/>.
+#
+# ----------------------------------------------------------------------
+#
+# tools/makebackup
+#
+# Archive current work into Backup/ directory.
+#
+# ----------------------------------------------------------------------
+#
+# Known Bugs
+# ~~~~~~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# To Do
+# ~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# History
+# ~~~~~~~
+#
+# Dec 6, 1998:
+#	First public release.
+#
+#
+
+NEWDIR=$1
+
+if [ $# -lt 1 ]; then
+	echo "Usage: makebackup project [backupdir]"
+	echo "- \"project\" is the directory containing your current project work."
+	echo "- \"backupdir\" is the directory in which to place the backup."
+	echo ""
+	echo "If \"backupdir\" is not supplied, it will default to \"Backup\""
+	exit
+fi
+
+CURDIR=$1
+
+if [ ! -e "$CURDIR" ]; then
+	echo "*** Error: Directory \"$CURDIR\" does not exist."
+	exit
+fi
+
+if [ $# -lt 2 ]; then
+	BACKUPDIR="Backup"
+else
+	BACKUPDIR=$2
+fi
+
+if [ ! -d "$BACKUPDIR" ]; then
+	echo "*** Error: Backup directory \"$BACKUPDIR\" is not valid."
+	exit
+fi
+
+# --------------- Define Standard Files and Directories ----------------
+
+BASEDIR="$(pwd)"
+TOOLSDIR="$(dirname $0)"
+
+DATESTRING="$(date "+%Y-%m-%d-%H%M")"
+
+BACKUPCKP="${BACKUPDIR}/$DATESTRING.${CURDIR}.zip"
+
+# --------------- Load Standard Functions ----------------
+
+. "$TOOLSDIR/Question.sh"
+. "$TOOLSDIR/whence.sh"
+
+# --------------- Initialize Temporaries ----------------
+
+if [ "$(whence zip)" = "" ]; then
+	echo "*** Error: zip command not available.  Unable to continue."
+	exit
+fi
+
+echo "Ready to make backup of $CURDIR in $BACKUPDIR."
+
+Cleanup() {
+	echo "Cleaning up temporaries..."
+	rm -rf "$TEMPDIR"
+	if [ $# -gt 0 ]; then exit $1
+	fi
+}
+
+trap 'echo "*** Break requested."; Cleanup 1' 1 2 3 15
+
+if [ -e /boot/develop/lib/x86/libroot.so.LIB ]; then
+	echo "Note: Unable to perform a clean under R3."
+	Question "Have you cleaned this under R4?" "no" ""
+	case $ANSWER in
+		y* )	;;
+		* )		echo "Go do it now!"
+				Cleanup 1
+				;;
+	esac
+else
+	echo "Cleaning project directory ${CURDIR} (i.e., make clean)..."
+	(cd "$CURDIR"; make clean >/dev/null)
+fi
+
+if [ ! -e "$BACKUPDIR" ]; then
+	echo "Creating backup directory."
+	mkdir --parents "$BACKUPDIR"
+fi
+
+echo "Backing up current work to $BACKUPCKP."
+
+if [ -e "$BACKUPCKP" ]; then
+	Question "Destination exists.  Replace it" "yes" ""
+	case $ANSWER in
+		y* )	rm -f "$BACKUPCKP"		;;
+	esac
+fi
+if [ ! -e "$BACKUPCKP" ]; then
+	zip -ry "$BACKUPCKP" "$CURDIR" >/dev/null
+fi
+
+echo "All done!"

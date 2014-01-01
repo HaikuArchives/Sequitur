@@ -1,0 +1,295 @@
+# Copyright (c)1998 by Angry Red Planet.
+#
+# This code is distributed under a modified form of the
+# Artistic License.  A copy of this license should have
+# been included with it; if this wasn't the case, the
+# entire package can be obtained at
+# <URL:http://www.angryredplanet.com/>.
+#
+# ----------------------------------------------------------------------
+#
+# Makefiles/platform
+#
+# Set up platform-independent info and rules to build a project.
+#
+# Based on:
+#
+#	Generic Crossplatform Makefile
+#	Author:	stephen beaulieu <hippo@be.com>
+#	Copyright 1998 Be, Inc.  All Rights Reserved
+#
+# ----------------------------------------------------------------------
+#
+# Known Bugs
+# ~~~~~~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# To Do
+# ~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# History
+# ~~~~~~~
+#
+# Dec 6, 1998:
+#	First public release.
+#
+#
+
+#--------------------------------------------------------
+#	Common Project Definitions and Rules
+#
+#	Include this file at the end of your project
+#	makefile to set up rules and symbols that are
+#	common to all projects.
+#
+#	Input:
+#		SRCS: List of source files in your project.
+#		CFLAGS: Additional custom compiler flags.
+#		LDFLAGS: Additional custom linker flags.
+#		RSRCS: Specify the list of resource files.  The names listed will
+#			automatically have .rsrc added to the end.
+#		RSRC_DIRS: Specify directories that contain additional data.
+#			There must also be a file in the parent of this directory
+#			name "{DIRECTORY}.r", which contains a mwbres script to
+#			create a resource file from this data.  The resulting file
+#			will automatically be merged into your application.
+#		ADD_BESHLIBS: Specify any additional beos shared libraries needed.
+#			These libraries should be specified by their actual runtime
+#			name.  The makefile will add the appropriate path and any
+#			extention necessary.  libbe.so and libroot.so are automatically
+#			included.
+#		ADD_SHLIBS: Specify additional non-beos shared libraries needed.
+#			The path for these libraries is figured from the current
+#			directory.  The make file will add any extention necessary.
+#		ADD_BESTLIBS: Specify any additional beos static libraries needed.
+#			These libraries should be specified by their actual runtime name.
+#			The makefile will add the appropriate path and any extention
+#			necessary.
+#		ADD_STLIBS: Specify additional non-beos static libraries needed.
+#			The path for these libraries is figured from the current
+#			directory.  the make file will add any extention necessary.
+#		SYSTEM_INCLUDES: Specify any additional system paths to check
+#			for files or headers to include in the project.  These paths are
+#			specified from /boot/system/headers most if not all headers under
+#			this path are automatically included.  Add them specificly if you
+#			run into problems.
+#		SYSLOCAL_INCLUDES: Specify any additional system paths to check
+#			for files or headers to include in the project.  These are
+#			determined from the current directory.
+#		LOCAL_INCLUDES: Specify any additional local paths to check for files
+#			or headers to include in the project these are determined from
+#			the current directory.
+#
+#	Output:
+#		A lot of stuff.
+#--------------------------------------------------------
+
+ifndef DIST_DESTDIR
+	DIST_FULLDESTDIR := $(DIST_TARGET)
+else
+	DIST_FULLDESTDIR := $(DIST_TARGET)/$(DIST_DESTDIR)
+endif
+
+	CFLAGS		+= $(DEFINE_VERSION)
+	
+	LDFLAGS		+= $(LDPLATFLAGS)
+
+#	create the final list of libraries to include
+	LIBS_TO_USE =	$(addprefix -l, $(addsuffix $(LIB_EXTENSION), $(ADD_SHLIBS) $(DEFAULT_LIBS) $(ADD_BESHLIBS)))  $(ADD_STLIBS) $(ADD_BESTLIBS)
+	
+
+#	additional common linker flags
+ifneq ($(IMG_TYPE), STATIC)
+	LDFLAGS	+= -L $(FULL_DIR) -L $(ARPROOT)/ArpLib/$(OBJ_DIR) -L $(BELIBRARIES) -L $(MWLIBRARIES) $(LIBS_TO_USE)
+endif
+	
+#	create the list of include paths
+	INCLUDES = $(INCLUDE_FLAG) . \
+				$(addprefix $(INCLUDE_FLAG) ,$(LOCAL_INCLUDES)) \
+				$(SYSINCLUDE_SEP) \
+				$(addprefix $(SYSINCLUDE_FLAG) $(BEHEADERS)/,$(SYSTEM_INCLUDES)) \
+				$(SYSINCLUDE_FLAG) $(ARPROOT)/ArpHeader/BeExp/ \
+				$(addprefix $(SYSINCLUDE_FLAG) ,$(SYSLOCAL_INCLUDES))
+
+#	create the list of resources
+	RSRCS_TO_USE :=	$(addsuffix .rsrc, $(RSRCS))
+
+#	create the list of resource directories
+	RSRC_DIRS_TO_USE := $(RSRC_DIRS)
+
+# psuedo-function for converting a list of resource directories in
+# RSRC_DIRS variable to a corresponding list of resource files in
+# $(OBJ_DIR)/xxx.rsrc.
+define RSRC_DIRS_LIST_TO_OBJS
+	$(foreach file, $(RSRC_DIRS_TO_USE), $(addsuffix .rsrc, $(addprefix $(OBJ_DIR)/$(shell dirname $(file))/, $(basename $(notdir $(file))))))
+endef
+
+#	create the list of all resources
+	ALL_APP_RESOURCES := $(RSRCS_TO_USE) $(RSRC_DIRS_LIST_TO_OBJS)
+	
+#	create the resource instruction
+ifneq ($(IMG_TYPE), STATIC)
+	ifneq ($(ALL_APP_RESOURCES), )
+		DO_RSRCS := $(XRES) -o $(TARGET) $(ALL_APP_RESOURCES)
+	else
+		DO_RSRCS :=
+	endif
+else
+	DO_RSRCS :=
+endif
+
+# psuedo-function for converting a list of source files in SRCS variable
+# to a corresponding list of object files in $(OBJ_DIR)/xxx.o
+# The "function" strips off the src file suffix (.ccp or .c or whatever)
+# and then strips of the directory name, leaving just the root file name.
+# It then appends the .o suffix and prepends the $(OBJ_DIR)/ path
+define SRCS_LIST_TO_OBJS
+	$(foreach file, $(SRCS), $(addsuffix .o, $(addprefix $(OBJ_DIR)/$(shell dirname $(file))/, $(basename $(notdir $(file))))))
+endef
+
+#	specify the list of objects
+	OBJS		:= $(SRCS_LIST_TO_OBJS)
+
+#	specify the list of dependency files
+	DEPS		:= $(OBJS:.o=.d) $(RSRC_DIRS_LIST_TO_OBJS:.rsrc=.d)
+
+	DEPENDENCIES := $(OBJ_DIR)/$(IMG_NAME).Depends
+	
+ifeq ($(IMG_TYPE), STATIC)
+	BUILD_LINE = ar -cru $@ $(OBJS)
+else
+	BUILD_LINE = $(LD) -o $@ $(OBJS) $(LDFLAGS) $(MAPFLAGS) $(SYMBOLFLAGS)
+endif
+
+$(TARGET): $(OBJS) $(ALL_APP_RESOURCES) $(ADD_STLIBS)
+		@rm -f $@
+		$(BUILD_LINE)
+		$(DO_RSRCS)
+		$(MIMESET) -f $@
+
+#		@echo "OBJS: $(OBJS)"
+#		@echo "DEPS: $(DEPS)"
+#		@echo "RSRC: $(RSRC_DIRS_LIST_TO_OBJS:.rsrc=.d)"
+
+#$(DEPENDENCIES): $(DEPS) $(RSRC_DIR_LIST_TO_OBJS)
+
+$(DEPENDENCIES): $(DEPS) $(RSRC_DIR_LIST_TO_OBJS)
+		cat >$(DEPENDENCIES) $(DEPS)
+
+# If 'clean' isn't part of one of the goals on the command line, include
+# the deps files.  Note that this precludes you from doing a
+#  'make clean install'
+# but requires
+#  'make clean ; make install'
+# in order to get the deps included for the install target.
+#
+ifeq (,$(findstring clean,$(MAKECMDGOALS)))
+include $(DEPENDENCIES)
+endif
+
+#--------------------------------------------------------
+#	Rules for the whole system
+#--------------------------------------------------------
+
+#	default rule for take xxx.c files on compile into $(OBJ_DIR)/xxx.o
+$(OBJ_DIR)/%.o : %.c
+	@echo "Making $< into $@"
+	@mkdir --parents "$(shell dirname $@)"
+	@$(CC) -c "$<" $(INCLUDES) $(CPLATFLAGS) $(CFLAGS) -o "$@"
+
+#	default rule for take xxx.cpp files on compile into $(OBJ_DIR)/xxx.o
+$(OBJ_DIR)/%.o : %.cpp
+	@echo "Making $< into $@"
+	@mkdir --parents "$(shell dirname $@)"
+	@$(CC) -c "$<" $(INCLUDES) $(CPLATFLAGS) $(CFLAGS) -o "$@"
+
+#	default rule for take xxx.S files on compile into $(OBJ_DIR)/xxx.o
+$(OBJ_DIR)/%.o : %.S
+	@echo "Making $< into $@"
+	@mkdir --parents "$(shell dirname $@)"
+	$(CC) $(INCLUDES) $(CPLATFLAGS) $(CFLAGS) -E "$<" > "$(OBJ_DIR)/$*.s"
+	$(AS) "$(OBJ_DIR)/$*.s" -o "$@"
+
+#	default rule to take xxx.r files on compile into $(OBJ_DIR)/xxx.rsrc
+$(OBJ_DIR)/%.rsrc : %.r
+	mwbres -o "$@" "$<"
+
+# This is here for when a header file is removed, but the deps aren't up to
+# date yet.
+%.h::
+	@echo Couldn\'t locate $@, continuing...
+
+# The dep file generation magic.
+$(OBJ_DIR)/%.d: %.c
+	@echo "Finding dependencies for $<"
+	@mkdir --parents "$(shell dirname $@)"
+	@$(SHELL) -ec '$(CC) $(MK_DEPS_FLAGS) $(INCLUDES) $(CPLATFLAGS) $(CFLAGS) $< \
+			| sed '\''s;^\([^.]*\)\.o *:;$$(OBJ_DIR)/./\1.o $@ : ;g'\'' > $@; \
+				[ -s $@ ] || rm -f $@'
+
+$(OBJ_DIR)/%.d: %.cpp
+	@echo "Finding dependencies for $<"
+	@mkdir --parents "$(shell dirname $@)"
+	@$(SHELL) -ec '$(CC) $(MK_DEPS_FLAGS) $(INCLUDES) $(CPLATFLAGS) $(CFLAGS) $< \
+			| sed '\''s;^\([^.]*\)\.o *:;$$(OBJ_DIR)/./\1.o $@ : ;g'\'' > $@; \
+				[ -s $@ ] || rm -f $@'
+
+$(OBJ_DIR)/%.d: %.S
+	@echo "Finding dependencies for $<"
+	@mkdir --parents "$(shell dirname $@)"
+	@echo > "$@" ""
+
+$(OBJ_DIR)/%.d : %.r
+	@echo "Finding dependencies for $<"
+	@mkdir --parents "$(shell dirname $@)"
+	@$(SHELL) -ec 'ls 2>/dev/null -1 "$(<:.r=)" \
+			| sed '\''s;^\(.*\)$$;"$(@:.d=.rsrc)" "$@" : "$(<:.r=)/\1";g'\'' > $@; \
+				[ -s $@ ] || rm -f $@'
+
+#	empty rule. Things that depend on this rule will always get triggered
+FORCE:
+
+#	The generic clean command. Delete everything in the object folder.
+clean_project::
+	-rm -rf $(OBJ_DIR)
+	-rm -f $(TARGET) $(MAPNAME) $(SYMBOLNAME) $(TARGET).dbg
+	-rm -rf $(DIST_TARGET)
+	-rm -f $(DIST_TARGET).zip
+
+#	The generic distribution command. Create distribution file and build
+#	needed projects.
+$(DIST_FULLDESTDIR)/$(TARGET_NAME) : $(TARGET)
+	if [ "$(CLEANDIST)" = "yes" ]; then \
+		rm -rf $(DIST_TARGET); \
+		echo "Making directory: $(DIST_TARGET)"; \
+		mkdir --parents $(DIST_TARGET); \
+	fi
+	for i in $(DIST_MAKES) xxx; do (				\
+		if [ "$$i" != "xxx" ]; then \
+			echo "==> Distributing $$i";		\
+			cd `dirname $$i`;					\
+			make LOCAL_MAKE=1 DIST_TARGET="$(DIST_TARGET)" -f `basename $$i` dist;		\
+		fi; \
+	) done
+	mkdir --parents $(DIST_FULLDESTDIR)
+	$(COPY) $(TARGET) $(DIST_FULLDESTDIR)/$(TARGET_NAME); \
+	mkdir --parents $(DIST_TARGET)/src/$(DIST_SRCDIR)
+	for i in $(DIST_FILES); do \
+		$(COPY) $$i $(DIST_TARGET)/$$i; \
+	done
+	for i in $(DIST_SRCS); do \
+		$(COPY) $$i $(DIST_TARGET)/src/$(DIST_SRCDIR)/$$i; \
+	done
+	mkdir --parents $(DIST_TARGET)/src/makefiles
+	for i in ../makefiles/*; do \
+		$(COPY) $$i $(DIST_TARGET)/src/makefiles/$$i; \
+	done
+
+dist_project:: $(DIST_FULLDESTDIR)/$(TARGET_NAME)
+
+#	remove just the application from the object folder
+rmapp ::
+	-rm -f $(TARGET)

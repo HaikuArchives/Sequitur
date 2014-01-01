@@ -1,0 +1,344 @@
+<!doctype HTML public "-//W3O//DTD W3 HTML 3.2//EN">
+<HTML>
+<HEAD>
+<TITLE>ARP Terminal Library</TITLE>
+</HEAD>
+ <BODY 
+  BGCOLOR="#e0e0e0"
+  TEXT="#000000" 
+  LINK="#a02000" 
+  VLINK="#505050" 
+  ALINK="#a04000" 
+ >
+
+<div align=center> 
+
+<table width="100%" bgcolor="#000000" border=0 cellspacing=0 cellpadding=0> 
+<tr>
+<td align=left valign=center>
+<font color="#FF8030">
+<H2 align=center>Angry Red Planet</H2> 
+<h1 align=center>Terminal Library</h1>
+</font>
+<td align=right valign=center>
+<br>
+<br>
+<p align=center><img src="../images/arp_pic.jpeg"></p>
+<br>
+<br>
+</table> 
+
+</div>
+
+<br><br><br>
+
+<p>The ArpTerminal library contains various classes for implementing a
+terminal-style control with protocols for implementing add-on emulators
+and devices that are attached to it.</p>
+
+<HR>
+
+<H1 ALIGN=CENTER><FONT COLOR=#ff0000>Overview</FONT></H1>
+
+<p>Most of the ArpTelnet classes are implemented in the ArpCommon class
+library.  This library contains classes for the terminal, telnet client, VT200
+emulator, add-on manager, and various other useful things.  You will need
+the library distribution to rebuild the telnet application from its source; it
+should be available from the same place at which you got the application
+distribution.</p>
+
+<p>Briefly, the most important classes that ArpTelnet uses in the library are:</p>
+
+<dl>
+<dt> <strong>Terminal Classes</strong>
+<dd>
+<dl>
+	<dt>ArpTerminalInterface
+	<dd>An abstract interface to a terminal-like device.
+	<dt>ArpCoreTerminal
+	<dd>The basic terminal implementation and view.
+	<dt>ArpTerminal
+	<dd>Based on ArpCoreTerminal, this adds cut&paste
+		and emulation support.
+	<dt>ArpRemoteTerminal
+	<dd>A subclass of ArpTerminal that talks with
+		a remote BMessenger. The message protocol it implements
+		is defined in ArpTerminalMsg.h.
+</dl>
+
+<dt> <strong>Emulation Classes</strong>
+<dd>
+<dl>
+	<dt>ArpEmulatorInterface
+	<dd>An abstract interface to the code that implements a particular emulator.
+	<dt>ArpEmulator
+	<dd> Auseful base class of a terminal emulator; it also
+		implements a dumb emulation.
+	<dt>ArpVT200
+	<dd>An actual VT200/VT52/XTerm terminal emulation.  Note that this
+	    class is not actually in the ArpTerminal library, but instead a part of the
+	    ArpTelnet distribution.
+	<dt>ArpEmulatorManager
+	<dd>Based on ArpAddonManager, this keeps track of all the terminal emulations
+		that are available, both as add-ons and those that are
+		statically linked to the application.
+</dl>
+
+<dt> <strong>Telnet Classes</strong>
+<dd>
+<dl>
+	<dt>ArpTelnet
+	<dd>Implements the TELNET client protocol.  The class
+		understands the ArpTerminalMsg protocol, and can be
+		attached to a ArpRemoteTerminal object to create a
+		complete telnet client.  Note that this class is actually
+		implemented in the ArpNetwork library.
+</dl>
+
+</dl>
+
+<hr width="50%">
+
+<h2 align=center>Architecture</h2>
+
+<p>There are two major pieces to the terminal architecture: the
+<em>terminal classes</em> implement the actual rendering and user interaction
+code of the terminal, while the <em>emulator classes</em> implement specific
+terminal emulations.  Both of these class hierarchies are rooted with an
+abstract class, ArpTerminalInterface and ArpEmulatorInterface, respectively;
+the communication between the two sides of the terminal occurs <em>only</em>
+through these two interfaces.</p>
+
+<p>The following figure shows these two class hierarchies, and which classes
+in each hierarchy work with the other.  The hierarchies go from most
+basic (at the top) to the more fleshed out classes (at the bottom).  Abstract
+interface classes are  in *<font color=red>red</font>*.</p>
+
+<p>At the left are the terminal classes,
+and to the right are the emulator classes, located at the same level as the
+terminal class that "knows" about it.  Thus ArpTerminal is the class that
+actually implements communication with the ArpEmulatorInterface class,
+and can be associated with an emulator to implement a complete terminal
+emulation.  Similarily, ArpRemoteTerminal knows about ArpEmulatorManager,
+which is an aggregation of one ore more emulator interfaces.  Thus
+ArpRemoteTerminal knows about a set of emulators, and can be asked to
+use a particular one of those.</p>
+
+<blockquote><pre>
++----------------------+
+|*<font color=red>ArpTerminalInterface</font>*|
++----------------------+
+           ||
+           \/
+   +-----------------+
+   | ArpCoreTerminal |
+   +-----------------+
+           ||
+           \/                  ArpEmulatorAddon &gt;-----\
+     +-------------+       +----------------------+   |
+     | ArpTerminal |. . . .|*<font color=red>ArpEmulatorInterface</font>*|   |
+     +-------------+       |----------------------+   |
+           ||                         \/              |
+           ||                    ArpEmulator          |   ArpMultiDir
+           ||                         \/              |        \/
+           ||                     ArpVT200            |  ArpAddonManager
+           \/                                         V        \/
+ +-------------------+                               +--------------------+
+ | ArpRemoteTerminal |. . . . . . . . . . . . . . . .| ArpEmulatorManager |
+ +-------------------+                               +--------------------+
+</pre></blockquote>
+
+<p>Next is a diagram of the basic architecture, showing how instances of
+these classes work together and interact with the outside world.  In general,
+it shows that the ArpEmulatorInterface collects data -- both coming from the
+user and from the remote device -- that it then transforms: input from the
+user becomes a character stream the remote device can understand, and the
+character stream from the remote device becomes the basic terminal
+operations needed to display it.  The ArpEmulatorInterface then uses its
+ArpTerminalInterface to send the character stream to the remote device or
+execute the basic terminal operations, respectively.</p>
+
+<p>(Although note that, since the ArpTerminal actually contains an ArpEmulator,
+to the external user this appears much simpler.  In general, everything just
+attaches to the ArpTerminal, and data is then routed with its Emulator()
+through the system as shown here.)</p>
+
+<blockquote><pre>
+    <font color=blue>+-----------+ Draw(), etc. </font>+--------------------------+
+    <font color=blue>|  SCREEN   |&lt;=============</font>|   ArpTerminalInterface   |
+    <font color=blue>+-----------+              </font>+--------------------------+
+    <font color=blue>                            /\</font>   <font color=red>/\                 ||</font>
+    <font color=blue>                TermSendTTY ||</font>   <font color=red>|| TermSendRemote  ||</font>
+    <font color=blue>                            ||</font>   <font color=red>||                 ||</font>
+<font color=red >+-----------+ EmulateToRemote </font>+----------------------+  <font color=red>||</font>
+<font color=red >| KEYBOARD  |================&gt;</font>| ArpEmulatorInterface |  <font color=red>|| TermSendRemote</font>
+<font color=red >+-----------+                 </font>+----------------------+  <font color=red>||</font>
+<font color=blue>                                         /\       </font><font color=red>      ||</font>
+<font color=blue>                            EmulateToTTY ||       </font><font color=red>      ||</font>
+<font color=blue>                                         ||       </font><font color=red>      \/</font>
+<font color=blue>                                       +----------</font><font color=red>---------+</font>
+<font color=blue>                                       |  (Remote</font><font color=red> Device)  |</font>
+<font color=blue>                                       +----------</font><font color=red>---------+</font>
+<font color=blue>                                       .          </font><font color=red>         .</font>
+<font color=blue>                                       .          </font><font color=red>         .</font>
+<font color=blue>                                       +----------</font><font color=red>---------+</font>
+<font color=blue>                                       | ArpRemote</font><font color=red>Terminal |</font>
+<font color=blue>                                       +----------</font><font color=red>---------+</font>
+<font color=blue>                                             /\   </font><font color=red>  ||</font>
+<font color=blue>                          TERM_XFER_TEXT_MSG ||   </font><font color=red>  || TERM_XFER_TEXT_MSG</font>
+<font color=blue>                                             ||   </font><font color=red>  \/</font>
+<font color=blue>                                       +----------</font><font color=red>---------+</font>
+<font color=blue>                                       | ArpRemote</font><font color=red>Interface|</font>
+<font color=blue>                                       +----------</font><font color=red>---------+</font>
+</pre></blockquote>
+
+<p>The bottom part of the preceeding diagram shows how various kinds of remote
+devices interface with the terminal.  You basically have two choices:</p>
+
+<ul>
+<li> <p>You can directly subclass from ArpTerminal, in which case you override
+TermSendRemote() to receive user input from the terminal and call EmulateToTTY()
+to send output to the terminal via its emulator.</p>
+<li> <p>You can use the ArpRemoteTerminal class, which subclasses from ArpTerminal
+and uses the above two functions to implement a BMessage-based protocol for
+communicating with a remote device.  Your device must then run in its own BLooper,
+and attach itself to the terminal.  The BMessage protocol this configuration uses
+is documented in ArpTerminalMsg.h.</p>
+</ul>
+
+<HR>
+
+<H1 ALIGN=CENTER><FONT COLOR=#ff0000>Classes</FONT></H1>
+
+<H2>
+ArpTerminalInterface
+<small>
+<a href="../../ArpHeader/ArpTerminal/ArpTerminalInterface.h">(header file)</a>
+</small>
+</H2>
+
+<p>
+Defines an abstract programmable interface to a terminal-like
+device.  This is the interface that the terminal class exports
+to its plug-in emulators, which they in turn use to implement
+their particular emulation.  This interface is used both to write
+text to the terminal display, and send data to the remote device.
+</p>
+
+<H2>
+ArpCoreTerminal
+<small>
+<a href="../../ArpHeader/ArpTerminal/ArpCoreTerminal.h">(header file)</a>
+</small>
+</H2>
+
+<p>
+Implements the core functionality of ArpTerminalInterface, and inherits
+from BView to render its screen and interact with the user.  On its
+own, it is not very useful: it does not know about emulations, so all
+you can do is receive raw user input as you would from any BView,
+and perform raw terminal operations as defined by ArpTerminalInterface.
+</p>
+
+<H2>
+ArpTerminal
+<small>
+<a href="../../ArpHeader/ArpTerminal/ArpTerminal.h">(header file)</a>
+</small>
+</H2>
+
+<p>
+Builds on ArpCoreTerminal to implement a complete terminal with
+emulation.  You can connect this to an object that implements an
+ArpEmulatorInterface, and they will work together to operate on a
+character I/O stream that conforms to the selected terminal type.
+In addition, the user can highlight regions of text with the mouse,
+and perform standard cut&paste and drag&drop operations.  This class does not
+know anything about remote devices, though, so you will need to
+subclass it and override TermSendRemote() to process user input.
+</p>
+
+<H2>
+ArpTerminalMsg
+<small>
+<a href="../../ArpHeader/ArpTerminal/ArpTerminalMsg.h">(header file)</a>
+</small>
+</H2>
+
+<p>
+This is the definition of a system to communicate between
+an instance of the terminal class and some remote device, based
+on BMessage objects.  The intention is to provide a character-stream-like
+interface to a terminal, but with the ability to also exchange
+higher-level information.  In particular, it can be used to negotiate
+with the terminal about the actual terminal emulation that the remote
+device would like to use and to negotiate about the terminal size.
+</p>
+
+<H2>
+ArpRemoteTerminal
+<small>
+<a href="../../ArpHeader/ArpTerminal/ArpRemoteTerminal.h">(header file)</a>
+</small>
+</H2>
+
+<p>
+A subclass of ArpTerminal that implements the above ArpTerminalMsg
+protocol.  One simply attaches a BMessenger to the class, and it
+communicates with the terminal and its emulator through the BMessage
+protocol.  This class can also interface with an ArpEmulatorManager to
+keep track of the emulations that are currently available.
+</p>
+
+<H2>
+ArpEmulatorInterface
+<small>
+<a href="../../ArpHeader/ArpTerminal/ArpEmulatorInterface.h">(header file)</a>
+</small>
+</H2>
+
+<p>
+Defines an abstract base class that is an interface to an add-on
+emulator; particular implementations will derive from this class,
+overriding its functions to implement their emulation,
+</p>
+  
+<H2>
+ArpEmulator
+<small>
+<a href="../../ArpHeader/ArpTerminal/ArpEmulator.h">(header file)</a>
+</small>
+</H2>
+
+<p>
+Defines the common base class upon which a particular emulation
+can be built.  While not required to write an emulator, this class
+takes care of a lot of the grunge work of parsing BMessages and other
+house-keeping.  In addition, this base class can be used by itself as
+the prototypical "dumb" terminal.
+</p>
+  
+<H2>
+ArpVT200
+</H2>
+
+<p>
+A subclass of ArpEmulator that implements a fairly complete
+XTerm/VT200/VT100/VT52 emulation mode.  This is not actually
+in the ArpTerminal library, but a part of the ArpTelnet distribution.
+</p>
+  
+<HR>
+
+<H1 ALIGN=CENTER><FONT COLOR=#ff0000>Copyright</FONT></H1>
+
+<p>All files and code contained in this package are
+Copyright &copy;1999 Angry Red Planet, except where otherwise noted.</p>
+
+<p>The files contained here-in are distrubuted under a modifed
+form of the <a href="../../@License.html">Artistic License</a>.
+See the file <code>@License.html</code> or <code>@License.txt</code>
+for a copy of this license.</p>
+
+</BODY>
+</HTML>

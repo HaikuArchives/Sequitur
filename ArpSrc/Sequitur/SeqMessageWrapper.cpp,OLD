@@ -1,0 +1,62 @@
+/* SeqMessageWrapper.cpp
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include "ArpKernel/ArpDebug.h"
+#include "Sequitur/SeqMessageWrapper.h"
+
+static const char*	FACTORIES_STR	= "factories";
+
+/*************************************************************************
+ * SEQ-MESSAGE-WRAPPER
+ *************************************************************************/
+SeqMessageWrapper::SeqMessageWrapper(BMessage* msg)
+	: m_Msg(msg)
+{
+}
+
+status_t SeqMessageWrapper::SetFactoryInt32Preference(	const char* fac,
+														const char* view,
+														const char* name,
+														int32 i32, int32 n)
+{
+	ArpVALIDATE(m_Msg && fac && view, return B_ERROR);
+	BMessage		allFacsMsg;
+	status_t		err = B_OK;
+	m_Msg->FindMessage(FACTORIES_STR, &allFacsMsg);
+	BMessage		facMsg;
+	allFacsMsg.FindMessage(fac, &facMsg);
+	BMessage		viewMsg;
+	facMsg.FindMessage(view, &viewMsg);
+
+	if (viewMsg.HasInt32(name, n)) err = viewMsg.ReplaceInt32(name, n, i32);
+	else err = viewMsg.AddInt32(name, i32);
+	if (err != B_OK) return err;
+
+	if (facMsg.HasMessage(view)) err = facMsg.ReplaceMessage(view, &viewMsg);
+	else err = facMsg.AddMessage(view, &viewMsg);
+	if (err != B_OK) return err;
+
+	if (allFacsMsg.HasMessage(fac)) err = allFacsMsg.ReplaceMessage(fac, &facMsg);
+	else err = allFacsMsg.AddMessage(fac, &facMsg);
+	if (err != B_OK) return err;
+
+	if (m_Msg->HasMessage(FACTORIES_STR)) return m_Msg->ReplaceMessage(FACTORIES_STR, &allFacsMsg);
+	else return m_Msg->AddMessage(FACTORIES_STR, &allFacsMsg);
+}
+
+status_t SeqMessageWrapper::GetFactoryInt32Preference(	const char* fac,
+														const char* view,
+														const char* name,
+														int32* outI32, int32 n) const
+{
+	ArpVALIDATE(m_Msg && fac && view, return B_ERROR);
+	BMessage		allFacsMsg;
+	status_t		err = B_OK;
+	if ((err = m_Msg->FindMessage(FACTORIES_STR, &allFacsMsg)) != B_OK) return err;
+	BMessage		facMsg;
+	if ((err = allFacsMsg.FindMessage(fac, &facMsg)) != B_OK) return err;
+	BMessage		viewMsg;
+	if ((err = facMsg.FindMessage(view, &viewMsg)) != B_OK) return err;
+	return viewMsg.FindInt32(name, n, outI32);
+}

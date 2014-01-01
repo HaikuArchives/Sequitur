@@ -1,0 +1,98 @@
+ArpCommon:
+Angry Red Planet's library of useful BeOS code.
+
+Copyright ©1997-1999 by Dianne Hackborn.  All rights reserved.
+
+This code is not public domain, nor freely distributable.
+Please direct any questions or requests to Dianne Hackborn,
+at <hackbod@lucent.com> or <hackbod@enteract.com>.
+
+The files contained here-in must be distributed together, as
+they came in the original archive.
+
+------------------------------------------------------------
+
+CONTENTS
+
+This directory contains various generally useful bits of code.  It
+is primarily oriented toward the terminal emulation classes; however,
+there are other bits and pieces that might be of general intererst.
+
+If you haven't done so already, you should retrieve the ArpTelnet
+distribution, which exists as a working example of how most of
+these classes are used.  In addition, all of the documentation on the
+terminal-related classes appear in that archive.
+
+The code is grouped in four main categories:
+
+Basic Classes
+
+	These are very general, helpful classes that are used by
+	the other more specific parts of the library.
+
+	ArpColor is a wrapper around the BeOS rgb_color type.
+	ArpDebug provides some standard debugging macros.
+	ArpDrawPens is an interface for organizing sets of pen colors.
+	ArpMessage is a wrapper around BMessage for easier use.
+	ArpRefArray implements a reference-counted dynamic array.
+	ArpString is based on Metrowerk's CString for string manipulation.
+
+Terminal Classes
+
+	These classes implement a terminal display with plug-in emulators.
+	See the README.TXT file in the DiTerm directory for more
+	information and an example application.
+
+Network Classes
+
+	The last few classes provide an OO interface to socket operations.
+
+	ArpHostName identifies a remote machine.
+	BTSSocket is William Adams' TCP/IP socket class, with some minor
+		modifications done by myself to work with the ArpHostName
+		class and be more generally useful.
+	ArpTelnet implements a (semi-)working TELNET protocol client.
+
+------------------------------------------------------------
+
+STATUS
+
+NOTE: See the file "README.TXT" in the ArpTelnet distribution for
+specific information on the terminal classes and demo application.
+
+This library is, at best, a work-in-progress.  It is currently being
+supplied for the terminal classes, which are snapshot here at
+a reasonably sane point in development.  While some of the other
+parts of the library work and may even be somewhat usable, no
+attempt has been made to clean and polish them for public use.
+
+------------------------------------------------------------
+
+HISTORY
+
+August 16, 1997:
+
+	• Added automatic scroll on data input or output to the
+	  terminal.
+	• Improvements to the terminal's paste verification.
+
+July 31, 1997:
+
+	• Small fixes to VT200 emulator and terminal.
+
+July 26, 1997:
+
+	• Many fixes to minor problems in the terminal, VT200, and
+	  telnet classes.  This corresponds to the first release of the
+	  ArpTelnet application.
+
+July 25, 1997:
+
+	• New: ArpEmulatorInterface, ArpMultiDir, ArpPluginManager,
+	  ArpEmulatorManager, ArpEmulatorPlugin, ArpTelnet, and
+	  probably a few more I don't remember...
+
+July 7, 1997:
+
+	• Fixed an array bounds problem in ArpRefArray, which was
+	  causing ugly crashes in ArpTerminal.

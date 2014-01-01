@@ -1,0 +1,107 @@
+# Copyright (c)1998 by Angry Red Planet.
+#
+# This code is distributed under a modified form of the
+# Artistic License.  A copy of this license should have
+# been included with it; if this wasn't the case, the
+# entire package can be obtained at
+# <URL:http://www.angryredplanet.com/>.
+#
+# ----------------------------------------------------------------------
+#
+# Makefiles/submakes
+#
+# Set up to recursively build other projects.
+#
+# ----------------------------------------------------------------------
+#
+# Known Bugs
+# ~~~~~~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# To Do
+# ~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# History
+# ~~~~~~~
+#
+# Dec 6, 1998:
+#	First public release.
+#
+#
+
+#-------------------------------------------------------
+#
+#	Standard rules for executing sub-makefiles.
+#
+#--------------------------------------------------------
+
+#--------------------------------------------------------
+#	Include this file to define a standard set of rules
+#	for a global makefile that builds a set of sub-makefiles.
+#
+#	Input:
+#		DEPMAKES: A list of makefiles that must be built before.
+#		SUBMAKES: A list of sub-makefiles to build.
+#		CONCURRENT_JOBS: (Optional) the number of concurrent
+#			make rules to execute.  The default is 1.
+#
+#	Output:
+#		default (rule): Perform the default make action.
+#		release (rule): Perform a release build.
+#		depends (rule): Compute dependencies.
+#		clean (rule): Clean all built files.
+#--------------------------------------------------------
+
+ifndef LOCAL_MAKE
+	ALLMAKES := $(DEPMAKES) $(SUBMAKES)
+else
+	ALLMAKES := $(SUBMAKES)
+endif
+
+ifdef DIST_TARGET
+	SET_DIST := DIST_TARGET="$(DIST_TARGET)"
+else
+	SET_DIST :=
+endif
+
+ifndef CONCURRENT_JOBS
+	CONCURRENT_JOBS := 1
+endif
+
+default::
+	@for i in $(ALLMAKES); do (		\
+		echo "==> Making $$i";		\
+		cd `dirname $$i`;			\
+		make LOCAL_MAKE=1 -j $(CONCURRENT_JOBS) -f `basename $$i`;		\
+	) done
+
+release::
+	@for i in $(ALLMAKES); do (		\
+		echo "==> Making $$i";		\
+		cd `dirname $$i`;			\
+		make LOCAL_MAKE=1 -j $(CONCURRENT_JOBS) -f `basename $$i` release;		\
+	) done
+
+depends::
+	@for i in $(ALLMAKES); do (				\
+		echo "==> Depending $$i";			\
+		cd `dirname $$i`;					\
+		make LOCAL_MAKE=1 -f `basename $$i` depends;		\
+	) done
+
+clean::
+	@for i in $(ALLMAKES); do (				\
+		echo "==> Cleaning $$i";			\
+		cd `dirname $$i`;					\
+		make LOCAL_MAKE=1 -f `basename $$i` clean;		\
+	) done
+
+dist::
+	@for i in $(SUBMAKES); do (				\
+		echo "==> Distributing $$i";		\
+		cd `dirname $$i`;					\
+		make LOCAL_MAKE=1 $(SET_DIST) -f `basename $$i` dist;		\
+	) done

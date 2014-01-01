@@ -1,0 +1,185 @@
+<!doctype HTML public "-//W3O//DTD W3 HTML 3.2//EN">
+<HTML>
+<HEAD>
+<TITLE>ArpCommon: ArpLayout Globals</TITLE>
+</HEAD>
+ <BODY 
+  BGCOLOR="#e0e0e0"
+  TEXT="#000000" 
+  LINK="#a02000" 
+  VLINK="#505050" 
+  ALINK="#a04000" 
+ >
+<div align=center> 
+
+<table width="100%" bgcolor="#000000" border=0 cellspacing=0 cellpadding=0> 
+<tr>
+<td align=left valign=center>
+<font color="#FF8030">
+<H2 align=center>Angry Red Planet</H2> 
+<h1 align=center>ArpLayout</h1>
+</font>
+<td align=right valign=center>
+<br>
+<br>
+<p align=center><img src="../images/arp_pic.jpeg"></p>
+<br>
+<br>
+</table> 
+
+</div>
+
+<br><br><br>
+<h1>Globals in ArpLayout</h1>
+<HR>
+<H3><A NAME="ARPLAYOUT_ARCHIVEHOOKS">ARPLAYOUT_ARCHIVEHOOKS()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="ARPLAYOUT_ARCHIVEHOOKS()">ARPLAYOUT_ARCHIVEHOOKS(ThisClass, ParentClass, ViewDeep)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+If your class doesn't have anything special it needs to do
+    for archiving, you can include this macro to use the standard
+    implementation of mixing in with ArpLayoutable.  Otherwise, you
+    will need to provide your own implementation of Archive()
+    that does your own data as well as the mix-in code here.
+</p>
+<p><strong>See also:</strong>
+<a href="ARPLAYOUT_HANDLERHOOKS.html">ARPLAYOUT_HANDLERHOOKS</a></p>
+<HR>
+<H3><A NAME="ARPLAYOUT_HANDLERHOOKS">ARPLAYOUT_HANDLERHOOKS()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="ARPLAYOUT_HANDLERHOOKS()">ARPLAYOUT_HANDLERHOOKS(ParentClass)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+These are the things you almost always have to do when mixing in
+    with a BHandler or any derived classs.  Your mix-in class should
+    look something like this:
+</p><pre>        class myClass : public BHandler, public ArpBaseLayout
+        {
+        public:
+            myClass() { ... }
+
+            ARPLAYOUT_HANDLERHOOKS(BHandler)
+
+            ...
+        }
+</pre>
+<HR>
+<H3><A NAME="ARPLAYOUT_SUITEHOOKS">ARPLAYOUT_SUITEHOOKS()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="ARPLAYOUT_SUITEHOOKS()">ARPLAYOUT_SUITEHOOKS(ParentClass)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+If your class doesn't implement its own message suite, then
+    you can include this macro to use the standard implementation
+    of mixing in with ArpLayoutable.  Otherwise, you will need
+    to provide your own implementation to GetSupportedSuites()
+    that does your own suite as well as the mix-in code here.
+</p>
+<p><strong>See also:</strong>
+<a href="ARPLAYOUT_HANDLERHOOKS.html">ARPLAYOUT_HANDLERHOOKS</a></p>
+<HR>
+<H3><A NAME="ARPLAYOUT_VIEWHOOKS">ARPLAYOUT_VIEWHOOKS()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="ARPLAYOUT_VIEWHOOKS()">ARPLAYOUT_VIEWHOOKS(ParentClass)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+These are the things you almost always have to do when mixing in
+    with a BView or any derived classs.  Your mix-in class should
+    look something like this:
+</p><pre>        class myClass : public BView, public ArpBaseLayout
+        {
+        public:
+            myClass() { ... }
+
+            ARPLAYOUT_HANDLERHOOKS(BView)
+            ARPLAYOUT_VIEWHOOKS(BView)
+
+            ...
+        }
+</pre>
+<p><strong>See also:</strong>
+<a href="ARPLAYOUT_HANDLERHOOKS.html">ARPLAYOUT_HANDLERHOOKS</a></p>
+<HR>
+<H3><A NAME="ArpAnySize">ArpAnySize</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="ArpAnySize()">const float ArpAnySize</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Place this value into the maximum width/height to allow
+unbounded expansion.
+</p>
+<HR>
+<H3><A NAME="ArpNoParams">ArpNoParams</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="ArpNoParams()">ArpMessage ArpNoParams</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+Quick way to pass no (a.k.a. default) paramters to a function.
+</p>
+<HR>
+<H3><A NAME="get_view_dimens">get_view_dimens()</A></H3>
+<BLOCKQUOTE>
+<TABLE>
+<TR><TD><font size=+1>
+<a name="get_view_dimens()">void get_view_dimens(ArpLayoutDimens* dimens, BView* view)</a>
+</font></TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+<p>
+This function probes the give BView to try to fill in some
+    reasonable default values into the given arp_layout_dimens
+    structure.  In an ideal world, this would just mean calling
+    GetPreferredSize() and copying the result.  Too bad the world
+    isn't ideal.
+</p>
+<HR>
+
+<H1 ALIGN=CENTER><FONT COLOR="#ff0000">Copyright</FONT></H1>
+
+<p>All files and code contained in this package are
+Copyright &copy;1998 Angry Red Planet, except where otherwise noted.
+
+The files contained here-in are distributed under a modifed
+form of the <a href="../../@License.html">Artistic License</a>.
+See the file <code>@License.html</code> or <code>@License.txt</code>
+for a copy of this license.</p>
+
+<table width="100%">
+<tr>
+<td align=left>
+<p>Generated by <a href="http://www.sylvantech.com/~talin/projects/scandoc/scandoc.html"><b>ScanDoc</b></a></p>
+</td>
+<td align=right>
+<p>Last Updated: Tue Aug 24  0:43:09 1999
+</p>
+</p>
+</tr>
+</table>
+
+</BODY>
+</HTML>

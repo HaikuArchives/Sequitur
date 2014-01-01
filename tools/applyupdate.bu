@@ -1,0 +1,768 @@
+
+# Copyright (c)1998 by Angry Red Planet.
+#
+# This code is distributed under a modified form of the
+# Artistic License.  A copy of this license should have
+# been included with it; if this wasn't the case, the
+# entire package can be obtained at
+# <URL:http://www.angryredplanet.com/>.
+#
+# ----------------------------------------------------------------------
+#
+# tools/applyupdate
+#
+# Take an update file and apply it to the current development.
+#
+# ----------------------------------------------------------------------
+#
+# Known Bugs
+# ~~~~~~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# To Do
+# ~~~~~
+#
+# ----------------------------------------------------------------------
+#
+# History
+# ~~~~~~~
+#
+# Dec 6, 1998:
+#	First public release.
+#
+#
+
+NEWDIR=$1
+
+if [ $# -lt 1 ]; then
+	echo "Usage: makeupdate project [update.zip] [checkpoint.zip]"
+	echo "- \"project\" is the directory containing your current project work."
+	echo "- \"update.zip\" is a zip file containing the new update to apply."
+	echo "- \"checkpoint.zip\" is a zip file containing the last checkpoint."
+	echo "  of this project."
+	echo ""
+	echo "If \"update.zip\" is not supplied, it will default to \"project-upd.zip\""
+	echo "If \"checkpoint.zip\" is not supplied, it will default to \"project-ckp.zip\""
+	exit
+fi
+
+CURDIR=$1
+
+if [ ! -e "$CURDIR" ]; then
+	echo "*** Error: Directory \"$CURDIR\" does not exist."
+	exit
+fi
+
+if [ $# -lt 2 ]; then
+	UPDATEZIP=$CURDIR-upd.zip
+else
+	UPDATEZIP=$2
+fi
+
+if [ $# -lt 3 ]; then
+	CHECKPOINTZIP=$CURDIR-ckp.zip
+else
+	CHECKPOINTZIP=$3
+fi
+
+if [ ! -e "$UPDATEZIP" ]; then
+	echo "*** Error: Update file \"$UPDATEZIP\" does not exist."
+	exit
+fi
+
+# --------------- Define Standard Files and Directories ----------------
+
+BASEDIR="$(pwd)"
+TEMPDIR="$BASEDIR/$CURDIR.UpdateInfo.$$"
+UPDATEDIR="$TEMPDIR/upd"
+CHECKPOINTDIR="$TEMPDIR/ckp"
+TOOLSDIR="$(dirname $0)"
+
+BACKUPDIR=Backup
+
+DATESTRING="$(date "+%Y-%m-%d-%H%M")"
+
+BACKUPCKP="${BACKUPDIR}/$DATESTRING.${CURDIR}.zip"
+BACKUPCUR="${BACKUPDIR}/$DATESTRING.${CURDIR}-cur.zip"
+
+DELFILELIST="$UPDATEDIR/${CURDIR}-Deleted.txt"
+MANIFESTLIST="$UPDATEDIR/${CURDIR}-Manifest.txt"
+
+CURFILELIST="$TEMPDIR/curfile_list.txt"
+DELDIRLIST="$TEMPDIR/deldir_list.txt"
+MANIFESTFILES="$TEMPDIR/manifest_list.txt"
+EXISTMANIFESTLIST="$TEMPDIR/exmanifest_list.txt"
+
+LOGFILE="${CURDIR}-UpdateLog.txt"
+
+REPLACELOG="${TEMPDIR}/replace-log.txt"
+COPYLOG="${TEMPDIR}/copy-log.txt"
+SKIPLOG="${TEMPDIR}/skip-log.txt"
+DIFFLOG="${TEMPDIR}/diff-log.txt"
+MERGELOG="${TEMPDIR}/merge-log.txt"
+CONFLICTLOG="${TEMPDIR}/conflict-log.txt"
+DELETELOG="${TEMPDIR}/delete-log.txt"
+VALIDATELOG="${TEMPDIR}/validate-log.txt"
+
+# --------------- Load Standard Functions ----------------
+
+. "$TOOLSDIR/Question.sh"
+. "$TOOLSDIR/whence.sh"
+
+# --------------- Find An Editor ----------------
+
+EDITOR=""
+
+# So how would we just find the default handler for plain/x-source-code?
+if [ -e "/boot/apps/Eddie/plugins/tellEddie" ]; then
+	EDITOR="/boot/apps/Eddie/plugins/tellEddie -w "
+elif [ -e "/boot/home/config/bin/tellEddie" ]; then
+	EDITOR="/boot/home/config/bin/tellEddie -w "
+elif [ -e "/boot/apps/Eddie/Eddie" ]; then
+	EDITOR="/boot/apps/Eddie/Eddie"
+elif [ -e "/boot/apps/Metrowerks/BeIDE" ]; then
+	EDITOR="/boot/apps/Metrowerks/BeIDE"
+elif [ -e "/boot/apps/Hekkelman/pe" ]; then
+	EDITOR="/boot/apps/Hekkelman/pe"
+fi
+
+if [ "$EDITOR" = "" ]; then
+	echo "NOTE: Unable to find a graphical text editor."
+	Question "Where can I find one" "/boot/apps/StyledEdit" ""
+	EDITOR="$ANSWER"
+fi
+
+if [ ! -e "$EDITOR" ]; then
+	echo "*** Error: No editor.  Aborting."
+	exit
+fi
+
+# --------------- Initialize Temporaries ----------------
+
+if [ "$(whence zip)" = "" ]; then
+	echo "*** Error: zip command not available.  Unable to continue."
+	exit
+fi
+
+if [ ! -e "$CHECKPOINTZIP" ]; then
+	echo "Note: There is no previous checkpoint named \"$CHECKPOINTZIP\"."
+	Question "I will only be able to do a manual diff.  Is that okay" "yes" ""
+	case $ANSWER in
+		y* )	;;
+		* )		echo "*** Aborting."
+				exit
+				;;
+	esac
+fi
+
+echo "Ready to apply update $UPDATEZIP to project $CURDIR."
+
+if [ -e "$TEMPDIR" ]; then
+	echo "An old update directory $TEMPDIR exists."
+	Question "Replace it with new update" "yes" ""
+	case $ANSWER in
+		y* )	;;
+		* )		echo "*** Aborting."
+				exit
+				;;
+	esac
+	rm -rf "$TEMPDIR"
+fi
+
+Cleanup() {
+	echo "Cleaning up temporaries..."
+	rm -rf "$TEMPDIR"
+	if [ $# -gt 0 ]; then exit $1
+	fi
+}
+
+trap 'echo "*** Break requested."; Cleanup 1' 1 2 3 15
+
+if [ -e /boot/develop/lib/x86/libroot.so.LIB ]; then
+	echo "Note: Unable to perform a clean under R3."
+	Question "Have you cleaned this under R4?" "no" ""
+	case $ANSWER in
+		y* )	;;
+		* )		echo "Go do it now!"
+				Cleanup 1
+				;;
+	esac
+else
+	echo "Cleaning project directory ${CURDIR} (i.e., make clean)..."
+	(cd "$CURDIR"; make clean >/dev/null)
+fi
+
+if [ ! -e "$BACKUPDIR" ]; then
+	echo "Creating backup directory."
+	mkdir --parents "$BACKUPDIR"
+fi
+
+mkdir --parents "$TEMPDIR"
+mkdir --parents "$UPDATEDIR"
+mkdir --parents "$CHECKPOINTDIR"
+
+# --------------- Set Up Current, Checkpoint, and Update Files ----------------
+
+if [ -e "$CHECKPOINTZIP" ]; then
+	echo "Backing up current checkpoint $CHECKPOINTZIP to $BACKUPCKP."
+	if [ -e "$BACKUPCKP" ]; then
+		Question "Destination exists.  Replace it" "yes" ""
+		case $ANSWER in
+			y* )	rm -f "$BACKUPCKP"		;;
+		esac
+	fi
+	if [ ! -e "$BACKUPCKP" ]; then
+		copyattr --data "$CHECKPOINTZIP" "$BACKUPCKP"
+	fi
+fi
+
+if [ -e "$LOGFILE" ]; then
+	Question "A log file already exists.  Replace it" "yes" ""
+	case $ANSWER in
+		y* )	rm -f "$LOGFILE"					;;
+		* )		echo "Appending to old log file."
+				echo >> "$LOGFILE"
+				echo >> "$LOGFILE" "==============================================================="
+				;;
+	esac
+fi
+
+echo >> "$LOGFILE" "START APPLY UPDATE LOG"
+echo >> "$LOGFILE" "Project: $CURDIR"
+echo >> "$LOGFILE" "Date:    $(date)"
+echo >> "$LOGFILE"
+
+echo "Backing up current work to $BACKUPCUR."
+
+if [ -e "$BACKUPCUR" ]; then
+	Question "Destination exists.  Replace it" "yes" ""
+	case $ANSWER in
+		y* )	rm -f "$BACKUPCUR"		;;
+	esac
+fi
+if [ ! -e "$BACKUPCUR" ]; then
+	zip -ry "$BACKUPCUR" "$CURDIR" >/dev/null
+fi
+
+if [ -e "$CHECKPOINTZIP" ]; then
+	echo "Extracting last checkpoint \"$CHECKPOINTZIP\"..."
+	(cd "$CHECKPOINTDIR"; unzip $BASEDIR/$CHECKPOINTZIP >/dev/null)
+fi
+
+echo "Extracting new update \"$UPDATEZIP\"..."
+
+(cd "$UPDATEDIR"; unzip $BASEDIR/$UPDATEZIP >/dev/null)
+
+echo "Creating a list of update files..."
+
+(cd "$UPDATEDIR"; find "$CURDIR" -print > "$CURFILELIST")
+
+# --------------- Function: Perform Diff Of Two Files ----------------
+
+DoDiff() {
+	if [ $# -lt 2 ]; then
+		echo "DoDiff: Not enough arguments."
+		Cleanup 1
+	fi
+	
+	typeset curfile
+	typeset newfile
+	typeset gotval
+	curfile="$1"
+	newfile="$2"
+	
+	typeset DUMMY
+	
+	echo "- Diffing $curfile (don't have checkpoint)..."
+	if diff --old-line-format="REM> %L" \
+		--new-line-format="ADD> %L" \
+		--unchanged-line-format="" \
+		"$curfile" "$newfile"; then
+		echo "  No changes; skipping."
+		echo >> "$LOGFILE" "$curfile:"
+		echo >> "$LOGFILE" "    DIFF found no changes; skipped."
+		echo >> "$SKIPLOG" "$curfile"
+	else
+		gotval=""
+		while [ "$gotval" = "" ]; do
+			Question "  (R)eplace, (E)dit, (S)kip, or (Q)uit" "e" ""
+			case $ANSWER in
+				r* )
+					echo "  Copying $newfile to $curfile..."
+					mkdir --parents $(dirname "$curfile")
+					copyattr --data "$newfile" "$curfile"
+					echo >> "$LOGFILE" "$curfile:"
+					echo >> "$LOGFILE" "    DIFF asked to replace with new file."
+					echo >> "$REPLACELOG" "$curfile"
+					gotval="yes"
+					;;
+				e* )
+					echo "  Diffing and calling editor..."
+					mkdir --parents $(dirname "$curfile")
+					diff --unchanged-group-format="%<" \
+						--old-group-format="<<<<<<< Deleted:%c'\012'%<>>>>>>>%c'\012'" \
+						--new-group-format="<<<<<<< Added:%c'\012'%>>>>>>>>%c'\012'" \
+						--minimal \
+						"$curfile" "$newfile" > "$TEMPDIR/diff.out.$$"
+					copyattr "$curfile" "$TEMPDIR/diff.out.$$"
+					copyattr --data "$TEMPDIR/diff.out.$$" "$curfile"
+					rm "$TEMPDIR/diff.out.$$"
+					echo >> "$LOGFILE" "$curfile:"
+					echo >> "$LOGFILE" "    DIFF performed."
+					echo >> "$DIFFLOG" "$curfile"
+					"$EDITOR" "$BASEDIR/$curfile" &
+					echo "  Look for lines starting with \"<<<<<<<\"."
+					echo -n "  Press return when done: "
+					read DUMMY
+					gotval="yes"
+					;;
+				s* )
+					echo "  Skipping $curfile..."
+					echo >> "$LOGFILE" "$curfile:"
+					echo >> "$LOGFILE" "    DIFF asked to leave unchanged."
+					echo >> "$SKIPLOG" "$curfile"
+					gotval="yes"
+					;;
+				q* )
+					echo "*** Quit requested."
+					echo >> "$LOGFILE" "$curfile:"
+					echo >> "$LOGFILE" "    DIFF and then aborted."
+					Cleanup 1
+					;;
+			esac
+		done
+	fi
+}
+
+# --------------- Function: Perform Merge Of Three Files ----------------
+
+DoMerge() {
+	if [ $# -lt 3 ]; then
+		echo "DoMerge: Not enough arguments."
+		Cleanup 1
+	fi
+	
+	typeset curfile
+	typeset origfile
+	typeset newfile
+	typeset gotval
+	curfile="$1"
+	origfile="$2"
+	newfile="$3"
+	
+	typeset DUMMY
+	typeset result
+	
+	echo "- Merging $curfile..."
+	if diff -q "$origfile" "$curfile" >/dev/null; then
+		if diff -q "$newfile" "$curfile" >/dev/null; then
+			echo "  No changes; skipping."
+			echo >> "$LOGFILE" "$curfile:"
+			echo >> "$LOGFILE" "    MERGE found no changes; skipped."
+			echo >> "$SKIPLOG" "$curfile"
+		else
+			echo "  Current file unchanged from checkpoint; replacing with new file."
+			mkdir --parents $(dirname "$curfile")
+			copyattr --data "$newfile" "$curfile"
+			echo >> "$LOGFILE" "$curfile:"
+			echo >> "$LOGFILE" "    MERGE found current unchanged; replaced with new."
+			echo >> "$REPLACELOG" "$curfile"
+		fi
+	else
+		if diff -q "$newfile" "$curfile" >/dev/null; then
+			echo '  Both current and update are the same (strange!); skipped.'
+			echo >> "$LOGFILE" "$curfile:"
+			echo >> "$LOGFILE" "    MERGE found current and update the same; skipped."
+			echo >> "$SKIPLOG" "$curfile"
+		else
+			mkdir --parents $(dirname "$curfile")
+			if diff3 -Em -L Current -L Original -L Update \
+			   "$curfile" "$origfile" "$newfile" > "$TEMPDIR/merge.out.$$"; then
+				copyattr "$curfile" "$TEMPDIR/merge.out.$$"
+				copyattr --data "$TEMPDIR/merge.out.$$" "$curfile"
+				rm "$TEMPDIR/merge.out.$$"
+				echo "  No conflicts in merge (but you still might want to check it)."
+				echo >> "$LOGFILE" "$curfile:"
+				echo >> "$LOGFILE" "    MERGE performed, with no conflicts."
+				echo >> "$MERGELOG" "$curfile"
+			else
+				if [ $? -gt 1 ]; then
+					gotval=""
+					while [ "$gotval" = "" ]; do
+						echo "  NOTE: Can't merge binary files."
+						Question "  You can (R)eplace, (S)kip, or (Q)uit" "r" ""
+						case $ANSWER in
+							r* )
+								echo "  Copying $newfile to $curfile..."
+								mkdir --parents $(dirname "$curfile")
+								copyattr --data "$newfile" "$curfile"
+								echo >> "$LOGFILE" "$curfile:"
+								echo >> "$LOGFILE" "    MERGE asked to replace with new binary file."
+								echo >> "$REPLACELOG" "$curfile"
+								gotval="yes"
+								;;
+							s* )
+								echo "  Skipping $curfile..."
+								echo >> "$LOGFILE" "$curfile:"
+								echo >> "$LOGFILE" "    MERGE asked to leave binary file unchanged."
+								echo >> "$SKIPLOG" "$curfile"
+								gotval="yes"
+								;;
+							q* )
+								echo "*** Quit requested."
+								echo >> "$LOGFILE" "$curfile:"
+								echo >> "$LOGFILE" "    MERGE and then aborted."
+								Cleanup 1
+								;;
+						esac
+					done
+				else
+					copyattr "$curfile" "$TEMPDIR/merge.out.$$"
+					copyattr --data "$TEMPDIR/merge.out.$$" "$curfile"
+					rm "$TEMPDIR/merge.out.$$"
+					echo "  Conflicts in merge.  Invoking editor."
+					echo >> "$LOGFILE" "$curfile:"
+					echo >> "$LOGFILE" "    MERGE performed, and conflicts edited."
+					echo >> "$CONFLICTLOG" "$curfile"
+					"$EDITOR" "$BASEDIR/$curfile" &
+					echo "  Look for lines starting with \"<<<<<<<\"."
+					echo -n "  Press return when done: "
+					read DUMMY
+				fi
+			fi
+		fi
+	fi
+}
+
+# --------------- Apply New Files ----------------
+
+echo ""
+echo "Applying new files to project..."
+
+OLDIFS=$IFS
+IFS=
+exec 3< "$CURFILELIST"
+while read LINE 0<&3
+do
+	if [ -f "$UPDATEDIR/$LINE" ]; then
+		if [ -e "$LINE" ]; then
+			if [ -e "$CHECKPOINTDIR/$LINE" ]; then
+				DoMerge "$LINE" "$CHECKPOINTDIR/$LINE" "$UPDATEDIR/$LINE"
+			else
+				DoDiff "$LINE" "$UPDATEDIR/$LINE"
+			fi
+		else
+			echo "- Copying $LINE..."
+			echo "  File doesn't exist in current project; copying."
+			mkdir --parents $(dirname "$LINE")
+			copyattr --data "$UPDATEDIR/$LINE" "$LINE"
+			echo >> "$LOGFILE" "$LINE:"
+			echo >> "$LOGFILE" "    NEW file copied from update."
+			echo >> "$COPYLOG" "$LINE"
+		fi
+		mkdir --parents $(dirname "$CHECKPOINTDIR/$LINE")
+		copyattr --data "$UPDATEDIR/$LINE" "$CHECKPOINTDIR/$LINE"
+	fi
+done
+exec 3<&-
+IFS=$OLDIFS
+
+# --------------- Function: Perform Delete Of Old File ----------------
+
+DoDelete() {
+	if [ $# -lt 2 ]; then
+		echo "DoDelete: Not enough arguments."
+		Cleanup 1
+	fi
+	
+	typeset curfile
+	typeset origfile
+	typeset gotval
+	curfile="$1"
+	origfile="$2"
+	
+	echo "- Deleting $curfile..."
+	if [ -e "$origfile" ]; then
+		if diff -q "$origfile" "$curfile" >/dev/null; then
+			rm "$LINE"
+			if [ -e "$curfile" ]; then
+				echo "  Protected from deletion.  Skipping."
+				echo >> "$LOGFILE" "$LINE:"
+				echo >> "$LOGFILE" "    DELETE failed, file protected."
+			else
+				echo >> "$LOGFILE" "$LINE:"
+				echo >> "$LOGFILE" "    DELETED, no change from checkpoint."
+				echo >> "$DELETELOG" "$LINE"
+			fi
+		else
+			gotval=""
+			while [ "$gotval" = "" ]; do
+				echo "  Current work has changed from checkpoint."
+				Question "  (D)elete, (K)eep, or (Q)uit" "k" ""
+				case $ANSWER in
+					d* )
+						rm "$curfile"
+						if [ -e "$curfile" ]; then
+							echo "  Protected from deletion.  Skipping."
+							echo >> "$LOGFILE" "$LINE:"
+							echo >> "$LOGFILE" "    PROTECTED from deletion."
+						else
+							echo >> "$LOGFILE" "$curfile:"
+							echo >> "$LOGFILE" "    DELETE confirmed even though changed."
+							echo >> "$DELETELOG" "$curfile"
+							echo "  Deleted."
+						fi
+						gotval="yes"
+						;;
+					k* )
+						echo "  Keeping this file (not deleted)..."
+						echo >> "$LOGFILE" "$LINE:"
+						echo >> "$LOGFILE" "    DELETE not performed, file has changed."
+						gotval="yes"
+						;;
+					q* )
+						echo "*** Quit requested."
+						echo >> "$LOGFILE" "$curfile:"
+						echo >> "$LOGFILE" "    DELETE told to abort instead."
+						Cleanup 1
+						;;
+				esac
+			done
+		fi
+	else
+		gotval=""
+		while [ "$gotval" = "" ]; do
+			echo "  File isn't in checkpoint."
+			echo "  You made this, but the update says to delete it."
+			Question "  (D)elete, (K)eep, or (Q)uit" "k" ""
+			case $ANSWER in
+				d* )
+					rm "$curfile"
+					if [ -e "$curfile" ]; then
+						echo "  Protected from deletion.  Skipping."
+						echo >> "$LOGFILE" "$LINE:"
+						echo >> "$LOGFILE" "    PROTECTED from deletion."
+					else
+						echo >> "$LOGFILE" "$curfile:"
+						echo >> "$LOGFILE" "    DELETE confirmed even though new."
+						echo >> "$DELETELOG" "$curfile"
+						echo "  Deleted."
+					fi
+					gotval="yes"
+					;;
+				k* )
+					echo "  Keeping this file (not deleted)..."
+					echo >> "$LOGFILE" "$LINE:"
+					echo >> "$LOGFILE" "    DELETE not performed, file is new."
+					gotval="yes"
+					;;
+				q* )
+					echo "*** Quit requested."
+					echo >> "$LOGFILE" "$curfile:"
+					echo >> "$LOGFILE" "    DELETE told to abort instead."
+					Cleanup 1
+					;;
+			esac
+		done
+	fi
+}
+
+# --------------- Delete Old Files ----------------
+
+if [ -e "$DELFILELIST" ]; then
+
+	echo ""
+	echo "Deleting old files from project..."
+
+	OLDIFS=$IFS
+	IFS=
+	exec 3< "$DELFILELIST"
+	while read LINE 0<&3
+	do
+		if [ -e "$LINE" ]; then
+			if [ -d "$LINE" ]; then
+				echo >> "$DELDIRLIST" "$LINE"
+			else
+				DoDelete "$LINE" "$CHECKPOINTDIR/$LINE"
+				rm -f "$CHECKPOINTDIR/$LINE"
+			fi
+		else
+			# Not in project, but make sure it is removed from checkpoint.
+			rm -rf "$CHECKPOINTDIR/$LINE"
+			
+			echo "- Deleting $LINE..."
+			echo "  File is already gone."
+			echo >> "$LOGFILE" "$LINE:"
+			echo >> "$LOGFILE" "    DELETED but already gone."
+		fi
+	done
+	exec 3<&-
+	IFS=$OLDIFS
+	
+fi
+
+if [ -e "$DELDIRLIST" ]; then
+
+	echo ""
+	echo "Deleting old directories from project..."
+
+	OLDIFS=$IFS
+	IFS=
+	sort -r "$DELDIRLIST" | {
+		while read LINE
+		do
+			if [ -e "$LINE" ]; then
+				echo "- Deleting $LINE..."
+				rmdir "$LINE"
+				if [ -e "$LINE" ]; then
+					echo "  Unable to delete.  Skipping."
+					echo >> "$LOGFILE" "$LINE:"
+					echo >> "$LOGFILE" "    DELETE failed, protected or contains files."
+				else
+					echo >> "$LOGFILE" "$LINE:"
+					echo >> "$LOGFILE" "    DELETED."
+					echo >> "$DELETELOG" "$LINE"
+				fi
+			else
+				echo "- Deleting $LINE..."
+				echo "  Directory is already gone."
+				echo >> "$LOGFILE" "$LINE:"
+				echo >> "$LOGFILE" "    DELETED but already gone."
+			fi
+		done
+	}
+	IFS=$OLDIFS
+	
+fi
+
+# --------------- Validate New Checkpoint Against Manifest ----------------
+
+if [ -e "$MANIFESTLIST" ]; then
+	echo ""
+	echo "Validating new checkpoint against update manifest..."
+	
+	cut --characters=35- "$MANIFESTLIST" > "$MANIFESTFILES"
+	
+	OLDIFS=$IFS
+	IFS=
+	exec 3< "$MANIFESTFILES"
+	exec 4< "$MANIFESTLIST"
+	while read FILE 0<&3
+	do
+		if read LINE 0<&4; then
+			if [ -e "$CHECKPOINTDIR/$FILE" ]; then
+				echo >> "$EXISTMANIFESTLIST" "$LINE"
+			else
+				echo "${FILE}: FAILED (Doesn't exist.)"
+				echo >> "$VALIDATELOG" "${FILE}: FAILED (Doesn't exist.)"
+			fi
+		else
+			echo '*** Internal error: manifest file list inconsistent!'
+		fi
+	done
+	exec 4<&-
+	exec 3<&-
+	IFS=$OLDIFS
+	
+	if [ -e "$EXISTMANIFESTLIST" ]; then
+		(cd "$CHECKPOINTDIR"; md5sum --check "$EXISTMANIFESTLIST" \
+								| tee --append "$VALIDATELOG" | grep "FAIL")
+	else
+		echo "No more files in manifest!"
+	fi
+fi
+
+# --------------- Create Log Summary ----------------
+
+echo ""
+echo "Finishing up log of changes..."
+
+echo >> "$LOGFILE" ""
+echo >> "$LOGFILE" "SUMMARY OF CHANGES:"
+echo >> "$LOGFILE" ""
+
+echo >> "$LOGFILE" "Existing files in project that were replaced with update files:"
+if [ -e "$REPLACELOG" ]; then
+	cat >> "$LOGFILE" "$REPLACELOG"
+else
+	echo >> "$LOGFILE" "(none)"
+fi
+echo >> "$LOGFILE" ""
+
+echo >> "$LOGFILE" "New files that were copied from the update:"
+if [ -e "$COPYLOG" ]; then
+	cat >> "$LOGFILE" "$COPYLOG"
+else
+	echo >> "$LOGFILE" "(none)"
+fi
+echo >> "$LOGFILE" ""
+
+echo >> "$LOGFILE" "Files in update that were completely skipped:"
+if [ -e "$SKIPLOG" ]; then
+	cat >> "$LOGFILE" "$SKIPLOG"
+else
+	echo >> "$LOGFILE" "(none)"
+fi
+echo >> "$LOGFILE" ""
+
+echo >> "$LOGFILE" "Files for which update and current work was merged:"
+if [ -e "$MERGELOG" ]; then
+	cat >> "$LOGFILE" "$MERGELOG"
+else
+	echo >> "$LOGFILE" "(none)"
+fi
+echo >> "$LOGFILE" ""
+
+echo >> "$LOGFILE" "Files and directories that were deleted:"
+if [ -e "$DELETELOG" ]; then
+	cat >> "$LOGFILE" "$DELETELOG"
+else
+	echo >> "LOGFILE" "(none)"
+fi
+echo >> "$LOGFILE" ""
+
+echo >> "$LOGFILE" "------------"
+echo >> "$LOGFILE" ""
+echo >> "$LOGFILE" "The following files required hand editing:"
+echo >> "$LOGFILE" ""
+
+echo >> "$LOGFILE" "Files for which there was no checkpoint (DIFF performed):"
+if [ -e "$DIFFLOG" ]; then
+	cat >> "$LOGFILE" "$DIFFLOG"
+else
+	echo >> "$LOGFILE" "(none)"
+fi
+echo >> "$LOGFILE" ""
+
+echo >> "$LOGFILE" "Files for which update and current was merged, but there were conflicts:"
+if [ -e "$CONFLICTLOG" ]; then
+	cat >> "$LOGFILE" "$CONFLICTLOG"
+else
+	echo >> "$LOGFILE" "(none)"
+fi
+echo >> "$LOGFILE" ""
+
+echo >> "$LOGFILE" "------------"
+echo >> "$LOGFILE" ""
+
+echo >> "$LOGFILE" "Result of validating new checkpoint with update manifest:"
+if [ -e "$VALIDATELOG" ]; then
+	cat >> "$LOGFILE" "$VALIDATELOG"
+else
+	echo >> "$LOGFILE" "(not available)"
+fi
+
+# --------------- Create New Checkpoint And Clean Up ----------------
+
+rm -f "$CHECKPOINTZIP"
+
+echo "Creating new checkpoint \"$CHECKPOINTZIP\"..."
+
+(cd "$CHECKPOINTDIR"; zip -ry "$BASEDIR/$CHECKPOINTZIP" "$CURDIR" >/dev/null)
+
+echo "Cleaning up temporaries..."
+
+rm -rf "$TEMPDIR"
+
+echo "All done!"

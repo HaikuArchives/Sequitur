@@ -1,0 +1,5 @@
+
+	ARPROOT		= ../..
+	IMG_NAME	= AmKernel
+	
+include $(ARPROOT)/makefiles/library

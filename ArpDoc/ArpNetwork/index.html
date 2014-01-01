@@ -1,0 +1,71 @@
+<!doctype HTML public "-//W3O//DTD W3 HTML 3.2//EN">
+<HTML>
+<HEAD>
+<TITLE>ARP Network Library</TITLE>
+</HEAD>
+ <BODY 
+  BGCOLOR="#e0e0e0"
+  TEXT="#000000" 
+  LINK="#a02000" 
+  VLINK="#505050" 
+  ALINK="#a04000" 
+ >
+
+<div align=center> 
+
+<table width="100%" bgcolor="#000000" border=0 cellspacing=0 cellpadding=0> 
+<tr>
+<td align=left valign=center>
+<font color="#FF8030">
+<H2 align=center>Angry Red Planet</H2> 
+<h1 align=center>Network Library</h1>
+</font>
+<td align=right valign=center>
+<br>
+<br>
+<p align=center><img src="../images/arp_pic.jpeg"></p>
+<br>
+<br>
+</table> 
+
+</div>
+
+<br><br><br>
+
+<p>Most of the classes in this library are obsoleted by the new
+networking classes coming up in Genki, so aren't documented.
+However, this library does include the ArpTelnet class, which
+is used by ArpTelnet for its telnet remote device.</p>
+
+<HR>
+
+<H1 ALIGN=CENTER><FONT COLOR=#ff0000>Classes</FONT></H1>
+
+<H2>
+ArpTelnet
+<small>
+<a href="../../ArpHeader/ArpNetwork/ArpTelnet.h">(header file)</a>
+</small>
+</H2>
+
+<p>This class implements a basic part of the TELNET protocol.  The
+class is-a BLooper, and implements the ArpRemoteTerminal BMessage
+communication protocol, automagically understanding about
+terminal sizes, emulation types, starting and stopping sessions, etc.
+In addition, it implements the ArpRemoteInterface, so that it can be
+used as an add-on in ArpRemoteAddon.</p>
+
+<HR>
+
+<H1 ALIGN=CENTER><FONT COLOR=#ff0000>Copyright</FONT></H1>
+
+<p>All files and code contained in this package are
+Copyright &copy;1999 Angry Red Planet, except where otherwise noted.</p>
+
+<p>The files contained here-in are distrubuted under a modifed
+form of the <a href="../../@License.html">Artistic License</a>.
+See the file <code>@License.html</code> or <code>@License.txt</code>
+for a copy of this license.</p>
+
+</BODY>
+</HTML>

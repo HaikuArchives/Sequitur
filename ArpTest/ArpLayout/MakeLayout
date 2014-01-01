@@ -1,0 +1,99 @@
+#-------------------------------------------------------
+#
+#	Generic Crossplatform Makefile
+#
+#	Author:	stephen beaulieu <hippo@be.com>
+#
+#	Questions, comments & concerns to <devsupport@be.com>
+#
+#	Copyright 1998 Be, Inc.  All Rights Reserved
+#
+#	Fill out the Project Specific Information section
+#	Use a \ to continue information on different lines
+#	example: SRCS = source1.cpp \
+#					source2.cpp
+#
+#	When done simply cd to the directory in the terminal
+#	and type make.  The objects and binary will appear
+#	in an obj.x86 or obj.PPC folder.
+#
+#--------------------------------------------------------
+
+	ARPROOT		= ../..
+
+#--------------------------------------------------------
+#	High-level Project Information
+#--------------------------------------------------------
+
+#	specify the name of the project
+	IMG_NAME	= LayoutTest
+	
+#	specify the type of image to create
+	IMG_TYPE	= APP
+	
+#	specify version of project
+	VERSION		= 1.0
+	
+# first include the common rules for setting up all
+# platform-specific information
+
+include $(ARPROOT)/makefiles/platform
+
+#--------------------------------------------------------
+#	Project Specific Information
+#--------------------------------------------------------
+
+#	specify the list of source files
+	SRCS		= PrefWindow.cpp LayoutTest.cpp TermExample.cpp TestWindow.cpp
+	HEADERS		= $(shell echo *.h)
+
+ifeq ($(CPU), PPC)
+	CFLAGS		= -str pool -ansi strict -bool on -requireprotos
+	CFLAGS		+= -str ro -toc_data on
+	LDFLAGS		= -dead on
+endif
+
+#	specify the list of resource files
+	RSRCS		= LayoutTest \
+				  $(ARPROOT)/ArpLib/$(OBJ_DIR)/AboutWindow
+	
+#	specify any additional beos shared libraries needed.
+	ADD_BESHLIBS	= translation
+
+#	specify additional non-beos shared libraries needed.
+	ADD_SHLIBS		= $(CPPLIB)
+	ADD_STLIBS		= $(ARPROOT)/ArpLib/$(OBJ_DIR)/libArpLayout.a \
+					  $(ARPROOT)/ArpLib/$(OBJ_DIR)/libArpKernel.a \
+					  $(ARPROOT)/ArpLib/$(OBJ_DIR)/libArpCollections.a \
+					  $(ARPROOT)/ArpLib/$(OBJ_DIR)/libFFont.a
+
+#	specify any additional beos static libraries needed.
+	ADD_BESTLIBS	= 
+
+#	specify any additional system include paths.
+	SYSTEM_INCLUDES	=
+	SYSLOCAL_INCLUDES	= $(ARPROOT)/ArpHeader/
+
+#	specify any additional local include paths.
+	LOCAL_INCLUDES	=
+
+#--------------------------------------------------------
+#	Build Rules
+#--------------------------------------------------------
+
+# define the actual work to be done	
+
+default: $(TARGET)
+	@echo >/dev/null
+
+release: default
+
+clean:: clean_project
+	@echo >/dev/null
+
+# include common build rules for above definitions
+
+include $(ARPROOT)/makefiles/project
+
+depends: $(DEPENDENCIES)
+	@echo >/dev/null

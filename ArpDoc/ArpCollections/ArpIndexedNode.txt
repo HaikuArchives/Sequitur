@@ -1,0 +1,66 @@
+ArpIndexedNode
+This class represents one node in an ArpIndexedList.  It is an abstract class:  Subclasses are responsible for answering an actual index.  It wraps a piece of data (anything at all, the data is stored as a void pointer).
+
+Subclasses must override:
+	CopyContentsTo(ArpIndexedNode *copy)
+	int32 Index()
+	void pDeleteContents()
+	void PrintContents()
+
+
+CONSTRUCTOR - DESTRUCTOR METHODS
+
+ArpIndexedNode(void *dataArg)
+~ArpIndexedNode
+The node requires a piece of data to wrap.  When deleted, the node does not delete the data it wraps.
+
+
+ACCESSING METHODS
+
+int32 Index()
+This method is empty.  Subclasses are responsible for overriding it and answering with an appropriate index for the node.
+
+void* RawContents()
+Answer the data this node wraps.
+
+ArpIndexedNode* Head()
+Answer the first node in the list.
+
+ArpIndexedNode* Tail()
+Answer the last node in the list.
+
+
+PUBLIC MANIPULATION METHODS
+
+void* Remove()
+Remove myself from the list I am in.  Realistically, I think this should be answering the node, but currently it's answering the data.  Hopefully that can change.
+
+void DeleteListContents()
+Delete the rawData I store, along with the raw data of every node following me.
+
+
+PUBLIC TESTING METHODS
+
+bool IsValid()
+Used to determine if the node is a valid object -- primarily, whether it can or cannot be used in a list.  This method only cares whether or not it is actually currently storing data.  If it is, then it's a valid node.  Subclasses can extend this test if necessary.
+
+
+PROTECTED ACCESSING METHODS
+
+void* RawHeadContents()
+Answer the raw data stored in the head node.  It is intended that subclasses implement a public HeadContents method with the appropriate cast.
+
+void* RawTailContents()
+Answer the raw data stored in the tail node.  It is intended that subclasses implement a public TailContents method with the appropriate cast.
+
+
+PROTECTED MANIPULATION METHODS
+
+ArpIndexedNode* AddNext(ArpIndexedNode *node)
+Add node immediately after the current node.  This method ignores indexes between the nodes.  Clients are responsible for knowing that the node should indeed be the next one in the list.  Answer the added node or NULL for any failure.
+
+
+PRIVATE MANIPULATION METHODS
+
+void pDeleteContents()
+Empty method that subclassses must implement to delete the raw data.
