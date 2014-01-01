@@ -84,7 +84,7 @@ BTSSocket::SetOption(const int level, const int option, char* data,
 					const unsigned int size) const
 {
 	long result = ::setsockopt(fID, level, option, data, size);	
-	ArpD(PRINT(("Result of socket option setting is %d\n", result)));
+	ArpD(PRINT(("Result of socket option setting is %ld\n", result)));
 	return result < 0 ? errno : result;
 }
 // =============================================================================
@@ -95,7 +95,7 @@ BTSSocket::Open()
 {
 	if (fID > -1)
 	{
-		::closesocket(fID);
+		::close(fID);
 	}
 	fID = ::socket(fFamily,  fType, fProtocol);
 
@@ -188,7 +188,7 @@ BTSSocket::Close()
 {
 	if (fID > -1)
 	{
- 		::closesocket(fID);
+ 		::close(fID);
  		fID = -1;
  	}
  	return 0;
@@ -221,7 +221,7 @@ BTSSocket::Send(const char* buf, const long bufSize) const
 			#endif
 		}
 	}	
-	ArpD(PRINT( ("SOCKET SEND - EXIT, sent %ld bytes on %d result is %s\n", sentBytes, 
+	ArpD(PRINT( ("SOCKET SEND - EXIT, sent %d bytes on %d result is %s\n", sentBytes, 
 				fID, strerror(result))));
 	return result;
 }
@@ -241,7 +241,7 @@ BTSSocket::Recv(const char* buf, const long bufSize, long* recvlen) const
 	int  receivedBytes = 0;		
 	int  numBytes = 0;
 	
-	ArpD(PRINT(("SOCKET %d RECEIVE: ENTER bufSize=%d, placelen%x=\n",
+	ArpD(PRINT(("SOCKET %d RECEIVE: ENTER bufSize=%ld, placelen=%p\n",
 				fID, bufSize, recvlen)));
 
 	while ( receivedBytes < bufSize
@@ -280,7 +280,7 @@ BTSSocket::Recv(const char* buf, const long bufSize, long* recvlen) const
 			}
 		}
 	}
-	ArpD(PRINT(("SOCKET %d RECEIVE - Received %ld bytes result is %s\n", fID, numBytes,
+	ArpD(PRINT(("SOCKET %d RECEIVE - Received %d bytes result is %s\n", fID, numBytes,
 				strerror(result))));
 
 	if (result == EINTR && receivedBytes == bufSize) result = B_NO_ERROR;

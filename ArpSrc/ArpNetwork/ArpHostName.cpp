@@ -7,7 +7,7 @@
 #endif
 
 #ifndef _NETDB_H
-#include <net/netdb.h>
+#include <posix/netdb.h>
 #endif
 
 #ifndef _LOCKER_H
