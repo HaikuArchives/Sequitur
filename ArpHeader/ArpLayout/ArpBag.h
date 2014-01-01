@@ -118,7 +118,7 @@ protected:
 									 BMessage* data) const;
 									 
 	virtual void	ComputeDimens(ArpDimens& dimens);
-	virtual void	Layout(void);
+	virtual void	LayoutView(void);
 	
 private:
 	void		initialize();

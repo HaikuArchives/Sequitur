@@ -104,7 +104,7 @@ public:
 protected:
   
 	virtual void	ComputeDimens(ArpDimens& dimens);
-	virtual void	Layout(void);
+	virtual void	LayoutView(void);
 	virtual void	AttachView(BView* par_view, BView* before);
 	virtual void	DrawLayout(BView* inside, BRect region);
 	

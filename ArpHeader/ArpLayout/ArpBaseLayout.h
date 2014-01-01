@@ -399,9 +399,9 @@ class _EXPORT ArpBaseLayout {
 		results in a change, all of the children will automatically be
 	 	updated as well.
 	 */
-	virtual void	SetLayout(BRect frame, BRect body = BRect(),
+	virtual void	SetViewLayout(BRect frame, BRect body = BRect(),
 							  bool force = false);
-	//* @see SetLayout()
+	//* @see SetViewLayout()
 	virtual void	RequestLayout(bool force = false);
 	
 	/** This sets the gravity to determine how the frame and body
@@ -414,7 +414,7 @@ class _EXPORT ArpBaseLayout {
 		cause the left side of the view to match the frame rectangle,
 		and the other sides to align with the body rectangle.
 		
-		@see SetLayout()
+		@see SetViewLayout()
 		@see ::ArpGravity
 	 **/
 	void SetBodyFill(ArpGravity fill);
@@ -517,7 +517,7 @@ class _EXPORT ArpBaseLayout {
 	 	reposition its children.  By default, it just places
 	 	the first child within its entire frame.
 	 */
-	virtual void Layout();
+	virtual void LayoutView();
 	
 	/** Dimensioning.  When a recomputation of the object is
 	 	needed (indicated with InvalidateDimens() above),

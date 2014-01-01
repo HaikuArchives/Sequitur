@@ -444,7 +444,7 @@ void ArpRunningBar::ComputeDimens(ArpDimens& cur_dimens)
 #define APPROX_SCALE(x,y,z) floor( (z >= 1) ? \
 					(((ceil(x))*(y))+((z)-1))/(z) : 0 )
 
-void ArpRunningBar::Layout(void)
+void ArpRunningBar::LayoutView(void)
 {
 	// Retrieve current dimensions.
 	BRect frm = LayoutBounds();
@@ -513,7 +513,7 @@ void ArpRunningBar::Layout(void)
 		cfrm.right = left+width-1;
 	}
 	
-	ArpD(cdb << ADH << "ArpRunningBar::Layout() -- " << LayoutName()
+	ArpD(cdb << ADH << "ArpRunningBar::LayoutView() -- " << LayoutName()
 				<< " = " << frm << endl);
 	ArpD(cdb << ADH << "  width=" << width << ", height=" << height
 				<< ", extra_spc=" << extra_spc
@@ -689,7 +689,7 @@ void ArpRunningBar::Layout(void)
 		}
 		
 		// Finally, actually place the child.
-		child->SetLayout(ffrm, cbod);
+		child->SetViewLayout(ffrm, cbod);
 		
 		// And subtract the space and weight it used.
 		extra_spc -= spc;

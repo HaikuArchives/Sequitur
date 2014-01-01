@@ -931,9 +931,9 @@ BRect ArpBaseLayout::BodyBounds() const
 	return bounds;
 }
 
-void ArpBaseLayout::SetLayout(BRect frame, BRect body, bool force)
+void ArpBaseLayout::SetViewLayout(BRect frame, BRect body, bool force)
 {
-	ArpD(cdb << ADH << "ArpBaseLayout::SetLayout(" << frame << "): "
+	ArpD(cdb << ADH << "ArpBaseLayout::SetViewLayout(" << frame << "): "
 				  << LayoutName() << endl);
 	cur_frame = frame;
 	body_frame = body;
@@ -1057,7 +1057,7 @@ void ArpBaseLayout::LayoutChanged(bool force)
 	if( LayoutParent() == 0 ) {
 		if( force || last_frame != cur_frame ) {
 			body_frame = last_frame = cur_frame;
-			Layout();
+			LayoutView();
 		}
 		return;
 	}
@@ -1098,18 +1098,18 @@ void ArpBaseLayout::LayoutChanged(bool force)
 	}
 	last_frame = view_frame;
 	if( changed ) {
-		Layout();
+		LayoutView();
 	}
 }
 
-void ArpBaseLayout::Layout()
+void ArpBaseLayout::LayoutView()
 {
 	BRect frm = LayoutBounds();
 	BRect body = BodyBounds();
-	ArpD(cdb << ADH << "ArpBaseLayout::Layout() -- " << LayoutName()
+	ArpD(cdb << ADH << "ArpBaseLayout::LayoutView() -- " << LayoutName()
 			<< " " << frm << endl);
 	ArpBaseLayout* child = LayoutChildAt(0);
 	if( child ) {
-		child->SetLayout(frm, body);
+		child->SetViewLayout(frm, body);
 	}
 }

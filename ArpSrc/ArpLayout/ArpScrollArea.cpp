@@ -381,7 +381,7 @@ void ArpScrollArea::ComputeDimens(ArpDimens& cur_dimens)
 			<< ", pref_height = " << cury.PrefBody() << endl);
 }
 
-void ArpScrollArea::Layout(void)
+void ArpScrollArea::LayoutView(void)
 {
 	if( PV_BorderStyle != B_NO_BORDER && InView() ) {
 		// If we are drawing a frame around the children, we need to
@@ -465,7 +465,7 @@ void ArpScrollArea::Layout(void)
 	if( num >= 1 ) {
 		ArpBaseLayout* child = LayoutChildAt(0);
 		ArpD(cdb << ADH << "Moving child to " << frm << endl);
-		if( child ) child->SetLayout(frm);
+		if( child ) child->SetViewLayout(frm);
 	}
 	
 	ArpD(cdb << ADH << "cframe=" << (get_child() ? get_child()->Frame():BRect())

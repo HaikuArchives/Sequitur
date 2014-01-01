@@ -149,7 +149,7 @@ public:
 	
 protected:
 	virtual void ComputeDimens(ArpDimens& dimens);
-  	void Layout(void);
+  	void LayoutView(void);
   	
 private:
 	void initialize();
@@ -348,7 +348,7 @@ public:
 	
 protected:
 	virtual void ComputeDimens(ArpDimens& dimens);
-	virtual void Layout();
+	virtual void LayoutView();
   	
 	ArpGlobalParam<rgb_color>	PV_MenuBackColor;
 	ArpGlobalParam<rgb_color>	PV_MenuForeColor;
@@ -402,7 +402,7 @@ public:
 	
 protected:
 	virtual void ComputeDimens(ArpDimens& dimens);
-	virtual void Layout();
+	virtual void LayoutView();
   	
 	ArpGlobalParam<rgb_color>	PV_FillBackColor;
 	ArpGlobalParam<rgb_color>	PV_FillForeColor;

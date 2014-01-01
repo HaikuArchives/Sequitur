@@ -206,7 +206,7 @@ void ArpBox::ComputeDimens(ArpDimens& cur_dimens)
 	cury.AddLabel(indent_t,indent_b);
 }
 
-void ArpBox::Layout(void)
+void ArpBox::LayoutView(void)
 {
 	BRect frm = LayoutBounds();
 	BRect bdy = BodyBounds();
@@ -220,7 +220,7 @@ void ArpBox::Layout(void)
 	if( child ) {
 		ArpD(cdb << ADH << "Box moving child to Lab:" << frm
 				<< " / Bod:" << bdy << endl);
-		child->SetLayout(frm, bdy);
+		child->SetViewLayout(frm, bdy);
 	}	
 }
 
@@ -637,7 +637,7 @@ void ArpMenuField::ComputeDimens(ArpDimens& cur_dimens)
 						 0);
 }
 
-void ArpMenuField::Layout()
+void ArpMenuField::LayoutView()
 {
 	SetDivider(BodyFrame().left - LayoutFrame().left);
 }
@@ -896,7 +896,7 @@ void ArpTextControl::ComputeDimens(ArpDimens& cur_dimens)
 	dx.AddBody(12);
 }
 
-void ArpTextControl::Layout()
+void ArpTextControl::LayoutView()
 {
 	SetDivider(BodyFrame().left - LayoutFrame().left);
 }

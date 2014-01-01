@@ -72,7 +72,7 @@ ArpRootLayout::ArpRootLayout(BRect frame, const char* name,
 	SetGlobals(this);
 	
 	ArpD(cdb << ADH << "Setting layout to current bounds..." << endl);
-	SetLayout(Bounds());
+	SetViewLayout(Bounds());
 }
 
 ArpRootLayout::ArpRootLayout(BMessage* data, bool final)
@@ -89,7 +89,7 @@ ArpRootLayout::ArpRootLayout(BMessage* data, bool final)
 	if( final ) InstantiateParams(data);
 	
 	SetGlobals(this);
-	SetLayout(Bounds());
+	SetViewLayout(Bounds());
 }
 
 void ArpRootLayout::initialize()
@@ -179,7 +179,7 @@ void ArpRootLayout::FrameResized(float width, float height)
 		BRect bounds = Bounds();
 		ArpD(cdb << ADH << "  Resizing to bounds: " << bounds << endl);
 		Window()->BeginViewTransaction();
-		SetLayout(bounds);
+		SetViewLayout(bounds);
 		Window()->EndViewTransaction();
 	}
 }
@@ -324,7 +324,7 @@ status_t ArpRootLayout::UpdateGlobals(const BMessage* newVals)
 		}
 		ArpD(cdb << ADH << "-------------------------------------" << endl);
 		ArpD(cdb << ADH << "Setting layout:" << endl);
-		SetLayout(bounds);
+		SetViewLayout(bounds);
 	}
 	
 	ArpD(cdb << ADH << "-------------------------------------" << endl);
