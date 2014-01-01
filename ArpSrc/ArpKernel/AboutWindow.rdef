@@ -1,0 +1,4 @@
+// Resources needed for the ArpAboutView and ArpAboutWindow classes.
+
+resource("ArpLogo") #'jpeg' import "AboutWindow/ArpAboutLogo.jpeg";
+}

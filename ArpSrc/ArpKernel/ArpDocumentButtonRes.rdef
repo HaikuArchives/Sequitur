@@ -1,0 +1,3 @@
+// Resources needed for the ArpAboutView and ArpAboutWindow classes.
+
+resource("ArpDocumentButton") #'bmp ' import "ArpDocumentButtonRes/ArpDocumentButton.bmp");
