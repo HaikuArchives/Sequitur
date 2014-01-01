@@ -201,11 +201,11 @@ AmEvent::~AmEvent() {
 #if defined(ArpDEBUG)
 	int last;
 	if ( (last=atomic_add(&counter,-1)) == 1 ) {
-		ArpDL(__FILE__, 2, cdb << ADH << "deleted FINAL event #"
-								<< last-1 << " time: " << time << endl);
+//		ArpDL(__FILE__, 2, cdb << ADH << "deleted FINAL event #"
+//								<< last-1 << " time: " << time << endl);
 	} else {
-		ArpDL(__FILE__, 3, cdb << ADH << "deleted event #"
-								<< last-1 << " time: " << time << endl);
+//		ArpDL(__FILE__, 3, cdb << ADH << "deleted event #"
+//								<< last-1 << " time: " << time << endl);
 	}
 #endif
 }

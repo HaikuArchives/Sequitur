@@ -3,6 +3,8 @@
 
 #define _BUILDING_AmKernel 1
 
+#include <map>
+
 #ifndef AMKERNEL_AMFILTERROSTER_H
 #include "AmKernel/AmFilterRoster.h"
 #endif
@@ -577,7 +579,7 @@ AmFilterRoster* AmFilterRoster::Default()
 		gFilterRoster = new AmFilterRoster("Default Filter Roster");
 		
 		gFilterRoster->AddSearchPath("%A/add-ons/Filters");
-		gFilterRoster->AddDirectory(B_COMMON_ADDONS_DIRECTORY,"AngryRedPlanet/Sequitur/Filters");
+		gFilterRoster->AddDirectory(B_SYSTEM_ADDONS_DIRECTORY,"AngryRedPlanet/Sequitur/Filters");
 		gFilterRoster->AddDirectory(B_USER_ADDONS_DIRECTORY,"AngryRedPlanet/Sequitur/Filters");
 		
 		// Here are our standard filter addons...

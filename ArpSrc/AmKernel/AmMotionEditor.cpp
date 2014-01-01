@@ -636,7 +636,7 @@ void AmMotionEditor::ComputeDimens(ArpDimens& cur_dimens)
 	dx.AddBody(12);
 }
 
-void AmMotionEditor::Layout(void)
+void AmMotionEditor::LayoutView(void)
 {
 	inherited::LayoutView();
 }
