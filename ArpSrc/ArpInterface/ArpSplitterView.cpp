@@ -4,7 +4,7 @@
 #include <be/app/Message.h>
 #include <be/interface/Window.h>
 #include <be/support/Errors.h>
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include "ArpInterface/ArpSplitterView.h"
 
 static const BCursor*	gHrzCursor = 0;	

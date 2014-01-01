@@ -1,6 +1,6 @@
 #include <be/StorageKit.h>
 #include <be/TranslationKit.h>
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpInterface/ArpBitmap.h>
 #include <ArpInterface/ArpPainter.h>
 

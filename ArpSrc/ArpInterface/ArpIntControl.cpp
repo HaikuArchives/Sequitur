@@ -8,7 +8,7 @@
 #endif
 
 #include <be/InterfaceKit.h>
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpSupport/ArpIntFormatterI.h>
 #include <ArpSupport/ArpIntToStringMapI.h>
 #include <ArpInterface/ArpBitmapCache.h>

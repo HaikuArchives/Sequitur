@@ -1,5 +1,5 @@
 #include <math.h>
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpCore/StlVector.h>
 #include <be/support/Errors.h>
 #include "ArpMath/ArpDefs.h"

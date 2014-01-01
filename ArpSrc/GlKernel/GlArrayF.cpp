@@ -1,7 +1,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpMath/ArpDefs.h>
 #include <GlPublic/GlArrayF.h>
 

@@ -1,4 +1,4 @@
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpMath/ArpPoint3d.h>
 
 static const char*		X_STR			= "x";

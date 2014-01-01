@@ -1,4 +1,4 @@
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include <GlPublic/GlSupportTypes.h>
 
 static const char*		REL_STR			= "rel";

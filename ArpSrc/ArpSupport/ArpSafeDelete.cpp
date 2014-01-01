@@ -1,5 +1,5 @@
 #include <be/support/SupportDefs.h>
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpSupport/ArpSafeDelete.h>
 
 ArpSafeDelete::ArpSafeDelete()

@@ -1,5 +1,5 @@
 #include <be/app/Message.h>
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpSupport/ArpVoxel.h>
 
 /*******************************************************

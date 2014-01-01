@@ -2,7 +2,7 @@
 #include <string.h>
 #include <be/midi2/MidiProducer.h>
 #include <be/midi2/MidiRoster.h>
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include <GlPublic/GlMidiEvent.h>
 
 static const char*		P_STR		= "p";

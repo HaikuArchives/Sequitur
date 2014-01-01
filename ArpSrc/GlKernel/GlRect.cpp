@@ -1,4 +1,4 @@
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include "GlPublic/GlRect.h"
 
 /***************************************************************************

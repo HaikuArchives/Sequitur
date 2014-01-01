@@ -1,6 +1,6 @@
 #include <be/StorageKit.h>
 #include <be/support/Autolock.h>
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpInterface/ArpBitmap.h>
 #include "GlPublic/GlImage.h"
 #include "Glasslike/GlDefs.h"

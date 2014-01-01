@@ -1,5 +1,5 @@
 #include <ArpCore/ArpCoreDefs.h>
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpMath/ArpDefs.h>
 
 status_t arp_intersection(	float x0, float y0, float slope0,

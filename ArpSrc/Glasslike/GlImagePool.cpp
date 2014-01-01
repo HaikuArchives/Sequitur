@@ -1,5 +1,5 @@
 #include <be/support/Autolock.h>
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpInterface/ArpBitmap.h>
 #include "Glasslike/GlImagePool.h"
 
