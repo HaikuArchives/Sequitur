@@ -84,6 +84,8 @@
 #include <ArpTerminal/ArpEmulator.h>
 #endif
 
+#include <Clipboard.h>
+
 // forward regs
 class BView;
 class BTextView;
