@@ -58,6 +58,10 @@
 #include <be/storage/FindDirectory.h>
 #endif
 
+#ifndef _NODE_H
+#include <be/storage/Node.h>
+#endif
+
 #ifndef _PATH_H
 #include <be/storage/Path.h>
 #endif
