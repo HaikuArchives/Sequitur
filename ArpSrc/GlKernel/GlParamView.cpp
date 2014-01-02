@@ -16,6 +16,8 @@
 #include <GlKernel/GlParamViewAux.h>
 #include <GlKernel/GlRecorderHolder.h>
 
+#define WM_USER 'WMUR'
+
 static const uint32		WHAT_INC		= 2;
 static const char*		FN_CTRL			= NULL;
 static const char*		FLOAT_CTRL		= NULL;
@@ -390,7 +392,7 @@ status_t GlParamView::AddParamControlsFinished()
 float GlParamView::FloatW(const BString16* label, const GlFloatParamType* pt)
 {
 	float		w = 0;
-	if (label) w += StringWidth(label) + 5;
+	if (label) w += StringWidth(label->String()) + 5;
 	// FIX: Figure width based on min max and steps
 	w += 60;
 	return w;

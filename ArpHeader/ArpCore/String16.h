@@ -13,6 +13,11 @@ public:
 	{
 		
 	}
+	const char*
+	AsAscii() const
+	{
+		return String();
+	}
 	BString16(const BString16* str)
 	:
 	BString()

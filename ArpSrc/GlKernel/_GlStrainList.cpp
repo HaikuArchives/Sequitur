@@ -1,6 +1,6 @@
 #include <GlKernel/GlDefs.h>
 #include <GlKernel/_GlStrainList.h>
-
+#include <ArpKernel/ArpDebug.h>
 // _GL-STRAIN-LIST-PARAM
 class _GlStrainListParam
 {

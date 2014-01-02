@@ -379,7 +379,7 @@ status_t GlChain::ReadFrom(const BMessage& config)
 	for (int32 k = 0; config.FindMessage(NODE_MSG, k, &msg) == B_OK; k++) {
 		BString16			creator;
 		int32				key;
-		if ((err = msg.FindString16(GL_NODE_CREATOR_STR, &creator)) != B_OK) return err;
+		if ((err = msg.FindString(GL_NODE_CREATOR_STR, &creator)) != B_OK) return err;
 		if ((err = msg.FindInt32(GL_NODE_KEY_STR, &key)) != B_OK) return err;
 		const GlNodeAddOn*	addon = GlGlobals().GetAddOn(creator, key);
 		/* FIX:  Actually, this should pull label info out and add

@@ -60,7 +60,7 @@ const BString16* GlMidiEvent::PortName() const
 {
 	BMidiProducer*			prod = BMidiRoster::FindProducer(portId);
 	ArpVALIDATE(prod, return 0);
-	return prod->Name();
+	return new BString16(prod->Name());
 }
 
 void GlMidiEvent::GetValue(const GlMidiEvent& o)
@@ -79,7 +79,7 @@ status_t GlMidiEvent::ReadFrom(const BMessage& msg, bool portName)
 	status_t				err;
 	if (portName) {
 		BString16			name;
-		if ((err = msg.FindString16(P_STR, &name)) != B_OK) return err;
+		if ((err = msg.FindString(P_STR, &name)) != B_OK) return err;
 		int32				id = 0;
 		BMidiProducer*		prod;
 		bool				found = false;
@@ -107,7 +107,7 @@ status_t GlMidiEvent::WriteTo(BMessage& msg, bool portName) const
 	if (portName) {
 		const BString16*	name = PortName();
 		if (!name) return B_ERROR;
-		if ((err = msg.AddString16(P_STR, name)) != B_OK) return err;
+		if ((err = msg.AddString(P_STR, *name)) != B_OK) return err;
 	} else {
 		if ((err = msg.AddInt32(P_STR, portId)) != B_OK) return err;
 	}
@@ -122,7 +122,7 @@ status_t GlMidiEvent::ReadFakeFrom(const BMessage& msg, BString16* portName)
 {
 	status_t		err;
 	if (portName) {
-		if ((err = msg.FindString16(P_STR, portName)) != B_OK) return err;
+		if ((err = msg.FindString(P_STR, portName)) != B_OK) return err;
 	}
 	if ((err = msg.FindInt32(T_STR, &type)) != B_OK) return err;
 	if ((err = msg.FindInt32(C_STR, &channel)) != B_OK) return err;
@@ -135,7 +135,7 @@ status_t GlMidiEvent::WriteFakeTo(BMessage& msg, const BString16* portName) cons
 {
 	ArpVALIDATE(portName, return B_ERROR);
 	status_t			err;
-	if ((err = msg.AddString16(P_STR, portName)) != B_OK) return err;
+	if ((err = msg.AddString(P_STR, *portName)) != B_OK) return err;
 	if ((err = msg.AddInt32(T_STR, type)) != B_OK) return err;
 	if ((err = msg.AddInt32(C_STR, channel)) != B_OK) return err;
 	if ((err = msg.AddInt32(V1_STR, value1)) != B_OK) return err;

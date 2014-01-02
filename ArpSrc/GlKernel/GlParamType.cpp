@@ -81,9 +81,8 @@ GlParamType::GlParamType(	int32 key, const char* label, int32 row,
 
 void GlParamType::Print() const
 {
-	char*		lbl = mLabel.AsAscii();
+	const char*	lbl = mLabel.AsAscii();
 	printf("GlParamType %s (key %ld) (%p)\n", lbl, mKey, this);
-	delete[] lbl;
 }
 
 // #pragma mark -

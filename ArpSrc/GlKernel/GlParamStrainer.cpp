@@ -110,7 +110,7 @@ const BString16* GlParamStrainer::Label(gl_param_key key) const
 {
 	const _ParamStrainerTypeEntry*	te = FindAt(key);
 	if (!te) return 0;
-	return te->label.String();
+	return &te->label;
 }
 
 status_t GlParamStrainer::SetLabel(gl_param_key key, const BString16* label)
@@ -159,7 +159,7 @@ status_t GlParamStrainer::NewGetAt(gl_param_key key, int32* ptIndex,
 	const _ParamStrainerTypeEntry*	te = FindAt(key);
 	if (!te) return B_ERROR;
 	if (ptIndex) *ptIndex = te->index;
-	if (outLabel) *outLabel = te->label.String();
+	if (outLabel) *outLabel = &te->label;
 	if (outControl) *outControl = te->control;
 	if (outMidi) *outMidi = te->midi;
 	return B_OK;
@@ -173,7 +173,7 @@ status_t GlParamStrainer::GetAt(gl_param_key key, int32* ptIndex,
 	if (!te) return B_ERROR;
 	if (ptIndex) *ptIndex = te->index;
 	if (outEnabled) *outEnabled = (te->control == GL_CONTROL_OFF) ? false : true;
-	if (outLabel) *outLabel = te->label.String();
+	if (outLabel) *outLabel = new BString16(te->label);
 	if (outMidi) *outMidi = te->midi;
 	return B_OK;
 }
@@ -193,7 +193,7 @@ status_t GlParamStrainer::GetAt(gl_node_id nid, uint32 paramTypeIndex, int32* ou
 		if (ne->entries[paramTypeIndex]->control == GL_CONTROL_ON) enabled = true;
 		*outEnabled = enabled;
 	}
-	if (outLabel) *outLabel = ne->entries[paramTypeIndex]->label.String();
+	if (outLabel) *outLabel = &ne->entries[paramTypeIndex]->label;
 	if (outMidi) *outMidi = ne->entries[paramTypeIndex]->midi;
 	return B_OK;
 }
@@ -368,7 +368,7 @@ _ParamStrainerTypeEntry::_ParamStrainerTypeEntry(	int32 inKey, int32 inIndex,
 		if (config->FindInt32(INDEX_STR, &i32) == B_OK) index = i32;
 // BW
 		if (config->FindBool(ENABLED_STR, &b) == B_OK) control = (b) ? GL_CONTROL_ON : GL_CONTROL_OFF;
-		if (config->FindString16(LABEL_STR, &s) == B_OK) label = s;
+		if (config->FindString(LABEL_STR, &s) == B_OK) label = s;
 		if (config->FindInt32(CONTROL_STR, &i32) == B_OK) control = i32;
 		if (config->FindInt32(MIDI_STR, &i32) == B_OK) midi = i32;
 	}
@@ -388,7 +388,7 @@ status_t _ParamStrainerTypeEntry::WriteTo(const GlParamType* pt, BMessage& confi
 	if (config.AddInt32(KEY_STR, pt->Key()) != B_OK) return B_ERROR;
 	if (config.AddInt32(INDEX_STR, index) != B_OK) return B_ERROR;
 	if (label.String() && label.Length() > 0)
-		if (config.AddString16(LABEL_STR, label) != B_OK) return B_ERROR;
+		if (config.AddString(LABEL_STR, label) != B_OK) return B_ERROR;
 	if (config.AddInt32(CONTROL_STR, control) != B_OK) return B_ERROR;
 	if (config.AddInt32(MIDI_STR, midi) != B_OK) return B_ERROR;
 	return B_OK;
@@ -414,7 +414,7 @@ status_t _ParamStrainerNodeEntry::Load(	_GlStrainList& list, const GlParamList& 
 		if (e && e->control == GL_CONTROL_ON || e->midi >= GL_MIDI_A) {
 			gl_param_key			key(nid, e->key, e->index);
 			const BString16*		lbl = NULL;
-			if (e->label.Length() > 0) lbl = e->label.String();
+			if (e->label.Length() > 0) lbl = &e->label;
 			
 			const GlParam*			p = params.Find(e->key, e->index);
 			if (p) list.Load(key, p, lbl, e->control, e->midi);
@@ -434,7 +434,7 @@ status_t _ParamStrainerNodeEntry::Strain(_GlStrainList& list) const
 		if (e) {
 			gl_param_key			key(nid, e->key, e->index);
 			const BString16*		lbl = 0;
-			if (e->label.Length() > 0) lbl = e->label.String();
+			if (e->label.Length() > 0) lbl = &e->label;
 
 			list.Strain(key, lbl, e->control, e->midi);
 		}

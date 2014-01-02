@@ -453,14 +453,14 @@ status_t GlNode::WriteTo(BMessage& config) const
 	if (mBaseAddon->mCreator.Length() < 1) return B_ERROR;
 	status_t		err = inherited::WriteTo(config);
 	if (err != B_OK) return err;
-	if ((err = config.AddString16(GL_NODE_CREATOR_STR, mBaseAddon->mCreator)) != B_OK) return err;
+	if ((err = config.AddString(GL_NODE_CREATOR_STR, mBaseAddon->mCreator)) != B_OK) return err;
 	if ((err = config.AddInt32(GL_NODE_KEY_STR, mBaseAddon->mKey)) != B_OK) return err;
 /* FIX: This is really handy for debugging, but I don't know if I want it
  * cluttering things up when it ships.  On the flip side, it's a good way
  * to communicate to the user when something goes wrong and a node can't
  * be found.
  */
-if (mBaseAddon->mLabel.String()) config.AddString16("label", mBaseAddon->mLabel);
+if (mBaseAddon->mLabel.String()) config.AddString("label", mBaseAddon->mLabel);
 //debugger("sds");
 	if ((err = mParams.WriteTo(config)) != B_OK) return err;
 

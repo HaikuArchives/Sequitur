@@ -335,5 +335,5 @@ void GlTextWrap::SetValue(GlParam* param) const
 status_t GlTextWrap::AddValue(BMessage& msg, const char* name) const
 {
 	ArpASSERT(name);
-	return msg.AddString16(name, v);
+	return msg.AddString(name, v);
 }

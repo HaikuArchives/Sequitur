@@ -12,6 +12,8 @@
 #include <GlKernel/GlConfigView.h>
 #include <GlKernel/GlDefs.h>
 
+#define WM_USER 'WMUS'
+
 static const uint32		ON_MSG			= WM_USER + 1;
 static const uint32		LABEL_MSG		= WM_USER + 2;
 static const uint32		MIDI_MSG		= WM_USER + 3;
@@ -125,8 +127,8 @@ GlConfigView::GlConfigView(	const BRect& frame, const GlRootRef& ref,
 	r.top = r.bottom = dataTop;
 	ShiftCheckBoxDown(r);
 	BRect			cbR(r);
-	cbR.right = (cbR.left + 20 + StringWidth(SZ(SZ_On)));
-	mOn = new BCheckBox(cbR, "on", SZ(SZ_On), new BMessage(ON_MSG));
+	cbR.right = (cbR.left + 20 + StringWidth(SZ(SZ_On)->String()));
+	mOn = new BCheckBox(cbR, "on", SZ(SZ_On)->String(), new BMessage(ON_MSG));
 	if (mOn) {
 		mOn->SetEnabled(false);
 		AddChild(mOn);
@@ -134,12 +136,12 @@ GlConfigView::GlConfigView(	const BRect& frame, const GlRootRef& ref,
 	BRect			lR(r);
 	lR.left = (cbR.right + 5);
 	BString16		initL;
-	mLabel = AddTextControl(lR, "lbl", SZ(SZ_Label), 0, LABEL_MSG, initL, StringWidth(SZ(SZ_Label)) + 5);
+	mLabel = AddTextControl(lR, "lbl", SZ(SZ_Label), 0, LABEL_MSG, initL, StringWidth(SZ(SZ_Label)->String()) + 5);
 
 	ShiftMenuDown(r);
 	BMessage		items;
 	_make_midi_menu(items);
-	mMidi = AddMenuControl(r, "midi", SZ(SZ_Midi), MIDI_MSG, items, StringWidth(SZ(SZ_Midi)) + 5);
+	mMidi = AddMenuControl(r, "midi", SZ(SZ_Midi), MIDI_MSG, items, StringWidth(SZ(SZ_Midi)->String()) + 5);
 	if (mMidi) mMidi->SetCurrentIndex(-1);
 	
 	if (mListView) mListView->SetCtrls(mOn, mLabel, mMidi);
@@ -188,7 +190,7 @@ void GlConfigView::MessageReceived(BMessage* msg)
 			if (mListView && mLabel) {
 				_ParamRow*		row = (_ParamRow*)(mListView->CurrentSelection());
 				if (row) {
-					row->SetLabel(mLabel->Text());
+					row->SetLabel(new BString16(mLabel->Text()));
 					mListView->UpdateRow(row);
 					SetStrainedParam(row);
 				}
@@ -246,10 +248,10 @@ _ConfigListView::_ConfigListView(BRect frame)
 					B_WILL_DRAW, B_PLAIN_BORDER),
 		  mOnCtrl(0), mLabelCtrl(0), mMidiCtrl(0)
 {
-	AddColumn(new BStringColumn(SZ(SZ_Parameter), 70, 20, 250, B_TRUNCATE_END), PARAM_COL);
-	AddColumn(new BStringColumn(SZ(SZ_Label), 70, 20, 250, B_TRUNCATE_END), LABEL_COL);
-	AddColumn(new BStringColumn(SZ(SZ_Control), 40, 20, 40, B_TRUNCATE_END), ON_COL);
-	AddColumn(new BStringColumn(SZ(SZ_Midi), 40, 20, 40, B_TRUNCATE_END), MIDI_COL);
+	AddColumn(new BStringColumn(SZ(SZ_Parameter)->String(), 70, 20, 250, B_TRUNCATE_END), PARAM_COL);
+	AddColumn(new BStringColumn(SZ(SZ_Label)->String(), 70, 20, 250, B_TRUNCATE_END), LABEL_COL);
+	AddColumn(new BStringColumn(SZ(SZ_Control)->String(), 40, 20, 40, B_TRUNCATE_END), ON_COL);
+	AddColumn(new BStringColumn(SZ(SZ_Midi)->String(), 40, 20, 40, B_TRUNCATE_END), MIDI_COL);
 	SetSortingEnabled(false);
 	SetSelectionMode(B_SINGLE_SELECTION_LIST);
 }
@@ -266,7 +268,7 @@ void _ConfigListView::SelectionChanged()
 		_ParamRow*	prow = (_ParamRow*)row;
 		if (mLabelCtrl) {
 			if (mLabelCtrl->IsEnabled() == false) mLabelCtrl->SetEnabled(true);
-			mLabelCtrl->SetText(prow->Label());
+			mLabelCtrl->SetText(prow->Label()->String());
 		}
 		if (mOnCtrl) {
 			if (mOnCtrl->IsEnabled() == false) mOnCtrl->SetEnabled(true);
@@ -301,7 +303,7 @@ _ParamRow::_ParamRow(	gl_node_id paramNid,
 		  mControl(GL_CONTROL_OFF), mMidi(GL_MIDI_OFF)
 {
 	ArpASSERT(type);
-	SetField(new BStringField(type->Label()), PARAM_COL);
+	SetField(new BStringField(type->Label()->String()), PARAM_COL);
 	SetLabel(label);
 //	SetOn(on);
 	SetControl(control);
@@ -353,7 +355,7 @@ void _ParamRow::SetLabel(const BString16* label)
 {
 	mLabel.WinRelease();
 	if (label) mLabel = *label;
-	SetField(new BStringField(&mLabel), LABEL_COL);
+	SetField(new BStringField(mLabel.String()), LABEL_COL);
 }
 
 int32 _ParamRow::Control() const
@@ -364,8 +366,8 @@ int32 _ParamRow::Control() const
 void _ParamRow::SetControl(int32 control)
 {
 	mControl = control;
-	if (mControl == GL_CONTROL_ON) SetField(new BStringField(SZ(SZ_On)), ON_COL);
-	else SetField(new BStringField(SZ(SZ_Off)), ON_COL);
+	if (mControl == GL_CONTROL_ON) SetField(new BStringField(SZ(SZ_On)->String()), ON_COL);
+	else SetField(new BStringField(SZ(SZ_Off)->String()), ON_COL);
 }
 
 int32 _ParamRow::Midi() const
@@ -390,7 +392,7 @@ static void _make_midi_menu(BMessage& msg)
 	for (int32 k = -1; k < 27; k++) {
 		const BString16*	str = gl_midi_label(k);
 		if (str) {
-			msg.AddString16("item", str);
+			msg.AddString("item", str->String());
 			msg.AddInt32("i", k);
 		}
 	}

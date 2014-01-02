@@ -507,7 +507,7 @@ status_t GlTextParam::WriteTo(BMessage& msg) const
 {
 	status_t		err = inherited::WriteTo(msg);
 	if (err != B_OK) return err;
-	if ((err = msg.AddString16(VAL_STR, text)) != B_OK) return err;
+	if ((err = msg.AddString(VAL_STR, text)) != B_OK) return err;
 	return B_OK;
 }
 
