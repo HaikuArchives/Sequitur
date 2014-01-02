@@ -75,24 +75,20 @@ private:
 
 class ArpChorusFilterAddOn : public AmFilterAddOn {
 public:
-	ArpChorusFilterAddOn(const void* cookie)
-		: AmFilterAddOn(cookie)
-	{
-	}
+	ArpChorusFilterAddOn(const void* cookie);
 	
-	virtual VersionType Version(void) const				{ return VERSION_CURRENT; }
-	virtual BString		Name() const					{ return "Chorus"; }
-	virtual BString		Key() const						{ return "arp:Chorus"; }
-	virtual BString		ShortDescription() const		{ return 0; }
+	virtual VersionType Version(void) const;
+	virtual BString		Name() const;
+	virtual BString		Key() const;
+	virtual BString		ShortDescription() const;
 	virtual void		LongDescription(BString& name, BString& str) const;
-	virtual BString		Author() const					{ return "Eric Hackborn"; }
-	virtual BString		Email() const					{ return "hackborn@angryredplanet.com"; }
+	virtual BString		Author() const;
+	virtual BString		Email() const;
 	virtual void		GetVersion(int32* major, int32* minor) const;
-	virtual type Type() const							{ return THROUGH_FILTER; }
+	virtual type Type() const;
 	virtual BBitmap* Image(BPoint requestedSize) const;
 	virtual AmFilterI* NewInstance(	AmFilterHolderI* holder,
-									const BMessage* config = 0)
-		{ return new ArpChorusFilter(this, holder, config); }
+									const BMessage* config = 0);
 		
 private:
 	typedef AmFilterAddOn	inherited;

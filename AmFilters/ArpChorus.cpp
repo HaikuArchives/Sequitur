@@ -1,5 +1,6 @@
 #include "ArpChorus.h"
 
+#include <String.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "ArpKernel/ArpDebug.h"
@@ -343,3 +344,48 @@ void _PercentFormat::FormatInt(int32 number, BString& out) const
 {
 	out << number << '%';
 };
+
+ArpChorusFilterAddOn::ArpChorusFilterAddOn(const void* cookie)
+	: AmFilterAddOn(cookie)
+{
+	
+}
+
+ArpChorusFilterAddOn::VersionType ArpChorusFilterAddOn::Version() const
+{
+	return VERSION_CURRENT;
+}
+
+BString ArpChorusFilterAddOn::Name() const
+{
+	return "Chorus";
+}
+
+BString ArpChorusFilterAddOn::Key() const
+{
+	return "arp:Chorus";
+}
+
+BString ArpChorusFilterAddOn::ShortDescription() const
+{
+	return "";
+}
+
+BString ArpChorusFilterAddOn::Author() const
+{
+	return "Eric Hackborn";
+}
+BString ArpChorusFilterAddOn::Email() const
+{
+	return "hackborn@angryredplanet.com";
+}
+ArpChorusFilterAddOn::type ArpChorusFilterAddOn::Type() const
+{
+	return THROUGH_FILTER;
+}
+
+AmFilterI* ArpChorusFilterAddOn::NewInstance(AmFilterHolderI* holder,
+	const BMessage* config)
+{
+		return new ArpChorusFilter(this, holder, config);
+}
