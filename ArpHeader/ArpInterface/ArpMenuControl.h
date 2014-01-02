@@ -33,6 +33,8 @@
 #include <be/app/Message.h>
 #include <be/app/Messenger.h>
 #include <be/interface/MenuField.h>
+#include <ArpCore/String16.h>
+
 class _ArpMenuControlData;
 
 extern const char*		ARP_MENU_I_STR;

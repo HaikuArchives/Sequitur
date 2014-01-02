@@ -224,8 +224,8 @@ GlNode* GlNewImage::Clone() const
 bool GlNewImage::IsDirty() const
 {
 	if (mLastSize.x < 0 || mLastSize.y < 0) return true;
-	BPoint			size(	float(Params().Int32(WIDTH_KEY)),
-							float(Params().Int32(HEIGHT_KEY)));
+	BPoint			size(	float(this->Params().Int32(WIDTH_KEY)),
+							float(this->Params().Int32(HEIGHT_KEY)));
 	if (size != mLastSize) return true;
 	return false;
 }
@@ -237,8 +237,8 @@ static ArpVoxel _voxel(const ArpVoxel& v, int32 z)
 
 void GlNewImage::CacheImage()
 {
-	BPoint			size(	float(Params().Int32(WIDTH_KEY)),
-							float(Params().Int32(HEIGHT_KEY)));
+	BPoint			size(	float(this->Params().Int32(WIDTH_KEY)),
+							float(this->Params().Int32(HEIGHT_KEY)));
 	int32			fgZ = Params().Int32(GL_FG_Z),
 					bgZ = Params().Int32(GL_BG_Z);
 	ArpVoxel		fg = _voxel(Params().Color(GL_FG_RGBA), fgZ),

@@ -82,19 +82,19 @@ GlValueAddOn::GlValueAddOn()
 		: inherited(SZI[SZI_arp], GL_VALUE_SRF_KEY, SZ(SZ_Color), SZ(SZ_Value), 1, 0)
 {
 	BMessage		msg;
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Red));			msg.AddInt32(ARP_MENU_I_STR, RED_SRC);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Green));		msg.AddInt32(ARP_MENU_I_STR, GREEN_SRC);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Blue));		msg.AddInt32(ARP_MENU_I_STR, BLUE_SRC);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Alpha));		msg.AddInt32(ARP_MENU_I_STR, ALPHA_SRC);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Hue));			msg.AddInt32(ARP_MENU_I_STR, HUE_SRC);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Saturation));	msg.AddInt32(ARP_MENU_I_STR, SATURATION_SRC);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Value));		msg.AddInt32(ARP_MENU_I_STR, VALUE_SRC);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Depth));		msg.AddInt32(ARP_MENU_I_STR, DEPTH_SRC);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Diffusion));	msg.AddInt32(ARP_MENU_I_STR, DIFFUSION_SRC);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Specularity));	msg.AddInt32(ARP_MENU_I_STR, SPECULARITY_SRC);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Density));		msg.AddInt32(ARP_MENU_I_STR, DENSITY_SRC);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Cohesion));	msg.AddInt32(ARP_MENU_I_STR, COHESION_SRC);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Fluidity));	msg.AddInt32(ARP_MENU_I_STR, FLUIDITY_SRC);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Red));			msg.AddInt32(ARP_MENU_I_STR, RED_SRC);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Green));		msg.AddInt32(ARP_MENU_I_STR, GREEN_SRC);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Blue));		msg.AddInt32(ARP_MENU_I_STR, BLUE_SRC);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Alpha));		msg.AddInt32(ARP_MENU_I_STR, ALPHA_SRC);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Hue));			msg.AddInt32(ARP_MENU_I_STR, HUE_SRC);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Saturation));	msg.AddInt32(ARP_MENU_I_STR, SATURATION_SRC);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Value));		msg.AddInt32(ARP_MENU_I_STR, VALUE_SRC);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Depth));		msg.AddInt32(ARP_MENU_I_STR, DEPTH_SRC);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Diffusion));	msg.AddInt32(ARP_MENU_I_STR, DIFFUSION_SRC);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Specularity));	msg.AddInt32(ARP_MENU_I_STR, SPECULARITY_SRC);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Density));		msg.AddInt32(ARP_MENU_I_STR, DENSITY_SRC);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Cohesion));	msg.AddInt32(ARP_MENU_I_STR, COHESION_SRC);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Fluidity));	msg.AddInt32(ARP_MENU_I_STR, FLUIDITY_SRC);
 	AddParamType(new GlMenuParamType('src_', SZ(SZ_Source), msg, RED_SRC));
 }
 

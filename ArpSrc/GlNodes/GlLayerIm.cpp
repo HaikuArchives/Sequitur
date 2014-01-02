@@ -164,11 +164,11 @@ static GlParamType* new_mode_type()
 	BMessage		msg;
 	msg.AddString(ARP_MENU_ITEM_STR, "Replace");			msg.AddInt32(ARP_MENU_I_STR, REPLACE_MODE);
 	msg.AddString(ARP_MENU_ITEM_STR, "Replace (Alpha)");	msg.AddInt32(ARP_MENU_I_STR, REPLACE_ALPHA_MODE);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Average));		msg.AddInt32(ARP_MENU_I_STR, AVERAGE_MODE);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Min));			msg.AddInt32(ARP_MENU_I_STR, MIN_MODE);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Max));			msg.AddInt32(ARP_MENU_I_STR, MAX_MODE);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Add));			msg.AddInt32(ARP_MENU_I_STR, ADD_MODE);
-	msg.AddString16(ARP_MENU_ITEM_STR, SZ(SZ_Subtract));	msg.AddInt32(ARP_MENU_I_STR, SUB_MODE);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Average));		msg.AddInt32(ARP_MENU_I_STR, AVERAGE_MODE);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Min));			msg.AddInt32(ARP_MENU_I_STR, MIN_MODE);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Max));			msg.AddInt32(ARP_MENU_I_STR, MAX_MODE);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Add));			msg.AddInt32(ARP_MENU_I_STR, ADD_MODE);
+	msg.AddString(ARP_MENU_ITEM_STR, *SZ(SZ_Subtract));	msg.AddInt32(ARP_MENU_I_STR, SUB_MODE);
 	msg.AddString(ARP_MENU_ITEM_STR, "Center");				msg.AddInt32(ARP_MENU_I_STR, CENTER_MODE);
 	return new GlMenuParamType(GL_MODE_PARAM_KEY, SZ(SZ_Mode), msg, REPLACE_MODE);
 }
