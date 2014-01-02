@@ -170,25 +170,14 @@ $(TARGET): $(OBJS) $(ALL_APP_RESOURCES) $(ADD_STLIBS)
 		$(DO_RSRCS)
 		$(MIMESET) -f $@
 
-#		@echo "OBJS: $(OBJS)"
-#		@echo "DEPS: $(DEPS)"
-#		@echo "RSRC: $(RSRC_DIRS_LIST_TO_OBJS:.rsrc=.d)"
+		@echo "OBJS: $(OBJS)"
+		@echo "DEPS: $(DEPS)"
+		@echo "RSRC: $(RSRC_DIRS_LIST_TO_OBJS:.rsrc=.d)"
 
 #$(DEPENDENCIES): $(DEPS) $(RSRC_DIR_LIST_TO_OBJS)
 
 $(DEPENDENCIES): $(DEPS) $(RSRC_DIR_LIST_TO_OBJS)
 		cat >$(DEPENDENCIES) $(DEPS)
-
-# If 'clean' isn't part of one of the goals on the command line, include
-# the deps files.  Note that this precludes you from doing a
-#  'make clean install'
-# but requires
-#  'make clean ; make install'
-# in order to get the deps included for the install target.
-#
-ifeq (,$(findstring clean,$(MAKECMDGOALS)))
-include $(DEPENDENCIES)
-endif
 
 #--------------------------------------------------------
 #	Rules for the whole system
