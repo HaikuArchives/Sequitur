@@ -4,7 +4,7 @@
 #include <Window.h>
 #include <Entry.h>
 
-#include <experimental/WindowRoster.h>
+#include <be/experimental/WindowRoster.h>
 
 class BFilePanel;
 

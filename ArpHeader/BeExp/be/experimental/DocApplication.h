@@ -6,8 +6,9 @@
 #include <Window.h>
 #include <List.h>
 #include <String.h>
+#include <Node.h>
 
-#include <experimental/WindowRoster.h>
+#include <be/experimental/WindowRoster.h>
 
 class BFilePanel;
 

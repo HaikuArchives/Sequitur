@@ -399,7 +399,7 @@ static status_t add_bool_items(	BMenu** menu, const BMessage& props, const char*
 {
 	if (!label) return B_ERROR;
 #if B_BEOS_VERSION_DANO
-	const char*			name;
+	char*			name;
 #else
 	char*			name;
 #endif

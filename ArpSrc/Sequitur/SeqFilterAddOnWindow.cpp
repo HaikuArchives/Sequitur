@@ -17,6 +17,8 @@
 #include "Sequitur/SeqFilterAddOnWindow.h"
 #include <ArpKernel/ArpDebug.h>
 
+#define B_BEOS_VERSION_DANO 1
+
 #include <set>
 
 static const float	_ROWSIZE				= 24;

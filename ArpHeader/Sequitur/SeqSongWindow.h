@@ -35,7 +35,7 @@
 #include <FilePanel.h>
 #endif
 
-#include <experimental/DocWindow.h>
+#include <be/experimental/DocWindow.h>
 
 class BMenuItem;
 
