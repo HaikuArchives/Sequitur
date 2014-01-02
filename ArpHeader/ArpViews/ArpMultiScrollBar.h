@@ -27,10 +27,10 @@
 #ifndef ARPVIEWS_ARPMULTISCROLLBAR_H
 #define ARPVIEWS_ARPMULTISCROLLBAR_H
 
-#include <be/interface/ScrollBar.h>
-#include <be/interface/View.h>
-#include <be/support/List.h>
-#include <be/support/SupportDefs.h>
+#include <interface/ScrollBar.h>
+#include <interface/View.h>
+#include <support/List.h>
+#include <support/SupportDefs.h>
 
 /***************************************************************************
  * ARP-MULTI-SCROLL-BAR

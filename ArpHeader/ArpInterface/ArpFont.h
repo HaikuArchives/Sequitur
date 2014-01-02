@@ -32,8 +32,8 @@
 #define ARPINTERFACE_ARPFONT_H
 
 #include <ArpCore/String16.h>
-#include <be/app/Message.h>
-#include <be/interface/Font.h>
+#include <app/Message.h>
+#include <interface/Font.h>
 
 enum ArpFontStyle {
 	ARP_PLAIN_STYLE			= 0x00000000,

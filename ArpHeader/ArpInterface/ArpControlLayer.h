@@ -31,7 +31,7 @@
 #ifndef ARPINTERFACE_ARPCONTROLLAYER_H
 #define ARPINTERFACE_ARPCONTROLLAYER_H
 
-#include <be/support/TypeConstants.h>
+#include <support/TypeConstants.h>
 #include <ArpCore/StlVector.h>
 class _ControlLayerEntry;
 

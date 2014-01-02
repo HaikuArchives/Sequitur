@@ -22,7 +22,7 @@
 #ifndef GLPUBLIC_GLNODEVISUAL_H
 #define GLPUBLIC_GLNODEVISUAL_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 #include <GlPublic/GlRootRef.h>
 class GlNode;
 class GlRootNode;

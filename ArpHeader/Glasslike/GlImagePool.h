@@ -23,7 +23,7 @@
 #ifndef GLASSLIKE_GLIMAGEPOOL_H
 #define GLASSLIKE_GLIMAGEPOOL_H
 
-#include <be/support/Locker.h>
+#include <support/Locker.h>
 #include <ArpCore/StlVector.h>
 #include <GlPublic/GlImage.h>
 class GlImagePoolEntry;

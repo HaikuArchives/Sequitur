@@ -22,7 +22,7 @@
 #ifndef SEQUITUR_SEQSONGTOOLTARGET_H
 #define SEQUITUR_SEQSONGTOOLTARGET_H
 
-#include <be/interface/View.h>
+#include <interface/View.h>
 #include <ArpBuild.h>
 #include "AmPublic/AmRange.h"
 #include "AmPublic/AmTimeConverter.h"

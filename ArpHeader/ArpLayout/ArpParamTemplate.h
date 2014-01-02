@@ -48,7 +48,7 @@
 #endif
 
 #ifndef __BSTRING__
-#include <be/support/String.h>
+#include <support/String.h>
 #endif
 
 #ifndef ARPKERNEL_ARPDEBUG_H
@@ -66,7 +66,7 @@ template<class T> status_t ArpFindParam(T* value, const BMessage* msg,
 	status_t err = msg->FindData(name, type, index, (const void**)&get, &len);
 	if( err ) {
 		ArpD(cdb << ADH << "Unable to find data: " << name
-				<< " at index " << index << endl);
+				<< " at index " << (int) index << endl);
 		return err;
 	}
 	ArpVALIDATE(len == sizeof(T), return B_MISMATCHED_VALUES);
@@ -93,7 +93,7 @@ status_t ArpFindParam(BString* value, const BMessage* msg,
 	status_t err = msg->FindData(name, type, index, (const void**)&get, &len);
 	if( err ) {
 		ArpD(cdb << ADH << "Unable to find data: " << name
-				<< " at index " << index << endl);
+				<< " at index " << (int) index << endl);
 		return err;
 	}
 	if( get[len] == 0 ) len--;

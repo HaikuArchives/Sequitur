@@ -35,7 +35,7 @@
 #include <FilePanel.h>
 #endif
 
-#include <experimental/DocWindow.h>
+#include <Window.h>
 
 class BMenuItem;
 
@@ -61,7 +61,7 @@ class SeqTimeMbtView;
 /*************************************************************************
  * SEQ-SONG-WINDOW
  *************************************************************************/
-class SeqSongWindow : public DocWindow,
+class SeqSongWindow : public BWindow,
 					  public AmSongObserver,
 					  public SeqSongWinPropertiesI,
 					  public ArpBitmapCache,
@@ -69,10 +69,10 @@ class SeqSongWindow : public DocWindow,
 					  public SeqWindowStateI
 {
 private:
-	typedef DocWindow	inherited;
+	typedef BWindow	inherited;
 	
 public:
-	SeqSongWindow(WindowRoster *wr, entry_ref *ref, const char *title,
+	SeqSongWindow(entry_ref *ref, const char *title,
 		window_look look, window_feel feel, uint32 flags, uint32 workspace);
 	virtual ~SeqSongWindow();
 

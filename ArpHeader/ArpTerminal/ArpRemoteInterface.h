@@ -54,15 +54,15 @@
 #endif
 
 #ifndef	_ARCHIVABLE_H
-#include <be/support/Archivable.h>
+#include <support/Archivable.h>
 #endif
 
 #ifndef	_LOOPER_H
-#include <be/app/Looper.h>
+#include <app/Looper.h>
 #endif
 
 #ifndef	_MESSENGER_H
-#include <be/app/Messenger.h>
+#include <app/Messenger.h>
 #endif
 
 struct ArpRemoteType {

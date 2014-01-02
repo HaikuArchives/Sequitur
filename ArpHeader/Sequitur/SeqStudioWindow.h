@@ -24,9 +24,9 @@
 #ifndef SEQUITUR_SEQSTUDIOWINDOW_H
 #define SEQUITUR_SEQSTUDIOWINDOW_H
 
-#include <be/interface/MenuField.h>
-#include <be/interface/TextControl.h>
-#include <be/interface/Window.h>
+#include <interface/MenuField.h>
+#include <interface/TextControl.h>
+#include <interface/Window.h>
 #include "Sequitur/SeqWindowStateI.h"
 
 /*************************************************************************

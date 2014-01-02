@@ -23,7 +23,7 @@
 #ifndef GLASSLIKE_GLKEYTRACKER_H
 #define GLASSLIKE_GLKEYTRACKER_H
 
-#include <be/support/Locker.h>
+#include <support/Locker.h>
 #include <ArpCore/StlVector.h>
 #include <ArpCore/String16.h>
 

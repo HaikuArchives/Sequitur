@@ -36,7 +36,7 @@
 #ifndef GLNODES_GLIMAGENODES_H
 #define GLNODES_GLIMAGENODES_H
 
-#include <be/support/Locker.h>
+#include <support/Locker.h>
 #include <GlPublic/GlNode.h>
 class GlImage;
 class GlNewImageAddOn;

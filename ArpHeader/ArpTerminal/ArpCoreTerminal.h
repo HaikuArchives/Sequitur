@@ -98,11 +98,11 @@
 #define ARPTERMINAL_ARPCORETERMINAL_H
 
 #ifndef _MESSENGER_H
-#include <be/app/Messenger.h>
+#include <app/Messenger.h>
 #endif
 
 #ifndef _LOCKER_H
-#include <be/support/Locker.h>
+#include <support/Locker.h>
 #endif
 
 #ifndef ARPKERNEL_ARPREFARRAY_H

@@ -30,7 +30,7 @@
 #ifndef GLPUBLIC_GLPARAMLIST_H
 #define GLPUBLIC_GLPARAMLIST_H
 
-#include <be/app/Message.h>
+#include <app/Message.h>
 #include <GlPublic/GlDefs.h>
 #include <GlPublic/GlParamTypeList.h>
 #include <GlPublic/GlParamWrap.h>

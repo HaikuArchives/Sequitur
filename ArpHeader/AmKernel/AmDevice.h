@@ -31,9 +31,9 @@
 #ifndef AMKERNEL_AMDEVICE_H
 #define AMKERNEL_AMDEVICE_H
 
-#include <be/app/Message.h>
-#include <be/storage/File.h>
-#include <be/support/SupportDefs.h>
+#include <app/Message.h>
+#include <storage/File.h>
+#include <support/SupportDefs.h>
 #include "AmPublic/AmDeviceI.h"
 #include "AmKernel/AmBank.h"
 #include "AmKernel/AmFileRosterEntryI.h"

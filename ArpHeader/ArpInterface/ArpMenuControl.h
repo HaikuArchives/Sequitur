@@ -30,9 +30,9 @@
 #ifndef ARPINTERFACE_ARPMENUCONTROL_H
 #define ARPINTERFACE_ARPMENUCONTROL_H
 
-#include <be/app/Message.h>
-#include <be/app/Messenger.h>
-#include <be/interface/MenuField.h>
+#include <app/Message.h>
+#include <app/Messenger.h>
+#include <interface/MenuField.h>
 class _ArpMenuControlData;
 
 extern const char*		ARP_MENU_I_STR;

@@ -24,8 +24,8 @@
 #ifndef SEQUITUR_SEQTEMPOCONTROL_H
 #define SEQUITUR_SEQTEMPOCONTROL_H
 
-#include <be/interface/Bitmap.h>
-#include <be/interface/Control.h>
+#include <interface/Bitmap.h>
+#include <interface/Control.h>
 
 /***************************************************************************
  * SEQ-TEMPO-CONTROL

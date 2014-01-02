@@ -23,9 +23,9 @@
 #ifndef GLASSLIKE_GLMAINWINAUX_H
 #define GLASSLIKE_GLMAINWINAUX_H
 
-#include <be/app/Messenger.h>
-#include <be/InterfaceKit.h>
-#include <be/support/Locker.h>
+#include <app/Messenger.h>
+#include <InterfaceKit.h>
+#include <support/Locker.h>
 #include <ArpCore/StlVector.h>
 #include <ArpInterface/ArpControlLayer.h>
 #include <GlPublic/GlControlTarget.h>

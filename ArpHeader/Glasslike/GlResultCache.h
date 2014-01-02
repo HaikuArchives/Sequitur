@@ -23,9 +23,9 @@
 #ifndef GLASSLIKE_GLRESULTCACHE_H
 #define GLASSLIKE_GLRESULTCACHE_H
 
-#include <be/app/Messenger.h>
-#include <be/interface/MenuItem.h>
-#include <be/support/Locker.h>
+#include <app/Messenger.h>
+#include <interface/MenuItem.h>
+#include <support/Locker.h>
 class ArpBitmap;
 class GlImage;
 

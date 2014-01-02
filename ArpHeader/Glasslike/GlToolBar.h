@@ -25,7 +25,7 @@
 
 #include <ArpCore/StlVector.h>
 #include <ArpCore/ArpSynchronization.h>
-#include <be/support/Locker.h>
+#include <support/Locker.h>
 #include <ArpSupport/ArpSafeDelete.h>
 #include <GlPublic/GlDefs.h>
 class _GlToolBarEntry;

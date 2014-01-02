@@ -33,9 +33,9 @@
 #ifndef AMPUBLIC_AMTRACKDATAVIEW_H
 #define AMPUBLIC_AMTRACKDATAVIEW_H
 
-#include <be/app/Message.h>
-#include <be/app/MessageRunner.h>
-#include <be/interface/View.h>
+#include <app/Message.h>
+#include <app/MessageRunner.h>
+#include <interface/View.h>
 #include "AmPublic/AmTimeConverter.h"
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmSongRef.h"

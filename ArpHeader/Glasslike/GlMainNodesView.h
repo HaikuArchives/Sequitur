@@ -23,9 +23,9 @@
 #ifndef GLASSLIKE_GLMAINNODESVIEW_H
 #define GLASSLIKE_GLMAINNODESVIEW_H
 
-#include <be/app/Messenger.h>
-#include <be/InterfaceKit.h>
-#include <be/support/Locker.h>
+#include <app/Messenger.h>
+#include <InterfaceKit.h>
+#include <support/Locker.h>
 #include <ArpInterface/ArpControlLayer.h>
 #include <Glasslike/GlMidi.h>
 #include <Glasslike/GlProjectList.h>

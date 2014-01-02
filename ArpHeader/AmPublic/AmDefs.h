@@ -6,7 +6,7 @@
 #define AMPUBLIC_AMDEFS_H
 
 #include <SupportDefs.h>
-#include <be/support/String.h>
+#include <support/String.h>
 #include <limits.h>
 class BMessage;
 

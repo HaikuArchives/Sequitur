@@ -24,8 +24,8 @@
 #ifndef SEQUITUR_SEQPHRASETOOL_H
 #define SEQUITUR_SEQPHRASETOOL_H
 
-#include <be/app/MessageRunner.h>
-#include <be/support/Locker.h>
+#include <app/MessageRunner.h>
+#include <support/Locker.h>
 #include "AmPublic/AmSongRef.h"
 #include "AmPublic/AmTimeConverter.h"
 #include "AmPublic/AmTrackRef.h"

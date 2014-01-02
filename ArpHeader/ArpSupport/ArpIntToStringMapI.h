@@ -32,7 +32,7 @@
 #define ARPSUPPORT_ARPINTTOSTRINGMAPI_H
 
 #include <ArpCore/String16.h>
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 
 /***************************************************************************
  * ARP-INT-TO-STRING-MAP-I

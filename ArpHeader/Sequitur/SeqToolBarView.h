@@ -25,8 +25,8 @@
 #define SEQUITUR_SEQTOOLBARVIEW_H
 
 #include <vector.h>
-#include <be/interface/Bitmap.h>
-#include <be/interface/View.h>
+#include <interface/Bitmap.h>
+#include <interface/View.h>
 #include "AmPublic/AmToolBarRef.h"
 #include "AmKernel/AmKernelDefs.h"
 #include "BeExp/ToolTip.h"

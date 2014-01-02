@@ -4,22 +4,22 @@
 #ifndef SEQUITUR_SEQAPPLICATION_H
 #define SEQUITUR_SEQAPPLICATION_H
 
-#include <be/app/Application.h>
-#include <be/app/Messenger.h>
-#include <be/experimental/DocApplication.h>
-#include <be/interface/Bitmap.h>
-#include <be/interface/Picture.h>
-#include <be/support/Locker.h>
+#include <app/Application.h>
+#include <app/Messenger.h>
+//#include <experimental/DocApplication.h>
+#include <interface/Bitmap.h>
+#include <interface/Picture.h>
+#include <support/Locker.h>
 
 #include "AmKernel/AmGlobalsImpl.h"
 
 /***************************************************************************
  * SEQ-APPLICATION
  ****************************************************************************/
-class SeqApplication : public DocApplication
+class SeqApplication : public BApplication
 {
 private:
-	typedef DocApplication	inherited;
+	typedef BApplication	inherited;
 	
 public:
 	SeqApplication();

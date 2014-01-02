@@ -1,7 +1,7 @@
 #ifndef GLPUBLIC_GLGROWTHPATTERN_H
 #define GLPUBLIC_GLGROWTHPATTERN_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 
 #define			GL_GROWTH_LIMIT			(256)
 

@@ -30,8 +30,8 @@
 #ifndef GLKERNEL_GLRECORDERHOLDER_H
 #define GLKERNEL_GLRECORDERHOLDER_H
 
-#include <be/app/Messenger.h>
-//#include <be/support/Locker.h>
+#include <app/Messenger.h>
+//#include <support/Locker.h>
 #include <ArpInterface/ArpBitmapView.h>
 #include <GlPublic/GlControlTarget.h>
 class GlRecorder;

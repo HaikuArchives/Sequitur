@@ -39,7 +39,7 @@
 #define SBF_SBFCRC_H
 
 #ifndef _SUPPORT_DEFS_H
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 #endif
 
 /* Update a running CRC with the bytes buf[0..len-1]--the CRC

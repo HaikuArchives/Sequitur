@@ -25,7 +25,7 @@
 #ifndef GLPUBLIC_GLCACHE2D_H
 #define GLPUBLIC_GLCACHE2D_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 class GlAlgo2d;
 class GlPlanes;
 class GlProcessStatus;

@@ -22,7 +22,7 @@
 #ifndef AMPUBLIC_AMTOOLBARREF_H
 #define AMPUBLIC_AMTOOLBARREF_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 #include "AmPublic/AmDefs.h"
 class BHandler;
 class AmToolBar;

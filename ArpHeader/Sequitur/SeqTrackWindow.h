@@ -4,9 +4,8 @@
 #ifndef SEQUITUR_SEQTRACKWINDOW_H
 #define SEQUITUR_SEQTRACKWINDOW_H
 
-#include <be/experimental/BitmapButton.h>
-#include <be/interface/ScrollBar.h>
-#include <be/interface/Window.h>
+#include <interface/ScrollBar.h>
+#include <interface/Window.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "AmPublic/AmSongObserver.h"
 #include "AmPublic/AmViewFactory.h"
@@ -14,6 +13,7 @@
 #include "AmKernel/AmPropertiesTool.h"
 #include "AmPublic/AmTrackRef.h"
 #include "BeExp/ToolTip.h"
+#include "BeExp/BitmapButton.h"
 #include "Sequitur/SeqWindowStateI.h"
 class BMenu;
 class BMenuField;

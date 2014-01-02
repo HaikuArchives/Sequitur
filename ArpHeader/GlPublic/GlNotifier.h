@@ -30,8 +30,8 @@
 #ifndef GLPUBLIC_GLNOTIFIER_H
 #define GLPUBLIC_GLNOTIFIER_H
 
-#include <be/app/Messenger.h>
-#include <be/support/Locker.h>
+#include <app/Messenger.h>
+#include <support/Locker.h>
 class _GlNotifierData;
 
 /***************************************************************************

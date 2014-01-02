@@ -30,7 +30,7 @@
 #ifndef GLPUBLIC_GLDEGREELINE_H
 #define GLPUBLIC_GLDEGREELINE_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 class GlLineCache;
 
 /*******************************************************

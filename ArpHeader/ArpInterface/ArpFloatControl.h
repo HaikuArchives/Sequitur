@@ -32,9 +32,9 @@
 #define ARPINTERFACE_ARPFLOATCONTROL_H
 
 #include <ArpCore/String16.h>
-#include <be/app/Invoker.h>
-#include <be/app/MessageRunner.h>
-#include <be/interface/View.h>
+#include <app/Invoker.h>
+#include <app/MessageRunner.h>
+#include <interface/View.h>
 class ArpInlineTextView;
 
 enum {

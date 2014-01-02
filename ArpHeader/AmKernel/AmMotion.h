@@ -24,7 +24,7 @@
 #define AMKERNEL_AMMOTION_H
 
 #include <vector.h>
-#include <be/app/Message.h>
+#include <app/Message.h>
 #include "AmPublic/AmMotionI.h"
 #include "AmKernel/AmFileRosterEntryI.h"
 #include "AmKernel/AmPhrase.h"

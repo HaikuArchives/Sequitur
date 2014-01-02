@@ -31,7 +31,7 @@
 #define GLPUBLIC_GLMIDIEVENT_H
 
 #include <ArpCore/String16.h>
-#include <be/app/Message.h>
+#include <app/Message.h>
 
 /***************************************************************************
  * GL-MIDI-EVENT

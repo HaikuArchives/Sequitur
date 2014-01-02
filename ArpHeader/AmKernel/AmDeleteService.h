@@ -24,7 +24,7 @@
 #ifndef AMKERNEL_AMDELETESERVICE_H
 #define AMKERNEL_AMDELETESERVICE_H
 
-#include <be/support/Locker.h>
+#include <support/Locker.h>
 #include "AmPublic/AmEvents.h"
 class AmChangeEventUndo;
 class AmPhraseEvent;

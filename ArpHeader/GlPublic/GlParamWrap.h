@@ -23,7 +23,7 @@
 #define GLPUBLIC_GLPARAMWRAP_H
 
 #include <ArpCore/String16.h>
-#include <be/app/Message.h>
+#include <app/Message.h>
 #include <ArpMath/ArpPoint3d.h>
 #include <ArpSupport/ArpVoxel.h>
 #include <ArpInterface/ArpFont.h>

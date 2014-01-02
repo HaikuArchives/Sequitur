@@ -47,11 +47,11 @@
 #define ARPTERMINAL_ARPREMOTETERMINAL_H
 
 #ifndef _MESSENGER_H
-#include <be/app/Messenger.h>
+#include <app/Messenger.h>
 #endif
 
 #ifndef _MENU_ITEM_H
-#include <be/interface/MenuItem.h>
+#include <interface/MenuItem.h>
 #endif
 
 #ifndef ARPTERMINAL_ARPTERMINAL_H

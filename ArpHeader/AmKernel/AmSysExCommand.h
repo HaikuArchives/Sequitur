@@ -32,8 +32,8 @@
 #define AMKERNEL_AMSYSEXCOMMAND_H
 
 #include <vector.h>
-#include <be/support/SupportDefs.h>
-#include <be/support/String.h>
+#include <support/SupportDefs.h>
+#include <support/String.h>
 #include "AmPublic/AmDefs.h"
 class AmEvent;
 class AmSystemExclusive;

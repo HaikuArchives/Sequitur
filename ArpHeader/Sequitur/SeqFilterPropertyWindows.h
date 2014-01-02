@@ -23,8 +23,8 @@
 #ifndef SEQUITUR_SEQEDITROSTERWINDOW_H
 #define SEQUITUR_SEQEDITROSTERWINDOW_H
 
-#include <be/experimental/ColumnTypes.h>
-#include <be/InterfaceKit.h>
+#include <interface/ColumnTypes.h>
+#include <InterfaceKit.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "AmPublic/AmPipelineMatrixRef.h"
 #include "BeExp/ToolTip.h"

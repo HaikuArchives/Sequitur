@@ -29,8 +29,8 @@
 #ifndef SEQUITUR_SEQTRACKHRZSECONDARYINFO_H
 #define SEQUITUR_SEQTRACKHRZSECONDARYINFO_H
 
-#include <be/app/Message.h>
-#include <be/interface/PopUpMenu.h>
+#include <app/Message.h>
+#include <interface/PopUpMenu.h>
 
 #include "ArpViews/ArpHrzViewManager.h"
 #include "AmPublic/AmSongObserver.h"

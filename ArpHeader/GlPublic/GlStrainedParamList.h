@@ -22,7 +22,7 @@
 #ifndef GLPUBLIC_GLSTRAINEDPARAMLIST_H
 #define GLPUBLIC_GLSTRAINEDPARAMLIST_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 #include <ArpCore/ArpChar.h>
 #include <GlPublic/GlParamListI.h>
 class GlMidiEvent;

@@ -39,7 +39,7 @@
 #define ARPKERNEL_STRUCTUREDIO_H
 
 #ifndef _DATAIO_H
-#include <be/support/DataIO.h>
+#include <support/DataIO.h>
 #endif
 
 typedef enum {

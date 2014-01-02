@@ -31,7 +31,7 @@
 #define AMSTDFACTORY_AMNOTERENDERER_H
 
 #include <vector.h>
-#include <be/interface/View.h>
+#include <interface/View.h>
 #include "ArpKernel/ArpLineArrayCache.h"
 #include "AmPublic/AmPhraseRendererI.h"
 #include "AmPublic/AmTimeConverter.h"

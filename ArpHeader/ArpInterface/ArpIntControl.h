@@ -31,8 +31,8 @@
 #define ARPINTERFACE_ARPINTCONTROL_H
 
 #include <ArpCore/String16.h>
-#include <be/app/MessageRunner.h>
-#include <be/interface/Control.h>
+#include <app/MessageRunner.h>
+#include <interface/Control.h>
 class ArpInlineTextView;
 class ArpIntControlMotionI;
 class ArpIntFormatterI;

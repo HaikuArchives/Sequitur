@@ -23,9 +23,9 @@
 #define GLPUBLIC_GLPROCESSSTATUS_H
 
 #include <ArpCore/StlVector.h>
-#include <be/app/Messenger.h>
-#include <be/support/Locker.h>
-#include <be/support/SupportDefs.h>
+#include <app/Messenger.h>
+#include <support/Locker.h>
+#include <support/SupportDefs.h>
 class _GlProcessPartition;
 
 /***************************************************************************

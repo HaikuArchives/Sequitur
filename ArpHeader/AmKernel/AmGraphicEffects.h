@@ -24,9 +24,9 @@
 #ifndef AMKERNEL_AMGRAPHICEFFECTS_H
 #define AMKERNEL_AMGRAPHICEFFECTS_H
 
-#include <be/app/MessageFilter.h>
-#include <be/app/MessageRunner.h>
-#include <be/interface/View.h>
+#include <app/MessageFilter.h>
+#include <app/MessageRunner.h>
+#include <interface/View.h>
 #include "AmPublic/AmGraphicEffect.h"
 #include "AmPublic/AmViewFactory.h"
 

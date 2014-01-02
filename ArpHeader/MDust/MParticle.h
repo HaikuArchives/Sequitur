@@ -31,7 +31,7 @@
 #ifndef MDUST_MPARTICLE_H
 #define MDUST_MPARTICLE_H
 
-#include <be/opengl/GL/glu.h>
+#include <opengl/GL/glu.h>
 #include "MDustPublic/MParticleI.h"
 #include "MDust/MCube.h"
 //#include "MDust/MPoint.h"
