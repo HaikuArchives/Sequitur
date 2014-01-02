@@ -24,8 +24,8 @@
 #ifndef AMKERNELTEST_FAKEPREFERENCES_H
 #define AMKERNELTEST_FAKEPREFERENCES_H
 
-#include <be/interface/Bitmap.h>
-#include <be/interface/Picture.h>
+#include <interface/Bitmap.h>
+#include <interface/Picture.h>
 #include "ArpViewsPublic/ArpPrefsI.h"
 
 /***************************************************************************
