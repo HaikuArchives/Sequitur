@@ -5,6 +5,7 @@
 #include <string.h>
 #include <RecentItems.h>
 #include <Roster.h>
+//TODO:
 //#include <experimental/DocApplication.h>
 #include <InterfaceKit.h>
 #include <kernel/fs_attr.h>
@@ -365,6 +366,7 @@ static void tracks_for_each_device(AmSong* song, uint32 channelLimit, int32 addo
 
 // #pragma mark -
 
+//TODO:
 /*SeqSongWindow::SeqSongWindow(entry_ref *ref, const char *title,
 					 window_look look, window_feel feel,
 					 uint32 flags, uint32 workspace)
@@ -1561,9 +1563,11 @@ void SeqSongWindow::AddMainMenu()
 	/* File Menu
 	 */
 	menu = new BMenu(FILE_MENU_SZ, B_ITEMS_IN_COLUMN);
+	//TODO:
 	//item = new BMenuItem("New", new BMessage(DOC_APP_NEW_WINDOW), 'N');
 	item->SetTarget(be_app);
 	menu->AddItem(item);
+	//TODO:
 	/*mOpenMenu = new BMenuItem(BRecentFilesList::NewFileListMenu("Open" B_UTF8_ELLIPSIS,
 								NULL, NULL, be_app,
 								20, false, NULL, "application/x-vnd.Arp-sequitur"),
@@ -1578,6 +1582,7 @@ void SeqSongWindow::AddMainMenu()
 	 */
 	menu->AddSeparatorItem();
 	
+	//TODO:
 	//add_menu_item( menu, "Save", DOC_WIN_SAVE, 'S' );
 	//add_menu_item( menu, "Save As" B_UTF8_ELLIPSIS, DOC_WIN_SAVE_AS, 0);
 	add_menu_item( menu, "Close", B_QUIT_REQUESTED, 'W' );
@@ -1796,6 +1801,7 @@ static BRect add_transport_button(	BRect frame, const char* name, uint32 what,
 		/* Right now there's a bug in the buttons that causes them to resizes themslves
 		 * based on label info, even if they don't have a label.  This compensates.
 		 */
+		//TODO:
 		//butt->ResizeToPreferred();
 		//butt->SetValue(B_CONTROL_OFF);
 		toView->AddChild( butt );
@@ -3382,6 +3388,7 @@ void SeqSongWindow::AddRefToSettings()
 {
 	if( mAddedRefToSettings ) return;
 	mAddedRefToSettings = true;
+	//TODO:
 	//entry_ref	ref = FileRef();
 	//seq_app->AddShutdownRef( "open_document", &ref );
 }

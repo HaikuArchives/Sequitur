@@ -18,6 +18,7 @@
 #include <memory.h>
 
 #include <interface/ColorTools.h>
+//TODO:
 //#include <experimental/BitmapTools.h>
 
 namespace BPrivate {
@@ -346,6 +347,7 @@ public:
 				PRINT(("Drawing with alpha=%f, tip=%p\n",
 						fCurAlpha, fTip));
 				if( fMixPic && fBackPic && fForePic ) {
+					//TODO:
 					//mix_bitmaps(fMixPic, fBackPic, fForePic,
 					//			(uint8)(255*fCurAlpha+.5));
 					fDrawer.DrawBitmap(fMixPic);
@@ -470,6 +472,7 @@ public:
 				} else {
 					i.OffsetTo(i.left, wfrm.top-fBackRegion.top);
 				}
+				//TODO:
 				//copy_bitmap(fBackPic, prev_pic, i, p);
 			}
 			delete prev_pic;

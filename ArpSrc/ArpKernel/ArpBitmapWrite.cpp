@@ -11,6 +11,7 @@
 // The R5 PNG translator sometimes has problem writing alpha correctly,
 // so talk to libpng.so directly.
 
+//TODO:
 // This is found in png.h
 /* The complete definition of png_struct has, as of libpng-1.5.0,
  * been moved into a separate header file that is not accessible to
@@ -104,9 +105,10 @@ status_t save_bitmap_as_png(BBitmap* bitmap, BDataIO* out_stream)
 	return status;
 }
 
+//TODO:
 // filename isn't even given as a parameter
-// the function is probably a merge of the
-// one in the #if and the one below this one
+// the function is probably an awful merge
+// of the one in the #if and the one below this one
 
 /*#else
 
