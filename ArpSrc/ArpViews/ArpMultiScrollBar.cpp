@@ -2,7 +2,7 @@
  */
 #include <assert.h>
 #include <stdio.h>
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #include "ArpViews/ArpMultiScrollBar.h"
 
 /*************************************************************************

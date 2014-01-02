@@ -1,10 +1,10 @@
 #include <ArpCore/ArpDebug.h>
 #include <ArpSupport/ArpSafeDelivery.h>
 
-#include <be/kernel/OS.h>
-#include <be/support/Autolock.h>
-#include <be/app/Looper.h>
-#include <be/app/MessageRunner.h>
+#include <kernel/OS.h>
+#include <support/Autolock.h>
+#include <app/Looper.h>
+#include <app/MessageRunner.h>
 
 //#include <list.h>
 

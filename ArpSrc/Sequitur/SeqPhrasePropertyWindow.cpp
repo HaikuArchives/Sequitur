@@ -1,7 +1,7 @@
 /* SeqPhrasePropertyWindow.cpp
  */
-#include <be/InterfaceKit.h>
-#include <be/support/String.h>
+#include <InterfaceKit.h>
+#include <support/String.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "AmPublic/AmPrefsI.h"

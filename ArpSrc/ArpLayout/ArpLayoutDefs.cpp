@@ -29,13 +29,13 @@
 #endif
 
 #ifndef _VIEW_H
-#include <be/interface/View.h>
+#include <interface/View.h>
 #endif
 
 #include <float.h>
 #include <algobase.h>
 
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 
 ArpMOD();
 

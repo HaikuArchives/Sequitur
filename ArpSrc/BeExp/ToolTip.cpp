@@ -17,8 +17,8 @@
 #include <stdio.h>
 #include <memory.h>
 
-#include <experimental/ColorTools.h>
-#include <experimental/BitmapTools.h>
+#include <interface/ColorTools.h>
+//#include <experimental/BitmapTools.h>
 
 namespace BPrivate {
 
@@ -346,8 +346,8 @@ public:
 				PRINT(("Drawing with alpha=%f, tip=%p\n",
 						fCurAlpha, fTip));
 				if( fMixPic && fBackPic && fForePic ) {
-					mix_bitmaps(fMixPic, fBackPic, fForePic,
-								(uint8)(255*fCurAlpha+.5));
+					//mix_bitmaps(fMixPic, fBackPic, fForePic,
+					//			(uint8)(255*fCurAlpha+.5));
 					fDrawer.DrawBitmap(fMixPic);
 				}
 				break;
@@ -470,7 +470,7 @@ public:
 				} else {
 					i.OffsetTo(i.left, wfrm.top-fBackRegion.top);
 				}
-				copy_bitmap(fBackPic, prev_pic, i, p);
+				//copy_bitmap(fBackPic, prev_pic, i, p);
 			}
 			delete prev_pic;
 			prev_pic = 0;

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include <be/midi2/MidiProducer.h>
-#include <be/midi2/MidiRoster.h>
+#include <midi2/MidiProducer.h>
+#include <midi2/MidiRoster.h>
 #include <ArpCore/ArpDebug.h>
 #include <GlPublic/GlMidiEvent.h>
 

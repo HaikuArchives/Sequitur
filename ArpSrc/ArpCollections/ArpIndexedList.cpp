@@ -13,7 +13,7 @@
 #include <malloc.h>
 #include <stdio.h>
 #include <math.h>
-#include <be/support/ClassInfo.h>
+#include <support/ClassInfo.h>
 
 #ifndef ARPCOLLECTIONS__ARPINDEXEDLIST_H
 #include "ArpCollections/ArpIndexedList.h"

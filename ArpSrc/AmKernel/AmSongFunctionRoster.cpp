@@ -12,9 +12,9 @@
 #endif
 
 #include <algo.h>
-#include <be/interface/OutlineListView.h>
-#include <be/interface/ScrollView.h>
-#include <be/interface/Window.h>
+#include <interface/OutlineListView.h>
+#include <interface/ScrollView.h>
+#include <interface/Window.h>
 
 #include "AmPublic/AmFilterI.h"
 #include "AmKernel/AmPhraseEvent.h"

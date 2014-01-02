@@ -1,7 +1,7 @@
 /* AmTrackDataView.cpp
  */
 #include <stdio.h>
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpPrefsI.h"

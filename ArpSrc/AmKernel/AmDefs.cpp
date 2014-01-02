@@ -5,7 +5,7 @@
 #include "AmPublic/AmDefs.h"
 
 #include <Message.h>
-#include <be/storage/File.h>
+#include <storage/File.h>
 #include <stdio.h>
 
 status_t add_time(BMessage& msg, const char* name, AmTime timeVal)

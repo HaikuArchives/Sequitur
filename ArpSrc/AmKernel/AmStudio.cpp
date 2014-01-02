@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmGlobalsI.h"
 #include "AmKernel/AmKernelDefs.h"

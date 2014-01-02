@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <string.h>
 #include <malloc.h>
-#include <be/StorageKit.h>
+#include <StorageKit.h>
 #include <ArpInterface/ArpBitmap.h>
 #include <ArpInterface/ArpPrefs.h>
 #include <ArpInterface/ArpSplitterView.h>

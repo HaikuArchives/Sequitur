@@ -39,11 +39,11 @@ enum {
 #endif
 
 #ifndef  _ENTRY_H
-#include <be/storage/Entry.h>
+#include <storage/Entry.h>
 #endif
 
 #ifndef _MESSENGER_H
-#include <be/app/Messenger.h>
+#include <app/Messenger.h>
 #endif
 
 #include <string.h>

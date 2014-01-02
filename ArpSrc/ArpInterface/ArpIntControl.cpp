@@ -7,7 +7,7 @@
 #include <string.h>
 #endif
 
-#include <be/InterfaceKit.h>
+#include <InterfaceKit.h>
 #include <ArpCore/ArpDebug.h>
 #include <ArpSupport/ArpIntFormatterI.h>
 #include <ArpSupport/ArpIntToStringMapI.h>

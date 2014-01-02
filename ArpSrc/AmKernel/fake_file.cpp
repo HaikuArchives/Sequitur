@@ -5,7 +5,7 @@
 #include "ArpViews/ArpKnobControl.h"
 #include "AmKernel/fake_file.h"
 #include "AmPublic/AmFilterConfigLayout.h"
-#include "experimental/ResourceSet.h"
+#include "BeExp/ResourceSet.h"
 #include <png.h>
 
 class _FakeLayoutSettings : public AmFilterConfigLayout

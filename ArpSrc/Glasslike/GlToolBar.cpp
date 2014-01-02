@@ -1,4 +1,4 @@
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #include <Glasslike/GlToolBar.h>
 
 class _GlToolBarEntry

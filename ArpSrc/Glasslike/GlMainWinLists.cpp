@@ -1,5 +1,5 @@
-#include <be/StorageKit.h>
-#include <be/support/Autolock.h>
+#include <StorageKit.h>
+#include <support/Autolock.h>
 #include <ArpInterface/ArpBitmap.h>
 #include <ArpInterface/ArpPrefs.h>
 #include <ArpInterface/ViewTools.h>

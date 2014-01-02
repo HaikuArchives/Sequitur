@@ -12,7 +12,7 @@
 */
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #ifndef ARPKERNEL_ARPCONFIGUREPANEL_H
@@ -32,15 +32,15 @@
 #endif
 
 #ifndef _BUTTON_H
-#include <be/interface/Button.h>
+#include <interface/Button.h>
 #endif
 
 #ifndef _WINDOW_H
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #endif
 
 #ifndef _PATH_H
-#include <be/storage/Path.h>
+#include <storage/Path.h>
 #endif
 
 #include <stdlib.h>

@@ -1,11 +1,11 @@
 /* SeqSignatureWindow.cpp
  */
 #include <stdio.h>
-#include <be/app/Message.h>
-#include <be/interface/Box.h>
-#include <be/interface/Menu.h>
-#include <be/interface/MenuItem.h>
-#include <be/interface/View.h>
+#include <app/Message.h>
+#include <interface/Box.h>
+#include <interface/Menu.h>
+#include <interface/MenuItem.h>
+#include <interface/View.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViews/ArpIntControl.h"
 #include "AmPublic/AmPrefsI.h"

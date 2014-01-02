@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
-#include <be/midi2/MidiRoster.h>
+#include <midi2/MidiRoster.h>
 #include <ArpKernel/ArpDebug.h>
 #include "ArpMidi2/ArpMidiEvents.h"
 #include "MDust/MSpace.h"

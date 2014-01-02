@@ -23,7 +23,7 @@
 #endif
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #include <algobase.h>
@@ -634,7 +634,7 @@ void ArpRunningBar::Layout(void)
 			ArpD(cdb << ADH << "Filling outw=" << outw << ", init frame="
 					<< ffrm << endl);
 			ArpD(cdb << ADH << "Max width=" << dimx.TotalMax()
-						<< ", fill mode=" << thisfill << endl);
+						<< ", fill mode=" << (int) thisfill << endl);
 			switch( thisfill&ArpEastWest ) {
 				case ArpCenter: {
 					const float leftw = floor(outw/2);
@@ -664,7 +664,7 @@ void ArpRunningBar::Layout(void)
 			ArpD(cdb << ADH << "Filling outh=" << outh << ", init frame="
 					<< ffrm << endl);
 			ArpD(cdb << ADH << "Max height=" << dimy.TotalMax()
-						<< ", fill mode=" << thisfill << endl);
+						<< ", fill mode=" << (int) thisfill << endl);
 			switch( thisfill&ArpNorthSouth ) {
 				case ArpCenter: {
 					const float toph = floor(outh/2);

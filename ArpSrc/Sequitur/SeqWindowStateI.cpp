@@ -1,7 +1,7 @@
 /* SeqWindowStateI.cpp
  */
 #include <stdio.h>
-#include <be/interface/Screen.h>
+#include <interface/Screen.h>
 #include "ArpKernel/ArpDebug.h"
 #include "Sequitur/SeqWindowStateI.h"
 

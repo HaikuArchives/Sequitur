@@ -1,4 +1,4 @@
-#include <be/app/Message.h>
+#include <app/Message.h>
 #include <ArpCore/ArpDebug.h>
 #include <ArpSupport/ArpVoxel.h>
 

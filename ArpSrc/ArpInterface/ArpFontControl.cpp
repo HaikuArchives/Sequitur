@@ -1,4 +1,4 @@
-#include <be/InterfaceKit.h>
+#include <InterfaceKit.h>
 #include <ArpInterface/ArpPrefs.h>
 #include <ArpInterface/ArpFontControl.h>
 

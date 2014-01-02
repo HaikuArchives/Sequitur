@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <be/interface/Bitmap.h>
-#include <be/interface/Window.h>
+#include <interface/Bitmap.h>
+#include <interface/Window.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpKernel/ArpBitmapCache.h"
 #include "ArpLayout/ViewStubs.h"
@@ -433,7 +433,7 @@ void ArpIntControl::ComputeDimens(ArpDimens& cur_dimens)
 
 void ArpIntControl::Layout()
 {
-	inherited::Layout();
+	ArpBaseLayout::Layout();
 	SetDivider(BodyFrame().left - LayoutFrame().left);
 }
 

@@ -1,6 +1,6 @@
-#include <be/app/Message.h>
-#include <be/interface/Font.h>
-#include <be/interface/Window.h>
+#include <app/Message.h>
+#include <interface/Font.h>
+#include <interface/Window.h>
 #include <ArpInterface/ViewTools.h>
 
 int32 arp_get_mouse_buttons(BView& view)

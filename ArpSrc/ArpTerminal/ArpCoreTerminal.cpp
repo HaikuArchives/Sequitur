@@ -24,23 +24,23 @@
 #endif
 
 #ifndef _BEEP_H
-#include <be/support/Beep.h>
+#include <support/Beep.h>
 #endif
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #ifndef _SCROLLBAR_H
-#include <be/interface/ScrollBar.h>
+#include <interface/ScrollBar.h>
 #endif
 
 #ifndef _WINDOW_H
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #endif
 
 #ifndef _UTF8_H
-#include <be/support/UTF8.h>
+#include <support/UTF8.h>
 #endif
 
 #include <string.h>

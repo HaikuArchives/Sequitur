@@ -13,7 +13,7 @@
 #include <malloc.h>
 #include <stdio.h>
 #include <math.h>
-#include <be/support/ClassInfo.h>
+#include <support/ClassInfo.h>
 
 #include "MDust/MIndexedList.h"
 

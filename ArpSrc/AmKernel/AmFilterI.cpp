@@ -368,7 +368,7 @@ status_t AmFilterAddOn::GetArchiveTemplate(BMessage* into, uint32 flags) const
 			for (int32 t = THROUGH_FILTER; res == B_OK && t <= DESTINATION_FILTER; t++) {
 				BString		assocName = KeyForType((type)t);
 				res = into->AddString(SZ_FILTER_ASSOC_TYPE,
-									  assocName.Length() > 0 ? assocName : "");
+									  (assocName.Length() > 0) ? assocName : BString(""));
 			}
 		}
 	}

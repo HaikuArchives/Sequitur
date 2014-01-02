@@ -5,12 +5,12 @@
 #include <string.h>
 #include <malloc.h>
 #include <math.h>
-#include <be/experimental/BitmapTools.h>
-#include <be/interface/Bitmap.h>
-#include <be/interface/MenuItem.h>
-#include <be/interface/PopUpMenu.h>
-#include <be/interface/Screen.h>
-#include <be/interface/Window.h>
+//#include <experimental/BitmapTools.h>
+#include <interface/Bitmap.h>
+#include <interface/MenuItem.h>
+#include <interface/PopUpMenu.h>
+#include <interface/Screen.h>
+#include <interface/Window.h>
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmGlobalsI.h"
 #include "AmPublic/AmMeasureBackground.h"
@@ -39,7 +39,7 @@ enum {
 /*************************************************************************
  * Miscellaneous functions
  *************************************************************************/
-static void			write_pixel(const BBitmap* bm, float x, float y, rgb_color c, pixel_access& pa);
+//static void			write_pixel(const BBitmap* bm, float x, float y, rgb_color c, pixel_access& pa);
 
 /*************************************************************************
  * SEQ-MEASURE-CONTROL
@@ -909,7 +909,7 @@ void SeqMeasureControl::ConstructLeftBg(BRect bounds)
 
 	mLeftBg = new BBitmap(bounds, screen.ColorSpace() );
 	if (!mLeftBg) return;
-	pixel_access	pa(mLeftBg->ColorSpace() );
+	//pixel_access	pa(mLeftBg->ColorSpace() );
 	
 	BRect			b = mLeftBg->Bounds();
 	rgb_color		c = Prefs().Color( AM_MEASURE_TOP_BG_C );
@@ -935,7 +935,7 @@ void SeqMeasureControl::ConstructLeftBg(BRect bounds)
 			c.red = (uint8)(rowC.red + ( fabs(b.right - j) * r_col_delta));
 			c.green = (uint8)(rowC.green + ( fabs(b.right - j) * g_col_delta));
 			c.blue = (uint8)(rowC.blue + ( fabs(b.right - j) * b_col_delta));
-			write_pixel(mLeftBg, j, k, c, pa);
+			//write_pixel(mLeftBg, j, k, c, pa);
 		}
 		rowC.red = (uint8)(c.red + (i * r_row_delta));
 		rowC.green = (uint8)(c.green + (i * g_row_delta));
@@ -951,7 +951,7 @@ void SeqMeasureControl::ConstructRightBg(BRect bounds)
 
 	mRightBg = new BBitmap(bounds, screen.ColorSpace() );
 	if (!mRightBg) return;
-	pixel_access	pa(mRightBg->ColorSpace() );
+	//pixel_access	pa(mRightBg->ColorSpace() );
 	
 	BRect			b = mRightBg->Bounds();
 	rgb_color		c = Prefs().Color( AM_MEASURE_TOP_BG_C );
@@ -977,7 +977,7 @@ void SeqMeasureControl::ConstructRightBg(BRect bounds)
 			c.red = (uint8)(rowC.red + (j * r_col_delta));
 			c.green = (uint8)(rowC.green + (j * g_col_delta));
 			c.blue = (uint8)(rowC.blue + (j * b_col_delta));
-			write_pixel(mRightBg, j, k, c, pa);
+			//write_pixel(mRightBg, j, k, c, pa);
 		}
 		rowC.red = (uint8)(c.red + (i * r_row_delta));
 		rowC.green = (uint8)(c.green + (i * g_row_delta));
@@ -1193,8 +1193,8 @@ void _AmMarkerEntry::SetEnabled(bool enable)
 /*************************************************************************
  * Miscellaneous functions
  *************************************************************************/
-static void write_pixel(const BBitmap* bm, float x, float y, rgb_color c, pixel_access& pa)
+/*static void write_pixel(const BBitmap* bm, float x, float y, rgb_color c, pixel_access& pa)
 {
 	uint8*		pixel = (uint8*)( ((uint8*)bm->Bits()) + (uint32)(x * pa.bpp() ) + (uint32)(y * bm->BytesPerRow() ) );
 	pa.write(pixel, c);
-}
+}*/

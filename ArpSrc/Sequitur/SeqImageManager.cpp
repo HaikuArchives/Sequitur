@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <string.h>
 #include <malloc.h>
-#include <be/interface/View.h>
+#include <interface/View.h>
 #include <Autolock.h>
 #include "ArpKernel/ArpDebug.h"
 #include "Sequitur/SeqImageManager.h"
@@ -37,5 +37,5 @@ const BBitmap* SeqImageManager::FindBitmap(const char *name) const
 	BAutolock l(const_cast<BLocker*>(&mAccess));
 	if (mShutdown) return 0;
 
-	return Resources().FindBitmap(name);
+	return Resources().FindBitmap(B_MESSAGE_TYPE, name);
 }

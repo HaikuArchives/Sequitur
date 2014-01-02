@@ -3,10 +3,10 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/interface/MenuField.h>
-#include <be/interface/MenuItem.h>
-#include <be/interface/PopUpMenu.h>
-#include <be/interface/Window.h>
+#include <interface/MenuField.h>
+#include <interface/MenuItem.h>
+#include <interface/PopUpMenu.h>
+#include <interface/Window.h>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmPrefsI.h"

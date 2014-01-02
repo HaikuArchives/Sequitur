@@ -1,9 +1,9 @@
 /* SeqTrackWindow.cpp
  */
 #include <stdio.h>
-#include <be/app/Application.h>
-#include <be/app/Clipboard.h>
-#include <be/InterfaceKit.h>
+#include <app/Application.h>
+#include <app/Clipboard.h>
+#include <InterfaceKit.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "ArpViews/ArpMultiScrollBar.h"
@@ -1747,15 +1747,16 @@ static BRect add_transport_button(	BRect frame, const char* name, uint32 what,
 	BRect		b = bmN->Bounds();
 	frame.right = frame.left + b.Width();
 	frame.bottom = frame.top + b.Height();
-	BBitmapButton*	butt = new BBitmapButton(frame, name, 0, msg, bmN, bmN, bmP, bmP, bmP);
+	BBitmapButton*	butt = new BBitmapButton(name, 0);
+	butt->Draw(frame);
 	if (butt) {
 		/* Right now there's a bug in the buttons that causes them to resizes themslves
 		 * based on label info, even if they don't have a label.  This compensates.
 		 */
-		butt->ResizeToPreferred();
+		/*butt->ResizeToPreferred();
 		butt->SetValue(B_CONTROL_OFF);
 		toView->AddChild(butt);
-		frame.OffsetBy( BPoint(b.Width() + 1, 0) );
+		frame.OffsetBy( BPoint(b.Width() + 1, 0) );*/
 	}
 	return frame;
 }

@@ -12,43 +12,43 @@
 */
 
 #ifndef _BUTTON_H
-#include <be/interface/Button.h>
+#include <interface/Button.h>
 #endif
 
 #ifndef _MENUFIELD_H
-#include <be/interface/MenuField.h>
+#include <interface/MenuField.h>
 #endif
 
 #ifndef _POPUPMENU_H
-#include <be/interface/PopUpMenu.h>
+#include <interface/PopUpMenu.h>
 #endif
 
 #ifndef _MENUITEM_H
-#include <be/interface/MenuItem.h>
+#include <interface/MenuItem.h>
 #endif
 
 #ifndef _COLORCONTROL_H
-#include <be/interface/ColorControl.h>
+#include <interface/ColorControl.h>
 #endif
 
 #ifndef _STRINGVIEW_H
-#include <be/interface/StringView.h>
+#include <interface/StringView.h>
 #endif
 
 #ifndef _CHECKBOX_H
-#include <be/interface/CheckBox.h>
+#include <interface/CheckBox.h>
 #endif
 
 #ifndef _SCREEN_H
-#include <be/interface/Screen.h>
+#include <interface/Screen.h>
 #endif
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #ifndef _UTF8_H
-#include <be/support/UTF8.h>
+#include <support/UTF8.h>
 #endif
 
 #ifndef ARPTERMINAL_ARPREMOTETERMINAL_H

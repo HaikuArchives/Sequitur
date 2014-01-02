@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <be/app/Message.h>
+#include <app/Message.h>
 #include <ArpCore/StlVector.h>
 #include <GlPublic/GlNode.h>
 #include "GlKernel/GlNodeRoster.h"

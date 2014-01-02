@@ -1,10 +1,10 @@
 /* SeqManageRosterWindows.cpp
  */
 #include <set>
-#include <be/experimental/ColorTools.h>
-#include <be/experimental/ColumnTypes.h>
-#include <be/InterfaceKit.h>
-#include <be/support/String.h>
+#include <interface/ColorTools.h>
+#include <interface/ColumnTypes.h>
+#include <InterfaceKit.h>
+#include <support/String.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "ArpViewsPublic/ArpPrefsI.h"
@@ -75,7 +75,7 @@ public:
 	_EntryListView(	BRect rect, const char *name,
 					SeqManageRosterWindow* window);
 
-#if B_BEOS_VERSION_DANO
+#if B_BEOS_VERSION_DANO || defined(__HAIKU__)
 	virtual bool InitiateDrag(BPoint where, bool wasSelected);
 #else
 	virtual void InitiateDrag(BPoint where, bool wasSelected);
@@ -812,7 +812,7 @@ void _EntryListView::DrawLatch(BView *view, BRect rect, LatchType pos, BRow *row
 	}
 }
 
-#if B_BEOS_VERSION_DANO
+#if B_BEOS_VERSION_DANO || defined(__HAIKU__)
 bool
 #else
 void
@@ -822,7 +822,7 @@ _EntryListView::InitiateDrag(BPoint where, bool wasSelected)
 	inherited::InitiateDrag(where, wasSelected);
 	SeqManageRosterWindow*	win = dynamic_cast<SeqManageRosterWindow*>( Window() );
 	if (win) win->InitiateDrag(where, wasSelected, this);
-#if B_BEOS_VERSION_DANO
+#if B_BEOS_VERSION_DANO || defined(__HAIKU__)
 	return true;
 #endif
 }

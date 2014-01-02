@@ -1,9 +1,9 @@
 /* AmEditMotionWindow.cpp
  */
 #include <vector.h>
-#include <be/experimental/BitmapTools.h>
-#include <be/InterfaceKit.h>
-#include <be/support/String.h>
+//#include <experimental/BitmapTools.h>
+#include <InterfaceKit.h>
+#include <support/String.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpKernel/ArpBitmapCache.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
@@ -45,7 +45,7 @@ public:
 	AmSignaturePhrase			mSignatures;
 };
 
-static void			write_pixel(const BBitmap* bm, float x, float y, rgb_color c, pixel_access& pa);
+//static void			write_pixel(const BBitmap* bm, float x, float y, rgb_color c, pixel_access& pa);
 
 /***************************************************************************
  * _AM-MEASURE-CONTROL
@@ -638,7 +638,7 @@ void AmMotionEditor::ComputeDimens(ArpDimens& cur_dimens)
 
 void AmMotionEditor::Layout(void)
 {
-	inherited::Layout();
+	ArpBaseLayout::Layout();
 }
 
 static BMenuField* new_view_as_field(BRect f)
@@ -1985,7 +1985,7 @@ void _AmMeasureControl::ConstructLeftBg(BRect bounds)
 
 	mLeftBg = new BBitmap(bounds, screen.ColorSpace() );
 	if (!mLeftBg) return;
-	pixel_access	pa(mLeftBg->ColorSpace() );
+	//pixel_access	pa(mLeftBg->ColorSpace() );
 	
 	BRect			b = mLeftBg->Bounds();
 	rgb_color		c = Prefs().Color( AM_MEASURE_TOP_BG_C );
@@ -2011,7 +2011,7 @@ void _AmMeasureControl::ConstructLeftBg(BRect bounds)
 			c.red = (uint8)(rowC.red + ( fabs(b.right - j) * r_col_delta));
 			c.green = (uint8)(rowC.green + ( fabs(b.right - j) * g_col_delta));
 			c.blue = (uint8)(rowC.blue + ( fabs(b.right - j) * b_col_delta));
-			write_pixel(mLeftBg, j, k, c, pa);
+			//write_pixel(mLeftBg, j, k, c, pa);
 		}
 		rowC.red = (uint8)(c.red + (i * r_row_delta));
 		rowC.green = (uint8)(c.green + (i * g_row_delta));
@@ -2023,8 +2023,8 @@ void _AmMeasureControl::ConstructLeftBg(BRect bounds)
 /*************************************************************************
  * Miscellaneous functions
  *************************************************************************/
-static void write_pixel(const BBitmap* bm, float x, float y, rgb_color c, pixel_access& pa)
+/*static void write_pixel(const BBitmap* bm, float x, float y, rgb_color c, pixel_access& pa)
 {
 	uint8*		pixel = (uint8*)( ((uint8*)bm->Bits()) + (uint32)(x * pa.bpp() ) + (uint32)(y * bm->BytesPerRow() ) );
 	pa.write(pixel, c);
-}
+}*/
