@@ -1,0 +1,30 @@
+These source files were found on angryredplanet.com/~hackbod/beos and are licensed under the Be Sample code license:
+
+BitmapButton.cpp
+BitmapTools.cpp
+ColorTools.cpp
+ResourceSet.cpp
+
+
+These source files were taken from the Haiku source:
+
+ColumnListView.cpp
+ColumnTypes.cpp
+
+
+
+These source files were in the source package:
+
+AddOnManager.cpp
+
+Gehnaphore.cpp
+SearchPath.cpp
+ToolTip.cpp
+UndoContext.cpp
+
+
+These source files are made by Puck Meerburg, licensed under the MIT license:
+
+
+DocWindow.cpp
+
