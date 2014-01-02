@@ -8,7 +8,8 @@ DocWindow::DocWindow(WindowRoster* r, entry_ref* ref, BRect frame,
 	BWindow(frame, title, look, feel, flags, workspace)
 {
 	windowroster = r;
-	fileref = *ref;
+	if(ref)
+		fileref = *ref;
 	dirty = false;
 	printf("Nothign here yet");
 }
