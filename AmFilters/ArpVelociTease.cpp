@@ -4,10 +4,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/interface/MenuField.h>
-#include <be/interface/MenuItem.h>
-#include <be/interface/RadioButton.h>
-#include <be/interface/StringView.h>
+#include <interface/MenuField.h>
+#include <interface/MenuItem.h>
+#include <interface/RadioButton.h>
+#include <interface/StringView.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpPrefsI.h"
 #include "ArpViews/ArpIntControl.h"
@@ -190,7 +190,7 @@ void ArpVelociTeaseAddOn::GetVersion(int32* major, int32* minor) const
 
 BBitmap* ArpVelociTeaseAddOn::Image(BPoint requestedSize) const
 {
-	const BBitmap* bm = gRes.Resources().FindBitmap("Class Icon");
+	const BBitmap* bm = gRes.Resources().FindBitmap(B_MESSAGE_TYPE, "Class Icon");
 	if (bm) return new BBitmap(bm);
 	return NULL;
 }

@@ -15,8 +15,8 @@
  * 2001.05.26				hackborn@angryredplanet.com
  * Created this file
  */
-#include <be/app/Message.h>
-#include <be/interface/View.h>
+#include <app/Message.h>
+#include <interface/View.h>
 #include "AmPublic/AmFilterI.h"
 
 /*****************************************************************************

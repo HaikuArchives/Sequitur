@@ -325,7 +325,7 @@ void ArpVaccineFilterAddOn::GetVersion(int32* major, int32* minor) const
 
 BBitmap* ArpVaccineFilterAddOn::Image(BPoint requestedSize) const
 {
-	const BBitmap* bm = Resources().FindBitmap("Class Icon");
+	const BBitmap* bm = Resources().FindBitmap(B_MESSAGE_TYPE, "Class Icon");
 	if (bm) return new BBitmap(bm);
 	return NULL;
 }

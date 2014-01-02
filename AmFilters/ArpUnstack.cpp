@@ -2,8 +2,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/interface/CheckBox.h>
-#include <be/interface/MenuItem.h>
+#include <interface/CheckBox.h>
+#include <interface/MenuItem.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpLayout/ArpViewWrapper.h"
 #include "ArpLayout/ViewStubs.h"
@@ -258,7 +258,7 @@ void ArpUnstackAddOn::GetVersion(int32* major, int32* minor) const
 
 BBitmap* ArpUnstackAddOn::Image(BPoint requestedSize) const
 {
-	const BBitmap* bm = gRes.Resources().FindBitmap("Class Icon");
+	const BBitmap* bm = gRes.Resources().FindBitmap(B_MESSAGE_TYPE, "Class Icon");
 	if (bm) return new BBitmap(bm);
 	return NULL;
 }

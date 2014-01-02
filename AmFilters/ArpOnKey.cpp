@@ -4,12 +4,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/interface/CheckBox.h>
-#include <be/interface/MenuField.h>
-#include <be/interface/MenuItem.h>
-#include <be/interface/PopUpMenu.h>
-#include <be/interface/StringView.h>
-#include <be/translation/TranslationUtils.h>
+#include <interface/CheckBox.h>
+#include <interface/MenuField.h>
+#include <interface/MenuItem.h>
+#include <interface/PopUpMenu.h>
+#include <interface/StringView.h>
+#include <translation/TranslationUtils.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpLayout/ArpViewWrapper.h"
 #include "AmPublic/AmFilterConfig.h"
@@ -383,7 +383,7 @@ void ArpOnKeyFilterAddOn::GetVersion(int32* major, int32* minor) const
 
 BBitmap* ArpOnKeyFilterAddOn::Image(BPoint requestedSize) const
 {
-	const BBitmap* bm = gRes.Resources().FindBitmap("Class Icon");
+	const BBitmap* bm = gRes.Resources().FindBitmap(B_MESSAGE_TYPE, "Class Icon");
 	if (bm) return new BBitmap(bm);
 	return NULL;
 }

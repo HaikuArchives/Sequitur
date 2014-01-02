@@ -3,7 +3,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/InterfaceKit.h>
+#include <InterfaceKit.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpLayout/ArpViewWrapper.h"
 #include "ArpViewsPublic/ArpIntFormatterI.h"
@@ -174,7 +174,7 @@ void ArpControllerMapAddOn::GetVersion(int32* major, int32* minor) const
 
 BBitmap* ArpControllerMapAddOn::Image(BPoint requestedSize) const
 {
-	const BBitmap* bm = gRes.Resources().FindBitmap("Class Icon");
+	const BBitmap* bm = gRes.Resources().FindBitmap(B_MESSAGE_TYPE, "Class Icon");
 	if (bm) return new BBitmap(bm);
 	return NULL;
 }

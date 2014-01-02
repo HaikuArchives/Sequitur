@@ -4,8 +4,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/interface/MenuField.h>
-#include <be/interface/MenuItem.h>
+#include <interface/MenuField.h>
+#include <interface/MenuItem.h>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmSongObserver.h"
 
@@ -137,7 +137,7 @@ void ArpDanFilterAddOn::GetVersion(int32* major, int32* minor) const
 
 BBitmap* ArpDanFilterAddOn::Image(BPoint requestedSize) const
 {
-	const BBitmap* bm = gRes.Resources().FindBitmap("Class Icon");
+	const BBitmap* bm = gRes.Resources().FindBitmap(B_MESSAGE_TYPE, "Class Icon");
 	if (bm) return new BBitmap(bm);
 	return NULL;
 }
