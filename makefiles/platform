@@ -156,11 +156,11 @@ endif
 	MIMESET			= mimeset
 
 #	specify the command to copy a file and attributes
-#ifeq ($(shell [ -e /bin/copyattr ] && echo "YES"), YES)
-#	COPY			= sleep 1; copyattr -d
-#else
-	COPY			= thiscopy
-#endif
+ifeq ($(shell [ -e /bin/copyattr ] && echo "YES"), YES)
+	COPY			= copyattr -d
+else
+	COPY			= cp
+endif
 
 #		specify the path to the headers
 		BEHEADERS		= /boot/develop/headers 
