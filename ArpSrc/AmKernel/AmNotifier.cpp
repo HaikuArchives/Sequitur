@@ -302,6 +302,16 @@ void AmNotifier::FlushChanges()
 	mOtherRange.MakeInvalid();
 }
 
+AmPhrase* AmNotifier::PhraseFor(AmEvent* event) const
+{
+	return NULL;
+}
+
+void AmNotifier::AnnotateMessage(BMessage& msg) const
+{
+	
+}
+
 uint32 AmNotifier::CodeForEvent(AmEvent::EventType type) const
 {
 	if( type == AmEvent::NOTEON_TYPE )			return NOTE_OBS;

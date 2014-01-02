@@ -75,3 +75,10 @@ void ArpLayoutView::ComputeDimens(ArpDimens& dimens)
 	ArpD(cdb << ADH << "Computing ArpLayoutView dimensions...\n");
 	ArpBaseLayout::ComputeDimens(dimens);
 }
+
+void ArpLayoutView::initialize() {}
+
+ARPLAYOUT_VIEWHOOKS_SOURCE(ArpLayoutView, BView);
+ARPLAYOUT_HANDLERHOOKS_SOURCE(ArpLayoutView, BView);
+ARPLAYOUT_SUITEHOOKS_SOURCE(ArpLayoutView, BView);
+ARPLAYOUT_ARCHIVEHOOKS_SOURCE(ArpLayoutView, BView, false);

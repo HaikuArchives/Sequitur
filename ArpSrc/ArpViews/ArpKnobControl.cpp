@@ -436,6 +436,16 @@ void ArpKnobPanel::GetPreferredSize(float* width, float* height)
 	*height = h;
 }
 
+BHandler* ArpKnobPanel::LayoutHandler()
+{
+	return this;
+}
+
+const BHandler* ArpKnobPanel::LayoutHandler() const
+{
+	return this;
+}
+
 void ArpKnobPanel::LayoutHorizontal(const char* name, const char* label, BMessage* message,
 									int32 minValue, int32 maxValue,
 									bool showIntControl, uint32 knobFlags, float labelWidth,

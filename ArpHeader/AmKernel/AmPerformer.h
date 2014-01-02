@@ -64,47 +64,23 @@ bigtime_t pulse_to_realtime(AmTime pulse, int32 bpm, AmTime baseBeat, bigtime_t 
 class AmPerformerEvent : public AmEvent
 {
 public:
-						AmPerformerEvent(AmTime time)
-							: AmEvent(time), mBeatOffset(-1) { }
-						AmPerformerEvent(const AmPerformerEvent& o)
-							: AmEvent(o), mBeatOffset(o.mBeatOffset) { }
+						AmPerformerEvent(AmTime time);
+						AmPerformerEvent(const AmPerformerEvent& o);
 
-	virtual EventType	Type() const  			{ return PERFORMER_TYPE; }
+	virtual EventType	Type() const;
 
-	virtual AmEvent*	Copy() const			{ return new AmPerformerEvent(*this); }
-	virtual void		Print(void) const
-	{
-		printf("AmPerformerEvent at %lld: base=%lld\n", mTime, mBeatOffset);
-	}
+	virtual AmEvent*	Copy() const;
+	virtual void		Print(void) const;
 
-	void				SetBeatOffset(AmTime t)	{ mBeatOffset = t; }
-	AmTime				BeatOffset() const		{ return mBeatOffset; }
+	void				SetBeatOffset(AmTime t);
+	AmTime				BeatOffset() const;
 	
-	virtual void		Delete()
-	{
-		//printf("*** TransportEvent deleted final=%d\n", mFinal);
-		AmEvent::Delete();
-	}
-	
-	void*				operator new(size_t size)
-	{
-		ArpASSERT( size == sizeof(AmPerformerEvent) );
-		return GetEvent( PERFORMER_TYPE, size );
-	}
-	void				operator delete(void* ptr, size_t size)
-	{
-		ArpASSERT( size == sizeof(AmPerformerEvent) );
-		SaveEvent( PERFORMER_TYPE, ptr );
-	}
+	void*				operator new(size_t size);
+	void				operator delete(void* ptr, size_t size);
 
 protected:
-	virtual				~AmPerformerEvent()		{ }
-	AmPerformerEvent&		operator=(const AmPerformerEvent& o)
-	{
-		AmEvent::operator=(o);
-		mBeatOffset = o.mBeatOffset;
-		return *this;
-	}
+	virtual				~AmPerformerEvent();
+	AmPerformerEvent&		operator=(const AmPerformerEvent& o);
 
 private:
 	AmTime				mBeatOffset;
@@ -113,7 +89,7 @@ private:
 class AmClockTarget
 {
 public:
-	virtual						~AmClockTarget() { }
+	virtual						~AmClockTarget();
 	
 	virtual	void				Clock(AmTime time) = 0;
 };
@@ -202,8 +178,8 @@ public:
 	
 private:
 	// copying constructor and assignment are not allowed.
-	AmPerformer(const AmPerformer&) { }
-	AmPerformer& operator=(const AmPerformer&) { return *this; }
+	AmPerformer(const AmPerformer&);
+	AmPerformer& operator=(const AmPerformer&);
 	
 	// caller functions.
 	

@@ -91,7 +91,7 @@ public:
 	ARPLAYOUT_ARCHIVEHOOKS(ArpLayout, BHandler, false);
 
 private:
-	void initialize()										{ }
+	void initialize();
 };
 
 #endif

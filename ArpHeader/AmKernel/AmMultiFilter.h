@@ -84,22 +84,22 @@ public:
 	// --------------------------------------------------------
 	// AM-PIPELINE-MATRIX-I INTERFACE
 	// --------------------------------------------------------
-	virtual void				AddRef() const						{ }
-	virtual void				RemoveRef() const					{ }
-	virtual bool				ReadLock() const					{ return true; }
-	virtual bool				WriteLock(const char* name)			{ return true; }
-	virtual bool				ReadUnlock() const					{ return true; }
-	virtual bool				WriteUnlock()						{ return true; }
+	virtual void				AddRef() const;
+	virtual void				RemoveRef() const;
+	virtual bool				ReadLock() const;
+	virtual bool				WriteLock(const char* name);
+	virtual bool				ReadUnlock() const;
+	virtual bool				WriteUnlock();
 
-	virtual void				SetDirty(bool dirty)				{ }
+	virtual void				SetDirty(bool dirty);
 
 	virtual pipeline_matrix_id	Id() const;
 	virtual uint32				CountPipelines() const;
 	virtual pipeline_id			PipelineId(uint32 pipelineIndex) const;
 	virtual status_t			PipelineHeight(uint32 pipelineIndex, float* outHeight) const;
 
-	virtual const BUndoContext*	UndoContext() const					{ return NULL; }
-	virtual BUndoContext*		UndoContext()						{ return NULL; }
+	virtual const BUndoContext*	UndoContext() const;
+	virtual BUndoContext*		UndoContext();
 
 	virtual AmFilterHolderI*	Filter(	pipeline_id id,
 										AmPipelineType type,
@@ -191,15 +191,15 @@ public:
 	// --------------------------------------------------------
 	// AM-FILTER-ADD-ON INTERFACE
 	// --------------------------------------------------------
-	virtual VersionType		Version(void) const				{ return VERSION_CURRENT; }
+	virtual VersionType		Version(void) const;
 	virtual BString			Name() const;
 	virtual BString			Key() const;
 	virtual int32			MaxConnections() const;
 	virtual BString			ShortDescription() const;
 	virtual void			LongDescription(BString& name, BString& str) const;
 	virtual void			GetVersion(int32* major, int32* minor) const;
-	virtual type			Type() const					{ return THROUGH_FILTER; }
-	virtual subtype			Subtype() const  				{ return MULTI_SUBTYPE; }
+	virtual type			Type() const;
+	virtual subtype			Subtype() const;
 	virtual BBitmap*		Image(BPoint requestedSize) const;
 	virtual AmFilterI*		NewInstance(AmFilterHolderI* holder,
 										const BMessage* config = NULL);

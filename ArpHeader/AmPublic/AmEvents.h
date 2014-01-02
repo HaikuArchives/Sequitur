@@ -181,7 +181,7 @@ public:
 	 * through.  You can change this filter, if you would like, to
 	 * change where the event is going.
 	 */
-	virtual AmFilterHolderI* NextFilter() const			{ return mFilter; }
+	virtual AmFilterHolderI* NextFilter() const;
 	virtual void		SetNextFilter(AmFilterHolderI* next);
 	// --------------------------------------------------------
 	// USER INTERFACE.
@@ -199,8 +199,7 @@ public:
 	};
 	/* Answer a new view of the requested type and size.
 	 */
-	virtual BView*		NewView(ViewType type, BRect frame) const
-														{ return 0; }
+	virtual BView*		NewView(ViewType type, BRect frame) const;
 
 	/* Events are notified when they are added to or removed from a phrase.
 	 * Events are currently in the phrase when they receive both these
@@ -225,10 +224,10 @@ public:
 	 * chain.  If this is the last event in a chain, NextEvent()
 	 * returns NULL; if it is the first, PrevEvent() returns NULL.
 	 */
-	const AmEvent*		NextEvent() const				{ return mNext; }
-	const AmEvent*		PrevEvent() const				{ return mPrev; }
-	AmEvent*			NextEvent()						{ return mNext; }
-	AmEvent*			PrevEvent()						{ return mPrev; }
+	const AmEvent*		NextEvent() const;
+	const AmEvent*		PrevEvent() const;
+	AmEvent*			NextEvent();
+	AmEvent*			PrevEvent();
 	/* Read the head and tail event in a list.  Note that if the
 	 * given event is in the middle of the list, this will require
 	 * traversing up or down the list to find the end.
@@ -301,8 +300,8 @@ public:
 	/* These functions are needed to actually implement the
 	 * above.  You should not normally need to call them.
 	 */
-	void				SetNextEvent(AmEvent* event)	{ mNext = event; }
-	void				SetPrevEvent(AmEvent* event)	{ mPrev = event; }
+	void				SetNextEvent(AmEvent* event);
+	void				SetPrevEvent(AmEvent* event);
 
 	// --------------------------------------------------------
 	// MEMORY MANAGEMENT AND UTILITIES.
@@ -406,8 +405,8 @@ public:
 	// --------------------------------------------------------
 	// AM-EVENT INTERFACE
 	// --------------------------------------------------------		
-	virtual EventType	Type() const 				{ return CHANNELPRESSURE_TYPE; }
-	virtual int32		PersistentStateID() const	{ return 0; }
+	virtual EventType	Type() const;
+	virtual int32		PersistentStateID() const;
 	virtual AmEvent*	Copy() const;
 	virtual status_t	GetAsMessage(BMessage& msg) const;
 	virtual BView*		NewView(ViewType type, BRect frame) const;
@@ -459,7 +458,7 @@ public:
 	// --------------------------------------------------------
 	// AM-EVENT INTERFACE
 	// --------------------------------------------------------
-	virtual EventType	Type() const  { return NOTEON_TYPE; }
+	virtual EventType	Type() const;
 	virtual AmEvent*	Copy() const;
 	virtual status_t	GetAsMessage(BMessage& msg) const;
 	virtual BView*		NewView(ViewType type, BRect frame) const;
@@ -470,12 +469,13 @@ public:
 	virtual AmTime		EndTime() const;
 	virtual AmTime		Duration() const;
 	virtual void		SetDuration(AmTime);
-	
+	virtual AmFilterHolderI* NextFilter() const;
+
 	void*				operator new(size_t size);
 	void				operator delete(void* ptr, size_t size);
 	
 protected:
-	virtual ~AmNoteOn() { }
+	virtual ~AmNoteOn();
 	AmNoteOn& operator=(const AmNoteOn& o);
 	virtual void		RealDelete();
 		
@@ -503,7 +503,7 @@ public:
 	// --------------------------------------------------------
 	// AM-EVENT INTERFACE
 	// --------------------------------------------------------
-	virtual EventType	Type() const		{ return NOTEOFF_TYPE; };
+	virtual EventType	Type() const;
 	virtual AmEvent*	Copy() const;
 	virtual status_t	GetAsMessage(BMessage& msg) const;
 	virtual bool		Equals(AmEvent* event) const;
@@ -514,7 +514,7 @@ public:
 	void				operator delete(void* ptr, size_t size);
 
 protected:
-	virtual ~AmNoteOff() { }
+	virtual ~AmNoteOff();
 	AmNoteOff& operator=(const AmNoteOff& o);
 	virtual void		RealDelete();
 		
@@ -540,8 +540,8 @@ public:
 	// --------------------------------------------------------
 	// AM-EVENT INTERFACE
 	// --------------------------------------------------------
-	virtual EventType	Type() const				{ return TEMPOCHANGE_TYPE; }
-	virtual int32		PersistentStateID() const	{ return 0; }
+	virtual EventType	Type() const;
+	virtual int32		PersistentStateID() const;
 	virtual AmEvent*	Copy() const;
 	virtual status_t	GetAsMessage(BMessage& msg) const;
 	virtual bool		Equals(AmEvent* event) const;
@@ -553,7 +553,7 @@ public:
 	void				operator delete(void* ptr, size_t size);
 
 protected:
-	virtual ~AmTempoChange() 				{ }
+	virtual ~AmTempoChange();
 	AmTempoChange& operator=(const AmTempoChange& o);
 	virtual void		RealDelete();
 
@@ -581,8 +581,8 @@ public:
 	// --------------------------------------------------------
 	// AM-EVENT INTERFACE
 	// --------------------------------------------------------
-	virtual EventType	Type() const 				{ return CONTROLCHANGE_TYPE; }
-	virtual int32		PersistentStateID() const	{ return mControlNumber; }
+	virtual EventType	Type() const;
+	virtual int32		PersistentStateID() const;
 	virtual AmEvent*	Copy() const;
 	virtual status_t	GetAsMessage(BMessage& msg) const;
 	virtual bool		Equals(AmEvent* event) const;
@@ -594,7 +594,7 @@ public:
 	void				operator delete(void* ptr, size_t size);
 
 protected:
-	virtual ~AmControlChange() { }
+	virtual ~AmControlChange();
 	AmControlChange& operator=(const AmControlChange& o);
 	virtual void		RealDelete();
 
@@ -625,8 +625,8 @@ public:
 	// --------------------------------------------------------
 	// AM-EVENT INTERFACE
 	// --------------------------------------------------------
-	virtual EventType	Type() const 				{ return PITCHBEND_TYPE; }
-	virtual int32		PersistentStateID() const	{ return 0; }
+	virtual EventType	Type() const;
+	virtual int32		PersistentStateID() const;
 	virtual AmEvent*	Copy() const;
 	virtual status_t	GetAsMessage(BMessage& msg) const;
 	virtual bool		Equals(AmEvent* event) const;
@@ -638,7 +638,7 @@ public:
 	void				operator delete(void* ptr, size_t size);
 
 protected:
-	virtual ~AmPitchBend()						{ }
+	virtual ~AmPitchBend();
 	AmPitchBend& operator=(const AmPitchBend& o);
 	virtual void		RealDelete();
 
@@ -664,8 +664,8 @@ public:
 	// --------------------------------------------------------
 	// AM-EVENT INTERFACE
 	// --------------------------------------------------------	
-	virtual EventType	Type() const 				{ return PROGRAMCHANGE_TYPE; }
-	virtual int32		PersistentStateID() const	{ return 0; }
+	virtual EventType	Type() const;
+	virtual int32		PersistentStateID() const;
 	virtual AmEvent*	Copy() const;
 	virtual status_t	GetAsMessage(BMessage& msg) const;
 	virtual bool		Equals(AmEvent* event) const;
@@ -677,7 +677,7 @@ public:
 	void				operator delete(void* ptr, size_t size);
 
 protected:
-	virtual ~AmProgramChange() { }
+	virtual ~AmProgramChange();
 	AmProgramChange& operator=(const AmProgramChange& o);
 	virtual void		RealDelete();
 
@@ -696,7 +696,7 @@ public:
 	AmSignature(AmTime time, int32 measure, uint32 beats, uint32 beatValue);
 	AmSignature(const AmSignature& o);
 
-	virtual ~AmSignature()							{ }
+	virtual ~AmSignature();
 	
 	virtual void		SetStartTime(AmTime newTime);
 	AmTime				EndTime() const;
@@ -727,8 +727,8 @@ public:
 	// --------------------------------------------------------
 	// AM-EVENT INTERFACE
 	// --------------------------------------------------------
-	virtual EventType	Type() const 		 		{ return SIGNATURE_TYPE; }
-	virtual int32		PersistentStateID() const	{ return 0; }
+	virtual EventType	Type() const;
+	virtual int32		PersistentStateID() const;
 	virtual AmEvent*	Copy() const;
 	virtual status_t	GetAsMessage(BMessage& msg) const;
 	virtual bool		Equals(AmEvent* event) const;
@@ -785,8 +785,8 @@ public:
 	// --------------------------------------------------------
 	// AM-EVENT INTERFACE
 	// --------------------------------------------------------
-	virtual EventType	Type() const 				{ return MOTION_TYPE; }
-	virtual int32		PersistentStateID() const	{ return 0; }
+	virtual EventType	Type() const;
+	virtual int32		PersistentStateID() const;
 	virtual AmEvent*	Copy() const;
 	virtual status_t	GetAsMessage(BMessage& msg) const;
 	virtual bool		Equals(AmEvent* event) const;
@@ -803,7 +803,7 @@ public:
 	void				SetTrackId(track_id trackId);
 
 protected:
-	virtual ~AmMotionChange()						{ }
+	virtual ~AmMotionChange();
 	AmMotionChange& operator=(const AmMotionChange& o);
 	virtual void		RealDelete();
 
@@ -822,14 +822,14 @@ public:
 	AmSystemExclusive(const uint8* data, size_t size, AmTime time);
 	AmSystemExclusive(const AmSystemExclusive& o);
 
-	const uint8*		Data() const			{ return (const uint8*)(const char*)mData; }
-	size_t				Length() const			{ return mData.Length(); }
+	const uint8*		Data() const;
+	size_t				Length() const;
 	void				SetData(const uint8* data, size_t length);
 	
 	// --------------------------------------------------------
 	// AM-EVENT INTERFACE
 	// --------------------------------------------------------
-	virtual EventType	Type() const			{ return SYSTEMEXCLUSIVE_TYPE; }
+	virtual EventType	Type() const;
 	virtual AmEvent*	Copy() const;
 	virtual status_t	GetAsMessage(BMessage& msg) const;
 	virtual void		Print(void) const;
@@ -848,7 +848,7 @@ public:
 	void				SetChannel(uchar channel);
 	
 protected:
-	virtual ~AmSystemExclusive()					{ }
+	virtual ~AmSystemExclusive();
 	AmSystemExclusive& operator=(const AmSystemExclusive& o);
 	virtual void		RealDelete();
 		
@@ -866,17 +866,17 @@ public:
 	AmSystemCommon(uint8 status, uint8 data1, uint8 data2, AmTime time);
 	AmSystemCommon(const AmSystemCommon& o);
 
-	uint8				Status() const			{ return mStatus; }
-	void				SetStatus(uint8 status)	{ mStatus = status; }
-	uint8				Data1() const			{ return mData1; }
-	void				SetData1(uint8 data1)	{ mData1 = data1; }
-	uint8				Data2() const			{ return mData2; }
-	void				SetData2(uint8 data2)	{ mData2 = data2; }
+	uint8				Status() const;
+	void				SetStatus(uint8 status);
+	uint8				Data1() const;
+	void				SetData1(uint8 data1);
+	uint8				Data2() const;
+	void				SetData2(uint8 data2);
 
 	// --------------------------------------------------------
 	// AM-EVENT INTERFACE
 	// --------------------------------------------------------
-	virtual EventType	Type() const			{ return SYSTEMCOMMON_TYPE; }
+	virtual EventType	Type() const;
 	virtual AmEvent*	Copy() const;
 	virtual status_t	GetAsMessage(BMessage& msg) const;
 	virtual bool		Equals(AmEvent* event) const;
@@ -887,7 +887,7 @@ public:
 	void				operator delete(void* ptr, size_t size);
 
 protected:
-	virtual ~AmSystemCommon()					{ }
+	virtual ~AmSystemCommon();
 	AmSystemCommon& operator=(const AmSystemCommon& o);
 	virtual void		RealDelete();
 		
@@ -908,7 +908,7 @@ public:
 	// --------------------------------------------------------
 	// AM-EVENT INTERFACE
 	// --------------------------------------------------------
-	virtual EventType	Type() const	{ return SONGPOSITION_TYPE; }
+	virtual EventType	Type() const;
 	virtual AmEvent*	Copy() const;
 	virtual void		Print(void) const;
 
@@ -916,7 +916,7 @@ public:
 	void			operator delete(void* ptr, size_t size);
 
 protected:
-	virtual ~AmSongPosition()			{ }
+	virtual ~AmSongPosition();
 	AmSongPosition& operator=(const AmSongPosition& o);
 	virtual void		RealDelete();
 };
@@ -936,7 +936,7 @@ public:
 	// --------------------------------------------------------
 	// AM-EVENT INTERFACE
 	// --------------------------------------------------------		
-	virtual EventType	Type() const  { return LYRIC_TYPE; }
+	virtual EventType	Type() const;
 	virtual AmEvent*	Copy() const;
 	virtual status_t	GetAsMessage(BMessage& msg) const;
 	virtual bool		Equals(AmEvent* event) const;

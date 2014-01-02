@@ -221,6 +221,20 @@ void ArpRootLayout::FrameMoved(BPoint new_position)
 	inherited::FrameMoved(new_position);
 }
 
+const BMessage* ArpRootLayout::GlobalValues() const {
+	return &mGlobals;
+}
+
+bool ArpRootLayout::IsGlobalUpdate() const
+{
+	return false;
+}
+
+int ArpRootLayout::LayoutChildSpace() const
+{
+	return CountLayoutChildren() <= 0 ? 1 : 0;
+}
+
 void ArpRootLayout::SetWindowLimits()
 {
 	BWindow* win = Window();

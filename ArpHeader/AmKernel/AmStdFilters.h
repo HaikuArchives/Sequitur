@@ -123,16 +123,16 @@ public:
 						  								// -- it gives each a unique name
 	virtual ~AmProducerFilterAddOn();
 	
-	virtual VersionType Version(void) const				{ return VERSION_CURRENT; }
+	virtual VersionType Version(void) const;
 	virtual BString		Name() const;
 	virtual status_t	GetLabel(	BString& outLabel, bool useName = true,
 									BMessage* archivedFilter = NULL) const;
 	virtual BString		Key() const;
 	virtual BString		ShortDescription() const;
 	virtual void		LongDescription(BString& name, BString& str) const;
-	virtual BString		Author() const					{ return "Dianne Hackborn"; }
+	virtual BString		Author() const;
 	virtual void		GetVersion(int32* major, int32* minor) const;
-	virtual type		Type() const					{ return SOURCE_FILTER; }
+	virtual type		Type() const;
 	virtual BString		KeyForType(type inType) const;
 	virtual BBitmap*	Image(BPoint requestedSize) const;
 	virtual float		CheckInstantiation(const BMessage* config) const;
@@ -230,16 +230,16 @@ public:
 						  								// -- it gives each a unique name
 	virtual ~AmConsumerFilterAddOn();
 	
-	virtual VersionType Version(void) const				{ return VERSION_CURRENT; }
+	virtual VersionType Version(void) const;
 	virtual BString		Name() const;
 	virtual status_t	GetLabel(	BString& outLabel, bool useName = true,
 									BMessage* archivedFilter = NULL) const;
 	virtual BString		Key() const;
 	virtual BString		ShortDescription() const;
 	virtual void		LongDescription(BString& name, BString& str) const;
-	virtual BString		Author() const					{ return "Dianne and Eric Hackborn"; }
+	virtual BString		Author() const;
 	virtual void		GetVersion(int32* major, int32* minor) const;
-	virtual type		Type() const					{ return DESTINATION_FILTER; }
+	virtual type		Type() const;
 	virtual BString		KeyForType(type inType) const;
 	virtual BBitmap*	Image(BPoint requestedSize) const;
 	virtual float		CheckInstantiation(const BMessage* config) const;
@@ -293,15 +293,15 @@ public:
 	AmNullInputAddOn(const void* cookie);
 	virtual ~AmNullInputAddOn();
 	
-	virtual VersionType Version(void) const				{ return VERSION_CURRENT; }
-	virtual BString		Name() const					{ return "Input"; }
-	virtual BString		Key() const						{ return NULL_INPUT_KEY; }
-	virtual BString		ShortDescription() const		{ return "A source for the tool and multi filter windows"; }
+	virtual VersionType Version(void) const;
+	virtual BString		Name() const;
+	virtual BString		Key() const;
+	virtual BString		ShortDescription() const;
 	virtual void		LongDescription(BString& name, BString& str) const;
-	virtual BString		Author() const					{ return "Eric Hackborn"; }
+	virtual BString		Author() const;
 	virtual void		GetVersion(int32* major, int32* minor) const;
-	virtual type		Type() const					{ return SOURCE_FILTER; }
-	virtual subtype		Subtype() const  				{ return TOOL_SUBTYPE; }
+	virtual type		Type() const;
+	virtual subtype		Subtype() const;
 	virtual BBitmap*	Image(BPoint requestedSize) const;
 	virtual AmFilterI*	NewInstance(AmFilterHolderI* holder,
 									const BMessage* config = 0);
@@ -336,15 +336,15 @@ public:
 	AmNullOutputAddOn(const void* cookie);
 	virtual ~AmNullOutputAddOn();
 	
-	virtual VersionType Version(void) const				{ return VERSION_CURRENT; }
-	virtual BString		Name() const					{ return "Output"; }
-	virtual BString		Key() const						{ return NULL_OUTPUT_KEY; }
-	virtual BString		ShortDescription() const		{ return "A destination for the tool and multi filter windows"; }
+	virtual VersionType Version(void) const;
+	virtual BString		Name() const;
+	virtual BString		Key() const;
+	virtual BString		ShortDescription() const;
 	virtual void		LongDescription(BString& name, BString& str) const;
-	virtual BString		Author() const					{ return "Eric Hackborn"; }
+	virtual BString		Author() const;
 	virtual void		GetVersion(int32* major, int32* minor) const;
-	virtual type		Type() const					{ return DESTINATION_FILTER; }
-	virtual subtype		Subtype() const  				{ return TOOL_SUBTYPE; }
+	virtual type		Type() const;
+	virtual subtype		Subtype() const;
 	virtual BBitmap*	Image(BPoint requestedSize) const;
 	virtual AmFilterI*	NewInstance(AmFilterHolderI* holder,
 									const BMessage* config = 0);

@@ -97,12 +97,12 @@ public:
 	
 	/* Get and set current performance tempo.
 	 */
-	float BPM() const				{ return mPerformer.BPM(); }
-	void SetBPM(float value)		{ mPerformer.SetBPM(value); }
+	float BPM() const;
+	void SetBPM(float value);
 	
 	/* Set target for MIDI clock reports.  Only one at a time.
 	 */
-	void SetClockTarget(AmClockTarget* target) { mPerformer.SetClockTarget(target); }
+	void SetClockTarget(AmClockTarget* target);
 	
 	/* Return true if the object is currently performing a song.
 	 * Returns false if it has run out of events to perform.
@@ -116,17 +116,17 @@ public:
 	
 	/* Return true if the transport is running.
 	 */
-	bool IsRunning() const			{ return mRunning; }
+	bool IsRunning() const;
 	
 	/* Return true if the transport is waiting for playback to finish.
 	 */
-	bool IsExiting() const			{ return mExiting; }
+	bool IsExiting() const;
 
 	/* Return true if the transport has been requested a 'soft' end time --
 	 * i.e., whatever the song's end time happens to be.  Return false if
 	 * the transport Start() method was called with an actual stop time.
 	 */
-	bool PlayToEnd() const			{ return mPlayToEnd; }
+	bool PlayToEnd() const;
 	
 	/* Start and stop watching the current transport state.
 	 */
@@ -163,8 +163,8 @@ public:
 	
 private:
 	// copying constructor and assignment are not allowed.
-	AmTransport(const AmTransport&) : AmSongObserver(AmSongRef(0)) { }
-	AmTransport& operator=(const AmTransport&) { return *this; }
+	AmTransport(const AmTransport&);
+	AmTransport& operator=(const AmTransport&);
 	
 	static int32 FeedThreadEntry(void* arg);
 	int32 FeedPerformance();

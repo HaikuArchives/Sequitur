@@ -36,7 +36,7 @@
 class AmFileRosterEntryI
 {
 public:
-	virtual ~AmFileRosterEntryI()		{ }
+	virtual ~AmFileRosterEntryI();
 
 	virtual file_entry_id	Id() const = 0;
 
@@ -61,7 +61,7 @@ public:
 	/* Answer true if NOTHING can be done with this entry --
 	 * no editing, no deleting, no copying, nothing.
 	 */
-	virtual bool			IsImmutable() const { return false; }
+	virtual bool			IsImmutable() const;
 	/* Implementors must answer a valid file name.
 	 */
 	virtual BString			LocalFileName() const = 0;

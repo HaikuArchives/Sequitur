@@ -112,6 +112,10 @@
 #ifndef ARPKERNEL_ARPDEBUG_H
 #define ARPKERNEL_ARPDEBUG_H
 
+
+//FORCE DEBUG
+#define ArpDEBUG 1
+
 #if defined(ArpDEBUG)
 #ifndef DEBUG
 #define DEBUG 1

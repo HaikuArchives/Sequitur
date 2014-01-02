@@ -104,7 +104,7 @@ protected:
   	void ComputeDimens(ArpDimens& dimens);
   	
 private:
-	void initialize()										{ }
+	void initialize();
 };
 
 #endif

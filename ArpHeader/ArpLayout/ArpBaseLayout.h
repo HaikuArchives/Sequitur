@@ -303,7 +303,7 @@ class _EXPORT ArpBaseLayout {
 	 */
 	virtual ArpBaseLayout*	SetLayoutInhibit(bool state);
 	//* @see SetLayoutInhibit()
-	bool	LayoutInhibit(void) const	{ return inhibit_layout; }
+	bool	LayoutInhibit(void) const;
 	
 	/** Child manipulation.  Work just like BView's respective
 	 	functions.  These should -always- be called instead
@@ -317,7 +317,7 @@ class _EXPORT ArpBaseLayout {
 	//* @see AddLayoutChild()
 	virtual	bool		RemoveLayoutChild(ArpBaseLayout* child);
 	//* @see AddLayoutChild()
-	ArpBaseLayout*		LayoutParent(void) const { return mParent; }
+	ArpBaseLayout*		LayoutParent(void) const;
 	//* @see AddLayoutChild()
 	int32				CountLayoutChildren(void) const;
 	//* @see AddLayoutChild()
@@ -336,13 +336,13 @@ class _EXPORT ArpBaseLayout {
 	 */
 	virtual BWindow* LayoutWindow() const;
 	//* @see LayoutWindow()
-	virtual void LayoutAttachedToWindow()			{ }
+	virtual void LayoutAttachedToWindow();
 	//* @see LayoutWindow()
-	virtual void LayoutAllAttached()				{ }
+	virtual void LayoutAllAttached();
 	//* @see LayoutWindow()
-	virtual void LayoutDetachedFromWindow()			{ }
+	virtual void LayoutDetachedFromWindow();
 	//* @see LayoutWindow()
-	virtual void LayoutAllDetached()				{ }
+	virtual void LayoutAllDetached();
 	
 	/**	Check to see if there is space in the container for children.
 	 	This function should return the number of children it can
@@ -352,7 +352,7 @@ class _EXPORT ArpBaseLayout {
 	 	currently has none and 0 if it does; if it can take any
 	 	number of children, always return INT_MAX; etc.
 	 */
-	virtual int 		LayoutChildSpace() const	{ return 0; }
+	virtual int 		LayoutChildSpace() const;
 	
 	/**	Predict where a child will appear in its container.  The
 	 	arguments define where the child will be inserted, just
@@ -382,9 +382,9 @@ class _EXPORT ArpBaseLayout {
 	 	in -- this is either OwnerView() if there is one, or the
 	 	closest parents' OwnerView().
 	 */
-	virtual BView*	OwnerView()			{ return NULL; }
+	virtual BView*	OwnerView();
 	//* @see OwnerView()
-	BView*	InView()					{ return in_view ? in_view : (in_view=OwnerView()); }
+	BView*	InView();
 
 	/**	Dimensioning.
 	 	LayoutDimens() is called by others to retrieve this

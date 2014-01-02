@@ -87,12 +87,12 @@ public:
 	virtual	void FrameMoved(BPoint new_position);
 
 	// Implement interface to global values.
-	virtual const BMessage* GlobalValues() const			{ return &mGlobals; }
+	virtual const BMessage* GlobalValues() const;
 	virtual status_t AddGlobals(const BMessage* values);
 	virtual status_t UpdateGlobals(const BMessage* values);
-	virtual bool IsGlobalUpdate() const						{ return false; }
+	virtual bool IsGlobalUpdate() const;
 	
-	virtual int 		LayoutChildSpace() const	{ return CountLayoutChildren() <= 0 ? 1 : 0; }
+	virtual int 		LayoutChildSpace() const;
 	
 	// Call this to update the containing window's size limits,
 	// based on the dimensions of the layout.

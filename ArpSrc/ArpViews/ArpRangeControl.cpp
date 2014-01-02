@@ -248,8 +248,8 @@ private:
 	rgb_color				mBackgroundColor;
 	
 	float FontHeight();
-	bool ShowX()			{ return mMinX != mMaxX; }
-	bool ShowY()			{ return mMinY != mMaxY; }
+	bool ShowX();
+	bool ShowY();
 
 	void FreeMemory();
 	
@@ -1502,6 +1502,16 @@ float _ArpShowTextView::FontHeight()
 void _ArpShowTextView::FreeMemory()
 {
 	if (mBitmap != 0) delete mBitmap;
+}
+
+bool _ArpShowTextView::ShowX()
+{
+	return mMinX != mMaxX;
+}
+
+bool _ArpShowTextView::ShowY()
+{
+	return mMinY != mMaxY;
 }
 
 /***************************************************************************

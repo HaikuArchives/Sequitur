@@ -857,6 +857,11 @@ AmProducerFilterAddOn::~AmProducerFilterAddOn()
 	mIcon = NULL;
 }
 
+AmProducerFilterAddOn::VersionType AmProducerFilterAddOn::Version() const
+{
+	return VERSION_CURRENT;
+}
+
 BString AmProducerFilterAddOn::Name() const
 {
 	if (mProducer) {
@@ -928,10 +933,20 @@ void AmProducerFilterAddOn::LongDescription(BString& name, BString& str) const
 		MIDI interfaces (such as the Yamaha UX256).</p>";
 }
 
+BString AmProducerFilterAddOn::Author() const
+{
+	return "Dianne Hackborn";
+}
+
 void AmProducerFilterAddOn::GetVersion(int32* major, int32* minor) const
 {
 	*major = 1;
 	*minor = 0;
+}
+
+AmProducerFilterAddOn::type AmProducerFilterAddOn::Type() const
+{
+	return SOURCE_FILTER;
 }
 
 BString AmProducerFilterAddOn::KeyForType(type inType) const
@@ -1642,6 +1657,11 @@ AmConsumerFilterAddOn::~AmConsumerFilterAddOn()
 	mIcon = NULL;
 }
 
+AmConsumerFilterAddOn::VersionType AmConsumerFilterAddOn::Version() const
+{
+	return VERSION_CURRENT;
+}
+
 BString AmConsumerFilterAddOn::Name() const
 {
 	if (mConsumer) {
@@ -1739,10 +1759,20 @@ void AmConsumerFilterAddOn::LongDescription(BString& name, BString& str) const
 	}
 }
 
+BString AmConsumerFilterAddOn::Author() const
+{
+	return "Dianne and Eric Hackborn";
+}
+
 void AmConsumerFilterAddOn::GetVersion(int32* major, int32* minor) const
 {
 	*major = 1;
 	*minor = 1;
+}
+
+AmConsumerFilterAddOn::type AmConsumerFilterAddOn::Type() const
+{
+	return DESTINATION_FILTER;
 }
 
 BString AmConsumerFilterAddOn::KeyForType(type inType) const
@@ -1979,6 +2009,26 @@ AmNullInputAddOn::~AmNullInputAddOn()
 {
 }
 
+AmNullInputAddOn::VersionType AmNullInputAddOn::Version() const
+{
+	return VERSION_CURRENT;
+}
+
+BString	AmNullInputAddOn::Name() const
+{
+	return "Input";
+}
+
+BString	AmNullInputAddOn::Key() const
+{
+	return NULL_INPUT_KEY;
+}
+
+BString	AmNullInputAddOn::ShortDescription() const
+{
+	return "A source for the tool and multi filter windows";
+}
+
 void AmNullInputAddOn::LongDescription(BString& name, BString& str) const
 {
 	name << "Tool Input";
@@ -1996,10 +2046,23 @@ void AmNullInputAddOn::LongDescription(BString& name, BString& str) const
 		send their output to this Tool Input filter.</p>";
 }
 
+BString AmNullInputAddOn::Author() const
+{
+	return "Eric Hackborn";
+}
+
 void AmNullInputAddOn::GetVersion(int32* major, int32* minor) const
 {
 	*major = 1;
 	*minor = 0;
+}
+
+AmNullInputAddOn::type AmNullInputAddOn::Type() const	{
+	return SOURCE_FILTER;
+}
+
+AmNullInputAddOn::subtype AmNullInputAddOn::Subtype() const {
+	return TOOL_SUBTYPE;
 }
 
 BBitmap* AmNullInputAddOn::Image(BPoint requestedSize) const
@@ -2052,6 +2115,26 @@ AmNullOutputAddOn::~AmNullOutputAddOn()
 {
 }
 
+AmNullOutputAddOn::VersionType AmNullOutputAddOn::Version() const
+{
+	return VERSION_CURRENT;
+}
+
+BString	AmNullOutputAddOn::Name() const
+{
+	return "Input";
+}
+
+BString	AmNullOutputAddOn::Key() const
+{
+	return NULL_OUTPUT_KEY;
+}
+
+BString	AmNullOutputAddOn::ShortDescription() const
+{
+	return "A destination for the tool and multi filter windows";
+}
+
 void AmNullOutputAddOn::LongDescription(BString& name, BString& str) const
 {
 	name << "Tool Output";
@@ -2071,10 +2154,23 @@ void AmNullOutputAddOn::LongDescription(BString& name, BString& str) const
 		connection filters, in order.</p>";
 }
 
+BString AmNullOutputAddOn::Author() const
+{
+	return "Eric Hackborn";
+}
+
 void AmNullOutputAddOn::GetVersion(int32* major, int32* minor) const
 {
 	*major = 1;
 	*minor = 0;
+}
+
+AmNullOutputAddOn::type AmNullOutputAddOn::Type() const	{
+	return DESTINATION_FILTER;
+}
+
+AmNullOutputAddOn::subtype AmNullOutputAddOn::Subtype() const {
+	return TOOL_SUBTYPE;
 }
 
 BBitmap* AmNullOutputAddOn::Image(BPoint requestedSize) const

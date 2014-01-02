@@ -193,8 +193,8 @@ public:
 	virtual	void	DetachedFromWindow();
 	virtual	void	GetPreferredSize(float* width, float* height);
 
-	virtual BHandler* LayoutHandler()				{ return this; }
-	virtual const BHandler* LayoutHandler() const	{ return this; }
+	virtual BHandler* LayoutHandler();
+	virtual const BHandler* LayoutHandler() const;
  
 private:
 	typedef BView	inherited;

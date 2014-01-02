@@ -35,6 +35,11 @@ AmEvent* AmPhraseEvent::Copy() const
 }
 #endif
 
+AmEvent::EventType AmPhraseEvent::Type() const
+{
+	return PHRASE_TYPE;
+}
+
 AmTime AmPhraseEvent::TimeOffset() const
 {
 	return 0;
@@ -203,6 +208,11 @@ AmRootPhraseEvent::AmRootPhraseEvent(const BMessage& flatEvent)
 			msg.MakeEmpty();
 		}
 	}
+}
+
+AmRootPhraseEvent::EventSubtype AmRootPhraseEvent::Subtype() const
+{
+	return ROOT_SUBTYPE;
 }
 
 AmRootPhraseEvent::~AmRootPhraseEvent()
@@ -478,6 +488,11 @@ bool AmBankChange::Matches(const AmNode* head, const AmNode* tail, bool exactly)
 	return true;
 }
 
+AmEvent::EventSubtype AmBankChange::Subtype() const
+{
+	return BANK_SUBTYPE;
+}
+
 AmEvent* AmBankChange::Copy() const
 {
 	return new AmBankChange(*this);
@@ -529,6 +544,11 @@ AmInnerPhraseEvent::AmInnerPhraseEvent(const BMessage& flatEvent)
 {
 }
 
+AmEvent::EventSubtype AmInnerPhraseEvent::Subtype() const
+{
+	return INNER_SUBTYPE;
+}
+
 AmEvent* AmInnerPhraseEvent::Copy() const
 {
 	return new AmInnerPhraseEvent(*this);
@@ -565,6 +585,11 @@ AmLinkEvent::AmLinkEvent(AmTime startTime, AmPhrase* phrase)
 {
 	mPhrase = phrase;
 //	if (mPhrase) mPhrase->Link(this);
+}
+
+AmEvent::EventSubtype AmLinkEvent::Subtype() const
+{
+	return LINK_SUBTYPE;
 }
 
 AmLinkEvent::~AmLinkEvent()

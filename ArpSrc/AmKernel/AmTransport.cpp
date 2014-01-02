@@ -483,6 +483,21 @@ AmTime AmTransport::LoopOffset() const
 	return mPerformer.LoopOffset();
 }
 
+float AmTransport::BPM() const
+{
+	return mPerformer.BPM();
+}
+
+void AmTransport::SetBPM(float value)
+{
+	mPerformer.SetBPM(value);
+}
+
+void AmTransport::SetClockTarget(AmClockTarget* target)
+{
+	mPerformer.SetClockTarget(target);
+}
+
 bool AmTransport::IsPlaying() const
 {
 	return mPerformer.IsPlaying();
@@ -499,6 +514,21 @@ bigtime_t AmTransport::PulseToRealtime(AmTime pulse, bool includeFuture) const
 {
 	BAutolock l(mAccess);
 	return mPerformer.PulseToRealtime(pulse, includeFuture);
+}
+
+bool AmTransport::IsRunning() const
+{
+	return mRunning;
+}
+
+bool AmTransport::IsExiting() const
+{
+	return mExiting;
+}
+
+bool AmTransport::PlayToEnd() const
+{
+	return mPlayToEnd;
 }
 
 status_t AmTransport::StartWatching(BMessenger observer)
@@ -647,6 +677,11 @@ void AmTransport::Stop(uint32 context)
 	
 	mLooper->SetState(TS_STOPPED);
 }
+
+AmTransport::AmTransport(const AmTransport&)
+	: AmSongObserver(AmSongRef(0)) { }
+
+AmTransport& AmTransport::operator=(const AmTransport&) { return *this; }
 
 // ---------------- The Feeder ----------------
 

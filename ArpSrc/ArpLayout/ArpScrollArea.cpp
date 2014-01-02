@@ -265,6 +265,11 @@ bool ArpScrollArea::RemoveLayoutChild(ArpBaseLayout* child)
 	return ret;
 }
 
+int ArpScrollArea::LayoutChildSpace() const
+{
+	return CountLayoutChildren() <= 0 ? 1 : 0;
+}
+
 BRect ArpScrollArea::HintLayoutChild(ArpBaseLayout* before) const
 {
 	BRect frm = LayoutBounds();

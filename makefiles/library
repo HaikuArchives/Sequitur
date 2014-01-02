@@ -65,7 +65,7 @@ include $(ARPROOT)/makefiles/platform
 #	specify the list of source files
 	SRCS		= $(shell ls 2>/dev/null -1 *.cpp *.S)
 
-	RSRC_DIRS	= $(shell ls 2>/dev/null -1 *.r)
+	RSRC_DIRS	= $(shell ls 2>/dev/null -1 *.rdef)
 
 ifeq ($(CPU), ppc)
 	CFLAGS		= -str pool -ansi strict -bool on -requireprotos
@@ -102,7 +102,7 @@ endif
 
 	DEST_DIR			= $(ARPROOT)/ArpLib/
 	PUBLIC_TARGET		= $(DEST_DIR)$(TARGET)
-	LIB_RSRC_DIRS		= $(addprefix $(OBJ_DIR)/, $(RSRC_DIRS:.r=.rsrc))
+	LIB_RSRC_DIRS		= $(addprefix $(OBJ_DIR)/, $(RSRC_DIRS:.rdef=.rsrc))
 	PUBLIC_LIB_RSRCDIRS	= $(addprefix $(DEST_DIR), $(LIB_RSRC_DIRS))
 
 # define the actual work to be done	
@@ -118,7 +118,7 @@ release:: PUBLIC_ALL
 PUBLIC_ALL:: $(PUBLIC_TARGET) $(PUBLIC_LIB_RSRCDIRS)
 
 $(PUBLIC_TARGET): $(TARGET)
-	@[ -d $(shell dirname $@) ] || mkdir $(shell dirname $@) > /dev/null 2>&1
+	mkdir -p $(shell dirname $@) > /dev/null 2>&1
 	$(COPY) $< $@
 
 $(PUBLIC_LIB_RSRCDIRS): $(LIB_RSRC_FILES)

@@ -180,6 +180,11 @@ status_t ArpRunningBar::Archive(BMessage* data, bool deep) const
 	return status;
 }
 
+int ArpRunningBar::LayoutChildSpace() const
+{
+	return INT_MAX;
+}
+
 BRect ArpRunningBar::HintLayoutChild(ArpBaseLayout* before) const
 {
 	float inset_l = ceil(PV_InsetLeft*char_w);

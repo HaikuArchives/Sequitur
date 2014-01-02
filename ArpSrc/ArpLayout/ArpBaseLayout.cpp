@@ -447,6 +447,11 @@ ArpBaseLayout* ArpBaseLayout::SetLayoutInhibit(bool state)
 	return this;
 }
 
+bool ArpBaseLayout::LayoutInhibit() const
+{
+	return inhibit_layout;
+}
+
 void ArpBaseLayout::DrawLayout(BView* inside, BRect region)
 {
 	ArpBaseLayout* child = LayoutChildAt(0);
@@ -775,6 +780,11 @@ bool ArpBaseLayout::RemoveLayoutChild(ArpBaseLayout* child)
 	return true;
 }
 
+ArpBaseLayout* ArpBaseLayout::LayoutParent() const
+{
+	return mParent;
+}
+
 void ArpBaseLayout::AttachView(BView* par_view, BView* before)
 {
 	ArpD(cdb << ADH << "AttachView: par_view=" << par_view
@@ -864,9 +874,30 @@ ArpBaseLayout* ArpBaseLayout::FindLayoutable(const char* name)
 	return 0;
 }
 
+void ArpBaseLayout::LayoutAttachedToWindow()
+{
+}
+
+void ArpBaseLayout::LayoutAllAttached()
+{
+}
+
+void ArpBaseLayout::LayoutDetachedFromWindow()
+{
+}
+
+void ArpBaseLayout::LayoutAllDetached()
+{
+}
+
 BRect ArpBaseLayout::HintLayoutChild(ArpBaseLayout* before) const
 {
 	return LayoutBounds();
+}
+
+int ArpBaseLayout::LayoutChildSpace() const
+{
+	return 0;
 }
 
 void ArpBaseLayout::ComputeDimens(ArpDimens& cur_dimens)
@@ -967,6 +998,16 @@ void ArpBaseLayout::SetBodyFill(ArpGravity fill)
 ArpGravity ArpBaseLayout::BodyFill() const
 {
 	return mBodyFill;
+}
+
+BView* ArpBaseLayout::OwnerView()
+{
+	return NULL;
+}
+
+BView* ArpBaseLayout::InView()
+{
+	return in_view ? in_view : (in_view = OwnerView());
 }
 
 void ArpBaseLayout::InvalidateDimens(void)

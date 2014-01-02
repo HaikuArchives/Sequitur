@@ -22,6 +22,11 @@ static const char*	APP_NAME		= "Sequitur";
 
 //#define AM_TRACE_ENTRY_LOCK		(1)
 
+AmFileRosterEntryI::~AmFileRosterEntryI() {}
+bool AmFileRosterEntryI::IsImmutable() const
+{
+	return false;
+}
 static status_t verify_directory(const BString& pathStr)
 {
 	BPath		path( pathStr.String() );
