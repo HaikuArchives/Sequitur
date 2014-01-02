@@ -37,11 +37,11 @@
 #define MAIN_H
 
 #ifndef _APPLICATION_H
-#include <be/app/Application.h>
+#include <app/Application.h>
 #endif
 
 #ifndef _ENTRY_H
-#include <be/storage/Entry.h>
+#include <storage/Entry.h>
 #endif
 
 // Mime string of our application's signature.

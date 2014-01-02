@@ -17,18 +17,18 @@
 #define ArpDEBUG 1
 
 #ifndef _APPLICATION_H
-#include <be/app/Application.h>
+#include <app/Application.h>
 #endif
 
 #ifndef _RECT_H
-#include <be/interface/Rect.h>
+#include <interface/Rect.h>
 #endif
 
 #ifndef _ALERT_H
-#include <be/interface/Alert.h>
+#include <interface/Alert.h>
 #endif
 
-#include <be/translation/TranslationUtils.h >
+#include <translation/TranslationUtils.h >
 
 #ifndef ARPKERNEL_ARPDEBUG_H
 #include <ArpKernel/ArpDebug.h>

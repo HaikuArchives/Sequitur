@@ -21,23 +21,23 @@
 #endif
 
 #ifndef _MESSAGE_H
-#include <be/app/Message.h>
+#include <app/Message.h>
 #endif
 
 #ifndef _FILE_H
-#include <be/storage/File.h>
+#include <storage/File.h>
 #endif
 
 #ifndef _WINDOW_H
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #endif
 
 #ifndef _VIEW_H
-#include <be/include/View.h>
+#include <include/View.h>
 #endif
 
 #ifndef _FILE_PANEL_H
-#include <be/storage/FilePanel.h>
+#include <storage/FilePanel.h>
 #endif
 
 #ifndef MAIN_H
