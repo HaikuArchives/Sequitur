@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <string.h>
 #include <malloc.h>
-#include <interface/ColorTools.h>
+#include <BeExp/ColorTools.h>
 #include <interface/Font.h>
 #include <interface/InterfaceDefs.h>
 #include <interface/StatusBar.h>
@@ -72,7 +72,7 @@ void SeqPreferences::Initialize()
 	mPrefInt32[AM_FILTER_BG_COUNT_I32] = 0;
 	BString			str(FILTER_BG_PREFIX);
 	str << mPrefInt32[AM_FILTER_BG_COUNT_I32];
-	while (Resources().FindBitmap(B_MESSAGE_TYPE, str.String()) != NULL) {
+	while (Resources().FindBitmap(str.String()) != NULL) {
 		mPrefInt32[AM_FILTER_BG_COUNT_I32]++;
 		str = FILTER_BG_PREFIX;
 		str << mPrefInt32[AM_FILTER_BG_COUNT_I32];

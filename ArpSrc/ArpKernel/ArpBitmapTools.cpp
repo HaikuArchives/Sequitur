@@ -1,7 +1,6 @@
 #include "ArpKernel/ArpBitmapTools.h"
 
-//TODO:
-//#include <experimental/BitmapTools.h>
+#include <BeExp/BitmapTools.h>
 #include <Bitmap.h>
 
 #include <stdio.h>
@@ -27,10 +26,7 @@ rgb_color overlay_color(rgb_color color1, rgb_color color2, uint8 amount)
 
 
 namespace ARP {
-	//TODO:
-	// works, but isn't used anywhere
-	// L46 and L47 must be fixed before this does anything
-	/*static color_space fix_color_space(color_space space)
+	static color_space fix_color_space(color_space space)
 	{
 		switch (space) {
 			case B_RGB32:		return B_RGBA32;
@@ -39,15 +35,14 @@ namespace ARP {
 			case B_RGB15_BIG:	return B_RGBA15_BIG;
 			default:			return space;
 		}
-	}*/
+	}
 	
 	class color_overlay
 	{
 	public:
 		color_overlay(BBitmap* out, const BBitmap* in, uint8 amount)
-			: //TODO:
-			  //fOutAccess(fix_color_space(out->ColorSpace())),
-			  //fInAccess(fix_color_space(in->ColorSpace())),
+			: fOutAccess(fix_color_space(out->ColorSpace())),
+			  fInAccess(fix_color_space(in->ColorSpace())),
 			  fAmount(amount),
 			  fWidth(int32(out->Bounds().Width()+1.5)),
 			  fHeight(int32(out->Bounds().Height()+1.5)),
@@ -60,8 +55,7 @@ namespace ARP {
 		
 		bool valid() const
 		{
-			//TODO:
-			//return fOutAccess.valid() && fInAccess.valid();
+			return fOutAccess.valid() && fInAccess.valid();
 			return false;
 		}
 		
@@ -74,23 +68,20 @@ namespace ARP {
 			const uint8*	data = fInBits;
 			const uint8*	const data_end = fInBits+fInLength;
 			
-			//TODO:
-			//const size_t	data_jump = fInBPR - fWidth*fInAccess.bpp();
-			//const size_t	dest_jump = fOutBPR - fWidth*fOutAccess.bpp();
+			const size_t	data_jump = fInBPR - fWidth*fInAccess.bpp();
+			const size_t	dest_jump = fOutBPR - fWidth*fOutAccess.bpp();
 			size_t			line_pos = 0;
 			
 			while( dest < dest_end && data < data_end ) {
-				//TODO:
-				//fOutAccess.write(dest,
-				//	overlay_color(fOutAccess.read(dest), fInAccess.read(data), fAmount));
+				fOutAccess.write(dest,
+					overlay_color(fOutAccess.read(dest), fInAccess.read(data), fAmount));
 				
-				//data += fInAccess.bpp();
-				//dest += fOutAccess.bpp();
+				data += fInAccess.bpp();
+				dest += fOutAccess.bpp();
 				
 				if( ++line_pos >= fWidth ) {
-					//TODO:
-					//data += data_jump;
-					//dest += dest_jump;
+					data += data_jump;
+					dest += dest_jump;
 					line_pos = 0;
 				}
 			}
@@ -99,9 +90,8 @@ namespace ARP {
 		}
 		
 	private:
-		//TODO:
-		//pixel_access fOutAccess;
-		//pixel_access fInAccess;
+		pixel_access fOutAccess;
+		pixel_access fInAccess;
 		
 		uint8 fAmount;
 		
@@ -148,9 +138,8 @@ namespace ARP {
 	{
 	public:
 		color_tint(BBitmap* out, rgb_color tint)
-			: //TODO:
-			  //fOutAccess(fix_color_space(out->ColorSpace())),
-			  //fTint(tint),
+			: fOutAccess(fix_color_space(out->ColorSpace())),
+			  fTint(tint),
 			  fWidth(int32(out->Bounds().Width()+1.5)),
 			  fHeight(int32(out->Bounds().Height()+1.5)),
 			  fOutBPR(out->BytesPerRow()),
@@ -161,8 +150,7 @@ namespace ARP {
 		
 		bool valid() const
 		{
-			//TODO:
-			//return fOutAccess.valid();
+			return fOutAccess.valid();
 			return false;
 		}
 		
@@ -173,19 +161,16 @@ namespace ARP {
 			uint8*			dest = fOutBits;
 			uint8*			const dest_end = fOutBits+fOutLength;
 			
-			//TODO:
-			//const size_t	dest_jump = fOutBPR - fWidth*fOutAccess.bpp();
+			const size_t	dest_jump = fOutBPR - fWidth*fOutAccess.bpp();
 			size_t			line_pos = 0;
 			
 			while( dest < dest_end ) {
-				//TODO:
-				//fOutAccess.write(dest, tint_color(fOutAccess.read(dest), fTint));
+				fOutAccess.write(dest, tint_color(fOutAccess.read(dest), fTint));
 				
-				//dest += fOutAccess.bpp();
+				dest += fOutAccess.bpp();
 				
 				if( ++line_pos >= fWidth ) {
-					//TODO:
-					//dest += dest_jump;
+					dest += dest_jump;
 					line_pos = 0;
 				}
 			}
@@ -194,9 +179,8 @@ namespace ARP {
 		}
 		
 	private:
-		//TODO:
-		//pixel_access fOutAccess;
-		//pixel_access fInAccess;
+		pixel_access fOutAccess;
+		pixel_access fInAccess;
 		
 		rgb_color fTint;
 		

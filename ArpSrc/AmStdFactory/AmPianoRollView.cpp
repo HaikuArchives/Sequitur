@@ -2,7 +2,7 @@
  */
 #include <stdio.h>
 #include <math.h>
-#include <interface/ColorTools.h>
+#include <BeExp/ColorTools.h>
 #include <interface/Bitmap.h>
 #include <interface/MenuField.h>
 #include <interface/MenuItem.h>

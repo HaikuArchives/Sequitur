@@ -1,238 +1,101 @@
-/*
-Open Tracker License
+#include <BeBuild.h>
 
-Terms and Conditions
-
-Copyright (c) 1991-2000, Be Incorporated. All rights reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
-
-The above copyright notice and this permission notice applies to all licensees
-and shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF TITLE, MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-BE INCORPORATED BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
-AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-Except as contained in this notice, the name of Be Incorporated shall not be
-used in advertising or otherwise to promote the sale, use or other dealings in
-this Software without prior written authorization from Be Incorporated.
-
-Tracker(TM), Be(R), BeOS(R), and BeIA(TM) are trademarks or registered
-trademarks of Be Incorporated in the United States and other countries. Other
-brand product names are registered trademarks or trademarks of their respective
-holders.
-All rights reserved.
-*/
-
+namespace BExperimental {
+class _EXPORT BResourceSet;
+}
 
 #define USE_RESOURCES 1
-#define USE_AM_STATIC_RESOURCES 1
+#define HAVE_CURSORS 1
 
 #include "ResourceSet.h"
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <ctype.h>
+#if HAVE_CURSORS
+#include <Cursor.h>
+#endif
 
-#include <Application.h>
-#include <Autolock.h>
 #include <Bitmap.h>
-#include <DataIO.h>
-#include <Debug.h>
+
 #include <Entry.h>
 #include <File.h>
 #include <Path.h>
-#include <String.h>
 
 #if USE_RESOURCES
 #include <Resources.h>
 #endif
 
-#if USE_AM_STATIC_RESOURCES
-#include <AmPublic/AmFilterI.h>
-#endif
+#include <Autolock.h>
+#include <DataIO.h>
+#include <Debug.h>
+#include <String.h>
 
-#if USE_RESOURCES
-#define RESOURCES_ONLY(x) x
-#else
-#define RESOURCES_ONLY(x)
-#endif
+#include <stdlib.h>
+#include <unistd.h>
+#include <ctype.h>
 
+#include <png.h>
 
+namespace BExperimental {
 namespace BResourcePrivate {
-	class TypeObject {
-	public:
-		TypeObject()
-			:	fDeleteOK(false)
-		{
-		}
-
-		virtual ~TypeObject()
-		{
-			if (!fDeleteOK)
-				debugger("deleting object owned by BResourceSet");
-		}
-
-		void Delete()
-		{
-			fDeleteOK = true;
-		}
-
-	private:
-		TypeObject(const TypeObject &);
-		TypeObject &operator=(const TypeObject &);
-		bool operator==(const TypeObject &);
-		bool operator!=(const TypeObject &);
-
-		bool fDeleteOK;
-	};
-
-	class BitmapTypeItem : public BBitmap, public TypeObject {
-	public:
-		BitmapTypeItem(BRect bounds, uint32 flags, color_space depth,
-			int32 bytesPerRow = B_ANY_BYTES_PER_ROW, screen_id screenID
-			= B_MAIN_SCREEN_ID)
-			:	BBitmap(bounds, flags, depth, bytesPerRow, screenID)
-		{
-		}
-
-		BitmapTypeItem(const BBitmap* source, bool accepts_views = false,
-			bool need_contiguous = false)
-			:	BBitmap(source, accepts_views, need_contiguous)
-		{
-		}
-
-		BitmapTypeItem(BMessage* data)
-			:	BBitmap(data)
-		{
-		}
-
-		virtual ~BitmapTypeItem()
-		{
-		}
-	};
-
-	class StringBlockTypeItem : public BStringBlock, public TypeObject {
-	public:
-		StringBlockTypeItem(BDataIO* data)
-			:	BStringBlock(data)
-		{
-		}
-
-		StringBlockTypeItem(const void* block, size_t size)
-			:	BStringBlock(block, size)
-		{
-		}
-
-		virtual ~StringBlockTypeItem()
-		{
-		}
-	};
 
 	class TypeItem {
 	public:
 		TypeItem(int32 id, const char* name, const void* data, size_t size)
-			:	fID(id), fName(name),
-				fData(const_cast<void*>(data)), fSize(size), fObject(0),
-				fOwnData(false), fSourceIsFile(false)
+			: fID(id), fName(name),
+			  fData(const_cast<void*>(data)), fSize(size), fObject(0),
+			  fOwnData(false), fSourceIsFile(false)
 		{
 		}
-
 		TypeItem(int32 id, const char* name, BFile* file)
-			:	fID(id),
-				fName(name),
-				fData(NULL),
-				fSize(0),
-				fObject(NULL),
-				fOwnData(true),
-				fSourceIsFile(false)
+			: fID(id), fName(name), fData(0), fSize(0), fObject(0),
+			  fOwnData(true), fSourceIsFile(false)
 		{
 			off_t size;
-			if (file->GetSize(&size) == B_OK) {
+			if( file->GetSize(&size) == B_OK ) {
 				fSize = (size_t)size;
 				fData = malloc(fSize);
-				if (file->ReadAt(0, fData, fSize) < B_OK ) {
+				if( file->ReadAt(0, fData, fSize) < B_OK ) {
 					free(fData);
-					fData = NULL;
+					fData = 0;
 					fSize = 0;
 				}
 			}
 		}
-
 		virtual ~TypeItem()
 		{
-			if (fOwnData) {
+			if( fOwnData ) {
 				free(fData);
-				fData = NULL;
+				fData = 0;
 				fSize = 0;
 			}
-			SetObject(NULL);
+			SetObject(0);
 		}
-
-		int32 ID() const
+		
+		int32 ID() const					{ return fID; }
+		const char* Name() const			{ return fName.String(); }
+		const void* Data() const			{ return fData; }
+		size_t Size() const					{ return fSize; }
+		
+		void SetObject(BResourceSet::TypeObject* object)
 		{
-			return fID;
-		}
-
-		const char* Name() const
-		{
-			return fName.String();
-		}
-
-		const void* Data() const
-		{
-			return fData;
-		}
-
-		size_t Size() const
-		{
-			return fSize;
-		}
-
-		void SetObject(TypeObject* object)
-		{
-			if (object == fObject)
-				return;
-			if (fObject)
-				fObject->Delete();
+			if( fObject ) fObject->Delete();
 			fObject = object;
 		}
-
-		TypeObject* Object() const
-		{
-			return fObject;
-		}
-
-		void SetSourceIsFile(bool state)
-		{
-			fSourceIsFile = state;
-		}
-
-		bool SourceIsFile() const
-		{
-			return fSourceIsFile;
-		}
-
+		BResourceSet::TypeObject* Object() const	{ return fObject; }
+		
+		void SetSourceIsFile(bool state)	{ fSourceIsFile = state; }
+		bool SourceIsFile() const			{ return fSourceIsFile; }
+		
 	private:
 		int32 fID;
 		BString fName;
 		void* fData;
 		size_t fSize;
-		TypeObject* fObject;
+		BResourceSet::TypeObject* fObject;
 		bool fOwnData;
 		bool fSourceIsFile;
 	};
-
-	static bool FreeTypeItemFunc(void* item)
+	
+	static bool free_type_item_func(void* item)
 	{
 		delete reinterpret_cast<TypeItem*>(item);
 		return false;
@@ -241,514 +104,490 @@ namespace BResourcePrivate {
 	class TypeList {
 	public:
 		TypeList(type_code type)
-			:	fType(type)
+			: fType(type)
 		{
 		}
-
+		
 		virtual ~TypeList()
 		{
-			fItems.DoForEach(FreeTypeItemFunc);
+			fItems.DoForEach(free_type_item_func);
 			fItems.MakeEmpty();
 		}
-
-		type_code Type() const
-		{
-			return fType;
-		}
-
+		
+		type_code Type() const		{ return fType; }
+		
 		TypeItem* FindItemByID(int32 id)
 		{
-			for (int32 i = fItems.CountItems() - 1; i >= 0; i--) {
+			for( int32 i=0; i<fItems.CountItems(); i++ ) {
 				TypeItem* it = (TypeItem*)fItems.ItemAt(i);
-				if (it->ID() == id)
-					return it;
+				if( it->ID() == id ) return it;
 			}
-			return NULL;
+			return 0;
 		}
-
+		
 		TypeItem* FindItemByName(const char* name)
 		{
-			for (int32 i = fItems.CountItems() - 1; i >= 0; i--) {
+			for( int32 i=0; i<fItems.CountItems(); i++ ) {
 				TypeItem* it = (TypeItem*)fItems.ItemAt(i);
-				if (strcmp(it->Name(), name) == 0)
-					return it;
+				if( strcmp(it->Name(), name) == 0 ) return it;
 			}
-			return NULL;
+			return 0;
 		}
-
+		
 		void AddItem(TypeItem* item)
 		{
 			fItems.AddItem(item);
 		}
-
+		
 	private:
 		type_code fType;
 		BList fItems;
 	};
-}
 
-using namespace BResourcePrivate;
+}	// namespace BResourcePrivate
+}	// namespace BExperimental
 
-//	#pragma mark -
-// ----------------------------- BStringBlock -----------------------------
-BStringBlock::BStringBlock(BDataIO* data)
-	:	fNumEntries(0),
-		fIndex(0),
-		fStrings(NULL),
-		fOwnData(true)
+using namespace BExperimental::BResourcePrivate;
+
+// ----------------------------- BStringMap -----------------------------
+
+BStringMap::BStringMap()
 {
-	fStrings = (char*)malloc(1024);
-	size_t pos = 0;
-	ssize_t amount;
-	while ((amount = data->Read(fStrings + pos, 1024)) == 1024) {
-		pos += amount;
-		fStrings = (char*)realloc(fStrings, pos + 1024);
-	}
-	if (amount > 0)
-		pos += amount;
-
-	fNumEntries = PreIndex(fStrings, amount);
-	fIndex = (size_t*)malloc(sizeof(size_t) * fNumEntries);
-	MakeIndex(fStrings, amount, fNumEntries, fIndex);
 }
-BStringBlock::BStringBlock(const void* block, size_t size)
-	:
-	fNumEntries(0),
-	fIndex(0),
-	fStrings(NULL),
-	fOwnData(false)
+
+BStringMap::~BStringMap()
 {
-	fIndex = (size_t*)const_cast<void*>(block);
-	fStrings = (char*)const_cast<void*>(block);
-
-	// Figure out how many entries there are.
-	size_t last_off = 0;
-	while (fIndex[fNumEntries] > last_off && fIndex[fNumEntries] < size ) {
-		last_off = fIndex[fNumEntries];
-		fNumEntries++;
-	}
 }
-BStringBlock::~BStringBlock()
+
+const char* BStringMap::FindString(const char* name)
 {
-	if (fOwnData) {
-		free(fIndex);
-		free(fStrings);
-	}
-	fIndex = 0;
-	fStrings = NULL;
+	return getenv(name);
 }
 
+// ----------------------------- TypeObject -----------------------------
 
-const char*
-BStringBlock::String(size_t index) const
+BResourceSet::TypeObject::TypeObject()
+	: fDeleteOK(false)
 {
-	if (index >= fNumEntries)
-		return NULL;
-
-	return fStrings + fIndex[index];
 }
-
-
-size_t
-BStringBlock::PreIndex(char* strings, ssize_t len)
+BResourceSet::TypeObject::~TypeObject()
 {
-	size_t count = 0;
-	char* orig = strings;
-	char* end = strings + len;
-	bool in_cr = false;
-	bool first = true;
-	bool skipping = false;
-
-	while (orig < end) {
-		if (*orig == '\n' || *orig == '\r' || *orig == 0) {
-			if (!in_cr && *orig == '\r')
-				in_cr = true;
-			if (in_cr && *orig == '\n') {
-				orig++;
-				continue;
-			}
-			first = true;
-			skipping = false;
-			*strings = 0;
-			count++;
-		} else if (first && *orig == '#') {
-			skipping = true;
-			first = false;
-			orig++;
-			continue;
-		} else if (skipping) {
-			orig++;
-			continue;
-		} else if (*orig == '\\' && (orig + 1) < end) {
-			orig++;
-			switch (*orig) {
-				case '\\':
-					*strings = '\\';
-					break;
-
-				case '\n':
-					*strings = '\n';
-					break;
-
-				case '\r':
-					*strings = '\r';
-					break;
-
-				case '\t':
-					*strings = '\t';
-					break;
-
-				default:
-					*strings = *orig;
-					break;
-			}
-		} else
-			*strings = *orig;
-
-		orig++;
-		strings++;
-	}
-	return count;
+	if( !fDeleteOK ) debugger("deleting object owned by BResourceSet");
 }
-
-
-void
-BStringBlock::MakeIndex(const char* strings, ssize_t len,
-	size_t indexLength, size_t* resultingIndex)
+void BResourceSet::TypeObject::Delete()
 {
-	*resultingIndex++ = 0;
-	indexLength--;
-
-	ssize_t pos = 0;
-	while (pos < len && indexLength > 0) {
-		if (strings[pos] == 0 ) {
-			*resultingIndex++ = (size_t)pos + 1;
-			indexLength--;
-		}
-		pos++;
-	}
+	fDeleteOK = true;
+	delete this;
+}
+		
+BResourceSet::BitmapObject::BitmapObject(BRect bounds,
+										uint32 flags,
+										color_space depth,
+										int32 bytesPerRow,
+										screen_id screenID)
+	: BBitmap(bounds, flags, depth, bytesPerRow, screenID)
+{
 }
 
+BResourceSet::BitmapObject::BitmapObject(const BBitmap* source,
+										bool accepts_views,
+										bool need_contiguous)
+	: BBitmap(source, accepts_views, need_contiguous)
+{
+}
 
-//	#pragma mark -
+BResourceSet::BitmapObject::BitmapObject(BMessage *data)
+	: BBitmap(data)
+{
+}
 
+BResourceSet::BitmapObject::~BitmapObject()
+{
+}
+
+BResourceSet::CursorObject::CursorObject(const void* data)
+	: BCursor(data)
+{
+}
+
+BResourceSet::CursorObject::CursorObject(BMessage *data)
+	: BCursor(data)
+{
+}
+
+BResourceSet::CursorObject::~CursorObject()
+{
+}
+
+BResourceSet::MessageObject::MessageObject()
+{
+}
+
+BResourceSet::MessageObject::~MessageObject()
+{
+}
+
+// ----------------------------- BResourceSet -----------------------------
+
+BResourceSet::BResourceSet()
+{
+}
 
 #if USE_RESOURCES
-static bool
-FreeResourcesFunc(void* item)
+static bool free_resources_func(void* item)
 {
-	delete reinterpret_cast<AmStaticResources*>(item);
+	delete reinterpret_cast<BResources*>(item);
 	return false;
 }
 #endif
 
-
-static bool
-FreePathFunc(void* item)
+static bool free_path_func(void* item)
 {
 	delete reinterpret_cast<BPath*>(item);
 	return false;
 }
 
-
-static bool
-FreeTypeFunc(void* item)
+static bool free_type_func(void* item)
 {
 	delete reinterpret_cast<TypeList*>(item);
 	return false;
 }
 
-
-//	#pragma mark -
-// ----------------------------- BResourceSet -----------------------------
-BResourceSet::BResourceSet()
-{
-}
 BResourceSet::~BResourceSet()
 {
-	BAutolock lock(&fLock);
+	BAutolock l(fLock);
 #if USE_RESOURCES
-	fResources.DoForEach(FreeResourcesFunc);
+	fResources.DoForEach(free_resources_func);
 	fResources.MakeEmpty();
 #endif
-	fDirectories.DoForEach(FreePathFunc);
+	fDirectories.DoForEach(free_path_func);
 	fDirectories.MakeEmpty();
-	fTypes.DoForEach(FreeTypeFunc);
+	fTypes.DoForEach(free_type_func);
 	fTypes.MakeEmpty();
 }
 
-
-status_t
-BResourceSet::AddResources(AmStaticResources* RESOURCES_ONLY(resources))
+status_t BResourceSet::AddResources(BResources* resources, bool at_front)
 {
 #if USE_RESOURCES
-	if (!resources)
-		return B_BAD_VALUE;
-
-	BAutolock lock(&fLock);
-	status_t err = fResources.AddItem(resources) ? B_OK : B_ERROR;
-	if (err != B_OK)
-		delete resources;
+	if( !resources ) return B_BAD_VALUE;
+	
+	BAutolock l(fLock);
+	status_t err = (at_front ? fResources.AddItem(resources, 0)
+							 : fResources.AddItem(resources))
+				 ? B_OK : B_ERROR;
+	if( err != B_OK ) delete resources;
 	return err;
 #else
+	(void)resources;
+	(void)at_front;
 	return B_ERROR;
 #endif
 }
 
-status_t
-BResourceSet::AddResources(BResources* RESOURCES_ONLY(resources))
+// Return the image_id corresponding to the given address, in either
+// its text or data section.
+static image_id find_image(const void *image_addr)
 {
-#if USE_RESOURCES
-	if (!resources)
-		return B_BAD_VALUE;
-
-	BAutolock lock(&fLock);
-	status_t err = fResources.AddItem(resources) ? B_OK : B_ERROR;
-	if (err != B_OK)
-		delete resources;
-	return err;
-#else
-	return B_ERROR;
-#endif
+	image_info info; 
+	int32 cookie = 0; 
+	while (get_next_image_info(0, &cookie, &info) == B_OK) 
+		if ((info.text <= image_addr && (((uint8 *)info.text)+info.text_size) > image_addr)
+			||(info.data <= image_addr && (((uint8 *)info.data)+info.data_size) > image_addr)) 
+			// Found the image.
+			return info.id;
+	
+	return -1;
 }
 
-status_t
-BResourceSet::AddDirectory(const char* fullPath)
+status_t BResourceSet::AddResources(const void* image_addr, bool at_front)
 {
-	if (!fullPath)
-		return B_BAD_VALUE;
-
-	BPath* path = new BPath(fullPath);
-	status_t err = path->InitCheck();
-	if (err != B_OK) {
-		delete path;
+#if USE_RESOURCES
+	// Lookup the image for this address.
+	image_id image = find_image(image_addr);
+	if( image < B_OK ) return image;
+	
+	// Get information about the returned image.
+	image_info info;
+	status_t err = get_image_info(image, &info);
+	if( err != B_OK ) return err;
+	
+	// Open the image's file.
+	BFile file;
+	err = file.SetTo(&info.name[0], B_READ_ONLY);
+	if( err != B_OK ) return err;
+	
+	// Create a new resource object on that file.
+	BResources* res = new BResources;
+	if( !res ) return B_NO_MEMORY;
+	
+	err = res->SetTo(&file);
+	if( err != B_OK ) {
+		delete res;
 		return err;
 	}
+	
+	// Add it to the set.
+	err = AddResources(res, at_front);
+	if( err != B_OK ) delete res;
+	
+	return err;
+#else
+	(void)image_addr;
+	return B_ERROR;
+#endif
+}
 
-	BAutolock lock(&fLock);
-	err = fDirectories.AddItem(path) ? B_OK : B_ERROR;
-	if (err != B_OK)
-		delete path;
-
+status_t BResourceSet::AddDirectory(const char* full_path, bool at_front)
+{
+	if( !full_path ) return B_BAD_VALUE;
+	BPath* p = new BPath(full_path);
+	status_t err = p->InitCheck();
+	if( err != B_OK ) {
+		delete p;
+		return err;
+	}
+	
+	BAutolock l(fLock);
+	err = (at_front ? fDirectories.AddItem(p, 0)
+					: fDirectories.AddItem(p))
+		? B_OK : B_ERROR;
+	if( err != B_OK ) delete p;
 	return err;
 }
 
-
-status_t
-BResourceSet::AddEnvDirectory(const char* in, const char* defaultValue)
+status_t BResourceSet::AddEnvDirectory(const char* in,
+									   const char* default_value,
+									   bool at_front,
+									   BStringMap* variables)
 {
+	BStringMap def_variables;
+	if( !variables ) variables = &def_variables;
+	
 	BString buf;
-	status_t err = ExpandString(&buf, in);
-
-	if (err != B_OK) {
-		if (defaultValue)
-			return AddDirectory(defaultValue);
+	status_t err = expand_string(&buf, in, variables);
+	
+	if( err != B_OK ) {
+		if( default_value ) return AddDirectory(default_value, at_front);
 		return err;
 	}
-
-	return AddDirectory(buf.String());
+	
+	return AddDirectory(buf.String(), at_front);
 }
 
-
-status_t
-BResourceSet::ExpandString(BString* out, const char* in)
+status_t BResourceSet::expand_string(BString* out, const char* in,
+									 BStringMap* variables)
 {
+	PRINT(("Expanding string: %s\n", in));
+	
 	const char* start = in;
-
-	while (*in) {
-		if (*in == '$') {
-			if (start < in)
-				out->Append(start, (int32)(in - start));
-
+	while( *in ) {
+		if( *in == '$' ) {
+			if( start < in ) out->Append(start, (int32)(in-start));
+			
 			in++;
 			char variableName[1024];
 			size_t i = 0;
-			if (*in == '{') {
+			if( *in == '{' ) {
 				in++;
-				while (*in && *in != '}' && i < sizeof(variableName) - 1)
+				while( *in && *in != '}' && i<sizeof(variableName)-1 )
 					variableName[i++] = *in++;
-
-				if (*in)
-					in++;
-
+				if( *in ) in++;
 			} else {
-				while ((isalnum(*in) || *in == '_')
-					&& i < sizeof(variableName) - 1)
+				while( isalnum(*in) || *in == '_' && i<sizeof(variableName)-1 )
 					variableName[i++] = *in++;
 			}
-
+			
 			start = in;
+			
 			variableName[i] = '\0';
-
-			const char* val = getenv(variableName);
-			if (!val) {
+			
+			const char *val = variables
+							? variables->FindString(variableName)
+							: 0;
+			
+			if( !val ) {
 				PRINT(("Error: env var %s not found.\n", &variableName[0]));
 				return B_NAME_NOT_FOUND;
 			}
-
-			status_t err = ExpandString(out, val);
-			if (err != B_OK)
-				return err;
-
-		} else if (*in == '\\') {
-			if (start < in)
-				out->Append(start, (int32)(in - start));
+			
+			status_t err = expand_string(out, val, variables);
+			if( err != B_OK ) return err;
+			
+		} else if( *in == '\\' ) {
+			if( start < in ) out->Append(start, (int32)(in-start));
 			in++;
 			start = in;
 			in++;
+			
 		} else
 			in++;
 	}
 
-	if (start < in)
-		out->Append(start, (int32)(in - start));
-
+	if( start < in ) out->Append(start, (int32)(in-start));
+	
+	PRINT(("-> Expanded %s to %s\n", in, out->String()));
+	
 	return B_OK;
 }
 
-
-const void*
-BResourceSet::FindResource(type_code type, int32 id, size_t* outSize)
+const void* BResourceSet::FindResource(type_code type, int32 id,
+									   size_t* out_size)
 {
-	TypeItem* item = FindItemID(type, id);
-
-	if (outSize)
-		*outSize = item ? item->Size() : 0;
-
-	return item ? item->Data() : NULL;
+	TypeItem* item = find_item_id(type, id);
+	
+	if( out_size ) *out_size = item ? item->Size() : 0;
+	return item ? item->Data() : 0;
 }
 
-
-const void*
-BResourceSet::FindResource(type_code type, const char* name, size_t* outSize)
+const void* BResourceSet::FindResource(type_code type, const char* name,
+									   size_t* out_size)
 {
-	TypeItem* item = FindItemName(type, name);
-
-	if (outSize)
-		*outSize = item ? item->Size() : 0;
-
-	return item ? item->Data() : NULL;
+	TypeItem* item = find_item_name(type, name);
+	
+	if( out_size ) *out_size = item ? item->Size() : 0;
+	return item ? item->Data() : 0;
 }
 
+// ------------
 
-const BBitmap*
-BResourceSet::FindBitmap(type_code type, int32 id)
+const BBitmap* BResourceSet::FindBitmap(type_code type, int32 id)
 {
-	return ReturnBitmapItem(type, FindItemID(type, id));
+	return return_bitmap_item(type, find_item_id(type, id));
 }
 
-
-const BBitmap*
-BResourceSet::FindBitmap(type_code type, const char* name)
+const BBitmap* BResourceSet::FindBitmap(type_code type, const char* name)
 {
-	return ReturnBitmapItem(type, FindItemName(type, name));
+	return return_bitmap_item(type, find_item_name(type, name));
 }
 
-
-const BStringBlock*
-BResourceSet::FindStringBlock(type_code type, int32 id)
+const BBitmap* BResourceSet::FindBitmap(int32 id)
 {
-	return ReturnStringBlockItem(FindItemID(type, id));
+	return return_bitmap_item(B_BITMAP_TYPE, find_item_id(B_BITMAP_TYPE, id));
 }
 
-
-const BStringBlock*
-BResourceSet::FindStringBlock(type_code type, const char* name)
+const BBitmap* BResourceSet::FindBitmap(const char* name)
 {
-	return ReturnStringBlockItem(FindItemName(type, name));
+	return return_bitmap_item(B_BITMAP_TYPE, find_item_name(B_BITMAP_TYPE, name));
 }
 
+// ------------
 
-const char*
-BResourceSet::FindString(type_code type, int32 id, uint32 index)
+#if HAVE_CURSORS
+const BCursor* BResourceSet::FindCursor(type_code type, int32 id)
 {
-	const BStringBlock* stringBlock = FindStringBlock(type, id);
-
-	if (!stringBlock)
-		return NULL;
-
-	return stringBlock->String(index);
+	return return_cursor_item(find_item_id(type, id));
 }
 
-
-const char*
-BResourceSet::FindString(type_code type, const char* name, uint32 index)
+const BCursor* BResourceSet::FindCursor(type_code type, const char* name)
 {
-	const BStringBlock* stringBlock = FindStringBlock(type, name);
-
-	if (!stringBlock)
-		return NULL;
-
-	return stringBlock->String(index);
+	return return_cursor_item(find_item_name(type, name));
 }
 
-
-TypeList*
-BResourceSet::FindTypeList(type_code type)
+const BCursor* BResourceSet::FindCursor(int32 id)
 {
-	BAutolock lock(&fLock);
+	return return_cursor_item(find_item_id(B_CURSOR_TYPE, id));
+}
 
-	for (int32 i = fTypes.CountItems() - 1; i >= 0; i--) {
+const BCursor* BResourceSet::FindCursor(const char* name)
+{
+	return return_cursor_item(find_item_name(B_CURSOR_TYPE, name));
+}
+#endif
+
+// ------------
+
+const BMessage* BResourceSet::FindMessage(type_code type, int32 id)
+{
+	return return_message_item(find_item_id(type, id));
+}
+
+const BMessage* BResourceSet::FindMessage(type_code type, const char* name)
+{
+	return return_message_item(find_item_name(type, name));
+}
+	
+const BMessage* BResourceSet::FindMessage(int32 id)
+{
+	return return_message_item(find_item_id(B_MESSAGE_TYPE, id));
+}
+
+const BMessage* BResourceSet::FindMessage(const char* name)
+{
+	return return_message_item(find_item_name(B_MESSAGE_TYPE, name));
+}
+	
+// ------------
+
+TypeList* BResourceSet::find_type_list(type_code type)
+{
+	BAutolock l(fLock);
+	
+	for( int32 i=0; i<fTypes.CountItems(); i++ ) {
 		TypeList* list = (TypeList*)fTypes.ItemAt(i);
-		if (list && list->Type() == type)
-			return list;
+		if( list && list->Type() == type ) return list;
 	}
-
-	return NULL;
+	
+	return 0;
 }
 
-
-TypeItem*
-BResourceSet::FindItemID(type_code type, int32 id)
+TypeItem* BResourceSet::find_item_id(type_code type, int32 id)
 {
-	TypeList* list = FindTypeList(type);
-	TypeItem* item = NULL;
-
-	if (list)
+	TypeList* list = find_type_list(type);
+	TypeItem* item = 0;
+	
+	if( list ) {
+		BAutolock _l(fLock);
 		item = list->FindItemByID(id);
-
-	if (!item)
-		item = LoadResource(type, id, 0, &list);
-
+	}
+	
+	if( !item ) {
+		item = load_resource(type, id, 0, &list);
+	}
+	
 	return item;
 }
 
-
-TypeItem*
-BResourceSet::FindItemName(type_code type, const char* name)
+TypeItem* BResourceSet::find_item_name(type_code type, const char* name)
 {
-	TypeList* list = FindTypeList(type);
-	TypeItem* item = NULL;
-
-	if (list)
+	TypeList* list = find_type_list(type);
+	TypeItem* item = 0;
+	
+	if( list ) {
+		BAutolock _l(fLock);
 		item = list->FindItemByName(name);
-
-	if (!item)
-		item = LoadResource(type, -1, name, &list);
-
+	}
+	
+	if( !item ) {
+		item = load_resource(type, -1, name, &list);
+	}
+	
 	return item;
 }
 
-
-TypeItem*
-BResourceSet::LoadResource(type_code type, int32 id, const char* name,
-	TypeList** inOutList)
+TypeItem* BResourceSet::load_resource(type_code type, int32 id,
+									  const char* name,
+									  TypeList** inout_list)
 {
-	TypeItem* item = NULL;
-
-	if (name) {
+	TypeItem* item = 0;
+	
+	if( name ) {
 		BEntry entry;
-
-		// If a named resource, first look in directories.
+		
+		// If a named resource, first look in directories.  Keep
+		// the object locked while looking, so nobody tramples us.
 		fLock.Lock();
-		for (int32 i = fDirectories.CountItems() - 1; i >= 0; i--) {
+		for( int32 i=0; item == 0 && i<fDirectories.CountItems(); i++ ) {
 			BPath* dir = (BPath*)fDirectories.ItemAt(i);
-			if (dir) {
+			if( dir ) {
 				fLock.Unlock();
+				// For each directory, try to open the named file.
+				// We unlock the resource set at this point so that
+				// other threads are not blocked while we do a
+				// possibly length operation.
 				BPath path(dir->Path(), name);
-				if (entry.SetTo(path.Path(), true) == B_OK ) {
+				if( entry.SetTo(path.Path(), true) == B_OK ) {
 					BFile file(&entry, B_READ_ONLY);
-					if (file.InitCheck() == B_OK ) {
+					if( file.InitCheck() == B_OK ) {
 						item = new TypeItem(id, name, &file);
 						item->SetSourceIsFile(true);
 					}
@@ -758,22 +597,25 @@ BResourceSet::LoadResource(type_code type, int32 id, const char* name,
 		}
 		fLock.Unlock();
 	}
-
-#if USE_RESOURCES && !USE_AM_STATIC_RESOURCES
-	if (!item) {
-		// Look through resource objects for data.
+	
+#if USE_RESOURCES
+	if( !item ) {
+		// Look through resource objects for data.  Keep
+		// the object locked while looking, so nobody tramples us.
 		fLock.Lock();
-		for (int32 i = fResources.CountItems() - 1; i >= 0; i--) {
-			BStaticResources* resource = (AmStaticResources*)fResources.ItemAt(i);
-			if (resource) {
-				const void* data = NULL;
+		for( int32 i=0; item == 0 && i<fResources.CountItems(); i++ ) {
+			BResources* r = (BResources*)fResources.ItemAt(i);
+			if( r ) {
+				// Note we DON'T unlock here, because BResources is
+				// not thread safe (though it -really- should be).
+				const void* data = 0;
 				size_t size = 0;
-				if (id >= 0)
-					data = resource->LoadResource(type, id, &size);
-				else if (name != NULL)
-					data = resource->LoadResource(type, name, &size);
-
-				if (data && size) {
+				if( id >= 0 ) {
+					data = r->LoadResource(type, id, &size);
+				} else if( name != 0 ) {
+					data = r->LoadResource(type, name, &size);
+				}
+				if( data && size ) {
 					item = new TypeItem(id, name, data, size);
 					item->SetSourceIsFile(false);
 				}
@@ -783,136 +625,265 @@ BResourceSet::LoadResource(type_code type, int32 id, const char* name,
 	}
 #endif
 
-	if (item) {
-		TypeList* list = inOutList ? *inOutList : NULL;
-		if (!list) {
+	if( item ) {
+		BAutolock l(fLock);
+		
+		TypeList* list = inout_list ? *inout_list : 0;
+		if( !list ) {
 			// Don't currently have a list for this type -- check if there is
 			// already one.
-			list = FindTypeList(type);
+			list = find_type_list(type);
 		}
-
-		BAutolock lock(&fLock);
-
-		if (!list) {
+		
+		if( !list ) {
 			// Need to make a new list for this type.
 			list = new TypeList(type);
 			fTypes.AddItem(list);
+			list->AddItem(item);
+		
+		} else {
+			// Check to make sure someone else hasn't already added this
+			// item.
+			TypeItem* existing = name ? list->FindItemByName(name)
+									  : list->FindItemByID(id);
+			if( existing ) {
+				// This one has already been added.  Delete what we went
+				// to all the work to make, and return the other.  *sniff*
+				delete item;
+				item = existing;
+			} else {
+				list->AddItem(item);
+			}
 		}
-		if (inOutList)
-			*inOutList = list;
-
-		list->AddItem(item);
+		
+		if( inout_list ) *inout_list = list;
 	}
-
+	
 	return item;
 }
 
-
-BBitmap*
-BResourceSet::ReturnBitmapItem(type_code, TypeItem* from)
+BBitmap* BResourceSet::return_bitmap_item(type_code type, TypeItem* from)
 {
-	if (!from)
-		return NULL;
-
+	(void)type;
+	if( !from ) return 0;
+	
 	TypeObject* obj = from->Object();
-	BitmapTypeItem* bitmap = dynamic_cast<BitmapTypeItem*>(obj);
-	if (bitmap)
-		return bitmap;
-
+	BitmapObject* bm = dynamic_cast<BitmapObject*>(obj);
+	if( bm ) return bm;
+	
 	// Can't change an existing object.
-	if (obj)
-		return NULL;
-
-	// Don't have a bitmap in the item -- we'll try to create one.
-	BMemoryIO stream(from->Data(), from->Size());
-
-	// Try to read as an archived bitmap.
-	stream.Seek(0, SEEK_SET);
-	BMessage archive;
-	if (archive.Unflatten(&stream) == B_OK) {
-		bitmap = new BitmapTypeItem(&archive);
-		if (bitmap && bitmap->InitCheck() != B_OK) {
-			bitmap->Delete();
-				// allows us to delete this bitmap...
-			delete bitmap;
-			bitmap = NULL;
+	if( obj ) return 0;
+	
+	// Note that we are creating the bitmap without the resource set
+	// being locked, since it is a potentially expensive operations.
+	// We thus need to deal with the situation where someone else
+	// created this at at the same time, and got it added before us.
+	bm = GenerateBitmap(from->Data(), from->Size());
+	
+	if( bm ) {
+		BAutolock l(fLock);
+		if( from->Object() != 0 ) {
+			// Whoops!  Someone snuck in under us.
+			bm->Delete();
+			bm = dynamic_cast<BitmapObject*>(from->Object());
+		} else {
+			from->SetObject(bm);
 		}
 	}
+	
+	return bm;
+}
 
-	if (bitmap) {
-		BAutolock lock(&fLock);
-		if (from->Object() != NULL) {
-			// Whoops! Someone snuck in under us.
-			bitmap->Delete();
-			delete bitmap;
-			bitmap = dynamic_cast<BitmapTypeItem*>(from->Object());
-		} else
-			from->SetObject(bitmap);
+enum {
+	PNG_CHECK_BYTES = 8
+};
+
+static void read_png_data(png_structp png_ptr,
+						  png_bytep data,
+						  png_size_t length)
+{
+	BDataIO* io = (BDataIO*)png_get_io_ptr(png_ptr);
+	ssize_t amount = io->Read(data, length);
+	if( amount < B_OK ) png_error(png_ptr, "Read Error");
+}
+
+BResourceSet::BitmapObject* BResourceSet::read_png_image(BDataIO* stream)
+{
+	png_byte buf[PNG_CHECK_BYTES];
+	
+	// Make sure there is a header
+	if( stream->Read(buf, PNG_CHECK_BYTES) != PNG_CHECK_BYTES ) return 0;
+	
+	// Check the header
+	if( png_sig_cmp(buf, 0, PNG_CHECK_BYTES) != 0 ) return 0;
+	
+	png_structp png_ptr;
+	png_infop info_ptr;
+	
+	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+	if (!png_ptr)
+		return 0;
+
+	info_ptr = png_create_info_struct(png_ptr);
+	if (!info_ptr) {
+		png_destroy_read_struct(&png_ptr, (png_infopp)NULL, (png_infopp) NULL);
+		return 0;
+	}
+	
+	//if (setjmp(png_ptr->jmpbuf)) {
+	//	png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp) NULL);
+	//	return 0;
+	//}
+	
+	png_set_read_fn(png_ptr, stream, read_png_data);
+	png_set_sig_bytes(png_ptr, PNG_CHECK_BYTES);
+	
+	png_read_info(png_ptr, info_ptr);
+	
+	// Set up color space conversion
+	png_byte color_type(png_get_color_type(png_ptr, info_ptr));
+	png_byte bit_depth(png_get_bit_depth(png_ptr, info_ptr));
+
+	if (bit_depth <= 8) {
+		png_set_expand(png_ptr);
+		png_set_packing(png_ptr);
 	}
 
+	if (png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS))
+		png_set_expand(png_ptr);
+
+	if (bit_depth > 8)
+		png_set_strip_16(png_ptr);
+	
+	png_set_bgr(png_ptr);
+
+	if (!(color_type & PNG_COLOR_MASK_COLOR))
+		png_set_gray_to_rgb(png_ptr);
+
+	if (!(color_type & PNG_COLOR_MASK_ALPHA))
+		png_set_filler(png_ptr, 0xFF, PNG_FILLER_AFTER);
+	
+	png_read_update_info(png_ptr, info_ptr);
+	png_uint_32 width = png_get_image_width(png_ptr, info_ptr);
+	png_uint_32 height = png_get_image_height(png_ptr, info_ptr);
+	
+	// Create bitmap
+	BitmapObject* bitmap =
+		new BitmapObject(BRect(0, 0, width-1, height-1), 0, B_RGBA32);
+	
+	png_bytep* rows = new png_bytep[height];
+	for( size_t i=0; i<height; i++ ) {
+		rows[i] = ((png_bytep)bitmap->Bits()) + i*bitmap->BytesPerRow();
+	}
+	png_read_image(png_ptr, rows);
+	
+	png_destroy_read_struct(&png_ptr, (png_infopp)NULL, (png_infopp) NULL);
+	
 	return bitmap;
 }
-BStringBlock*
-BResourceSet::ReturnStringBlockItem(TypeItem* from)
-{
-	if (!from)
-		return NULL;
 
+BResourceSet::BitmapObject*
+BResourceSet::GenerateBitmap(const void* data, size_t size)
+{
+	// Don't have a bitmap in the item -- we'll try to create one.
+	BMemoryIO stream(data, size);
+	
+	// First, see if it can be read as a png image.
+	BitmapObject* bm = read_png_image(&stream);
+	
+	if( !bm ) {
+		// Well, maybe it's an archived bitmap.
+		stream.Seek(0, SEEK_SET);
+		BMessage archive;
+		if( archive.Unflatten(&stream) == B_OK ) {
+			bm = new BitmapObject(&archive);
+			if( bm && bm->InitCheck() != B_OK ) {
+				bm->Delete();
+			}
+		}
+	}
+	
+	return bm;
+}
+
+#if HAVE_CURSORS
+BCursor* BResourceSet::return_cursor_item(TypeItem* from)
+{
+	if( !from ) return 0;
+	
 	TypeObject* obj = from->Object();
-	StringBlockTypeItem* stringBlock = dynamic_cast<StringBlockTypeItem*>(obj);
-	if (stringBlock)
-		return stringBlock;
-
+	CursorObject* cr = dynamic_cast<CursorObject*>(obj);
+	if( cr ) return cr;
+	
 	// Can't change an existing object.
-	if (obj)
-		return NULL;
-
-	// Don't have a string block in the item -- we'll create one.
-	if (from->SourceIsFile() ) {
-		BMemoryIO stream(from->Data(), from->Size());
-		stringBlock = new StringBlockTypeItem(&stream);
-	} else
-		stringBlock = new StringBlockTypeItem(from->Data(), from->Size());
-
-	if (stringBlock) {
-		BAutolock lock(&fLock);
-		if (from->Object() != NULL) {
-			// Whoops! Someone snuck in under us.
-			delete stringBlock;
-			stringBlock = dynamic_cast<StringBlockTypeItem*>(from->Object());
-		} else
-			from->SetObject(stringBlock);
+	if( obj ) return 0;
+	
+	// Don't have a cursor in the item -- we'll create one.
+	// Note that we are creating the cursor without the resource set
+	// being locked, since it is a potentially expensive operations.
+	// We thus need to deal with the situation where someone else
+	// created this at at the same time, and got it added before us.
+	cr = GenerateCursor(from->Data(), from->Size());
+	
+	if( cr ) {
+		BAutolock l(fLock);
+		if( from->Object() != 0 ) {
+			// Whoops!  Someone snuck in under us.
+			cr->Delete();
+			cr = dynamic_cast<CursorObject*>(from->Object());
+		} else {
+			from->SetObject(cr);
+		}
 	}
-
-	return stringBlock;
+	
+	return cr;
 }
 
-
-//	#pragma mark -
-
-
-namespace BResourcePrivate {	BResourceSet* gResources = NULL;
-	BLocker gResourceLocker;
-}
-BResourceSet*
-AppResSet()
+BResourceSet::CursorObject*
+BResourceSet::GenerateCursor(const void* data, size_t size)
 {
-	// If already have it, return immediately.
-	if (gResources)
-		return gResources;
+	return new CursorObject(data);
+}
+#endif
 
-	// Don't have 'em, lock access to make 'em.
-	if (!gResourceLocker.Lock())
-		return NULL;
-	if (gResources) {
-		// Whoops, somebody else already did.  Oh well.
-		gResourceLocker.Unlock();
-		return gResources;
+BMessage* BResourceSet::return_message_item(TypeItem* from)
+{
+	if( !from ) return 0;
+	
+	TypeObject* obj = from->Object();
+	MessageObject* ms = dynamic_cast<MessageObject*>(obj);
+	if( ms ) return ms;
+	
+	// Can't change an existing object.
+	if( obj ) return 0;
+	
+	// Note that we are creating the message without the resource set
+	// being locked, since it is a potentially expensive operations.
+	// We thus need to deal with the situation where someone else
+	// created this at at the same time, and got it added before us.
+	ms = GenerateMessage(from->Data(), from->Size());
+	
+	if( ms ) {
+		BAutolock l(fLock);
+		if( from->Object() != 0 ) {
+			// Whoops!  Someone snuck in under us.
+			ms->Delete();
+			ms = dynamic_cast<MessageObject*>(from->Object());
+		} else {
+			from->SetObject(ms);
+		}
 	}
+	
+	return ms;
+}
 
-	// Make 'em.
-	gResources = new BResourceSet;
-	gResources->AddResources(BApplication::AppResources());
-	gResourceLocker.Unlock();
-	return gResources;
+BResourceSet::MessageObject*
+BResourceSet::GenerateMessage(const void* data, size_t size)
+{
+	MessageObject* ms = new MessageObject();
+	if (ms->Unflatten((const char*)data) != B_OK) {
+		ms->Delete();
+		ms = NULL;
+	}
+	return ms;
 }

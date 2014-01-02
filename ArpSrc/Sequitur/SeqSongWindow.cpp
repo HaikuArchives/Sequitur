@@ -647,7 +647,7 @@ status_t SeqSongWindow::Load(BEntry *ent, bool merge, uint32 flags)
 					&& attInfo.type == B_MESSAGE_TYPE ) {
 				char*		buffer = (char*)malloc( sizeof(char) * (attInfo.size + 10) );
 				if( buffer ) {
-					ssize_t	size = f.ReadAttr( SEQUITUR_CONFIGURATION_STR, B_MESSAGE_TYPE, 0, buffer, attInfo.size + 5 );
+					ssize_t size = f.ReadAttr( SEQUITUR_CONFIGURATION_STR, 0, 0, buffer, attInfo.size + 5 );
 					if( size == attInfo.size ) {
 						BMessage	config;
 						if( config.Unflatten(buffer) == B_OK ) SetConfiguration( &config );
@@ -811,7 +811,7 @@ status_t SeqSongWindow::Save(BEntry *ent, const BMessage* /*args*/)
 		if( GetConfiguration( &config ) == B_OK ) {
 			BMallocIO	data;
 			if( AmFlatten(config,&data) == B_OK ) {
-				f.WriteAttr( SEQUITUR_CONFIGURATION_STR, B_MESSAGE_TYPE, 0,
+				f.WriteAttr( SEQUITUR_CONFIGURATION_STR, 0, 0,
 								data.Buffer(), data.BufferLength() );
 			}
 		}
@@ -1795,15 +1795,13 @@ static BRect add_transport_button(	BRect frame, const char* name, uint32 what,
 	BRect		b = bmN->Bounds();
 	frame.right = frame.left + b.Width();
 	frame.bottom = frame.top + b.Height();
-	BBitmapButton*	butt = new BBitmapButton( name, 0 );
-	butt->Draw(frame);
+	BBitmapButton*	butt = new BBitmapButton( frame, name, 0, msg, bmN, bmN, bmP, bmP, bmP );
 	if (butt) {
 		/* Right now there's a bug in the buttons that causes them to resizes themslves
 		 * based on label info, even if they don't have a label.  This compensates.
 		 */
-		//TODO:
-		//butt->ResizeToPreferred();
-		//butt->SetValue(B_CONTROL_OFF);
+		butt->ResizeToPreferred();
+		butt->SetValue(B_CONTROL_OFF);
 		toView->AddChild( butt );
 		frame.OffsetBy( BPoint( b.Width() + 1, 0 ) );
 	}
@@ -3773,7 +3771,7 @@ _SongTransportView::_SongTransportView(BPoint topLeft, AmSongRef songRef)
 					B_FOLLOW_LEFT | B_FOLLOW_TOP,
 					B_WILL_DRAW)
 {
-	if (!TRANSPORT_BM) TRANSPORT_BM = Resources().FindBitmap(B_MESSAGE_TYPE, "Transport LCD");
+	if (!TRANSPORT_BM) TRANSPORT_BM = Resources().FindBitmap("Transport LCD");
 
 	if (TRANSPORT_BM) {
 		BRect		b = TRANSPORT_BM->Bounds();

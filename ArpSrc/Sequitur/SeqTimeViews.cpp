@@ -40,17 +40,17 @@ SeqSmallDigitView::SeqSmallDigitView(	BRect frame,
 		: inherited(frame, name, B_FOLLOW_LEFT | B_FOLLOW_TOP, B_WILL_DRAW),
 		  AmSongObserver(songRef), mDigitWidth(0)
 {
-	if (!digit_0) digit_0 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 0");
-	if (!digit_1) digit_1 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 1");
-	if (!digit_2) digit_2 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 2");
-	if (!digit_3) digit_3 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 3");
-	if (!digit_4) digit_4 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 4");
-	if (!digit_5) digit_5 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 5");
-	if (!digit_6) digit_6 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 6");
-	if (!digit_7) digit_7 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 7");
-	if (!digit_8) digit_8 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 8");
-	if (!digit_9) digit_9 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 9");
-	if (!digit_c) digit_c = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit :");
+	if (!digit_0) digit_0 = Resources().FindBitmap("Small Digit 0");
+	if (!digit_1) digit_1 = Resources().FindBitmap("Small Digit 1");
+	if (!digit_2) digit_2 = Resources().FindBitmap("Small Digit 2");
+	if (!digit_3) digit_3 = Resources().FindBitmap("Small Digit 3");
+	if (!digit_4) digit_4 = Resources().FindBitmap("Small Digit 4");
+	if (!digit_5) digit_5 = Resources().FindBitmap("Small Digit 5");
+	if (!digit_6) digit_6 = Resources().FindBitmap("Small Digit 6");
+	if (!digit_7) digit_7 = Resources().FindBitmap("Small Digit 7");
+	if (!digit_8) digit_8 = Resources().FindBitmap("Small Digit 8");
+	if (!digit_9) digit_9 = Resources().FindBitmap("Small Digit 9");
+	if (!digit_c) digit_c = Resources().FindBitmap("Small Digit :");
 
 	if (mDigitWidth == 0 && digit_0) mDigitWidth = digit_0->Bounds().Width();
 }

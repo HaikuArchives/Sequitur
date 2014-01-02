@@ -5,8 +5,8 @@
 #include <string.h>
 #include <malloc.h>
 #include <math.h>
-//TODO:
-//#include <experimental/BitmapTools.h>
+
+#include <BeExp/BitmapTools.h>
 #include <interface/Bitmap.h>
 #include <interface/MenuItem.h>
 #include <interface/PopUpMenu.h>
@@ -40,8 +40,7 @@ enum {
 /*************************************************************************
  * Miscellaneous functions
  *************************************************************************/
-//TODO:
-//static void			write_pixel(const BBitmap* bm, float x, float y, rgb_color c, pixel_access& pa);
+static void			write_pixel(const BBitmap* bm, float x, float y, rgb_color c, pixel_access& pa);
 
 /*************************************************************************
  * SEQ-MEASURE-CONTROL
@@ -911,8 +910,7 @@ void SeqMeasureControl::ConstructLeftBg(BRect bounds)
 
 	mLeftBg = new BBitmap(bounds, screen.ColorSpace() );
 	if (!mLeftBg) return;
-	//TODO:
-	//pixel_access	pa(mLeftBg->ColorSpace() );
+		pixel_access	pa(mLeftBg->ColorSpace() );
 	
 	BRect			b = mLeftBg->Bounds();
 	rgb_color		c = Prefs().Color( AM_MEASURE_TOP_BG_C );
@@ -938,8 +936,7 @@ void SeqMeasureControl::ConstructLeftBg(BRect bounds)
 			c.red = (uint8)(rowC.red + ( fabs(b.right - j) * r_col_delta));
 			c.green = (uint8)(rowC.green + ( fabs(b.right - j) * g_col_delta));
 			c.blue = (uint8)(rowC.blue + ( fabs(b.right - j) * b_col_delta));
-			//TODO:
-			//write_pixel(mLeftBg, j, k, c, pa);
+						write_pixel(mLeftBg, j, k, c, pa);
 		}
 		rowC.red = (uint8)(c.red + (i * r_row_delta));
 		rowC.green = (uint8)(c.green + (i * g_row_delta));
@@ -955,8 +952,7 @@ void SeqMeasureControl::ConstructRightBg(BRect bounds)
 
 	mRightBg = new BBitmap(bounds, screen.ColorSpace() );
 	if (!mRightBg) return;
-	//TODO:
-	//pixel_access	pa(mRightBg->ColorSpace() );
+		pixel_access	pa(mRightBg->ColorSpace() );
 	
 	BRect			b = mRightBg->Bounds();
 	rgb_color		c = Prefs().Color( AM_MEASURE_TOP_BG_C );
@@ -982,8 +978,7 @@ void SeqMeasureControl::ConstructRightBg(BRect bounds)
 			c.red = (uint8)(rowC.red + (j * r_col_delta));
 			c.green = (uint8)(rowC.green + (j * g_col_delta));
 			c.blue = (uint8)(rowC.blue + (j * b_col_delta));
-			//TODO:
-			//write_pixel(mRightBg, j, k, c, pa);
+						write_pixel(mRightBg, j, k, c, pa);
 		}
 		rowC.red = (uint8)(c.red + (i * r_row_delta));
 		rowC.green = (uint8)(c.green + (i * g_row_delta));
@@ -1199,9 +1194,8 @@ void _AmMarkerEntry::SetEnabled(bool enable)
 /*************************************************************************
  * Miscellaneous functions
  *************************************************************************/
-//TODO:
-/*static void write_pixel(const BBitmap* bm, float x, float y, rgb_color c, pixel_access& pa)
+static void write_pixel(const BBitmap* bm, float x, float y, rgb_color c, pixel_access& pa)
 {
 	uint8*		pixel = (uint8*)( ((uint8*)bm->Bits()) + (uint32)(x * pa.bpp() ) + (uint32)(y * bm->BytesPerRow() ) );
 	pa.write(pixel, c);
-}*/
+}

@@ -37,5 +37,5 @@ const BBitmap* SeqImageManager::FindBitmap(const char *name) const
 	BAutolock l(const_cast<BLocker*>(&mAccess));
 	if (mShutdown) return 0;
 
-	return Resources().FindBitmap(B_MESSAGE_TYPE, name);
+	return Resources().FindBitmap(name);
 }

@@ -96,7 +96,7 @@ void ArpMonophobicAddOn::GetVersion(int32* major, int32* minor) const
 
 BBitmap* ArpMonophobicAddOn::Image(BPoint requestedSize) const
 {
-	const BBitmap* bm = gRes.Resources().FindBitmap(B_MESSAGE_TYPE, "Class Icon");
+	const BBitmap* bm = gRes.Resources().FindBitmap("Class Icon");
 	if (bm) return new BBitmap(bm);
 	return NULL;
 }

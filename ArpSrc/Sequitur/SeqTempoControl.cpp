@@ -91,29 +91,29 @@ SeqTempoControl::SeqTempoControl(	BPoint leftTop,
 		mMessage(message),
 		mMouseDown(0)
 {	
-	if (!gBg) gBg = Resources().FindBitmap(B_MESSAGE_TYPE, "Tempo LCD");
+	if (!gBg) gBg = Resources().FindBitmap("Tempo LCD");
 
-	if (!gLarge0) gLarge0 = Resources().FindBitmap(B_MESSAGE_TYPE, "Large Digit 0");
-	if (!gLarge1) gLarge1 = Resources().FindBitmap(B_MESSAGE_TYPE, "Large Digit 1");
-	if (!gLarge2) gLarge2 = Resources().FindBitmap(B_MESSAGE_TYPE, "Large Digit 2");
-	if (!gLarge3) gLarge3 = Resources().FindBitmap(B_MESSAGE_TYPE, "Large Digit 3");
-	if (!gLarge4) gLarge4 = Resources().FindBitmap(B_MESSAGE_TYPE, "Large Digit 4");
-	if (!gLarge5) gLarge5 = Resources().FindBitmap(B_MESSAGE_TYPE, "Large Digit 5");
-	if (!gLarge6) gLarge6 = Resources().FindBitmap(B_MESSAGE_TYPE, "Large Digit 6");
-	if (!gLarge7) gLarge7 = Resources().FindBitmap(B_MESSAGE_TYPE, "Large Digit 7");
-	if (!gLarge8) gLarge8 = Resources().FindBitmap(B_MESSAGE_TYPE, "Large Digit 8");
-	if (!gLarge9) gLarge9 = Resources().FindBitmap(B_MESSAGE_TYPE, "Large Digit 9");
+	if (!gLarge0) gLarge0 = Resources().FindBitmap("Large Digit 0");
+	if (!gLarge1) gLarge1 = Resources().FindBitmap("Large Digit 1");
+	if (!gLarge2) gLarge2 = Resources().FindBitmap("Large Digit 2");
+	if (!gLarge3) gLarge3 = Resources().FindBitmap("Large Digit 3");
+	if (!gLarge4) gLarge4 = Resources().FindBitmap("Large Digit 4");
+	if (!gLarge5) gLarge5 = Resources().FindBitmap("Large Digit 5");
+	if (!gLarge6) gLarge6 = Resources().FindBitmap("Large Digit 6");
+	if (!gLarge7) gLarge7 = Resources().FindBitmap("Large Digit 7");
+	if (!gLarge8) gLarge8 = Resources().FindBitmap("Large Digit 8");
+	if (!gLarge9) gLarge9 = Resources().FindBitmap("Large Digit 9");
 
-	if (!gSmall0) gSmall0 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 0");
-	if (!gSmall1) gSmall1 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 1");
-	if (!gSmall2) gSmall2 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 2");
-	if (!gSmall3) gSmall3 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 3");
-	if (!gSmall4) gSmall4 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 4");
-	if (!gSmall5) gSmall5 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 5");
-	if (!gSmall6) gSmall6 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 6");
-	if (!gSmall7) gSmall7 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 7");
-	if (!gSmall8) gSmall8 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 8");
-	if (!gSmall9) gSmall9 = Resources().FindBitmap(B_MESSAGE_TYPE, "Small Digit 9");
+	if (!gSmall0) gSmall0 = Resources().FindBitmap("Small Digit 0");
+	if (!gSmall1) gSmall1 = Resources().FindBitmap("Small Digit 1");
+	if (!gSmall2) gSmall2 = Resources().FindBitmap("Small Digit 2");
+	if (!gSmall3) gSmall3 = Resources().FindBitmap("Small Digit 3");
+	if (!gSmall4) gSmall4 = Resources().FindBitmap("Small Digit 4");
+	if (!gSmall5) gSmall5 = Resources().FindBitmap("Small Digit 5");
+	if (!gSmall6) gSmall6 = Resources().FindBitmap("Small Digit 6");
+	if (!gSmall7) gSmall7 = Resources().FindBitmap("Small Digit 7");
+	if (!gSmall8) gSmall8 = Resources().FindBitmap("Small Digit 8");
+	if (!gSmall9) gSmall9 = Resources().FindBitmap("Small Digit 9");
 
 	if (mMinTempo < 1) mMinTempo = 1;
 	SetTempo(initialTempo);

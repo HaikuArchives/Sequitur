@@ -28,8 +28,7 @@
 #include <MidiProducer.h>
 #include <MidiRoster.h>
 
-//TODO:
-//#include <experimental/BitmapTools.h>
+#include <BeExp/BitmapTools.h>
 
 #ifndef ARPKERNEL_ARPDEBUG_H
 #include <ArpKernel/ArpDebug.h>
@@ -212,22 +211,19 @@ static BBitmap* create_icon(BMidiEndpoint* device)
 					BBitmap sized(BRect(0, 0, 19, 19), 0, B_CMAP8);
 					memset(sized.Bits(), B_TRANSPARENT_MAGIC_CMAP8,
 						   sized.BitsLength());
-					//TODO:
-					//copy_bitmap(&sized, &raw,
-					//			BRect(0, 0, 15, 15), BPoint(2, 2));
-					//icon = new BBitmap(BRect(0, 0, 19, 19), 0, B_RGBA32);
-					//set_bitmap(icon, &sized, false);
+										copy_bitmap(&sized, &raw,
+								BRect(0, 0, 15, 15), BPoint(2, 2));
+					icon = new BBitmap(BRect(0, 0, 19, 19), 0, B_RGBA32);
+					set_bitmap(icon, &sized, false);
 				}
 			} else if (prop.FindData("be:large_icon", 'ICON', &data, &size) == B_OK) {
 				if (size == 1024) {
 					BBitmap raw(BRect(0, 0, 31, 31), 0, B_CMAP8);
 					raw.SetBits(data, size, 0, B_CMAP8);
 					BBitmap sized(BRect(0, 0, 19, 19), 0, B_CMAP8);
-					//TODO:
-					//scale_bitmap(&sized, &raw);
+										scale_bitmap(&sized, &raw);
 					icon = new BBitmap(BRect(0, 0, 19, 19), 0, B_RGBA32);
-					//TODO:
-					//set_bitmap(icon, &sized, false);
+										set_bitmap(icon, &sized, false);
 				}
 			}
 		}

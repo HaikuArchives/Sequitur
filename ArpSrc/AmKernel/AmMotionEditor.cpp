@@ -1,8 +1,7 @@
 /* AmEditMotionWindow.cpp
  */
 #include <vector.h>
-//TODO:
-//#include <experimental/BitmapTools.h>
+#include <BeExp/BitmapTools.h>
 #include <InterfaceKit.h>
 #include <support/String.h>
 #include "ArpKernel/ArpDebug.h"
@@ -35,6 +34,15 @@ static const float		_BASE_BEAT_LENGTH		= 32;
 
 static const char*		MEASURE_CTRL			= "measure_ctrl";
 
+/*************************************************************************
+ * Miscellaneous functions
+ *************************************************************************/
+static void write_pixel(const BBitmap* bm, float x, float y, rgb_color c, pixel_access& pa)
+{
+	uint8*		pixel = (uint8*)( ((uint8*)bm->Bits()) + (uint32)(x * pa.bpp() ) + (uint32)(y * bm->BytesPerRow() ) );
+	pa.write(pixel, c);
+}
+
 class _AmMotionEditorData
 {
 public:
@@ -46,7 +54,6 @@ public:
 	AmSignaturePhrase			mSignatures;
 };
 
-//TODO:
 //static void			write_pixel(const BBitmap* bm, float x, float y, rgb_color c, pixel_access& pa);
 
 /***************************************************************************
@@ -225,8 +232,7 @@ protected:
 	virtual float			HitPointYFromPixel(float y) const = 0;
 	float					PixelXFromHitPoint(float x) const;
 	void					GetGriddedHitRange(float x, float* outStart, float* outEnd) const;
-	//TODO:
-	//void					SetLeftAndRight(BRect& r, float start, float end) const;
+		//void					SetLeftAndRight(BRect& r, float start, float end) const;
 
 private:
 	AmDurationControl*		mGridCtrl;
@@ -417,8 +423,7 @@ AmMotionEditor::AmMotionEditor(	const char* name,
 {
 	Init();
 	BRect		r = Bounds();
-	//TODO:
-	//if (r.left == 0 && r.top == 0 && r.right == 1 && r.bottom == 1);
+		//if (r.left == 0 && r.top == 0 && r.right == 1 && r.bottom == 1);
 	//r.right = r.bottom = 20;
 	if (mData) AddViews(r);
 	Refresh(initSettings);
@@ -1989,8 +1994,7 @@ void _AmMeasureControl::ConstructLeftBg(BRect bounds)
 
 	mLeftBg = new BBitmap(bounds, screen.ColorSpace() );
 	if (!mLeftBg) return;
-	//TODO:
-	//pixel_access	pa(mLeftBg->ColorSpace() );
+		pixel_access	pa(mLeftBg->ColorSpace() );
 	
 	BRect			b = mLeftBg->Bounds();
 	rgb_color		c = Prefs().Color( AM_MEASURE_TOP_BG_C );
@@ -2016,8 +2020,7 @@ void _AmMeasureControl::ConstructLeftBg(BRect bounds)
 			c.red = (uint8)(rowC.red + ( fabs(b.right - j) * r_col_delta));
 			c.green = (uint8)(rowC.green + ( fabs(b.right - j) * g_col_delta));
 			c.blue = (uint8)(rowC.blue + ( fabs(b.right - j) * b_col_delta));
-			//TODO:
-			//write_pixel(mLeftBg, j, k, c, pa);
+						write_pixel(mLeftBg, j, k, c, pa);
 		}
 		rowC.red = (uint8)(c.red + (i * r_row_delta));
 		rowC.green = (uint8)(c.green + (i * g_row_delta));
@@ -2025,13 +2028,3 @@ void _AmMeasureControl::ConstructLeftBg(BRect bounds)
 		i++;
 	}
 }
-
-/*************************************************************************
- * Miscellaneous functions
- *************************************************************************/
-//TODO:
-/*static void write_pixel(const BBitmap* bm, float x, float y, rgb_color c, pixel_access& pa)
-{
-	uint8*		pixel = (uint8*)( ((uint8*)bm->Bits()) + (uint32)(x * pa.bpp() ) + (uint32)(y * bm->BytesPerRow() ) );
-	pa.write(pixel, c);
-}*/
