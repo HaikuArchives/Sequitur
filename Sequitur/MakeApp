@@ -85,7 +85,7 @@ endif
 					  $(ARPROOT)/ArpLib/$(OBJ_DIR)/libFFont.a
 
 #	specify any additional beos static libraries needed.
-	ADD_BESTLIBS	= $(ARPROOT)/unknown.a
+#	ADD_BESTLIBS	= $(ARPROOT)/unknown.a
 
 #	specify additional non-beos static libraries needed.
 

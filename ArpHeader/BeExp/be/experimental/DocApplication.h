@@ -61,6 +61,7 @@ private:
 	void	UpdateWindowMenu(DocWindow *w);
 	void	LoadRefs(BMessage *message);
 
+	struct window_info* Get(DocWindow* w);
 };
 
 #define DOC_APP_NEW_WINDOW		'Dnew'

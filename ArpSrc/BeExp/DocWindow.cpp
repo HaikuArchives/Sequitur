@@ -10,33 +10,47 @@ DocWindow::DocWindow(WindowRoster* r, entry_ref* ref, BRect frame,
 	windowroster = r;
 	if(ref)
 		fileref = *ref;
+	else
+		fileref.name = "";
 	dirty = false;
-	printf("Nothign here yet");
+	printf("DocWindow::DocWindow(%s)\n", title);
 }
 
 DocWindow::~DocWindow()
 {
-	printf("Nothign here yet");
+	printf("DocWindow::~DocWindow()\n");
 }
 
 bool
 DocWindow::QuitRequested()
 {
-	printf("Nothign here yet");
+	printf("DocWindow::QuitRequested()\n");
 	return true;
 }
 
 void
 DocWindow::MessageReceived(BMessage* msg)
 {
-	printf("Nothign here yet");
-	BWindow::MessageReceived(msg);
+	switch (msg->what) {
+		case 'Dsav':
+			if(strlen(fileref.name) > 0)
+				Save(new BEntry(&fileref));
+			else
+				SaveAs();
+			break;
+		case 'Dsas':
+			SaveAs();
+			break;
+		default:
+			printf("DocWindow::MessageReceived()\n");
+			BWindow::MessageReceived(msg);
+	}
 }
 
 void
 DocWindow::MenusBeginning()
 {
-	printf("Nothign here yet");	
+	printf("DocWindow::MenusBeginning()\n");	
 }
 
 bool
@@ -48,33 +62,33 @@ DocWindow::IsDirty()
 void
 DocWindow::EntryChanged(BMessage* msg)
 {
-	printf("Nothign here yet");
+	printf("DocWindow::EntryChanged()\n");
 }
 
 status_t
 DocWindow::Load(BEntry* e)
 {
-	printf("Nothign here yet");
+	printf("DocWindow::Load()\n");
 	return B_OK;
 }
 
 status_t
 DocWindow::Save(BEntry* e, const BMessage* args = 0)
 {
-	printf("Nothign here yet");
+	printf("DocWindow::Save()\n");
 	return B_ERROR;
 }
 
 void
 DocWindow::SaveAs()
 {
-	printf("Nothign here yet");
+	printf("DocWindow::SaveAs()\n");
 }
 
 BFilePanel*
 DocWindow::CreateSavePanel() const
 {
-	printf("Nothign here yet");	
+	printf("DocWindow::CreateSavePanel()\n");	
 	return NULL;
 }
 
