@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <be/experimental/ColumnListView.h>
-#include <be/experimental/ColumnTypes.h>
-#include <be/interface/TextControl.h>
+#include <experimental/ColumnListView.h>
+#include <experimental/ColumnTypes.h>
+#include <interface/TextControl.h>
 #include <ArpInterface/ArpPrefs.h>
 #include <GlPublic/GlNode.h>
 #include <GlPublic/GlParam.h>

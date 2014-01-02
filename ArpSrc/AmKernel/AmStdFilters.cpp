@@ -28,7 +28,7 @@
 #include <MidiProducer.h>
 #include <MidiRoster.h>
 
-#include <be/experimental/BitmapTools.h>
+#include <experimental/BitmapTools.h>
 
 #ifndef ARPKERNEL_ARPDEBUG_H
 #include <ArpKernel/ArpDebug.h>

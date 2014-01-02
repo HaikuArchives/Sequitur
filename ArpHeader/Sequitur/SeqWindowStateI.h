@@ -31,8 +31,8 @@
 #ifndef SEQUITUR_SEQWINDOWSTATEI_H
 #define SEQUITUR_SEQWINDOWSTATEI_H
 
-#include <be/app/Message.h>
-#include <be/interface/Window.h>
+#include <app/Message.h>
+#include <interface/Window.h>
 
 /*****************************************************************************
  * SEQ-WINDOW-STATE-I

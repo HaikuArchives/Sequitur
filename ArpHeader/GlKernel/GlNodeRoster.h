@@ -2,7 +2,7 @@
 #define GLKERNEL_GLNODEROSTER_H
 
 #include <ArpCore/String16.h>
-#include <be/app/Message.h>
+#include <app/Message.h>
 #include <GlPublic/GlDefs.h>
 class GlNodeAddOn;
 class GlNodeRosterData;

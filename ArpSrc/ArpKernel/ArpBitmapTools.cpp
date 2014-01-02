@@ -1,6 +1,6 @@
 #include "ArpKernel/ArpBitmapTools.h"
 
-#include <be/experimental/BitmapTools.h>
+#include <experimental/BitmapTools.h>
 #include <Bitmap.h>
 
 #include <stdio.h>

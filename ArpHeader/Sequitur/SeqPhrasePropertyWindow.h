@@ -24,12 +24,12 @@
 #ifndef SEQUITUR_SEQPHRASEPROPERTYWINDOW_H
 #define SEQUITUR_SEQPHRASEPROPERTYWINDOW_H
 
-#include <be/interface/Button.h>
-#include <be/interface/ColorControl.h>
-#include <be/interface/MenuField.h>
-#include <be/interface/StringView.h>
-#include <be/interface/TextControl.h>
-#include <be/interface/Window.h>
+#include <interface/Button.h>
+#include <interface/ColorControl.h>
+#include <interface/MenuField.h>
+#include <interface/StringView.h>
+#include <interface/TextControl.h>
+#include <interface/Window.h>
 #include "AmKernel/AmPhrase.h"
 #include "Sequitur/SeqWindowStateI.h"
 class AmPhraseEvent;

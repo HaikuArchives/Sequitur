@@ -32,7 +32,7 @@
 #define MDUSTPUBLIC_MPARTICLEI_H
 
 #include <vector.h>
-#include <be/opengl/GLView.h>
+#include <opengl/GLView.h>
 #include "ArpMidiPublic/ArpMidiEventsI.h"
 #include "MDust/MPoint.h"
 // Forward references

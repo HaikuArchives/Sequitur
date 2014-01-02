@@ -30,7 +30,7 @@
 #ifndef GLPUBLIC_GLALGO_H
 #define GLPUBLIC_GLALGO_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 #include <GlPublic/GlActions.h>
 #include <GlPublic/GlDefs.h>
 class GlAlgo1d;

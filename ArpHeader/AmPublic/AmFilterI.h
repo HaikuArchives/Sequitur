@@ -2,10 +2,10 @@
 #ifndef AMPUBLIC_AMFILTERI_H
 #define AMPUBLIC_AMFILTERI_H
 
-#include <be/experimental/ResourceSet.h>
-#include <be/interface/Bitmap.h>
-#include <be/support/List.h>
-#include <be/support/String.h>
+#include <experimental/ResourceSet.h>
+#include <interface/Bitmap.h>
+#include <support/List.h>
+#include <support/String.h>
 
 #include <ArpBuild.h>
 

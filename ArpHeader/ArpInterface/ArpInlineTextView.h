@@ -27,8 +27,8 @@
 #define OSINTERFACE_OSINLINETEXTVIEW_H
 
 #include <ArpCore/String16.h>
-#include <be/app/Messenger.h>
-#include <be/interface/View.h>
+#include <app/Messenger.h>
+#include <interface/View.h>
 
 enum {
 	INLINE_INTERMEDIATEUPDATE_MSG = '.PIU',

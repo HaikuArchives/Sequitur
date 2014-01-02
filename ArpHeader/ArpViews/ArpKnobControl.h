@@ -27,7 +27,7 @@
 #ifndef ARPVIEWS_ARPKNOBCONTROL_H
 #define ARPVIEWS_ARPKNOBCONTROL_H
 
-#include <be/interface/Control.h>
+#include <interface/Control.h>
 #include "BeExp/ToolTip.h"
 #include <ArpLayout/ArpBaseLayout.h>
 #include "ArpViewsPublic/ArpIntToStringMapI.h"

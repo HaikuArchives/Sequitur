@@ -1,7 +1,7 @@
 #ifndef GLPUBLIC_GLNODEDATA_H
 #define GLPUBLIC_GLNODEDATA_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 #include <ArpCore/StlVector.h>
 #include <ArpCore/String16.h>
 class GlCache1d;

@@ -24,11 +24,11 @@
 #endif
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #ifndef _SCROLLBAR_H
-#include <be/interface/ScrollBar.h>
+#include <interface/ScrollBar.h>
 #endif
 
 #include <algobase.h>

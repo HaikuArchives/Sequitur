@@ -22,7 +22,7 @@
 #ifndef GLPUBLIC_GLROOTREF_H
 #define GLPUBLIC_GLROOTREF_H
 
-#include <be/app/Messenger.h>
+#include <app/Messenger.h>
 #include <GlPublic/GlDefs.h>
 class GlRootNode;
 

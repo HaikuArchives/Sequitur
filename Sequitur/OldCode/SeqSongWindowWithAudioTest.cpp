@@ -5,13 +5,13 @@
 #include <string.h>
 #include <RecentItems.h>
 #include <Roster.h>
-#include <be/experimental/BitmapButton.h>
-#include <be/experimental/DocApplication.h>
-#include <be/InterfaceKit.h>
-#include <be/kernel/fs_attr.h>
-#include <be/StorageKit.h>
-#include <be/support/Autolock.h>
-#include <be/support/Locker.h>
+#include <experimental/BitmapButton.h>
+#include <experimental/DocApplication.h>
+#include <InterfaceKit.h>
+#include <kernel/fs_attr.h>
+#include <StorageKit.h>
+#include <support/Autolock.h>
+#include <support/Locker.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpKernel/ArpSafeDelivery.h"
 #include "ArpViewsPublic/ArpPrefsI.h"
@@ -991,14 +991,14 @@ void SeqSongWindow::DispatchMessage(BMessage *message, BHandler *handler)
 	inherited::DispatchMessage(message, handler);
 }
 
-#include <be/storage/Entry.h>
-#include <be/media/MediaAddOn.h>
-#include <be/media/MediaDefs.h>
-#include <be/media/MediaFile.h>
-#include <be/media/MediaRoster.h>
-#include <be/media/MediaTrack.h>
-#include <be/media/TimeSource.h>
-#include <be/interface/Bitmap.h>
+#include <storage/Entry.h>
+#include <media/MediaAddOn.h>
+#include <media/MediaDefs.h>
+#include <media/MediaFile.h>
+#include <media/MediaRoster.h>
+#include <media/MediaTrack.h>
+#include <media/TimeSource.h>
+#include <interface/Bitmap.h>
 #include "Sequitur/SeqBitmapEditor.h"
 
 #if 0

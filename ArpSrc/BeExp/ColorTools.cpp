@@ -3,7 +3,7 @@
 	This file may be used under the terms of the Be Sample Code License.
 */
 
-#include <be/experimental/ColorTools.h>
+#include <experimental/ColorTools.h>
 
 #if B_BEOS_VERSION <= B_BEOS_VERSION_MAUI
 

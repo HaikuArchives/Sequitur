@@ -30,7 +30,7 @@
 #ifndef GLPUBLIC_GLFILTERKERNEL_H
 #define GLPUBLIC_GLFILTERKERNEL_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 
 /*******************************************************
  * GL-FILTER-KERNEL

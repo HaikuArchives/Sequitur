@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/interface/InterfaceDefs.h>
+#include <interface/InterfaceDefs.h>
 #include "ArpKernel/ArpDebug.h"
 #include "AmKernel/AmEventInspectors.h"
 #include "AmKernel/AmPhraseEvent.h"

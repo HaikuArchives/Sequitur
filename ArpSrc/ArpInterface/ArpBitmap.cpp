@@ -1,5 +1,5 @@
-#include <be/StorageKit.h>
-#include <be/TranslationKit.h>
+#include <StorageKit.h>
+#include <TranslationKit.h>
 #include <ArpKernel/ArpDebug.h>
 #include <ArpInterface/ArpBitmap.h>
 #include <ArpInterface/ArpPainter.h>

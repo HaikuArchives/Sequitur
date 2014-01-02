@@ -8,7 +8,7 @@
 #include <String.h>
 #include <Node.h>
 
-#include <be/experimental/WindowRoster.h>
+#include <experimental/WindowRoster.h>
 
 class BFilePanel;
 

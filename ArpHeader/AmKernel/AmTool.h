@@ -24,9 +24,9 @@
 #define AMKERNEL_AMTOOL_H
 
 #include <vector.h>
-#include <be/interface/Menu.h>
-#include <be/interface/Bitmap.h>
-#include <be/storage/File.h>
+#include <interface/Menu.h>
+#include <interface/Bitmap.h>
+#include <storage/File.h>
 #include "AmKernel/AmFileRosterEntryI.h"
 #include "AmKernel/AmNotifier.h"
 #include "AmKernel/AmPipelineSegment.h"

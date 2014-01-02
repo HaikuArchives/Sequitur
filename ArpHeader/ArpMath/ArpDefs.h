@@ -32,7 +32,7 @@
 
 #include <stdlib.h>
 #include <math.h>
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 #include <ArpKernel/ArpDebug.h>
 
 /* absolute value of a */

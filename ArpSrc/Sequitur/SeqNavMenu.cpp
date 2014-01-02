@@ -3,14 +3,14 @@
 #include <algo.h>
 #include <stdio.h>
 #include <string.h>
-#include <be/interface/Bitmap.h>
-#include <be/interface/Window.h>
-#include <be/storage/Node.h>
-#include <be/storage/NodeInfo.h>
-#include <be/storage/Volume.h>
-#include <be/storage/VolumeRoster.h>
-#include <be/storage/Entry.h>
-#include <be/storage/Path.h>
+#include <interface/Bitmap.h>
+#include <interface/Window.h>
+#include <storage/Node.h>
+#include <storage/NodeInfo.h>
+#include <storage/Volume.h>
+#include <storage/VolumeRoster.h>
+#include <storage/Entry.h>
+#include <storage/Path.h>
 #include "Sequitur/SeqNavMenu.h"
 #include "Sequitur/SequiturDefs.h"
 

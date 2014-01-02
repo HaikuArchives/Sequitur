@@ -30,7 +30,7 @@
 #ifndef ARPVIEWSPUBLIC_ARPINTFORMATTERI_H
 #define ARPVIEWSPUBLIC_ARPINTFORMATTERI_H
 
-#include <be/support/String.h>
+#include <support/String.h>
 
 /***************************************************************************
  * ARP-INT-FORMATTER-I

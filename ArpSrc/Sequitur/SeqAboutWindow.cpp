@@ -2,12 +2,12 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/support/Autolock.h>
-#include <be/app/MessageRunner.h>
-#include <be/interface/Button.h>
-#include <be/interface/Screen.h>
-#include <be/interface/StringView.h>
-#include <be/interface/View.h>
+#include <support/Autolock.h>
+#include <app/MessageRunner.h>
+#include <interface/Button.h>
+#include <interface/Screen.h>
+#include <interface/StringView.h>
+#include <interface/View.h>
 #include "ArpViewsPublic/ArpPrefsI.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "Sequitur/SeqAboutWindow.h"

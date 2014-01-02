@@ -31,11 +31,11 @@
 #define GLASSLIKE_GLAPP_H
 
 #include <ArpCore/StlVector.h>
-#include <be/app/Application.h>
-#include <be/interface/Rect.h>
-#include <be/interface/Window.h>
-#include <be/storage/File.h>
-#include <be/support/Locker.h>
+#include <app/Application.h>
+#include <interface/Rect.h>
+#include <interface/Window.h>
+#include <storage/File.h>
+#include <support/Locker.h>
 #include <Glasslike/GlGlobalsImpl.h>
 #include <Glasslike/GlKeyTracker.h>
 #include <Glasslike/GlMidiBinding.h>

@@ -24,8 +24,8 @@
 #ifndef AMPUBLIC_AMVIEWFACTORY_H
 #define AMPUBLIC_AMVIEWFACTORY_H
 
-#include <be/interface/View.h>
-#include <be/support/List.h>
+#include <interface/View.h>
+#include <support/List.h>
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "AmPublic/AmDefs.h"
 #include "AmPublic/AmViewPropertyI.h"

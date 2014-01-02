@@ -30,7 +30,7 @@
 #ifndef GLPUBLIC_GLSUPPORTTYPES_H
 #define GLPUBLIC_GLSUPPORTTYPES_H
 
-#include <be/app/Message.h>
+#include <app/Message.h>
 
 /***************************************************************************
  * GL-REL-ABS

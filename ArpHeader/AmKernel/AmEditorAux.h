@@ -28,7 +28,7 @@
 #define AMKERNEL_AMEDITORWAUX_H
 
 #include <vector.h>
-#include <be/InterfaceKit.h>
+#include <InterfaceKit.h>
 #include "BeExp/ToolTip.h"
 
 /*************************************************************************

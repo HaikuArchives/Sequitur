@@ -20,7 +20,7 @@
 #include "ArpKernel/ArpDebug.h"
 #endif
 
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #include <float.h>
 
 ArpMOD();

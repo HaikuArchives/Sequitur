@@ -41,7 +41,7 @@
 #ifndef AMKERNEL_AMTIMECONVERTER_H
 #define AMKERNEL_AMTIMECONVERTER_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 #include "AmPublic/AmDefs.h"
 
 /***************************************************************************

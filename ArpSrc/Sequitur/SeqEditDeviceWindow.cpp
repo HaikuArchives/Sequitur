@@ -1,8 +1,8 @@
 #include <algo.h>
-#include <be/app/Clipboard.h>
-#include <be/experimental/ColumnListView.h>
-#include <be/experimental/ColumnTypes.h>
-#include <be/support/String.h>
+#include <app/Clipboard.h>
+#include <experimental/ColumnListView.h>
+#include <experimental/ColumnTypes.h>
+#include <support/String.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "ArpViews/ArpInlineTextView.h"

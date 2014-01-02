@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <be/interface/StringView.h>
-#include <be/support/Errors.h>
+#include <interface/StringView.h>
+#include <support/Errors.h>
 #include <ArpKernel/ArpDebug.h>
 #include <ArpCore/StlVector.h>
 #include <ArpInterface/ArpPrefs.h>

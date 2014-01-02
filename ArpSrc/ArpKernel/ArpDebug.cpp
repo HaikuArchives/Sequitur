@@ -379,7 +379,7 @@ void ArpParseDBOpts(int32& , char** )
 // ----------------------- IOSTREAM FUNCTIONS -----------------------
 
 #ifndef _APPLICATION_H
-#include <be/app/Application.h>
+#include <app/Application.h>
 #endif
 
 #ifndef _FONT_H
@@ -399,7 +399,7 @@ void ArpParseDBOpts(int32& , char** )
 #endif
 
 #ifndef __BSTRING__
-#include <be/support/String.h>
+#include <support/String.h>
 #endif
 
 #ifndef _FFONT_H

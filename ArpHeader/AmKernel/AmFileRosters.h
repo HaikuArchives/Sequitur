@@ -27,8 +27,8 @@
 #define AMKERNEL_AMFILEROSTERS_H
 
 #include <vector.h>
-#include <be/app/Handler.h>
-#include <be/support/Locker.h>
+#include <app/Handler.h>
+#include <support/Locker.h>
 #include "AmKernel/AmDevice.h"
 #include "AmKernel/AmKernelDefs.h"
 #include "AmKernel/AmMultiFilter.h"

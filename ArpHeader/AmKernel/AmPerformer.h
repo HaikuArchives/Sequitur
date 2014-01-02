@@ -35,11 +35,11 @@
 #endif
 
 #ifndef _LOOPER_H
-#include <be/app/Looper.h>
+#include <app/Looper.h>
 #endif
 
 #ifndef _LOCKER_H
-#include <be/support/Locker.h>
+#include <support/Locker.h>
 #endif
 
 /*****************************************************************************

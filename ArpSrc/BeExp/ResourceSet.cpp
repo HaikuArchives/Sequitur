@@ -12,7 +12,7 @@ class _EXPORT BResourceSet;
 #define USE_RESOURCES 1
 #define HAVE_CURSORS 1
 
-#include <be/experimental/ResourceSet.h>
+#include <experimental/ResourceSet.h>
 
 #if HAVE_CURSORS
 #include <Cursor.h>

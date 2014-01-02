@@ -43,7 +43,7 @@
 #ifndef ARPTERMINAL_ARPREMOTEADDON_H
 #define ARPTERMINAL_ARPREMOTEADDON_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 
 #ifndef ARPTERMINAL_ARPREMOTEINTERFACE_H
 #include <ArpTerminal/ArpRemoteInterface.h>

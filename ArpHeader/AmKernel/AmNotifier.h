@@ -24,9 +24,9 @@
 
 #include <map.h>
 #include <vector.h>
-#include <be/app/Handler.h>
-#include <be/app/Messenger.h>
-#include <be/support/Locker.h>
+#include <app/Handler.h>
+#include <app/Messenger.h>
+#include <support/Locker.h>
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmRange.h"
 

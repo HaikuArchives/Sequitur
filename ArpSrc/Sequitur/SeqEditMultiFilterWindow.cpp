@@ -1,6 +1,6 @@
 /* SeqEditMultiFilterWindow.cpp
  */
-#include <be/support/String.h>
+#include <support/String.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "AmPublic/AmPrefsI.h"

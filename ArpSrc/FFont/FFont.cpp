@@ -20,7 +20,7 @@
 #endif
 
 #ifndef _BYTEORDER_H
-#include <be/support/ByteOrder.h>
+#include <support/ByteOrder.h>
 #endif
 
 #include <string.h>

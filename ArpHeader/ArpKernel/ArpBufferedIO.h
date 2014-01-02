@@ -40,7 +40,7 @@
 #define ARPKERNEL_BUFFEREDIO_H
 
 #ifndef _DATAIO_H
-#include <be/support/DataIO.h>
+#include <support/DataIO.h>
 #endif
 
 class ArpBufferedIO : public BDataIO {

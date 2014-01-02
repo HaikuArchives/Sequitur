@@ -12,35 +12,35 @@
 */
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #ifndef _MENUFIELD_H
-#include <be/interface/MenuField.h>
+#include <interface/MenuField.h>
 #endif
 
 #ifndef _POPUPMENU_H
-#include <be/interface/PopUpMenu.h>
+#include <interface/PopUpMenu.h>
 #endif
 
 #ifndef _MENUITEM_H
-#include <be/interface/MenuItem.h>
+#include <interface/MenuItem.h>
 #endif
 
 #ifndef _COLORCONTROL_H
-#include <be/interface/ColorControl.h>
+#include <interface/ColorControl.h>
 #endif
 
 #ifndef _STRINGVIEW_H
-#include <be/interface/StringView.h>
+#include <interface/StringView.h>
 #endif
 
 #ifndef _TEXTCONTROL_H
-#include <be/interface/TextControl.h>
+#include <interface/TextControl.h>
 #endif
 
 #ifndef _CHECKBOX_H
-#include <be/interface/CheckBox.h>
+#include <interface/CheckBox.h>
 #endif
 
 #ifndef ARPKERNEL_ARPCONFIGUREIMPL_H

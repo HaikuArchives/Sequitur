@@ -4,10 +4,10 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <be/interface/MenuItem.h>
-#include <be/interface/PopUpMenu.h>
-#include <be/interface/Window.h>
-#include <be/support/Autolock.h>
+#include <interface/MenuItem.h>
+#include <interface/PopUpMenu.h>
+#include <interface/Window.h>
+#include <support/Autolock.h>
 #include "ArpKernel/ArpDebug.h"
 
 #include "AmPublic/AmEvents.h"

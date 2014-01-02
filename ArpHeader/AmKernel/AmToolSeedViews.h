@@ -23,9 +23,9 @@
 #ifndef AMKERNEL_AMTOOLSEEDVIEWS_H
 #define AMKERNEL_AMTOOLSEEDVIEWS_H
 
-#include <be/interface/CheckBox.h>
-#include <be/interface/RadioButton.h>
-#include <be/interface/View.h>
+#include <interface/CheckBox.h>
+#include <interface/RadioButton.h>
+#include <interface/View.h>
 #include "AmPublic/AmToolRef.h"
 class ArpFloatControl;
 

@@ -30,7 +30,7 @@
 #ifndef GLPUBLIC_GLRECT_H
 #define GLPUBLIC_GLRECT_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 
 /***************************************************************************
  * GL-RECT

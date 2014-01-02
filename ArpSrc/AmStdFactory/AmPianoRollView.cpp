@@ -2,13 +2,13 @@
  */
 #include <stdio.h>
 #include <math.h>
-#include <be/experimental/ColorTools.h>
-#include <be/interface/Bitmap.h>
-#include <be/interface/MenuField.h>
-#include <be/interface/MenuItem.h>
-#include <be/interface/PopUpMenu.h>
-#include <be/interface/ScrollBar.h>
-#include <be/interface/Window.h>
+#include <experimental/ColorTools.h>
+#include <interface/Bitmap.h>
+#include <interface/MenuField.h>
+#include <interface/MenuItem.h>
+#include <interface/PopUpMenu.h>
+#include <interface/ScrollBar.h>
+#include <interface/Window.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpKernel/ArpLineArrayCache.h"
 #include "ArpViewsPublic/ArpViewDefs.h"

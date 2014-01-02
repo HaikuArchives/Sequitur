@@ -4,9 +4,9 @@
 #define _BUILDING_AmKernel 1
 #include <stdio.h>
 #include <string.h>
-#include <be/app/Application.h>
-#include <be/StorageKit.h>
-#include <be/support/Autolock.h>
+#include <app/Application.h>
+#include <StorageKit.h>
+#include <support/Autolock.h>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmGlobalsI.h"
 #include "AmKernel/AmFileRosters.h"

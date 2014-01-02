@@ -30,14 +30,14 @@
 #endif
 
 #ifndef _WINDOW_H
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #endif
 
 #ifndef _MENU_H
-#include <be/interface/Menu.h>
+#include <interface/Menu.h>
 #endif
 
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #include <float.h>
 
 ArpMOD();

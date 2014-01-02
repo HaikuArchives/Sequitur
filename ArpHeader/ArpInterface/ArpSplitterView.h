@@ -25,7 +25,7 @@
 #ifndef ARPINTERFACE_ARPSPLITTERVIEW_H
 #define ARPINTERFACE_ARPSPLITTERVIEW_H
 
-#include <be/interface/View.h>
+#include <interface/View.h>
 
 /*************************************************************************
  * SEQ-SPLITTER-VIEW

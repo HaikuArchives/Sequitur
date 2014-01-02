@@ -23,8 +23,8 @@
 #define AMKERNEL_AMTRACKREF_H
 
 #include <vector.h>
-#include <be/support/SupportDefs.h>
-#include <be/app/Messenger.h>
+#include <support/SupportDefs.h>
+#include <app/Messenger.h>
 #include "AmPublic/AmDefs.h"
 #include "AmPublic/AmRange.h"
 class BHandler;

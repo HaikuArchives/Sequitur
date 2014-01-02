@@ -1,4 +1,4 @@
-#include <be/experimental/DocWindow.h>
+#include <experimental/DocWindow.h>
 #include <stdio.h>
 #include <Message.h>
 DocWindow::DocWindow(WindowRoster* r, entry_ref* ref, BRect frame,

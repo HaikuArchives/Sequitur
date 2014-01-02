@@ -24,7 +24,7 @@
 #ifndef SEQUITUR_SEQABOUTWINDOW_H
 #define SEQUITUR_SEQABOUTWINDOW_H
 
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 
 class BMessageRunner;
 class BStringView;

@@ -30,8 +30,8 @@
 #ifndef ARPINTERFACE_ARPFONTCONTROL_H
 #define ARPINTERFACE_ARPFONTCONTROL_H
 
-#include <be/interface/Control.h>
-#include <be/interface/MenuField.h>
+#include <interface/Control.h>
+#include <interface/MenuField.h>
 #include <ArpInterface/ArpIntControl.h>
 #include <ArpInterface/ArpFont.h>
 

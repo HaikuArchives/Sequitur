@@ -6,8 +6,8 @@
 
 #include <vector.h>
 #include <stdio.h>
-#include <be/app/Message.h>
-#include <be/support/Autolock.h>
+#include <app/Message.h>
+#include <support/Autolock.h>
 #include "AmPublic/AmEvents.h"
 #include "ArpKernel/ArpDebug.h"
 #include "ArpKernel/ArpSafeDelivery.h"

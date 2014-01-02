@@ -1,4 +1,4 @@
-#include <be/interface/View.h>
+#include <interface/View.h>
 #include <ArpKernel/ArpDebug.h>
 #include <ArpInterface/ArpPainter.h>
 

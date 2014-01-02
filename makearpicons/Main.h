@@ -37,7 +37,7 @@
 #define MAIN_H
 
 #ifndef _APPLICATION_H
-#include <be/app/Application.h>
+#include <app/Application.h>
 #endif
 
 class TerminalWin;

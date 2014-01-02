@@ -24,8 +24,8 @@
 #ifndef SEQUITUR_SEQMEASURECONTROL_H
 #define SEQUITUR_SEQMEASURECONTROL_H
 
-#include <be/interface/Bitmap.h>
-#include <be/interface/View.h>
+#include <interface/Bitmap.h>
+#include <interface/View.h>
 #include "AmPublic/AmSongObserver.h"
 #include "AmPublic/AmSongRef.h"
 #include "AmPublic/AmTimeConverter.h"

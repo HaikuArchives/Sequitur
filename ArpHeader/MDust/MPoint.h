@@ -31,7 +31,7 @@
 #ifndef MDUST_MPOINT_H
 #define MDUST_MPOINT_H
 
-#include <be/interface/Point.h>
+#include <interface/Point.h>
 
 /***************************************************************************
  * M-POINT

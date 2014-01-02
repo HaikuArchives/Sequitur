@@ -25,7 +25,7 @@
 #ifndef SEQUITUR_SEQNOVIEW_H
 #define SEQUITUR_SEQNOVIEW_H
 
-#include <be/interface/View.h>
+#include <interface/View.h>
 
 /*************************************************************************
  * SEQ-NO-VIEW 

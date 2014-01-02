@@ -1,8 +1,8 @@
 #ifndef ARPINTERFACESUPPORT_ARPPREFS_H
 #define ARPINTERFACESUPPORT_ARPPREFS_H
 
-#include <be/interface/GraphicsDefs.h>
-#include <be/interface/Point.h>
+#include <interface/GraphicsDefs.h>
+#include <interface/Point.h>
 #include <ArpInterface/ArpFont.h>
 
 class ArpPrefs;

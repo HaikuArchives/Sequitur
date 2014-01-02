@@ -2,9 +2,9 @@
  */
 #include <stdio.h>
 #include <vector.h>
-#include <be/app/Clipboard.h>
-#include <be/interface/MenuItem.h>
-#include <be/interface/PopUpMenu.h>
+#include <app/Clipboard.h>
+#include <interface/MenuItem.h>
+#include <interface/PopUpMenu.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpPrefsI.h"
 #include "AmPublic/AmEvents.h"

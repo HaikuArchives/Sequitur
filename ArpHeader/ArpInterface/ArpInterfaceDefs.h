@@ -3,7 +3,7 @@
 #ifndef ARPINTERFACE_ARPINTERFACEDEFS_H
 #define ARPINTERFACE_ARPINTERFACEDEFS_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 
 typedef void*	arp_image_id;
 

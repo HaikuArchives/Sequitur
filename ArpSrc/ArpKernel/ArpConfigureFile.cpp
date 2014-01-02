@@ -12,7 +12,7 @@
 */
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #ifndef ARPKERNEL_ARPCONFIGUREFILE_H
@@ -36,19 +36,19 @@
 #endif
 
 #ifndef _DIRECTORY_H
-#include <be/storage/Directory.h>
+#include <storage/Directory.h>
 #endif
 
 #ifndef _FILE_H
-#include <be/storage/File.h>
+#include <storage/File.h>
 #endif
 
 #ifndef _NODEINFO_H
-#include <be/storage/NodeInfo.h>
+#include <storage/NodeInfo.h>
 #endif
 
 #ifndef _NODE_MONITOR_H
-#include <be/storage/NodeMonitor.h>
+#include <storage/NodeMonitor.h>
 #endif
 
 #include <stdlib.h>

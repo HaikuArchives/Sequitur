@@ -124,7 +124,7 @@
 
 #include <assert.h>
 
-#include <be/support/Debug.h>
+#include <support/Debug.h>
 
 #define RPTERR(ARGS)	_debugPrintf ARGS
 

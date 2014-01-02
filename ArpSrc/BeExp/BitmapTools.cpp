@@ -3,8 +3,8 @@
 	This file may be used under the terms of the Be Sample Code License.
 */
 
-#include <be/experimental/BitmapTools.h>
-#include <be/experimental/ColorTools.h>
+#include <experimental/BitmapTools.h>
+#include <experimental/ColorTools.h>
 
 #include <Bitmap.h>
 #include <Screen.h>

@@ -14,7 +14,7 @@
 #endif
 
 #ifndef _MEDIA_ROSTER_H
-#include <be/media/MediaRoster.h>
+#include <media/MediaRoster.h>
 #endif
 
 #include "AmPublic/AmPrefsI.h"

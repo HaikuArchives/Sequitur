@@ -22,7 +22,7 @@
 #ifndef GLPUBLIC_GLLINEFILLER_H
 #define GLPUBLIC_GLLINEFILLER_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 class GlLineFillerData;
 class _GlStdFillingLine;
 class _GlScanningGapLine;

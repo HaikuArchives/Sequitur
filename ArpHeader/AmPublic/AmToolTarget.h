@@ -23,7 +23,7 @@
 #define AMPUBLIC_AMTOOLTARGET_H
 
 #include <vector.h>
-#include <be/interface/View.h>
+#include <interface/View.h>
 #include <ArpBuild.h>
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmTrackHandler.h"

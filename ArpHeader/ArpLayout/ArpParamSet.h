@@ -37,11 +37,11 @@
 #define ARPLAYOUT_ARPPARAMSET_H
 
 #ifndef _MESSAGE_H
-#include <be/app/Message.h>
+#include <app/Message.h>
 #endif
 
 #ifndef _PROPERTY_INFO_H
-#include <be/app/PropertyInfo.h>
+#include <app/PropertyInfo.h>
 #endif
 
 #ifndef ARPLAYOUT_ARPPARAM_H

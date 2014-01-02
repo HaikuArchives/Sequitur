@@ -30,9 +30,9 @@
 #ifndef GLASSLIKE_GLMIDI_H
 #define GLASSLIKE_GLMIDI_H
 
-#include <be/midi2/MidiConsumer.h>
-#include <be/app/Messenger.h>
-#include <be/support/Locker.h>
+#include <midi2/MidiConsumer.h>
+#include <app/Messenger.h>
+#include <support/Locker.h>
 #include <GlPublic/GlMidiEvent.h>
 class GlEventConsumer;
 class GlMidiProducerList;

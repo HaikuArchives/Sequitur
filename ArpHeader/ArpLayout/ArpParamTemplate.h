@@ -48,7 +48,7 @@
 #endif
 
 #ifndef __BSTRING__
-#include <be/support/String.h>
+#include <support/String.h>
 #endif
 
 #ifndef ARPKERNEL_ARPDEBUG_H

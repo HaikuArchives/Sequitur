@@ -61,7 +61,7 @@
 #endif
 
 #ifndef	_ARCHIVABLE_H
-#include <be/support/Archivable.h>
+#include <support/Archivable.h>
 #endif
 
 struct ArpEmulationType {

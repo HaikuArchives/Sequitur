@@ -2,12 +2,12 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/app/Application.h>
-#include <be/app/Clipboard.h>
-#include <be/interface/Alert.h>
-#include <be/storage/Entry.h>
-#include <be/storage/File.h>
-#include <be/support/Autolock.h>
+#include <app/Application.h>
+#include <app/Clipboard.h>
+#include <interface/Alert.h>
+#include <storage/Entry.h>
+#include <storage/File.h>
+#include <support/Autolock.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpKernel/ArpSafeDelivery.h"
 #include "AmPublic/AmEvents.h"

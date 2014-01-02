@@ -30,7 +30,7 @@
 #ifndef ARPINTERFACE_ARPCOLOURCONTROL_H
 #define ARPINTERFACE_ARPCOLOURCONTROL_H
 
-#include <be/interface/Control.h>
+#include <interface/Control.h>
 #include <ArpSupport/ArpVoxel.h>
 #include <ArpInterface/ArpIntControl.h>
 

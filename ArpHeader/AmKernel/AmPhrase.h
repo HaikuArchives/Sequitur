@@ -43,7 +43,7 @@
 #define AMKERNEL_AMPHRASE_H
 
 #include <vector.h>
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmRange.h"
 #include "AmKernel/AmNode.h"

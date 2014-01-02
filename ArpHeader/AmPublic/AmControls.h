@@ -24,8 +24,8 @@
 #ifndef AMPUBLIC_AMCONTROLS_H
 #define AMPUBLIC_AMCONTROLS_H
 
-#include <be/interface/TextControl.h>
-#include <be/support/SupportDefs.h>
+#include <interface/TextControl.h>
+#include <support/SupportDefs.h>
 #include "ArpLayout/ArpScrollArea.h"
 #include "ArpLayout/ViewStubs.h"
 #include "ArpViewsPublic/ArpIntToStringMapI.h"

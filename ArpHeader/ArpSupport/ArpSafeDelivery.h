@@ -36,7 +36,7 @@
 #ifndef ARPSUPPORT_ARPSAFEDELIVERY_H
 #define ARPSUPPORT_ARPSAFEDELIVERY_H
 
-#include <be/app/Messenger.h>
+#include <app/Messenger.h>
 
 class ArpSafeDeliveryLooper;
 

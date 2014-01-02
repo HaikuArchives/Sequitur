@@ -1,6 +1,6 @@
 #include <ArpCore/ArpCoreDefs.h>
 #include <stdio.h>
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #include <ArpInterface/ArpBitmapCache.h>
 #include <ArpInterface/ArpPainter.h>
 #include <ArpInterface/ArpPrefs.h>

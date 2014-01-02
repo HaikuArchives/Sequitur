@@ -1,4 +1,4 @@
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #include <ArpSupport/ArpUniversalStringMachine.h>
 #include <ArpMath/ArpDefs.h>
 #include <ArpInterface/ArpPrefs.h>

@@ -31,7 +31,7 @@
 #define ARPINTERFACE_VIEW_TOOLS_H
 
 #include <ArpCore/String16.h>
-#include <be/interface/View.h>
+#include <interface/View.h>
 
 /* Answer the current mouse buttons for the supplied view.
  */

@@ -23,7 +23,7 @@
 #ifndef AMPUBLIC_AMMOTIONI_H
 #define AMPUBLIC_AMMOTIONI_H
 
-#include <be/support/String.h>
+#include <support/String.h>
 #include "AmPublic/AmDefs.h"
 
 /*************************************************************************

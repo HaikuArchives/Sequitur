@@ -22,7 +22,7 @@
 #ifndef GLPUBLIC_GLIMAGE_H
 #define GLPUBLIC_GLIMAGE_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 // This is sooooo wrong...  find a better place for the pixel rules
 #include <ArpInterface/ArpInterfaceDefs.h>
 #include <ArpSupport/ArpVoxel.h>

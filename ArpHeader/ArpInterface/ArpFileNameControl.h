@@ -31,7 +31,7 @@
 #define ARPINTERFACE_ARPFILENAMECONTROL_H
 
 #include <ArpCore/String16.h>
-#include <be/interface/Control.h>
+#include <interface/Control.h>
 
 /***************************************************************************
  * ARP-FILE-NAME-CONTROL

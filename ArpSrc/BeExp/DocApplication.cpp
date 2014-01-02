@@ -1,5 +1,5 @@
-#include <be/experimental/DocApplication.h>
-#include <be/experimental/DocWindow.h>
+#include <experimental/DocApplication.h>
+#include <experimental/DocWindow.h>
 #include <FilePanel.h>
 
 #include <stdio.h>

@@ -24,9 +24,9 @@
 #define AMKERNEL_AMMULTIFILTER_H
 
 #include <vector.h>
-#include <be/app/Message.h>
-#include <be/interface/View.h>
-#include <be/support/String.h>
+#include <app/Message.h>
+#include <interface/View.h>
+#include <support/String.h>
 #include "AmPublic/AmFilterI.h"
 #include "AmPublic/AmPipelineMatrixI.h"
 #include "AmKernel/AmFileRosterEntryI.h"

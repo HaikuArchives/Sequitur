@@ -1,6 +1,6 @@
 /* SeqSongIndexMatrixView.cpp
  */
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpViewDefs.h"

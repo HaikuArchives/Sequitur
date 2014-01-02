@@ -43,7 +43,7 @@ All rights reserved.
 /
 *******************************************************************************/
 
-#include <be/experimental/ColumnListView.h>
+#include <experimental/ColumnListView.h>
 
 #include <typeinfo>
 
@@ -67,7 +67,7 @@ All rights reserved.
 
 #include <priv/ObjectListPrivate.h>
 
-#include <be/experimental/ColorTools.h>
+#include <experimental/ColorTools.h>
 #include <ObjectList.h>
 
 #define DOUBLE_BUFFERED_COLUMN_RESIZE 1

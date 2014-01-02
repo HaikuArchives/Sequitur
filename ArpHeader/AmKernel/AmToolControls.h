@@ -25,7 +25,7 @@
 #define AMKERNEL_AMTOOLCONTROLS_H
 
 #include <vector.h>
-#include <be/interface/View.h>
+#include <interface/View.h>
 #include "AmPublic/AmToolRef.h"
 class AmToolControlList;
 class AmToolControlOp;

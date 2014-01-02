@@ -2,9 +2,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/interface/ScrollView.h>
-#include <be/interface/TextView.h>
-#include <be/interface/Window.h>
+#include <interface/ScrollView.h>
+#include <interface/TextView.h>
+#include <interface/Window.h>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmPrefsI.h"
 

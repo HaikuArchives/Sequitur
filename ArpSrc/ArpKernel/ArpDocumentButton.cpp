@@ -14,31 +14,31 @@
 #include "ArpKernel/ArpDocumentButton.h"
 
 #ifndef _WINDOW_H
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #endif
 
 #ifndef _SCREEN_H
-#include <be/interface/Screen.h>
+#include <interface/Screen.h>
 #endif
 
 #ifndef _APPLICATION_H
-#include <be/app/Application.h>
+#include <app/Application.h>
 #endif
 
 #ifndef _ROSTER_H
-#include <be/app/Roster.h>
+#include <app/Roster.h>
 #endif
 
 #ifndef _APPFILEINFO_H
-#include <be/storage/AppFileInfo.h>
+#include <storage/AppFileInfo.h>
 #endif
 
 #ifndef _FILE_H
-#include <be/storage/File.h>
+#include <storage/File.h>
 #endif
 
 #ifndef _TRANSLATION_UTILS_H
-#include <be/translation/TranslationUtils.h>
+#include <translation/TranslationUtils.h>
 #endif
 
 #ifndef ARPKERNEL_ARPDEBUG_H

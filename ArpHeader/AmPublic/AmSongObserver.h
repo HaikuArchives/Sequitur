@@ -24,7 +24,7 @@
 #ifndef AMKERNEL_AMSONGOBSERVER_H
 #define AMKERNEL_AMSONGOBSERVER_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 #include "AmPublic/AmSongRef.h"
 class AmPipelineMatrixI;
 class AmSong;

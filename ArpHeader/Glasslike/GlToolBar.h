@@ -24,7 +24,7 @@
 #define GLASSLIKE_GLTOOLBAR_H
 
 #include <ArpCore/StlVector.h>
-#include <be/support/Locker.h>
+#include <support/Locker.h>
 #include <ArpSupport/ArpSafeDelete.h>
 #include <GlPublic/GlDefs.h>
 

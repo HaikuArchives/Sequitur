@@ -23,10 +23,10 @@
 #ifndef ARPVIEWS_ARPFLOATCONTROL_H
 #define ARPVIEWS_ARPFLOATCONTROL_H
 
-#include <be/app/Invoker.h>
-#include <be/app/MessageRunner.h>
-#include <be/interface/View.h>
-#include <be/support/String.h>
+#include <app/Invoker.h>
+#include <app/MessageRunner.h>
+#include <interface/View.h>
+#include <support/String.h>
 class ArpInlineTextView;
 
 enum {

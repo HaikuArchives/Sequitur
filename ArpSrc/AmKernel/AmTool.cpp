@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <string.h>
-#include <be/app/Application.h>
-#include <be/app/Roster.h>
-#include <be/storage/Entry.h>
-#include <be/storage/Path.h>
+#include <app/Application.h>
+#include <app/Roster.h>
+#include <storage/Entry.h>
+#include <storage/Path.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpPrefsI.h"
 #include "AmPublic/AmFilterI.h"

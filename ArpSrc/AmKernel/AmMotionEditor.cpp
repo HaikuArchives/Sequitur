@@ -1,9 +1,9 @@
 /* AmEditMotionWindow.cpp
  */
 #include <vector.h>
-#include <be/experimental/BitmapTools.h>
-#include <be/InterfaceKit.h>
-#include <be/support/String.h>
+#include <experimental/BitmapTools.h>
+#include <InterfaceKit.h>
+#include <support/String.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpKernel/ArpBitmapCache.h"
 #include "ArpViewsPublic/ArpViewDefs.h"

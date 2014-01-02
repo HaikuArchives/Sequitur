@@ -31,7 +31,7 @@
 #ifndef ARPINTERFACE_ARPPOPUPMENU_H
 #define ARPINTERFACE_ARPPOPUPMENU_H
 
-#include <be/interface/PopUpMenu.h>
+#include <interface/PopUpMenu.h>
 #include <ArpInterface/ViewTools.h>
 
 /***************************************************************************

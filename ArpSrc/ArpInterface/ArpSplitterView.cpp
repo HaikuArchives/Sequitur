@@ -1,9 +1,9 @@
 #include <assert.h>
 #include <stdio.h>
-#include <be/app/Cursor.h>
-#include <be/app/Message.h>
-#include <be/interface/Window.h>
-#include <be/support/Errors.h>
+#include <app/Cursor.h>
+#include <app/Message.h>
+#include <interface/Window.h>
+#include <support/Errors.h>
 #include <ArpKernel/ArpDebug.h>
 #include "ArpInterface/ArpSplitterView.h"
 

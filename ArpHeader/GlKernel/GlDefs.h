@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 #include <ArpCore/String16.h>
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 
 extern const int32		GL_ROOT_KEY;
 extern const int32		GL_WRAPPER_KEY;

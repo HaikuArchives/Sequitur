@@ -17,8 +17,8 @@
 #include <stdio.h>
 #include <memory.h>
 
-#include <be/experimental/ColorTools.h>
-#include <be/experimental/BitmapTools.h>
+#include <experimental/ColorTools.h>
+#include <experimental/BitmapTools.h>
 
 namespace BPrivate {
 

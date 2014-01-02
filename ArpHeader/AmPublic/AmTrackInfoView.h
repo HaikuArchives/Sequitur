@@ -35,8 +35,8 @@
 #ifndef AMPUBLIC_AMTRACKINFOVIEW_H
 #define AMPUBLIC_AMTRACKINFOVIEW_H
 
-#include <be/app/Message.h>
-#include <be/interface/View.h>
+#include <app/Message.h>
+#include <interface/View.h>
 #include "AmPublic/AmDefs.h"
 #include "AmPublic/AmSongRef.h"
 class BMenuItem;
