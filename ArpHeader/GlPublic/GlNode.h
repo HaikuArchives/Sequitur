@@ -32,7 +32,6 @@
 #define GLPUBLIC_GLNODE2_H
 
 #include <ArpCore/ArpCoreDefs.h>
-#include <ArpCore/ArpSynchronization.h>
 #include <ArpCore/String16.h>
 #include <be/app/Message.h>
 #include <be/interface/Rect.h>

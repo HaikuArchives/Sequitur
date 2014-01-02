@@ -69,7 +69,7 @@ void GlMidiBinding::GetValueRange(float* min, float* max) const
 
 const BString16* GlMidiBinding::PortName() const
 {
-	if (Flags()&FAKE_F) return portname.String();
+	if (Flags()&FAKE_F) return &portname;
 	return event.PortName();
 }
 
@@ -126,13 +126,13 @@ status_t GlMidiBinding::WriteTo(BMessage& msg) const
 {
 	status_t		err = B_OK;
 	if (Flags()&FAKE_F) {
-		if ((err = event.WriteFakeTo(msg, portname.String())) != B_OK) return err;
+		if ((err = event.WriteFakeTo(msg, &portname)) != B_OK) return err;
 	} else {
 		if ((err = event.WriteTo(msg, true)) != B_OK) return err;
 	}
 	
 	if ((err = msg.AddInt32(RT_STR, rt)) != B_OK) return err;
-	if ((err = msg.AddString16(FN_STR, filename)) != B_OK) return err;
+	if ((err = msg.AddString(FN_STR, filename)) != B_OK) return err;
 	if ((err = msg.AddInt32(RI_STR, rootIndex)) != B_OK) return err;
 	if ((err = msg.AddInt32(PI_STR, paramIndex)) != B_OK) return err;
 	if ((err = msg.AddFloat(MIN_STR, mMin)) != B_OK) return err;
@@ -154,7 +154,7 @@ status_t GlMidiBinding::ReadFrom(const BMessage& msg, uint32 flags)
 	}
 
 	if ((err = msg.FindInt32(RT_STR, &rt)) != B_OK) return err;
-	if ((err = msg.FindString16(FN_STR, &filename)) != B_OK) return err;
+	if ((err = msg.FindString(FN_STR, &filename)) != B_OK) return err;
 	if ((err = msg.FindInt32(RI_STR, &rootIndex)) != B_OK) return err;
 	if ((err = msg.FindInt32(PI_STR, &paramIndex)) != B_OK) return err;
 	if ((err = msg.FindFloat(MIN_STR, &mMin)) != B_OK) return err;
@@ -165,7 +165,7 @@ status_t GlMidiBinding::ReadFrom(const BMessage& msg, uint32 flags)
 
 void GlMidiBinding::Print() const
 {
-	printf("GlMidiBinding rt %s on %s (root %ld param %ld)\n\t", gl_midi_label(rt),
+	printf("GlMidiBinding rt %s on %s (root %ld param %ld)\n\t", gl_midi_label(rt)->String(),
 			filename.String(), rootIndex, paramIndex);
 	event.Print();
 }

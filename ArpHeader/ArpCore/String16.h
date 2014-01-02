@@ -1,8 +1,34 @@
 //Temporary fix
+#ifndef ARP_CORE_STRING16_H
+#define ARP_CORE_STRING16_H
+
 #include <String.h>
+#include <stdlib.h>
 
 class BString16 : public BString {
 public:
+	BString16()
+	:
+	BString()
+	{
+		
+	}
+	BString16(const BString16* str)
+	:
+	BString()
+	{
+		SetTo(str->String());
+	}
+	BString16(const char* str)
+	:
+	BString()
+	{
+		SetTo(str);
+	}
+	operator const char*()
+	{
+		return String();
+	}
 	void	SetTo(const char* str, int32 maxLength)
 	{
 		BString::SetTo(str, maxLength);
@@ -34,6 +60,27 @@ public:
 	{
 		fPointer = NULL;
 	}
+	
+	void	operator=(const char*a)
+	{
+		SetTo(a);
+	}
+	
+	int32	AsInt32()
+	{
+		return atoi(String());
+	}
+	int32	AsInt32() const
+	{
+		return atoi(String());
+	}
+	
+	void	operator=(const char*a) const
+	{
+		const_cast<BString16*>(this)->SetTo(a);
+	}
 private:
 	char* fPointer;
 };
+
+#endif

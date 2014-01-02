@@ -24,10 +24,10 @@
 #define GLASSLIKE_GLTOOLBAR_H
 
 #include <ArpCore/StlVector.h>
-#include <ArpCore/ArpSynchronization.h>
 #include <be/support/Locker.h>
 #include <ArpSupport/ArpSafeDelete.h>
 #include <GlPublic/GlDefs.h>
+
 class _GlToolBarEntry;
 
 /* GlToolBar Flags()
@@ -64,7 +64,9 @@ public:
 	bool						Matches(int32 type, const BString16* str);
 			
 private:
-	mutable ArpReadWriteLock	mLock;
+	mutable	BLocker				mReadLock;
+	mutable	BLocker				mWriteLock;
+//	mutable ArpReadWriteLock	mLock;
 	uint32						mFlags;
 	int32						mType;
 	BString16					mLabel;

@@ -218,7 +218,7 @@ void GlPrefWin::MidiSelectionChanged()
 		BMessage			items;
 		if (row) {
 			for (uint32 k = 0; k < row->rootNames.size(); k++)
-				items.AddString16("item", row->rootNames[k].String());
+				items.AddString("item", row->rootNames[k].String());
 		}
 		mMidiRootMenu->ReplaceItems(items);
 		int32				index = 0;
@@ -229,7 +229,7 @@ void GlPrefWin::MidiSelectionChanged()
 		BMessage			items;
 		if (row) {
 			for (uint32 k = 0; k < row->paramNames.size(); k++)
-				items.AddString16("item", row->paramNames[k].String());
+				items.AddString("item", row->paramNames[k].String());
 		}
 		mMidiParamMenu->ReplaceItems(items);
 		int32				index = 0;
@@ -438,7 +438,7 @@ status_t GlPrefWin::BuildRootMenu()
 					BString16	lbl;
 					if (_get_label(rootMsg, lbl) == B_OK) {
 						row->rootNames.push_back(lbl);
-						items.AddString16("item", lbl);
+						items.AddString("item", lbl);
 					}
 				}
 				rootMsg.MakeEmpty();
@@ -472,8 +472,8 @@ status_t GlPrefWin::BuildParamMenu()
 				ArpASSERT(p.nid && p.pt && p.label);
 				uint32			flags = p.pt->StateFlags();
 				if (!(flags&GL_ROOT_INFO_F)) {
-					row->paramNames.push_back(p.label);
-					items.AddString16(ARP_MENU_ITEM_STR, p.label);
+					row->paramNames.push_back(*p.label);
+					items.AddString(ARP_MENU_ITEM_STR, *p.label);
 					items.AddInt32(ARP_MENU_ID_STR, count);
 					if (index < 0) index = count;
 				}
@@ -507,13 +507,13 @@ void GlPrefWin::AddViews(const BMessage& prefs)
 		BView*		v = new BView(f, "button_panel", B_FOLLOW_LEFT_RIGHT | B_FOLLOW_BOTTOM, 0);
 		if (v) {
 			BRect		f( b.right - edgeR - buttonW, edgeT, b.right - edgeR, edgeT + buttonH );
-			BButton*	button = new BButton( f, "ok_button", SZ(SZ_OK), new BMessage( OK_MSG ), B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM );
+			BButton*	button = new BButton( f, "ok_button", SZ(SZ_OK)->String(), new BMessage( OK_MSG ), B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM );
 			if (button) {
 				v->AddChild( button );
 				button->MakeDefault( true );
 			}
 			f.OffsetBy( 0-(buttonW + 10), 0 );	
-			button = new BButton( f, "cancel_button", SZ(SZ_Cancel), new BMessage( CANCEL_MSG ), B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM );
+			button = new BButton( f, "cancel_button", SZ(SZ_Cancel)->String(), new BMessage( CANCEL_MSG ), B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM );
 			if (button) v->AddChild(button);
 
 //			v->SetViewColor(Prefs().Color(AM_AUX_WINDOW_BG_C));
@@ -542,7 +542,7 @@ BView* GlPrefWin::NewGeneralView(BRect frame, const BMessage& prefs)
 	v->SetViewColor( Prefs().GetColor(ARP_WIN_BG_C) );
 	float					padX = Prefs().GetFloat(ARP_PADX_F),
 							padY = Prefs().GetFloat(ARP_PADY_F);
-	float					div = v->StringWidth(SZ(SZ_Creator)) + 5;
+	float					div = v->StringWidth(SZ(SZ_Creator)->String()) + 5;
 	float					w = div + 150;
 	BRect					f(padX, padY, padX + w, padY + Prefs().GetInt32(ARP_TEXTCTRL_Y));
 	f.right = ARP_MIN(f.right, frame.Width() - padX);
@@ -552,7 +552,7 @@ BView* GlPrefWin::NewGeneralView(BRect frame, const BMessage& prefs)
 	GlKeyTracker&			tracker = gl_app->KeyTracker();
 	tracker.GetCurrent(creatorInit, &keyInit);
 		
-	mCreator = new BTextControl(f, NULL, SZ(SZ_Creator), creatorInit.String(), new BMessage(_CREATOR_MSG));
+	mCreator = new BTextControl(f, NULL, SZ(SZ_Creator)->String(), creatorInit.String(), new BMessage(_CREATOR_MSG));
 	if (mCreator) {
 		mCreator->SetDivider(div);
 		v->AddChild(mCreator);
@@ -577,9 +577,9 @@ BView* GlPrefWin::NewMidiView(BRect frame, const BMessage& prefs)
 	v->SetViewColor( Prefs().GetColor(ARP_WIN_BG_C) );
 	float					padX = Prefs().GetFloat(ARP_PADX_F),
 							padY = Prefs().GetFloat(ARP_PADY_F);
-	float					captureW = v->StringWidth(SZ(SZ_Learn_One)),
-							learnManyW = v->StringWidth(SZ(SZ_Learn_Many)),
-							deleteW = v->StringWidth(SZ(SZ_Delete));
+	float					captureW = v->StringWidth(SZ(SZ_Learn_One)->String()),
+							learnManyW = v->StringWidth(SZ(SZ_Learn_Many)->String()),
+							deleteW = v->StringWidth(SZ(SZ_Delete)->String());
 	float					buttonW = ARP_MAX(captureW, learnManyW), buttonH = 24;
 	buttonW = ARP_MAX(buttonW, deleteW) + 10;
 	float					col1R = (frame.Width() * 0.5f) - padX;
@@ -599,17 +599,17 @@ BView* GlPrefWin::NewMidiView(BRect frame, const BMessage& prefs)
 	r.right = r.left + buttonW;
 	r.top = r.bottom + padY;
 	r.bottom = r.top + buttonH;
-	mMidiLearnOne = new BButton(r, NULL, SZ(SZ_Learn_One), new BMessage(LEARN_ONE_MSG), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
+	mMidiLearnOne = new BButton(r, NULL, SZ(SZ_Learn_One)->String(), new BMessage(LEARN_ONE_MSG), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
 	if (mMidiLearnOne) v->AddChild(mMidiLearnOne);
 	// Learn many
 	r.left = r.right + padX;
 	r.right = r.left + buttonW;
-	mMidiLearnMany = new BButton(r, NULL, SZ(SZ_Learn_Many), new BMessage(LEARN_MANY_MSG), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM );
+	mMidiLearnMany = new BButton(r, NULL, SZ(SZ_Learn_Many)->String(), new BMessage(LEARN_MANY_MSG), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM );
 	if (mMidiLearnMany) v->AddChild(mMidiLearnMany);
 	// Delete
 	r.left = r.right + padX;
 	r.right = r.left + buttonW;
-	mMidiDelete = new BButton(r, NULL, SZ(SZ_Delete), new BMessage(DELETE_MSG), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM );
+	mMidiDelete = new BButton(r, NULL, SZ(SZ_Delete)->String(), new BMessage(DELETE_MSG), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM );
 	if (mMidiDelete) {
 //		if (!mMidiListView || !(mMidiListView->CurrentSelection()))
 //			mMidiDelete->SetEnabled(false);
@@ -618,9 +618,9 @@ BView* GlPrefWin::NewMidiView(BRect frame, const BMessage& prefs)
 	
 	/* Second column: File name control, menu for grid, menu for parameter
 	 */
-	float					rtW = v->StringWidth(SZ(SZ_Control)),
-							rootW = v->StringWidth(SZ(SZ_Root)),
-							paramW = v->StringWidth(SZ(SZ_Parameter));
+	float					rtW = v->StringWidth(SZ(SZ_Control)->String()),
+							rootW = v->StringWidth(SZ(SZ_Root)->String()),
+							paramW = v->StringWidth(SZ(SZ_Parameter)->String());
 	float					div = ARP_MAX(rtW, rootW);
 	div = ARP_MAX(div, paramW) + 5;
 	r.Set(col1R + padX, padY, frame.Width() - padX, padY + Prefs().GetInt32(ARP_MENUCTRL_Y));
@@ -633,7 +633,7 @@ BView* GlPrefWin::NewMidiView(BRect frame, const BMessage& prefs)
 	for (int32 k = -1; k < 26; k++) {
 		const BString16*	str = gl_midi_label(k);
 		if (str) {
-			items.AddString16(ARP_MENU_ITEM_STR, str);
+			items.AddString(ARP_MENU_ITEM_STR, *str);
 			items.AddInt32(ARP_MENU_I_STR, k);
 		}
 	}
@@ -686,10 +686,10 @@ GlMidiBindingsListView::GlMidiBindingsListView(	BRect frame,
 					B_WILL_DRAW, B_PLAIN_BORDER),
 		  mPrefWin(win)
 {
-	AddColumn(new BStringColumn(SZ(SZ_Port), 100, 20, 250, B_TRUNCATE_END), PORT_COL);
-	AddColumn(new BStringColumn(SZ(SZ_Channel), 50, 20, 100, B_TRUNCATE_END), CHANNEL_COL);
-	AddColumn(new BStringColumn(SZ(SZ_Event), 100, 20, 250, B_TRUNCATE_END), EVENT_COL);
-	AddColumn(new BStringColumn(SZ(SZ_Controller), 100, 20, 250, B_TRUNCATE_END), CONTROLLER_COL);
+	AddColumn(new BStringColumn(SZ(SZ_Port)->String(), 100, 20, 250, B_TRUNCATE_END), PORT_COL);
+	AddColumn(new BStringColumn(SZ(SZ_Channel)->String(), 50, 20, 100, B_TRUNCATE_END), CHANNEL_COL);
+	AddColumn(new BStringColumn(SZ(SZ_Event)->String(), 100, 20, 250, B_TRUNCATE_END), EVENT_COL);
+	AddColumn(new BStringColumn(SZ(SZ_Controller)->String(), 100, 20, 250, B_TRUNCATE_END), CONTROLLER_COL);
 	SetSortingEnabled(false);
 	SetSelectionMode(B_SINGLE_SELECTION_LIST);
 }
@@ -779,8 +779,8 @@ GlMidiBindingRow::GlMidiBindingRow(	GlMidiEvent event,
 	if (b) binding = *b;
 	binding.event = event;
 	const BString16*	portName = binding.PortName();
-	if (portName) SetField(new BStringField(portName), PORT_COL);
-	else SetField(new BStringField(SZ(SZ_error)), PORT_COL);
+	if (portName) SetField(new BStringField(portName->String()), PORT_COL);
+	else SetField(new BStringField(SZ(SZ_error)->String()), PORT_COL);
 	BString16			str;
 	str << binding.event.channel;
 	SetField(new BStringField(str.String()), CHANNEL_COL);
@@ -789,9 +789,9 @@ GlMidiBindingRow::GlMidiBindingRow(	GlMidiEvent event,
 		str = "Controller ";
 		str << binding.event.value1;
 		SetField(new BStringField(str.String()), EVENT_COL);
-	} else SetField(new BStringField(SZ(SZ_Unknown_event)), EVENT_COL);
+	} else SetField(new BStringField(SZ(SZ_Unknown_event)->String()), EVENT_COL);
 
-	SetField(new BStringField(gl_midi_label(binding.rt)), CONTROLLER_COL);
+	SetField(new BStringField(gl_midi_label(binding.rt)->String()), CONTROLLER_COL);
 }
 
 GlMidiBindingRow::~GlMidiBindingRow()
@@ -826,7 +826,7 @@ int32 GlMidiBindingRow::Rt() const
 void GlMidiBindingRow::SetRt(int32 midi)
 {
 	binding.rt = midi;
-	SetField(new BStringField(gl_midi_label(midi)), CONTROLLER_COL);
+	SetField(new BStringField(gl_midi_label(midi)->String()), CONTROLLER_COL);
 	mDirty = true;
 }
 

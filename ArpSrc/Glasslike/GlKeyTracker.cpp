@@ -132,7 +132,7 @@ _GlKeyTrackerEntry& _GlKeyTrackerEntry::operator=(const _GlKeyTrackerEntry& o)
 status_t _GlKeyTrackerEntry::ReadFrom(const BMessage& config)
 {
 	config.FindInt32(GL_ROOT_KEY_STR, &key);
-	status_t		err = config.FindString16(GL_ROOT_CREATOR_STR, &creator);
+	status_t		err = config.FindString(GL_ROOT_CREATOR_STR, &creator);
 	if (err != B_OK) return err;
 	if (creator.Length() < 1) return B_ERROR;
 	return B_OK;
@@ -142,7 +142,7 @@ status_t _GlKeyTrackerEntry::WriteTo(BMessage& config) const
 {
 	if (creator.Length() < 1) return B_ERROR;
 	status_t		err;
-	if ((err = config.AddString16(GL_ROOT_CREATOR_STR, creator)) != B_OK) return err;
+	if ((err = config.AddString(GL_ROOT_CREATOR_STR, creator)) != B_OK) return err;
 	if ((err = config.AddInt32(GL_ROOT_KEY_STR, key)) != B_OK) return err;
 	return B_OK;
 }

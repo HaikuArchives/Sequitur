@@ -80,7 +80,7 @@ public:
 
 private:
 	typedef GlNode				inherited;
-	mutable ArpReadWriteLock	mLock;
+//	mutable ArpReadWriteLock	mLock;
 	BMessage					mInfoChanges, mNodeChanges,
 								mChainChanges;
 	
