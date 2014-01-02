@@ -111,8 +111,8 @@ public:
 
 	// Deal with relational comparisons of two references
 #define	RELOP(OP)													\
-	friend bool operator OP(const ArpRef<T>& a, const ArpRef<T>& b)	\
-		{ return a.object OP b.object; }
+	bool operator OP(const ArpRef<T>& a)	\
+		{ return this.object OP a.object; }
 
 	RELOP(<) RELOP(>) RELOP(<=) RELOP(>=)
 #undef	RELOP

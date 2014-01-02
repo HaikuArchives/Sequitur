@@ -4,7 +4,7 @@
 #include "AmPublic/AmFilterConfigLayout.h"
 #endif
 
-#include <experimental/ResourceSet.h>
+#include <be/experimental/ResourceSet.h>
 
 #ifndef ARPKERNEL_ARPDEBUG_H
 #include <ArpKernel/ArpDebug.h>

@@ -76,6 +76,12 @@ static BLocker gSkinAccess;
 static BSearchPath gSkinPath;
 static BString gSkinFile;
 
+AmGlobalsI&
+SeqApplication::AmGlobals()
+{
+	return mAmGlobals;
+}
+
 BResourceSet& Resources()
 {
 	if (!gResources) gResources = new BResourceSet();

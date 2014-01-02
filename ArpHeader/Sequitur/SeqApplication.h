@@ -25,7 +25,7 @@ public:
 	SeqApplication();
 	virtual ~SeqApplication();
 
-	AmGlobalsI& AmGlobals()				{ return mAmGlobals; }
+	AmGlobalsI& AmGlobals();
 
 	virtual void	MessageReceived(BMessage* msg);
 	virtual void	ArgvReceived(int32 argc, char** argv);

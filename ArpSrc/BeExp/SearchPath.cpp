@@ -21,9 +21,9 @@
 #endif
 
 #if B_BEOS_VERSION_DANO
-#ifndef _STREAM_IO_H
-#include <StreamIO.h>
-#endif
+//#ifndef _STREAM_IO_H
+//#include <StreamIO.h>
+//#endif
 #endif
 
 #ifndef __BSTRING__

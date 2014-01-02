@@ -142,7 +142,7 @@ private:
 class _AbstractBankRow : public BRow
 {
 public:
-	ArpRef<AmBank>		Bank() const		{ return mBank; }
+	ArpRef<AmBank>		Bank() const;
 
 	virtual void		SelectionSetup(BTextControl* valueCtrl);
 	/* If subclasses supply 'true' to updateAll, then all rows
@@ -157,6 +157,11 @@ protected:
 	ArpRef<AmBank>		mBank;
 };
 
+ArpRef<AmBank>
+_AbstractBankRow::Bank() const
+{
+	return mBank;
+}
 /********************************************************
  * _BANK-ROW
  ********************************************************/
