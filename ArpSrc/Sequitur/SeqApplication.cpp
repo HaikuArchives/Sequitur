@@ -80,6 +80,7 @@ BResourceSet& Resources()
 {
 	if (!gResources) gResources = new BResourceSet();
 	if (atomic_or(&gInitResources, 1) == 0) {
+		//TODO:
 		//gResources->AddResources((*void)Resources);
 		if (gSkinFile.Length() > 0) {
 			BAutolock _l(gSkinAccess);
@@ -126,6 +127,7 @@ status_t seq_make_skin_menu(BMenu* into, BMessage* baseMsg)
 	return B_OK;
 }
 
+//TODO:
 /*static
 DocWindow *myfactory(entry_ref *ref, const char *title,
 		window_look look, window_feel feel, uint32 flags, uint32 workspace)
