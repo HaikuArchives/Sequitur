@@ -80,8 +80,7 @@ BResourceSet& Resources()
 {
 	if (!gResources) gResources = new BResourceSet();
 	if (atomic_or(&gInitResources, 1) == 0) {
-		//TODO:
-		//gResources->AddResources((*void)Resources);
+		gResources->AddResources((void*)Resources);
 		if (gSkinFile.Length() > 0) {
 			BAutolock _l(gSkinAccess);
 			for (int32 i=0; i<gSkinPath.CountDirectories(); i++) {
