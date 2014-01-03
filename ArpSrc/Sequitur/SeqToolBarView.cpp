@@ -1,8 +1,8 @@
 /* SeqToolBarView.cpp
  */
 #include <stdio.h>
-#include <be/app/Application.h>
-#include <be/InterfaceKit.h>
+#include <app/Application.h>
+#include <InterfaceKit.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpViewDefs.h"

@@ -12,7 +12,7 @@
 #endif
 
 #ifndef _MEDIA_ROSTER_H
-#include <be/media/MediaRoster.h>
+#include <media/MediaRoster.h>
 #endif
 
 #include "AmPublic/AmPrefsI.h"
@@ -27,6 +27,12 @@
 #include <MidiProducer.h>
 #include <MidiRoster.h>
 #include <string.h>
+#include <map>
+
+#ifdef __HAIKU__
+#include <FindDirectory.h>
+#include <Path.h>
+#endif
 
 const char* SZ_FILTER_ADD_ON = "seqf:add-on";
 
@@ -574,11 +580,17 @@ static FilterRosterCleanup gFilterRosterCleanup;
 AmFilterRoster* AmFilterRoster::Default()
 {
 	if (atomic_or(&gFilterRosterCreated, 1) == 0) {
+		BPath dir;
+		
 		gFilterRoster = new AmFilterRoster("Default Filter Roster");
 		
 		gFilterRoster->AddSearchPath("%A/add-ons/Filters");
-		gFilterRoster->AddDirectory(B_COMMON_ADDONS_DIRECTORY,"AngryRedPlanet/Sequitur/Filters");
-		gFilterRoster->AddDirectory(B_USER_ADDONS_DIRECTORY,"AngryRedPlanet/Sequitur/Filters");
+		
+		find_directory(B_SYSTEM_ADDONS_DIRECTORY, &dir);
+		gFilterRoster->AddDirectory(dir.Path(), "AngryRedPlanet/Sequitur/Filters");
+		
+		find_directory(B_USER_ADDONS_DIRECTORY, &dir);
+		gFilterRoster->AddDirectory(dir.Path(), "AngryRedPlanet/Sequitur/Filters");
 		
 		// Here are our standard filter addons...
 		AmFilterAddOn *addon;

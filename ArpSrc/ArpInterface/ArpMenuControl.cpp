@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <be/interface/Menu.h>
-#include <be/interface/MenuItem.h>
+#include <interface/Menu.h>
+#include <interface/MenuItem.h>
 #include <ArpCore/StlVector.h>
 #include <ArpInterface/ArpMenuControl.h>
 #include <ArpCore/String16.h>

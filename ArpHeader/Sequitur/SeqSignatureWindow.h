@@ -23,12 +23,12 @@
 #ifndef SEQUITUR_SEQSIGNATUREWINDOW_H
 #define SEQUITUR_SEQSIGNATUREWINDOW_H
 
-#include <be/interface/Button.h>
-#include <be/interface/CheckBox.h>
-#include <be/interface/MenuField.h>
-#include <be/interface/RadioButton.h>
-#include <be/interface/StringView.h>
-#include <be/interface/Window.h>
+#include <interface/Button.h>
+#include <interface/CheckBox.h>
+#include <interface/MenuField.h>
+#include <interface/RadioButton.h>
+#include <interface/StringView.h>
+#include <interface/Window.h>
 #include "AmPublic/AmSongObserver.h"
 #include "AmPublic/AmTrackRef.h"
 class ArpIntControl;

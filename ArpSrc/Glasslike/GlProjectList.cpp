@@ -1,4 +1,4 @@
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #include <ArpMath/ArpDefs.h>
 #include <ArpInterface/ArpPrefs.h>
 #include <GlPublic/GlNode.h>

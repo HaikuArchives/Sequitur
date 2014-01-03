@@ -26,7 +26,7 @@
 #define SEQUITUR_SEQSONGINDEXMATRIXVIEW_H
 
 #include <vector.h>
-#include <be/interface/View.h>
+#include <interface/View.h>
 #include "AmPublic/AmSongRef.h"
 class SeqSongSelections;
 class SeqSongWinPropertiesI;

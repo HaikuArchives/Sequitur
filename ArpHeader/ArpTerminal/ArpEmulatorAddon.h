@@ -44,7 +44,7 @@
 #ifndef ARPTERMINAL_ARPEMULATORADDON_H
 #define ARPTERMINAL_ARPEMULATORADDON_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 #if !defined(_EXPORT)
 #define _EXPORT
 #endif

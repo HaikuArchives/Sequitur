@@ -7,7 +7,7 @@
 
 #include <ArpLayout/ArpViewWrapper.h>
 
-#include <be/interface/CheckBox.h>
+#include <interface/CheckBox.h>
 
 #ifndef ARPKERNEL_ARPDEBUG_H
 #include <ArpKernel/ArpDebug.h>

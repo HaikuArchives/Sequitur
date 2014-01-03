@@ -89,7 +89,7 @@ endif
 
 #	specify any additional system include paths.
 	SYSTEM_INCLUDES		=
-	SYSLOCAL_INCLUDES	= $(ARPROOT)/ArpHeader/
+	SYSLOCAL_INCLUDES	= /boot/system/develop/headers/private $(ARPROOT)/ArpHeader/
 
 #	specify any additional local include paths.
 	LOCAL_INCLUDES	= $(ARPROOT)/ArpHeader/

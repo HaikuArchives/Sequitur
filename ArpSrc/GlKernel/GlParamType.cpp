@@ -1,4 +1,4 @@
-#include <be/app/Message.h>
+#include <app/Message.h>
 #include <GlPublic/GlParam.h>
 #include <GlPublic/GlParamType.h>
 #include <GlPublic/GlParamWrap.h>

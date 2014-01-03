@@ -16,8 +16,8 @@
  * Created this file
  */
 
-#include <be/app/Message.h>
-#include <be/interface/View.h>
+#include <app/Message.h>
+#include <interface/View.h>
 #include "AmPublic/AmFilterI.h"
 
 /* This is probably defined somewhere but it's been too long.

@@ -14,31 +14,31 @@
 #include "ArpKernel/ArpDocumentButton.h"
 
 #ifndef _WINDOW_H
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #endif
 
 #ifndef _SCREEN_H
-#include <be/interface/Screen.h>
+#include <interface/Screen.h>
 #endif
 
 #ifndef _APPLICATION_H
-#include <be/app/Application.h>
+#include <app/Application.h>
 #endif
 
 #ifndef _ROSTER_H
-#include <be/app/Roster.h>
+#include <app/Roster.h>
 #endif
 
 #ifndef _APPFILEINFO_H
-#include <be/storage/AppFileInfo.h>
+#include <storage/AppFileInfo.h>
 #endif
 
 #ifndef _FILE_H
-#include <be/storage/File.h>
+#include <storage/File.h>
 #endif
 
 #ifndef _TRANSLATION_UTILS_H
-#include <be/translation/TranslationUtils.h>
+#include <translation/TranslationUtils.h>
 #endif
 
 #ifndef ARPKERNEL_ARPDEBUG_H
@@ -495,7 +495,7 @@ status_t ArpDocumentButton::InvokeReply(BMessage* msg)
 	BMessage reply;
 	ArpD(cdb << ADH << "Sending message to target." << endl);
 	status_t err = Messenger().SendMessage(msg, &reply);
-	ArpD(cdb << ADH << "Reply status=" << err << ", msg=" << reply << endl);
+	ArpD(cdb << ADH << "Reply status=" << (err == B_OK) << ", msg=" << reply << endl);
 	if( !err ) {
 		msg->SendReply(&reply, this);
 	}
@@ -600,8 +600,8 @@ status_t ArpDocumentButton::GetDropAction(BMessage* out, const BMessage* in,
 	int32 inAction=0;
 	for( i=0; !inAction && mDropPrototype.FindInt32("be:actions", i, &dropAction)==B_OK; i++ ) {
 		for( j=0; in->FindInt32("be:actions", j, &inAction)==B_OK; j++ ) {
-			ArpD(cdb << ADH << "Comparing action proto #" << i << " (" << dropAction
-						<< ") with given #" << j << " (" << inAction << ")..."
+			ArpD(cdb << ADH << "Comparing action proto #" << i << " (" << (int)dropAction
+						<< ") with given #" << j << " (" << (int)inAction << ")..."
 						<< endl);
 			if( dropAction == inAction ) {
 				ArpD(cdb << ADH << "Match!" << endl);

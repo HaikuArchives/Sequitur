@@ -4,14 +4,13 @@
 #include <assert.h>
 #include <malloc.h>
 #include <stdio.h>
-#include <be/app/Roster.h>
-#include <be/experimental/BitmapTools.h>
-#include <be/InterfaceKit.h>
-#include <be/midi2/MidiConsumer.h>
-#include <be/midi2/MidiRoster.h>
-#include <be/StorageKit.h>
-#include <be/support/Autolock.h>
-#include <be/TranslationKit.h>
+#include <app/Roster.h>
+#include <InterfaceKit.h>
+#include <midi2/MidiConsumer.h>
+#include <midi2/MidiRoster.h>
+#include <StorageKit.h>
+#include <support/Autolock.h>
+#include <TranslationKit.h>
 #include "ArpKernel/ArpAboutWindow.h"
 #include "ArpKernel/ArpBitmapTools.h"
 #include "ArpKernel/ArpBitmapWrite.h"
@@ -41,6 +40,7 @@
 #include "Sequitur/SeqTempoViewFactory.h"
 #include "AmStdFactory/AmStdViewFactory.h"
 #include "AmKernel/AmFileRosters.h"
+#include "AmPublic/AmGlobalsI.h"
 
 #include "SearchPath.h"
 
@@ -93,7 +93,7 @@ BResourceSet& Resources()
 					if (file.InitCheck() == B_OK) {
 						BResources* r = new BResources;
 						if (r->SetTo(&file) == B_OK) {
-							gResources->AddResources(r, true);
+							gResources->AddResources(r);
 							break;
 						} else {
 							delete r;
@@ -126,12 +126,13 @@ status_t seq_make_skin_menu(BMenu* into, BMessage* baseMsg)
 	return B_OK;
 }
 
-static
-DocWindow *myfactory(WindowRoster *wr, entry_ref *ref, const char *title,
+//TODO:
+/*static
+DocWindow *myfactory(entry_ref *ref, const char *title,
 		window_look look, window_feel feel, uint32 flags, uint32 workspace)
 {
 	return new SeqSongWindow(wr, ref, title, look, feel, flags, workspace);
-}
+}*/
 
 static bool		gIsQuitting = false;
 
@@ -241,7 +242,7 @@ private:
  * SEQ-APPLICATION
  ****************************************************************************/
 SeqApplication::SeqApplication()
-		: inherited(app_signature, myfactory),
+		: inherited(app_signature),
 		  mGrossErrorHack(false)
 {
 	AM_LOG("SeqApplication::SeqApplication() 1\n");	
@@ -746,7 +747,7 @@ void SeqApplication::ApplyPreferences(const BMessage* from)
 void SeqApplication::ApplySettings(const BMessage* from)
 {
 	BMessage		msg;
-	if (from->FindMessage(AM_GLOBALS_STR, &msg) == B_OK) AmGlobals().ReadFrom(&msg);
+	if (from->FindMessage(AM_GLOBALS_STR, &msg) == B_OK) mAmGlobals.ReadFrom(&msg);
 	msg.MakeEmpty();
 	/* Read the settings for my auxiliary windows.  NOTE:  It's very
 	 * important to do this before reading the saved windows, because

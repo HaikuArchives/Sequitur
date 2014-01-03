@@ -31,7 +31,7 @@
 #define ARPINTERFACE_ARPPAINTER_H
 
 #include <ArpCore/String16.h>
-#include <be/interface/View.h>
+#include <interface/View.h>
 #include <ArpInterface/ArpInterfaceDefs.h>
 #include <ArpInterface/ArpBitmap.h>
 #include <ArpInterface/ArpFont.h>

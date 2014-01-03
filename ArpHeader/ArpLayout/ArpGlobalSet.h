@@ -37,7 +37,7 @@
 #define ARPLAYOUT_ARPGLOBALSET_H
 
 #ifndef _MESSAGE_H
-#include <be/app/Message.h>
+#include <app/Message.h>
 #endif
 
 class ArpGlobalSetI

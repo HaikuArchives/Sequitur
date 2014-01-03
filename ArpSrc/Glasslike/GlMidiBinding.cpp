@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <be/StorageKit.h>
+#include <StorageKit.h>
 #include <GlPublic/GlGlobalsI.h>
 #include "GlPublic/GlParam.h"
 #include "GlPublic/GlParamType.h"

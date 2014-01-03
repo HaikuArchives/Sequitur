@@ -25,7 +25,7 @@
 #ifndef ARPKERNEL_ARPLINEARRAY_H
 #define ARPKERNEL_ARPLINEARRAY_H
 
-#include <be/interface/View.h>
+#include <interface/View.h>
 
 /***************************************************************************
  * ARP-LINE-ARRAY-CACHE

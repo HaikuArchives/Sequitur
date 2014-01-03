@@ -24,55 +24,55 @@
 #endif
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #ifndef _CLIPBOARD_H
-#include <be/app/Clipboard.h>
+#include <app/Clipboard.h>
 #endif
 
 #ifndef _MENU_ITEM_H
-#include <be/interface/MenuItem.h>
+#include <interface/MenuItem.h>
 #endif
 
 #ifndef _TEXT_VIEW_H
-#include <be/interface/TextView.h>
+#include <interface/TextView.h>
 #endif
 
 #ifndef _SCROLL_VIEW_H
-#include <be/interface/ScrollView.h>
+#include <interface/ScrollView.h>
 #endif
 
 #ifndef _SCROLL_BAR_H
-#include <be/interface/ScrollBar.h>
+#include <interface/ScrollBar.h>
 #endif
 
 #ifndef _BUTTON_H
-#include <be/interface/Button.h>
+#include <interface/Button.h>
 #endif
 
 #ifndef _BOX_H
-#include <be/interface/Box.h>
+#include <interface/Box.h>
 #endif
 
 #ifndef _WINDOW_H
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #endif
 
 #ifndef _APPLICATION_H
-#include <be/app/Application.h>
+#include <app/Application.h>
 #endif
 
 #ifndef _UTF8_H
-#include <be/support/UTF8.h>
+#include <support/UTF8.h>
 #endif
 
 #ifndef _PATH_H
-#include <be/storage/Path.h>
+#include <storage/Path.h>
 #endif
 
 #ifndef _ENTRY_H
-#include <be/storage/Entry.h>
+#include <storage/Entry.h>
 #endif
 
 #include <string.h>

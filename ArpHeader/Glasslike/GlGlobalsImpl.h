@@ -30,7 +30,7 @@
 #ifndef GLASSLIKE_GLGLOBALSIMPL_H
 #define GLASSLIKE_GLGLOBALSIMPL_H
 
-#include <be/StorageKit.h>
+#include <StorageKit.h>
 #include <GlPublic/GlGlobalsI.h>
 #include <GlPublic/GlParamTypeList.h>
 #include <GlKernel/GlNodeRoster.h>

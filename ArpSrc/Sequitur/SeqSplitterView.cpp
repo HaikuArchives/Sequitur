@@ -2,9 +2,9 @@
  */
 #include <assert.h>
 #include <stdio.h>
-#include <be/app/Cursor.h>
-#include <be/app/Message.h>
-#include <be/interface/Window.h>
+#include <app/Cursor.h>
+#include <app/Message.h>
+#include <interface/Window.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpPrefsI.h"
 #include "AmPublic/AmDefs.h"
@@ -26,8 +26,8 @@ SeqSplitterView::SeqSplitterView(	BRect frame,
 		  mDirection(direction), mDrawingFlags(0),
 		  mMouseDown(false), mPointDown(0, 0), mFrameDown(0, 0, 0, 0)
 {
-	if (!gHrzCursor) gHrzCursor = Resources().FindCursor("Hrz Splitter");
-	if (!gVrtCursor) gVrtCursor = Resources().FindCursor("Vrt Splitter");
+	//if (!gHrzCursor) gHrzCursor = Resources().FindCursor("Hrz Splitter");
+	//if (!gVrtCursor) gVrtCursor = Resources().FindCursor("Vrt Splitter");
 }
 
 SeqSplitterView::~SeqSplitterView()

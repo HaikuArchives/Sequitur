@@ -5,7 +5,7 @@
 
 #include <vector>
 #include <map>
-#include <be/midi/MidiDefs.h>
+#include <midi/MidiDefs.h>
 #include "AmKernel/AmPerformer.h"
 #include "AmKernel/AmEvents.h"
 #include "AmFilterTest1.h"

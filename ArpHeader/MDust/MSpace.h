@@ -31,8 +31,8 @@
 #ifndef MDUST_MSPACE_H
 #define MDUST_MSPACE_H
 
-#include <be/midi2/MidiConsumer.h>
-#include <be/midi2/MidiProducer.h>
+#include <midi2/MidiConsumer.h>
+#include <midi2/MidiProducer.h>
 #include "MDustPublic/MSpaceI.h"
 
 /***************************************************************************

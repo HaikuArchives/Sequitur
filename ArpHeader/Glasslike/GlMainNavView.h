@@ -23,9 +23,9 @@
 #ifndef GLASSLIKE_GLMAINNAVVIEW_H
 #define GLASSLIKE_GLMAINNAVVIEW_H
 
-#include <be/app/Messenger.h>
-#include <be/InterfaceKit.h>
-#include <be/support/Locker.h>
+#include <app/Messenger.h>
+#include <InterfaceKit.h>
+#include <support/Locker.h>
 #include <ArpInterface/ArpControlLayer.h>
 #include <Glasslike/GlProjectList.h>
 class GlImage;

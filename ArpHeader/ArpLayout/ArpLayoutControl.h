@@ -56,7 +56,7 @@
 #endif
 
 #ifndef _CONTROL_H
-#include <be/interface/Control.h>
+#include <interface/Control.h>
 #endif
 
 /** -----------------------------------------------------------------------

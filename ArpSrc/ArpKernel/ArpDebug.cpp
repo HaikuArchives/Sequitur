@@ -252,14 +252,14 @@ void ArpAllDebugLevels(int level)
 
 void ArpParseDBOpts(int32& argc, char** argv)
 {
-	ArpDL("core", 1, cdb << "Parsing " << argc << " debug arguments..." << endl);
+	ArpDL("core", 1, cdb << "Parsing " << &argc << " debug arguments..." << endl);
 	
 	if( argv == 0 ) return;
 	
 	int i=1, j=1;
 	while( i < argc ) {
 		ArpDL("core", 1, cdb << "Parse: i=" << i << ", j=" << j
-							<< ", argc=" << argc << ", argv[i]="
+							<< ", argc=" << &argc << ", argv[i]="
 							<< (argv[i] ? argv[i] : "<NULL>") << endl);
 		if( argv[i] && strcmp(argv[i],"--debug") == 0 ) {
 			ArpDL("core", 1, cdb << "Found option: " << argv[i] << endl);
@@ -379,7 +379,7 @@ void ArpParseDBOpts(int32& , char** )
 // ----------------------- IOSTREAM FUNCTIONS -----------------------
 
 #ifndef _APPLICATION_H
-#include <be/app/Application.h>
+#include <app/Application.h>
 #endif
 
 #ifndef _FONT_H
@@ -399,7 +399,7 @@ void ArpParseDBOpts(int32& , char** )
 #endif
 
 #ifndef __BSTRING__
-#include <be/support/String.h>
+#include <support/String.h>
 #endif
 
 #ifndef _FFONT_H
@@ -459,7 +459,8 @@ ostream& operator << (ostream& os, const BMessenger & o)
 	BLooper* loop = NULL;
 	hnd = o.Target(&loop);
 	os << "BMessenger(valid=" << o.IsValid()
-		<< hex << ",team=" << o.Team()
+		//TODO:
+		<< hex //<< ",team=" << o.Team()
 		<< ",hnd=" << hnd << ",lp=" << loop
 		<< dec << ",local=" << o.IsTargetLocal() << ")";
 	os.flags(fl);
@@ -472,9 +473,10 @@ ostream& operator << (ostream& os, const BPath & o)
 ostream& operator << (ostream& os, const entry_ref & o)
 {
 	ios::fmtflags fl = os.flags();
-	os << "entry_ref(dev=" << o.device
-		<< ",dir=" << hex << (int32)(o.directory>>32)
-		<< (int32)(o.directory) << dec
+	//TODO:
+	os // << "entry_ref(dev=" << o.device
+		<< ",dir=" << hex << (int)(o.directory>>32)
+		<< (int)(o.directory) << (int) dec
 		<< ",name=" << o.name << ")";
 	os.flags(fl);
 	return os;
@@ -544,9 +546,10 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 	for( int32 i=0; !msg.GetInfo(B_ANY_TYPE,i,&name,&type,&count);
 			i++ ) {
 		for( int32 j=0; j<count; j++ ) {
+			//TODO:
 			//os << prefix << i << "." << j << ": " << name << "=";
 			os << prefix << name;
-			if( count > 1 ) os << "[" << j << "]";
+			if( count > 1 ) os << "[" << (int) j << "]";
 			os << ": ";
 			switch( type ) {
 			case B_CHAR_TYPE: {
@@ -587,7 +590,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				ssize_t rsize=0;
 				os << "int32(";
 				if( !msg.FindData(name,type,j,(const void**)&getit,&rsize) ) {
-					os << (*getit);
+					os << getit;
 				} else {
 					os << "<not found>";
 				}
@@ -708,7 +711,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				ssize_t rsize=0;
 				os << "ssize_t(";
 				if( !msg.FindData(name,type,j,(const void**)&getit,&rsize) ) {
-					os << hex << "0x" << (*getit) << dec;
+					os << hex << "0x" << getit << dec;
 				} else {
 					os << "<not found>";
 				}
@@ -846,7 +849,8 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				ssize_t rsize=0;
 				os << "monochrome_1_bit(";
 				if( !msg.FindData(name,type,j,&getit,&rsize) ) {
-					os << (void*)(getit) << ", size=" << rsize;
+					//TODO:
+					os << (void*)(getit);// << ", size=" << rsize;
 				} else {
 					os << "<not found>";
 				}
@@ -857,7 +861,8 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				ssize_t rsize=0;
 				os << "grayscale_8_bit(";
 				if( !msg.FindData(name,type,j,&getit,&rsize) ) {
-					os << (void*)(getit) << ", size=" << rsize;
+					//TODO:
+					os << (void*)(getit); // << ", size=" << rsize;
 				} else {
 					os << "<not found>";
 				}
@@ -868,7 +873,8 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				ssize_t rsize=0;
 				os << "color_8_bit(";
 				if( !msg.FindData(name,type,j,&getit,&rsize) ) {
-					os << (void*)(getit) << ", size=" << rsize;
+					//TODO:
+					os << (void*)(getit); // << ", size=" << rsize;
 				} else {
 					os << "<not found>";
 				}
@@ -879,7 +885,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				ssize_t rsize=0;
 				os << "rgb_32_bit(";
 				if( !msg.FindData(name,type,j,&getit,&rsize) ) {
-					os << (void*)(getit) << ", size=" << rsize;
+					os << (void*)(getit); // << ", size=" << rsize;
 				} else {
 					os << "<not found>";
 				}
@@ -890,7 +896,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				ssize_t rsize=0;
 				os << "TIME(";
 				if( !msg.FindData(name,type,j,&getit,&rsize) ) {
-					os << (void*)(getit) << ", size=" << rsize;
+					os << (void*)(getit); // << ", size=" << rsize;
 				} else {
 					os << "<not found>";
 				}
@@ -901,7 +907,8 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				ssize_t rsize=0;
 				os << "RAW(";
 				if( !msg.FindData(name,type,j,&getit,&rsize) ) {
-					os << (void*)(getit) << ", size=" << rsize;
+					//TODO:
+					os << (void*)(getit); // << ", size=" << rsize;
 				} else {
 					os << "<not found>";
 				}
@@ -919,11 +926,11 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 						text_run_array* array
 							= BTextView::UnflattenRunArray((const void*)getit,&mysize);
 						if( array ) {
-							os << "count=" << array->count << ") {"
+							os << "count=" << (int) array->count << ") {"
 								<< endl;
 							for( i=0; i<array->count; i++ ) {
 								os << prefix << "  offset="
-									<< array->runs[i].offset
+									<< (int) array->runs[i].offset
 									<< " color="
 									<< array->runs[i].color
 									<< " font="
@@ -948,7 +955,8 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				ssize_t rsize=0;
 				os << "any(";
 				if( !msg.FindData(name,type,j,&getit,&rsize) ) {
-					os << (void*)(getit) << ", size=" << rsize;
+					//TODO:
+					os << (void*)(getit); // << ", size=" << rsize;
 				} else {
 					os << "<not found>";
 				}

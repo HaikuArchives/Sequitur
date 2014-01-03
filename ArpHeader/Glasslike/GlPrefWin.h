@@ -24,8 +24,8 @@
 #ifndef _GL_PREF_WIN_H
 #define _GL_PREF_WIN_H
 
-#include <be/InterfaceKit.h>
-#include <be/SupportKit.h>
+#include <InterfaceKit.h>
+#include <SupportKit.h>
 #include <ArpCore/StlVector.h>
 #include <ArpInterface/ArpFileNameControl.h>
 #include <ArpInterface/ArpFloatControl.h>

@@ -64,11 +64,11 @@
 #define ARPKERNEL_ARPDOCUMENTBUTTON_H
 
 #ifndef _CONTROL_H
-#include <be/interface/Control.h>
+#include <interface/Control.h>
 #endif
 
 #ifndef _BITMAP_H
-#include <be/interface/Bitmap.h>
+#include <interface/Bitmap.h>
 #endif
 
 class ArpDocumentButton : public BControl

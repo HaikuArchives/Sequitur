@@ -24,7 +24,7 @@
 #ifndef AMKERNEL_AMPROPERTIESTOOL_H
 #define AMKERNEL_AMPROPERTIESTOOL_H
 
-#include <be/support/Locker.h>
+#include <support/Locker.h>
 #include "AmPublic/AmToolTarget.h"
 #include "AmKernel/AmTool.h"
 #include "AmKernel/AmTrack.h"

@@ -22,7 +22,7 @@
 #ifndef AMPUBLIC_AMPIPELINEMATRIXI_H
 #define AMPUBLIC_AMPIPELINEMATRIXI_H
 
-#include <be/app/Message.h>
+#include <app/Message.h>
 #include <UndoContext.h>
 #include "AmPublic/AmDefs.h"
 class AmFilterAddOn;

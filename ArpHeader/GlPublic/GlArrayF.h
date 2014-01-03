@@ -33,7 +33,7 @@
 #ifndef GLPUBLIC_GLARRAYF_H
 #define GLPUBLIC_GLARRAYF_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 
 /*******************************************************
  * GL-ARRAY-F

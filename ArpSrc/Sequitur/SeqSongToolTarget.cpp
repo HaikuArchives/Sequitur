@@ -7,7 +7,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmGlobalsI.h"
 #include "Sequitur/SeqSongSelections.h"

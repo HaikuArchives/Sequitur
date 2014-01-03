@@ -52,27 +52,27 @@ ArpMOD();
 // ---------------------------------------------------------------------------
 
 #ifndef _WINDOW_H
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #endif
 
 #ifndef _SCREEN_H
-#include <be/interface/Screen.h>
+#include <interface/Screen.h>
 #endif
 
 #ifndef _SCROLL_VIEW_H
-#include <be/interface/ScrollView.h>
+#include <interface/ScrollView.h>
 #endif
 
 #ifndef _TEXT_CONTROL_H
-#include <be/interface/TextControl.h>
+#include <interface/TextControl.h>
 #endif
 
 #ifndef _BUTTON_H
-#include <be/interface/Button.h>
+#include <interface/Button.h>
 #endif
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #include <stdlib.h>

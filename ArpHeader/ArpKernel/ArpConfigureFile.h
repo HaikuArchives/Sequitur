@@ -39,31 +39,35 @@
 #endif
 
 #ifndef _MESSAGE_H
-#include <be/app/Message.h>
+#include <app/Message.h>
 #endif
 
 #ifndef _HANDLER_H
-#include <be/app/Handler.h>
+#include <app/Handler.h>
 #endif
 
 #ifndef _MESSENGER_H
-#include <be/app/Messenger.h>
+#include <app/Messenger.h>
 #endif
 
 #ifndef _ENTRY_H
-#include <be/storage/Entry.h>
+#include <storage/Entry.h>
 #endif
 
 #ifndef _FIND_DIRECTORY
-#include <be/storage/FindDirectory.h>
+#include <storage/FindDirectory.h>
 #endif
 
 #ifndef _PATH_H
-#include <be/storage/Path.h>
+#include <storage/Path.h>
 #endif
 
 #ifndef __BSTRING__
-#include <be/support/String.h>
+#include <support/String.h>
+#endif
+
+#ifndef _NODE_H
+#include <storage/Node.h>
 #endif
 
 // forward references

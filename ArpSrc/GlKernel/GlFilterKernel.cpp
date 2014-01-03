@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <ArpCore/ArpDebug.h>
 #include <ArpCore/ArpChar.h>
-#include <be/support/Errors.h>
+#include <support/Errors.h>
 #include <GlPublic/GlFilterKernel.h>
 
 /*******************************************************

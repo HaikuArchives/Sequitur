@@ -437,7 +437,7 @@ status_t AmStandardMidiFile::ReadTrack(ArpStructuredIO& io)
 		uint64 timeOff;
 		if ((res=io.ReadMidiNumber(&timeOff)) != B_OK) return res;
 		mCurTime += timeOff;
-		ArpD(cdb << ADH << "Next track event at time " << mCurTime
+		ArpD(cdb << ADH << "Next track event at time " << (int) mCurTime
 				<< " (delta " << timeOff << ")" << endl);
 		if ((res=io.ReadInt8((int8*)&c)) != B_OK) return res;
 		

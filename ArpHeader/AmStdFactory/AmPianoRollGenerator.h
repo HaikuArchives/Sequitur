@@ -24,7 +24,7 @@
 #ifndef AMSTDFACTORY_AMPIANOROLLGENERATOR_H
 #define AMSTDFACTORY_AMPIANOROLLGENERATOR_H
 
-#include <be/interface/Bitmap.h>
+#include <interface/Bitmap.h>
 
 /*************************************************************************
  * _AM-KEY-DIMENS

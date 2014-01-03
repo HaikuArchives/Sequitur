@@ -23,8 +23,8 @@
 #ifndef _GL_MAIN_WIN_H
 #define _GL_MAIN_WIN_H
 
-#include <be/InterfaceKit.h>
-#include <be/SupportKit.h>
+#include <InterfaceKit.h>
+#include <SupportKit.h>
 #include <ArpInterface/ArpBitmapCache.h>
 #include <GlPublic/GlNodeData.h>
 #include <Glasslike/GlMainWinAux.h>

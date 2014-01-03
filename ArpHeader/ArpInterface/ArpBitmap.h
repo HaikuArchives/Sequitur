@@ -32,8 +32,8 @@
 #define OSINTERFACESUPPORT_OSBITMAP_H
 
 #include <ArpCore/String16.h>
-#include <be/experimental/BitmapTools.h>
-#include <be/interface/Bitmap.h>
+#include <experimental/BitmapTools.h>
+#include <interface/Bitmap.h>
 #include <ArpSupport/ArpVoxel.h>
 #include <ArpInterface/ArpInterfaceDefs.h>
 

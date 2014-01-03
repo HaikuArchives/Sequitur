@@ -5,19 +5,21 @@
 #include <string.h>
 #include <RecentItems.h>
 #include <Roster.h>
-#include <be/experimental/BitmapButton.h>
-#include <be/experimental/DocApplication.h>
-#include <be/InterfaceKit.h>
-#include <be/kernel/fs_attr.h>
-#include <be/StorageKit.h>
-#include <be/support/Autolock.h>
-#include <be/support/Locker.h>
+//TODO:
+//#include <experimental/DocApplication.h>
+#include <InterfaceKit.h>
+#include <kernel/fs_attr.h>
+#include <StorageKit.h>
+#include <support/Autolock.h>
+#include <support/Locker.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpKernel/ArpSafeDelivery.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "ArpViews/ArpMultiScrollBar.h"
 #include "ArpViews/ArpRangeControl.h"
 #include "ArpViews/ArpTwoStateButton.h"
+
+#include "BeExp/BitmapButton.h"
 
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmGlobalsI.h"
@@ -364,10 +366,11 @@ static void tracks_for_each_device(AmSong* song, uint32 channelLimit, int32 addo
 
 // #pragma mark -
 
-SeqSongWindow::SeqSongWindow(WindowRoster *wr, entry_ref *ref, const char *title,
-					 window_look /*look*/, window_feel /*feel*/,
+//TODO:
+/*SeqSongWindow::SeqSongWindow(entry_ref *ref, const char *title,
+					 window_look look, window_feel feel,
 					 uint32 flags, uint32 workspace)
-	: inherited(wr, ref, figure_best_frame(this, NULL),
+	: inherited(ref, figure_best_frame(this, NULL),
 				title, B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
 				flags | B_ASYNCHRONOUS_CONTROLS | B_WILL_ACCEPT_FIRST_CLICK, workspace),
 	  AmSongObserver(AmSongRef()),
@@ -415,7 +418,7 @@ SeqSongWindow::SeqSongWindow(WindowRoster *wr, entry_ref *ref, const char *title
 	}
 	
 	finish_startup_status();
-}
+}*/
 
 void SeqSongWindow::InitData(AmSongRef songRef)
 {
@@ -644,7 +647,7 @@ status_t SeqSongWindow::Load(BEntry *ent, bool merge, uint32 flags)
 					&& attInfo.type == B_MESSAGE_TYPE ) {
 				char*		buffer = (char*)malloc( sizeof(char) * (attInfo.size + 10) );
 				if( buffer ) {
-					ssize_t	size = f.ReadAttr( SEQUITUR_CONFIGURATION_STR, B_MESSAGE_TYPE, 0, buffer, attInfo.size + 5 );
+					ssize_t size = f.ReadAttr( SEQUITUR_CONFIGURATION_STR, 0, 0, buffer, attInfo.size + 5 );
 					if( size == attInfo.size ) {
 						BMessage	config;
 						if( config.Unflatten(buffer) == B_OK ) SetConfiguration( &config );
@@ -808,7 +811,7 @@ status_t SeqSongWindow::Save(BEntry *ent, const BMessage* /*args*/)
 		if( GetConfiguration( &config ) == B_OK ) {
 			BMallocIO	data;
 			if( AmFlatten(config,&data) == B_OK ) {
-				f.WriteAttr( SEQUITUR_CONFIGURATION_STR, B_MESSAGE_TYPE, 0,
+				f.WriteAttr( SEQUITUR_CONFIGURATION_STR, 0, 0,
 								data.Buffer(), data.BufferLength() );
 			}
 		}
@@ -1560,13 +1563,15 @@ void SeqSongWindow::AddMainMenu()
 	/* File Menu
 	 */
 	menu = new BMenu(FILE_MENU_SZ, B_ITEMS_IN_COLUMN);
-	item = new BMenuItem("New", new BMessage(DOC_APP_NEW_WINDOW), 'N');
+	//TODO:
+	//item = new BMenuItem("New", new BMessage(DOC_APP_NEW_WINDOW), 'N');
 	item->SetTarget(be_app);
 	menu->AddItem(item);
-	mOpenMenu = new BMenuItem(BRecentFilesList::NewFileListMenu("Open" B_UTF8_ELLIPSIS,
+	//TODO:
+	/*mOpenMenu = new BMenuItem(BRecentFilesList::NewFileListMenu("Open" B_UTF8_ELLIPSIS,
 								NULL, NULL, be_app,
 								20, false, NULL, "application/x-vnd.Arp-sequitur"),
-								new BMessage(DOC_APP_OPEN));
+								new BMessage(DOC_APP_OPEN));*/
 	mOpenMenu->SetTarget(be_app);
 	mOpenMenu->SetShortcut('O', B_COMMAND_KEY);
 	menu->AddItem(mOpenMenu);
@@ -1577,8 +1582,9 @@ void SeqSongWindow::AddMainMenu()
 	 */
 	menu->AddSeparatorItem();
 	
-	add_menu_item( menu, "Save", DOC_WIN_SAVE, 'S' );
-	add_menu_item( menu, "Save As" B_UTF8_ELLIPSIS, DOC_WIN_SAVE_AS, 0);
+	//TODO:
+	//add_menu_item( menu, "Save", DOC_WIN_SAVE, 'S' );
+	//add_menu_item( menu, "Save As" B_UTF8_ELLIPSIS, DOC_WIN_SAVE_AS, 0);
 	add_menu_item( menu, "Close", B_QUIT_REQUESTED, 'W' );
 	
 	menu->AddSeparatorItem();
@@ -3380,8 +3386,9 @@ void SeqSongWindow::AddRefToSettings()
 {
 	if( mAddedRefToSettings ) return;
 	mAddedRefToSettings = true;
-	entry_ref	ref = FileRef();
-	seq_app->AddShutdownRef( "open_document", &ref );
+	//TODO:
+	//entry_ref	ref = FileRef();
+	//seq_app->AddShutdownRef( "open_document", &ref );
 }
 
 void SeqSongWindow::CloseTrackWindows()

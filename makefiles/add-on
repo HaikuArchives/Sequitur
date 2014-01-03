@@ -90,8 +90,8 @@ release: default
 $(PUBLIC_TARGET): $(TARGET)
 	mkdir --parent $(shell dirname $@)
 	$(COPY) $< $@
-	@[ -e $<.xSYM ] || $(COPY) $<.xSYM $@.xSYM > /dev/null 2>&1
-	@[ -e $<.xMAP ] || $(COPY) $<.xMAP $@.xMAP > /dev/null 2>&1
+	#@[ -e $<.xSYM ] || $(COPY) $<.xSYM $@.xSYM > /dev/null 2>&1
+	#@[ -e $<.xMAP ] || $(COPY) $<.xMAP $@.xMAP > /dev/null 2>&1
 
 clean:: clean_project
 	rm -f $(PUBLIC_TARGET) $(PUBLIC_TARGET).xSYM $(PUBLIC_TARGET).xMAP $(PUBLIC_TARGET).dbg

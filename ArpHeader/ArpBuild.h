@@ -40,7 +40,7 @@
 #define _ARP_BUILD_H
 
 #ifndef _BE_BUILD_H
-#include <be/BeBuild.h>
+#include <BeBuild.h>
 #endif
 
 #if _STATIC_LINKING

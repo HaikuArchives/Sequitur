@@ -16,7 +16,7 @@
 #endif
 
 #ifndef _SCREEN_H
-#include <be/interface/Screen.h>
+#include <interface/Screen.h>
 #endif
 
 #ifndef ARPKERNEL_ARPABOUTWINDOW_H

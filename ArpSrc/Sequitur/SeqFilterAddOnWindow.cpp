@@ -2,10 +2,10 @@
  */
 #include <assert.h>
 #include <stdio.h>
-#include <be/experimental/ColumnListView.h>
-#include <be/experimental/ColumnTypes.h>
-#include <be/InterfaceKit.h>
-#include <be/support/Autolock.h>
+#include <interface/ColumnListView.h>
+#include <interface/ColumnTypes.h>
+#include <InterfaceKit.h>
+#include <support/Autolock.h>
 #include "ArpViewsPublic/ArpPrefsI.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "AmKernel/AmFileRosters.h"
@@ -76,7 +76,7 @@ class _AddOnList : public BColumnListView
 public:
 	_AddOnList(BRect rect);
 
-#if B_BEOS_VERSION_DANO
+#if B_BEOS_VERSION_DANO || defined(__HAIKU__)
 	virtual bool InitiateDrag(BPoint p, bool wasSelected);
 #else
 	virtual void InitiateDrag(BPoint p, bool wasSelected);
@@ -845,7 +845,7 @@ _AddOnList::_AddOnList(BRect frame)
 	SetSelectionMode(B_SINGLE_SELECTION_LIST);
 }
 
-#if B_BEOS_VERSION_DANO
+#if B_BEOS_VERSION_DANO || defined(__HAIKU__)
 bool
 #else
 void
@@ -854,7 +854,7 @@ _AddOnList::InitiateDrag(BPoint where, bool wasSelected)
 {
 	inherited::InitiateDrag( where, wasSelected );
 	const _AddOnRow*	row = dynamic_cast<_AddOnRow*>( RowAt(where) );
-#if B_BEOS_VERSION_DANO
+#if B_BEOS_VERSION_DANO || defined(__HAIKU__)
 	if (!row) return false;
 #else
 	if (!row) return;
@@ -862,7 +862,7 @@ _AddOnList::InitiateDrag(BPoint where, bool wasSelected)
 
 	const BBitmap*	image = row->Image();
 	BMessage		msg;
-#if B_BEOS_VERSION_DANO
+#if B_BEOS_VERSION_DANO || defined(__HAIKU__)
 	if (row->BuildDragMessage(&msg) != B_OK) return false;
 #else
 	if (row->BuildDragMessage(&msg) != B_OK) return;
@@ -875,7 +875,7 @@ _AddOnList::InitiateDrag(BPoint where, bool wasSelected)
 	} else {
 		DragMessage( &msg, BRect(0, 0, 20, 20), Window() );
 	}
-#if B_BEOS_VERSION_DANO
+#if B_BEOS_VERSION_DANO || defined(__HAIKU__)
 	return true;
 #endif
 }
@@ -992,7 +992,7 @@ bool _HandleRow::SetMatching(AmFilterAddOnHandle* addon)
 	if (!mMatching) {
 		mMatching = addon;
 		mMatching->Acquire();
-#if B_BEOS_VERSION_DANO
+#if B_BEOS_VERSION_DANO || defined(__HAIKU__)
 		if (mTypeField) mTypeField->SetString(SZ_SOURCE_DEST);
 #else
 		if (mTypeField) mTypeField->SetTo(SZ_SOURCE_DEST);
@@ -1086,7 +1086,7 @@ bool _MultiRow::SetMatching(ArpRef<AmMultiFilterAddOn> addon)
 {
 	if (!mMatching) {
 		mMatching = addon;
-#if B_BEOS_VERSION_DANO
+#if B_BEOS_VERSION_DANO || defined(__HAIKU__)
 		if (mTypeField) mTypeField->SetString(SZ_SOURCE_DEST);
 #else
 		if (mTypeField) mTypeField->SetTo(SZ_SOURCE_DEST);

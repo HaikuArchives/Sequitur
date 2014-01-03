@@ -74,43 +74,43 @@
 #endif
 
 #ifndef _VIEW_H
-#include <be/interface/View.h>
+#include <interface/View.h>
 #endif
 
 #ifndef _MENUBAR_H
-#include <be/interface/MenuBar.h>
+#include <interface/MenuBar.h>
 #endif
 
 #ifndef _BOX_H
-#include <be/interface/Box.h>
+#include <interface/Box.h>
 #endif
 
 #ifndef _BUTTON_H
-#include <be/interface/Button.h>
+#include <interface/Button.h>
 #endif
 
 #ifndef _COLORCONTROL_H
-#include <be/interface/ColorControl.h>
+#include <interface/ColorControl.h>
 #endif
 
 #ifndef _LISTVIEW_H
-#include <be/interface/ListView.h>
+#include <interface/ListView.h>
 #endif
 
 #ifndef _OUTLINELISTVIEW_H
-#include <be/interface/OutlineListView.h>
+#include <interface/OutlineListView.h>
 #endif
 
 #ifndef _MENUBAR_H
-#include <be/interface/MenuBar.h>
+#include <interface/MenuBar.h>
 #endif
 
 #ifndef _MENUFIELD_H
-#include <be/interface/MenuField.h>
+#include <interface/MenuField.h>
 #endif
 
 #ifndef _TEXTCONTROL_H
-#include <be/interface/TextControl.h>
+#include <interface/TextControl.h>
 #endif
 
 /** -----------------------------------------------------------

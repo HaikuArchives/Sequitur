@@ -236,7 +236,7 @@ status_t AmPerformer::Restart(AmEvent* song, uint32 flags)
 		#if ArpDEBUG
 		int32 sugPri = suggest_thread_priority(B_AUDIO_PLAYBACK,
 											   1000000/32, 2000, 100);
-		ArpD(cdb << ADH << "Suggested thread pri=" << sugPri << endl);
+		ArpD(cdb << ADH << "Suggested thread pri=" << (int) sugPri << endl);
 		#endif
 		
 		ASSERT(mDataSem == B_BAD_SEM_ID);

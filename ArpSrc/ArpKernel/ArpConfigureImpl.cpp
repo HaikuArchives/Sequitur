@@ -12,35 +12,35 @@
 */
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #ifndef _MENUFIELD_H
-#include <be/interface/MenuField.h>
+#include <interface/MenuField.h>
 #endif
 
 #ifndef _POPUPMENU_H
-#include <be/interface/PopUpMenu.h>
+#include <interface/PopUpMenu.h>
 #endif
 
 #ifndef _MENUITEM_H
-#include <be/interface/MenuItem.h>
+#include <interface/MenuItem.h>
 #endif
 
 #ifndef _COLORCONTROL_H
-#include <be/interface/ColorControl.h>
+#include <interface/ColorControl.h>
 #endif
 
 #ifndef _STRINGVIEW_H
-#include <be/interface/StringView.h>
+#include <interface/StringView.h>
 #endif
 
 #ifndef _TEXTCONTROL_H
-#include <be/interface/TextControl.h>
+#include <interface/TextControl.h>
 #endif
 
 #ifndef _CHECKBOX_H
-#include <be/interface/CheckBox.h>
+#include <interface/CheckBox.h>
 #endif
 
 #ifndef ARPKERNEL_ARPCONFIGUREIMPL_H
@@ -174,8 +174,8 @@ static status_t check_box_report(const ArpConfigureImpl::view_context& context)
 			flags = 0;
 		}
 		flags = (flags&~mask) | (view->Value() ? mask : 0);
-		ArpD(cdb << ADH << "Checkbox report mask=" << mask
-				<< ", new flags=" << flags << endl);
+		ArpD(cdb << ADH << "Checkbox report mask=" << (int) mask
+				<< ", new flags=" << (int) flags << endl);
 		res = settings.AddInt32(context.param, flags);
 	} else {
 		ArpD(cdb << ADH << "Unable to handle parameter type: " << context.type << endl);
@@ -204,9 +204,9 @@ static status_t check_box_update(const ArpConfigureImpl::view_context& context,
 		const int32 mask = (int32)context.data;
 		int32 flags;
 		if( (res=update.FindInt32(context.param, &flags)) == B_OK ) {
-			ArpD(cdb << ADH << "Checkbox update mask=" << mask
-					<< ", new flags=" << flags
-					<< ", value=" << (int32)((flags&mask) ? B_CONTROL_ON : B_CONTROL_OFF)
+			ArpD(cdb << ADH << "Checkbox update mask=" << (int) mask
+					<< ", new flags=" << (int) flags
+					<< ", value=" << (int)((flags&mask) ? B_CONTROL_ON : B_CONTROL_OFF)
 					<< endl);
 			view->SetValue((flags&mask) ? B_CONTROL_ON : B_CONTROL_OFF);
 		}
@@ -407,7 +407,7 @@ BMessage* ArpConfigureImpl::AttachView(const char* param,
 		}
 		if( res != B_OK ) {
 			ArpD(cdb << ADH << "Error creating TextControl msg: "
-					<< res << endl);
+					<< (res == B_OK) << endl);
 			delete msg;
 			return 0;
 		}

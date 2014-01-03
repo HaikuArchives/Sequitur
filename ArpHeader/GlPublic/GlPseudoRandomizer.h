@@ -30,8 +30,8 @@
 #ifndef GL_PSEUDORANDOMIZER_H
 #define GL_PSEUDORANDOMIZER_H
 
-#include <be/kernel/OS.h>
-#include <be/support/SupportDefs.h>
+#include <kernel/OS.h>
+#include <support/SupportDefs.h>
 #include <ArpMath/ArpDefs.h>
 
 /***************************************************************************

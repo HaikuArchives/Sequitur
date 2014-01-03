@@ -36,8 +36,8 @@
 #ifndef AMPUBLIC_AMGLOBALSI_H
 #define AMPUBLIC_AMGLOBALSI_H
 
-#include <be/app/Handler.h>
-#include <be/support/SupportDefs.h>
+#include <app/Handler.h>
+#include <support/SupportDefs.h>
 class BClipboard;
 
 #include "ArpKernel/ArpRef.h"

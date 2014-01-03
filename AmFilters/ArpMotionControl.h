@@ -20,8 +20,8 @@
  * 2001.07.16		hackborn@angryredplanet.com
  * Created this file
  */
-#include <be/app/Message.h>
-#include <be/support/String.h>
+#include <app/Message.h>
+#include <support/String.h>
 #include "AmPublic/AmFilterI.h"
 class AmMotionI;
 

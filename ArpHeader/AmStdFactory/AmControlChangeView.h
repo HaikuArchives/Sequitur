@@ -29,6 +29,8 @@
 #ifndef AMSTDFACTORY_AMCONTROLCHANGEVIEW_H
 #define AMSTDFACTORY_AMCONTROLCHANGEVIEW_H
 
+#include <interface/CheckBox.h>
+
 #include "AmPublic/AmDeviceI.h"
 #include "AmPublic/AmTrackDataView.h"
 #include "AmPublic/AmTrackInfoView.h"

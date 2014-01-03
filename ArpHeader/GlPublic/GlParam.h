@@ -22,8 +22,8 @@
 #ifndef GLPUBLIC_GLPARAM_H
 #define GLPUBLIC_GLPARAM_H
 
-#include <be/interface/Point.h>
-#include <be/support/SupportDefs.h>
+#include <interface/Point.h>
+#include <support/SupportDefs.h>
 #include <ArpSupport/ArpVoxel.h>
 #include <ArpCore/String16.h>
 #include <ArpInterface/ArpFont.h>

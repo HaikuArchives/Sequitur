@@ -12,7 +12,7 @@
 */
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #ifndef ARPKERNEL_ARPCONFIGUREFILE_H
@@ -36,19 +36,19 @@
 #endif
 
 #ifndef _DIRECTORY_H
-#include <be/storage/Directory.h>
+#include <storage/Directory.h>
 #endif
 
 #ifndef _FILE_H
-#include <be/storage/File.h>
+#include <storage/File.h>
 #endif
 
 #ifndef _NODEINFO_H
-#include <be/storage/NodeInfo.h>
+#include <storage/NodeInfo.h>
 #endif
 
 #ifndef _NODE_MONITOR_H
-#include <be/storage/NodeMonitor.h>
+#include <storage/NodeMonitor.h>
 #endif
 
 #include <stdlib.h>
@@ -314,19 +314,19 @@ status_t ArpConfigureFile::WriteSettings(const BMessage* from) const
 	
 	BFile file(&entry, B_READ_WRITE | B_CREATE_FILE | B_ERASE_FILE);
 	err = file.InitCheck();
-	ArpD(cdb << ADH << "Result from creating file: " << err << endl);
+	ArpD(cdb << ADH << "Result from creating file: " << (err == B_OK) << endl);
 	if( err ) return err;
 	
 	if( (err=from->Flatten(&file)) ) return err;
 	
-	ArpD(cdb << ADH << "Result from writing settings: " << err << endl);
+	ArpD(cdb << ADH << "Result from writing settings: " << (err == B_OK) << endl);
 	
 	if( mMimeType != "" ) {
 		ArpD(cdb << ADH << "Writing MIME type: " << MimeType() << endl);
 		BNodeInfo info(&file);
 		if( (err=info.InitCheck()) ) return err;
 		err = info.SetType(mMimeType.String());
-		ArpD(cdb << ADH << "Result from writing mime type: " << err << endl);
+		ArpD(cdb << ADH << "Result from writing mime type: " << (err == B_OK) << endl);
 		if( err ) return err;
 	}
 	
@@ -501,7 +501,7 @@ status_t ArpConfigureFile::StartWatcher(void)
 		looper->AddHandler(this);
 		
 		err = watch_node(&mNode, B_WATCH_ALL, this);
-		ArpD(cdb << ADH << "Result from watch_node(): " << err << endl);
+		ArpD(cdb << ADH << "Result from watch_node(): " << (err == B_OK) << endl);
 		if( err != B_OK ) {
 			looper->RemoveHandler(this);
 			mNode = node_ref();

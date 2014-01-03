@@ -4,12 +4,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/interface/CheckBox.h>
-#include <be/interface/MenuField.h>
-#include <be/interface/MenuItem.h>
-#include <be/interface/PopUpMenu.h>
-#include <be/interface/RadioButton.h>
-#include <be/interface/StringView.h>
+#include <interface/CheckBox.h>
+#include <interface/MenuField.h>
+#include <interface/MenuItem.h>
+#include <interface/PopUpMenu.h>
+#include <interface/RadioButton.h>
+#include <interface/StringView.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpIntFormatterI.h"
 #include "ArpViews/ArpIntControl.h"

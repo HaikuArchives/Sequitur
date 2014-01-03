@@ -27,8 +27,8 @@
 #define SEQUITUR_SEQPIPELINEMATRIXVIEW_H
 
 #include <vector.h>
-#include <be/app/Messenger.h>
-#include <be/interface/View.h>
+#include <app/Messenger.h>
+#include <interface/View.h>
 #include "ArpKernel/ArpLineArrayCache.h"
 #include "AmPublic/AmFilterI.h"
 #include "AmPublic/AmPipelineMatrixRef.h"

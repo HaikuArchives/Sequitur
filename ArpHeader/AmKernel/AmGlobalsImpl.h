@@ -31,8 +31,8 @@
 #ifndef AMKERNEL_AMGLOBALSIMPL_H
 #define AMKERNEL_AMGLOBALSIMPL_H
 
-#include <be/app/Messenger.h>
-#include <be/support/Locker.h>
+#include <app/Messenger.h>
+#include <support/Locker.h>
 #include "AmPublic/AmGlobalsI.h"
 #include "AmKernel/AmKernelDefs.h"
 #include "AmKernel/AmPerformer.h"

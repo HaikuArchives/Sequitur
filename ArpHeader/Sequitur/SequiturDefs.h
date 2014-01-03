@@ -5,7 +5,7 @@
 #ifndef SEQUITUR_SEQUITURDEFS_H
 #define SEQUITUR_SEQUITURDEFS_H
 
-#include <be/experimental/ResourceSet.h>
+#include <BeExp/ResourceSet.h>
 
 class BMenu;
 class BMessage;

@@ -1,13 +1,13 @@
 /* SeqBitmapEditor.cpp
  */
 #include <stdio.h>
-#include <be/experimental/BitmapTools.h>
-#include <be/app/Clipboard.h>
-#include <be/interface/ColorControl.h>
-#include <be/interface/ScrollView.h>
-#include <be/interface/Window.h>
-#include <be/storage/Entry.h>
-#include <be/translation/TranslationUtils.h>
+#include <BeExp/BitmapTools.h>
+#include <app/Clipboard.h>
+#include <interface/ColorControl.h>
+#include <interface/ScrollView.h>
+#include <interface/Window.h>
+#include <storage/Entry.h>
+#include <translation/TranslationUtils.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "ArpKernel/ArpDebug.h"
 #include "ArpKernel/ArpLineArrayCache.h"
@@ -75,7 +75,7 @@ private:
 	rgb_color				mBgC;
 	bool					mHasChanges;
 	BMessage*				mBitmapChangeMsg;
-	pixel_access			mPixelAccess;
+		pixel_access			mPixelAccess;
 	
 	void			DrawOn(BRect clip, BView* view);
 	void			HandleRefDrop(BMessage* msg);
@@ -316,7 +316,7 @@ IconDropView::IconDropView(	BRect frame, BBitmap* bitmap,
 		  mKnobCtrl(NULL), mPixelSize(10), mHasChanges(false),
 		  mBitmapChangeMsg(NULL)
 {
-	if (mBitmap) mPixelAccess.set_to( mBitmap->ColorSpace() );
+		if (mBitmap) mPixelAccess.set_to( mBitmap->ColorSpace() );
 	mBgC.red = mBgC.blue = mBgC.alpha = 255;
 	mBgC.green = 0;
 }
@@ -335,7 +335,7 @@ void IconDropView::SetControls(BColorControl* colorCtrl, ArpKnobControl* knobCtr
 void IconDropView::SetBitmap(BBitmap* bitmap)
 {
 	mBitmap = bitmap;
-	if (mBitmap) mPixelAccess.set_to( mBitmap->ColorSpace() );
+		if (mBitmap) mPixelAccess.set_to( mBitmap->ColorSpace() );
 	SetHasChanges(false);
 	Invalidate();
 }
@@ -460,7 +460,7 @@ status_t IconDropView::Paste()
 	if (clip->FindMessage("image/x-vnd.Be-bitmap", &bmMsg) == B_OK) {
 		BBitmap*	bm = dynamic_cast<BBitmap*>( BBitmap::Instantiate(&bmMsg) );
 		if (bm) {
-			set_bits(bm, mBitmap, mPixelAccess);
+						set_bits(bm, mBitmap, mPixelAccess);
 			SetHasChanges(true);
 			Invalidate();
 			delete bm;
@@ -482,7 +482,7 @@ status_t IconDropView::FlipVertically()
 	}
 	for (int32 y = 0; y <= int32(b.bottom); y++) {
 		for (int32 x = 0; x <= int32(b.right); x++) {
-			rgb_color		c = read_pixel(src, x, y, mPixelAccess);
+						rgb_color		c = read_pixel(src, x, y, mPixelAccess);
 			write_pixel(mBitmap, x, b.bottom - y, c, mPixelAccess);
 		}
 	}
@@ -505,7 +505,7 @@ status_t IconDropView::FlipHorizontally()
 	}
 	for (int32 x = 0; x <= int32(b.right); x++) {
 		for (int32 y = 0; y <= int32(b.bottom); y++) {
-			rgb_color		c = read_pixel(src, x, y, mPixelAccess);
+						rgb_color		c = read_pixel(src, x, y, mPixelAccess);
 			write_pixel(mBitmap, b.right - x, y, c, mPixelAccess);
 		}
 	}
@@ -521,7 +521,7 @@ status_t IconDropView::FillAlpha()
 	if (!mBitmap) return B_ERROR;
 	uint8		alpha = CurrentColor().alpha;
 	BRect		b(mBitmap->Bounds() );
-	for (int32 x = 0; x <= int32(b.right); x++) {
+		for (int32 x = 0; x <= int32(b.right); x++) {
 		for (int32 y = 0; y <= int32(b.bottom); y++) {
 			rgb_color		c = read_pixel(mBitmap, x, y, mPixelAccess);
 			if (c.alpha > alpha) {
@@ -551,18 +551,18 @@ void IconDropView::DrawOn(BRect clip, BView* view)
 		for (float x = 0; x <= b.right; x++) {
 			BRect			r(x*mPixelSize, y*mPixelSize, ((x+1)*mPixelSize)-1, ((y+1)*mPixelSize)-1);
 			if (r.Intersects(clip) ) {
-				c = read_pixel(mBitmap, x, y, mPixelAccess);
+								c = read_pixel(mBitmap, x, y, mPixelAccess);
 
 				view->SetHighColor(mBgC);
 				view->FillRect(r);
-				view->SetHighColor(c);
+								view->SetHighColor(c);
 				/* Diverge the drawing path -- if the bitmap is so small that I
 				 * can't realistically do my fancy shading, then don't worry about it.
 				 */
 				if (mPixelSize < 4) {
-					view->FillRect(r);
+										view->FillRect(r);
 				} else {
-					view->FillRect( BRect(r.left + 1, r.top + 1, r.right - 2, r.bottom - 2) );
+										view->FillRect( BRect(r.left + 1, r.top + 1, r.right - 2, r.bottom - 2) );
 
 					rgb_color	c2 = change_color(c, 150);
 					mLines.AddLine(BPoint(r.left, r.top), BPoint(r.right - 1, r.top), c2);
@@ -589,7 +589,7 @@ void IconDropView::HandleRefDrop(BMessage* msg)
 	if (msg->FindRef("refs", &ref) != B_OK) return;
 	BBitmap*		bm = BTranslationUtils::GetBitmap(&ref);
 	if (bm) {
-		set_bits(bm, mBitmap, mPixelAccess);
+				set_bits(bm, mBitmap, mPixelAccess);
 		SetHasChanges(true);
 		Invalidate();
 		delete bm;
@@ -601,9 +601,9 @@ void IconDropView::WritePixel(BPoint where)
 	if (!mColorCtrl || !mKnobCtrl || !mBitmap) return;
 	BPoint			pixel = PixelAt(where);
 	if ( !(mBitmap->Bounds().Contains(pixel)) ) return;
-	rgb_color		oldC = read_pixel(mBitmap, pixel.x, pixel.y, mPixelAccess);
+		rgb_color		oldC = read_pixel(mBitmap, pixel.x, pixel.y, mPixelAccess);
 	rgb_color		newC = CurrentColor();
-	if (colors_equal(oldC, newC) ) return;
+		if (colors_equal(oldC, newC) ) return;
 	write_pixel(mBitmap, pixel.x, pixel.y, newC, mPixelAccess);
 	SetHasChanges(true);
 	Invalidate(BRect(	pixel.x * mPixelSize, pixel.y * mPixelSize,
@@ -615,7 +615,7 @@ void IconDropView::ReadPixel(BPoint where)
 	if (!mColorCtrl || !mKnobCtrl || !mBitmap) return;
 	BPoint			pixel = PixelAt(where);
 	if ( !(mBitmap->Bounds().Contains(pixel)) ) return;
-	rgb_color		c = read_pixel(mBitmap, pixel.x, pixel.y, mPixelAccess);
+		rgb_color		c = read_pixel(mBitmap, pixel.x, pixel.y, mPixelAccess);
 	mColorCtrl->SetValue(c);
 	mKnobCtrl->SetValue(c.alpha);
 }
@@ -683,7 +683,7 @@ static inline bool colors_equal(rgb_color c1, rgb_color c2)
 
 void seq_write_pixel(const BBitmap* bm, float x, float y, rgb_color c)
 {
-	pixel_access	pa( bm->ColorSpace() );
+		pixel_access	pa( bm->ColorSpace() );
 	uint8*		pixel = (uint8*)( ((uint8*)bm->Bits()) + (uint32)(x * pa.bpp() ) + (uint32)(y * bm->BytesPerRow() ) );
 	pa.write(pixel, c);
 }

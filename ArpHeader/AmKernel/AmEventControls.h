@@ -34,8 +34,8 @@
 #ifndef AMKERNEL_AMEVENTCONTROLS_H
 #define AMKERNEL_AMEVENTCONTROLS_H
 
-#include <be/interface/MenuField.h>
-#include <be/interface/View.h>
+#include <interface/MenuField.h>
+#include <interface/View.h>
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmSongObserver.h"
 #include "AmPublic/AmTrackRef.h"

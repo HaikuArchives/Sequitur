@@ -15,7 +15,7 @@
 #include "ArpKernel/ArpNotificationRegistry.h"
 #endif
 #ifndef _LOOPER_H
-#include <be/app/Looper.h>
+#include <app/Looper.h>
 #endif
 #include <stdio.h>
 #include <assert.h>

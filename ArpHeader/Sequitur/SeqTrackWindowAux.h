@@ -27,7 +27,7 @@
 #ifndef SEQUITUR_SEQTRACKWINDOWAUX_H
 #define SEQUITUR_SEQTRACKWINDOWAUX_H
 
-#include <be/InterfaceKit.h>
+#include <InterfaceKit.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "AmPublic/AmSongRef.h"
 #include "AmPublic/AmTrackRef.h"

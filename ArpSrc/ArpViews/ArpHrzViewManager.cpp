@@ -6,7 +6,7 @@
 * adds at the bottom), inserting at a given point, and removing.
 */
 #include <stdio.h>
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #include "ArpViews/ArpHrzViewManager.h"
 
 /*************************************************************************

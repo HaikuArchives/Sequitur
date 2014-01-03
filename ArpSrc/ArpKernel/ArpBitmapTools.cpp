@@ -1,6 +1,6 @@
 #include "ArpKernel/ArpBitmapTools.h"
 
-#include <experimental/BitmapTools.h>
+#include <BeExp/BitmapTools.h>
 #include <Bitmap.h>
 
 #include <stdio.h>
@@ -56,6 +56,7 @@ namespace ARP {
 		bool valid() const
 		{
 			return fOutAccess.valid() && fInAccess.valid();
+			return false;
 		}
 		
 		status_t run()
@@ -72,7 +73,6 @@ namespace ARP {
 			size_t			line_pos = 0;
 			
 			while( dest < dest_end && data < data_end ) {
-		
 				fOutAccess.write(dest,
 					overlay_color(fOutAccess.read(dest), fInAccess.read(data), fAmount));
 				
@@ -151,6 +151,7 @@ namespace ARP {
 		bool valid() const
 		{
 			return fOutAccess.valid();
+			return false;
 		}
 		
 		status_t run()
@@ -164,7 +165,6 @@ namespace ARP {
 			size_t			line_pos = 0;
 			
 			while( dest < dest_end ) {
-		
 				fOutAccess.write(dest, tint_color(fOutAccess.read(dest), fTint));
 				
 				dest += fOutAccess.bpp();

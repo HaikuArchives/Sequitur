@@ -2,8 +2,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/interface/CheckBox.h>
-#include <be/interface/MenuItem.h>
+#include <interface/CheckBox.h>
+#include <interface/MenuItem.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpLayout/ArpViewWrapper.h"
 #include "ArpLayout/ViewStubs.h"

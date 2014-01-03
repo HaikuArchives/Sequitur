@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmFilterI.h"
@@ -200,12 +201,19 @@ AmEvent::~AmEvent() {
 	// debug...
 #if defined(ArpDEBUG)
 	int last;
+	
+	time_t tm;
+	time(&tm);
+	
+	struct tm* tminfo = localtime(&tm);
+	
+	
 	if ( (last=atomic_add(&counter,-1)) == 1 ) {
 		ArpDL(__FILE__, 2, cdb << ADH << "deleted FINAL event #"
-								<< last-1 << " time: " << time << endl);
+								<< last-1 << " time: " << asctime(tminfo) << endl);
 	} else {
 		ArpDL(__FILE__, 3, cdb << ADH << "deleted event #"
-								<< last-1 << " time: " << time << endl);
+								<< last-1 << " time: " << asctime(tminfo) << endl);
 	}
 #endif
 }

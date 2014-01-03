@@ -3,8 +3,8 @@
 #ifndef ARPVIEWS_ARPBACKGROUND_H
 #define ARPVIEWS_ARPBACKGROUND_H
 
-#include <be/interface/View.h>
-#include <be/support/SupportDefs.h>
+#include <interface/View.h>
+#include <support/SupportDefs.h>
 
 /*************************************************************************
  * ARP-BACKGROUND

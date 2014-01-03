@@ -25,7 +25,7 @@
 #ifndef SEQUITUR_SEQSPLITTERVIEW_H
 #define SEQUITUR_SEQSPLITTERVIEW_H
 
-#include <be/interface/View.h>
+#include <interface/View.h>
 
 /*************************************************************************
  * SEQ-SPLITTER-VIEW

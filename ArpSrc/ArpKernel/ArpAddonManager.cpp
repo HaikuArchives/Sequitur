@@ -20,15 +20,15 @@
 #endif
 
 #ifndef _MENU_H
-#include <be/interface/Menu.h>
+#include <interface/Menu.h>
 #endif
 
 #ifndef _MENUITEM_H
-#include <be/interface/MenuItem.h>
+#include <interface/MenuItem.h>
 #endif
 
 #ifndef _ENTRY_H
-#include <be/storage/Entry.h>
+#include <storage/Entry.h>
 #endif
 
 #include <support/Autolock.h>
@@ -40,8 +40,8 @@ ArpAddonManager::BasicAddon::BasicAddon(BEntry* entry)
 	: image(B_ERROR), ref_count(0)
 {
 	ArpD(cdb << ADH << "Setting addon path: entry=" << (void*)entry
-			<< " (init=" << entry->InitCheck()
-			<< " exists=" << entry->Exists() <<")" << endl);
+			<< " (init=" << (entry->InitCheck() == B_OK)
+			<< " exists=" << (entry->Exists() == B_OK) <<")" << endl);
 	if( entry ) entry->GetPath(&where);
 	ArpD(cdb << ADH << "Creating new addon for: " << where << endl);
 }

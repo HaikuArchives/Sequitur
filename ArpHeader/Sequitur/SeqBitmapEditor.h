@@ -23,7 +23,7 @@
 #ifndef SEQUITUR_SEQBITMAPEDITOR_H
 #define SEQUITUR_SEQBITMAPEDITOR_H
 
-#include <be/InterfaceKit.h>
+#include <InterfaceKit.h>
 class AmActiveToolView;
 class AmEditorTool;
 class AmEditorToolBarView;

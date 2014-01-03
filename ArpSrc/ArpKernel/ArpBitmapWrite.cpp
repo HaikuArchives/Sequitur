@@ -10,7 +10,14 @@
 
 // The R5 PNG translator sometimes has problem writing alpha correctly,
 // so talk to libpng.so directly.
-#define USE_LIB_PNG 1
+
+//TODO:
+// This is found in png.h
+/* The complete definition of png_struct has, as of libpng-1.5.0,
+ * been moved into a separate header file that is not accessible to
+ * applications.  Read libpng-manual.txt or libpng.3 for more info.
+ */
+#define USE_LIB_PNG 0
 
 #if USE_LIB_PNG
 #include "png.h"
@@ -98,9 +105,14 @@ status_t save_bitmap_as_png(BBitmap* bitmap, BDataIO* out_stream)
 	return status;
 }
 
-#else
+//TODO:
+// filename isn't even given as a parameter
+// the function is probably an awful merge
+// of the one in the #if and the one below this one
 
-static status_t save_bitmap_as_png(BBitmap* bitmap, BDataIO* out_stream)
+/*#else
+
+status_t save_bitmap_as_png(BBitmap* bitmap, BDataIO* out_stream)
 {
 	printf("Saving bitmap %s, colorspace = 0x%08x\n", filename, bitmap->ColorSpace());
 	ArpASSERT(bitmap && filename);
@@ -123,7 +135,7 @@ static status_t save_bitmap_as_png(BBitmap* bitmap, BDataIO* out_stream)
 	BNodeInfo	nodeInfo(&file);
 	nodeInfo.SetType("image/png");
 	return err;
-}
+}*/
 
 #endif
 

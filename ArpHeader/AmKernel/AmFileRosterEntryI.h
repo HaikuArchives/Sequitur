@@ -24,7 +24,7 @@
 #ifndef AMKERNEL_AMFILEROSTERENTRYI_H
 #define AMKERNEL_AMFILEROSTERENTRYI_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 #include "AmPublic/AmDefs.h"
 #include "AmKernel/AmKernelDefs.h"
 

@@ -23,7 +23,7 @@
 #define SEQUITUR_SEQSONGSELECTIONS_H
 
 #include <vector.h>
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 #include "AmPublic/AmRange.h"
 
 /***************************************************************************

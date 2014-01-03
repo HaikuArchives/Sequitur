@@ -22,7 +22,7 @@
 #ifndef GLPUBLIC_GLPIXEL_H
 #define GLPUBLIC_GLPIXEL_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 class GlPlanes;
 
 enum {

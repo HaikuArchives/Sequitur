@@ -54,8 +54,8 @@
 #include <ArpKernel/ArpAboutWindow.h>
 #endif
 
-#include <be/interface/MenuItem.h>
-#include <be/support/Autolock.h>
+#include <interface/MenuItem.h>
+#include <support/Autolock.h>
 
 #include <float.h>
 #include <malloc.h>

@@ -9,7 +9,7 @@
 	RSRCS		:= ArpConsole
 	
 #	specify any additional beos shared libraries needed.
-	ADD_BESHLIBS	= experimental png z
+	ADD_BESHLIBS	= png z
 
 #	specify additional non-beos shared libraries needed.
 	ADD_SHLIBS		= $(CPPLIB) AmKernel

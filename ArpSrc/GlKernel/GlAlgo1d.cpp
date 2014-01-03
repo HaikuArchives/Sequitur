@@ -1,6 +1,6 @@
 #include <typeinfo>
 #include <ArpCore/StlVector.h>
-#include <be/support/Errors.h>
+#include <support/Errors.h>
 #include <GlPublic/GlActions.h>
 #include <GlPublic/GlAlgo1d.h>
 #include <GlPublic/GlCache1d.h>

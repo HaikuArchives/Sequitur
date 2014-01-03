@@ -1,5 +1,5 @@
-#include <be/app/Message.h>
-#include <be/support/Autolock.h>
+#include <app/Message.h>
+#include <support/Autolock.h>
 #include <ArpCore/ArpDebug.h>
 #include <GlKernel/GlDefs.h>
 #include <Glasslike/GlKeyTracker.h>

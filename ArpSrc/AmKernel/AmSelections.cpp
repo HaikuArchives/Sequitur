@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <be/app/Messenger.h>
+#include <app/Messenger.h>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmEvents.h"
 #include "AmKernel/AmFilterHolder.h"

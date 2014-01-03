@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/interface/CheckBox.h>
+#include <interface/CheckBox.h>
 #include <ArpLayout/ArpViewWrapper.h>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmFilterConfigLayout.h"

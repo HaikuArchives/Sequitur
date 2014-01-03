@@ -41,7 +41,7 @@
 #define ARPKERNEL_ARPREF_H
 
 #include <ArpKernel/ArpString.h>
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 
 /*****************************************************************************
  *

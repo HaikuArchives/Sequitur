@@ -58,7 +58,7 @@
 #endif
 
 #ifndef _HANDLER_H
-#include <be/app/Handler.h>
+#include <app/Handler.h>
 #endif
 
 // -------------------- ARPLAYOUT_HANDLERHOOKS --------------------

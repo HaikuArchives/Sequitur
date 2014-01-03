@@ -28,11 +28,11 @@
 #endif
 
 #ifndef _WINDOW_H
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #endif
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #include <algobase.h>

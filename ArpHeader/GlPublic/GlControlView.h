@@ -30,7 +30,7 @@
 #ifndef GLPUBLIC_GLCONTROLVIEW_H
 #define GLPUBLIC_GLCONTROLVIEW_H
 
-#include <be/InterfaceKit.h>
+#include <InterfaceKit.h>
 #include <ArpInterface/ArpFont.h>
 #include <ArpInterface/ViewTools.h>
 #include <ArpInterface/ArpBitmapView.h>

@@ -48,10 +48,10 @@ endif
 	ADD_BESHLIBS	= midi midi2 translation media
 
 #	specify additional non-beos shared libraries needed.
-	ADD_SHLIBS		= $(CPPLIB) experimental png z
+	ADD_SHLIBS		= $(CPPLIB) png z
 
 #	specify any additional beos static libraries needed.
-	ADD_BESTLIBS	= /boot/develop/lib/x86/libexperimental.a
+	# ADD_BESTLIBS	= /boot/develop/lib/x86/libexperimental.a
 
 #	specify additional non-beos static libraries needed.
 	ADD_STLIBS		= $(ARPROOT)/ArpLib/$(OBJ_DIR)/libArpViews.a \

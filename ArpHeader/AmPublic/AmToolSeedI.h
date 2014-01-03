@@ -23,7 +23,7 @@
 #ifndef AMPUBLIC_AMTOOLSEEDI_H
 #define AMPUBLIC_AMTOOLSEEDI_H
 
-#include <be/interface/Point.h>
+#include <interface/Point.h>
 #include "AmPublic/AmSongRef.h"
 #include "AmPublic/AmToolRef.h"
 #include "AmPublic/AmTrackRef.h"

@@ -4,11 +4,11 @@
 #include <assert.h>
 #include <string.h>
 #include <malloc.h>
-#include <be/experimental/ColorTools.h>
-#include <be/interface/Font.h>
-#include <be/interface/InterfaceDefs.h>
-#include <be/interface/StatusBar.h>
-#include <be/support/TypeConstants.h>
+#include <BeExp/ColorTools.h>
+#include <interface/Font.h>
+#include <interface/InterfaceDefs.h>
+#include <interface/StatusBar.h>
+#include <support/TypeConstants.h>
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "AmPublic/AmDefs.h"
 #include "Sequitur/SequiturDefs.h"

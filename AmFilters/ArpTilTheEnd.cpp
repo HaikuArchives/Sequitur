@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/InterfaceKit.h>
+#include <InterfaceKit.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpLayout/ArpViewWrapper.h"
 #include "ArpLayout/ViewStubs.h"

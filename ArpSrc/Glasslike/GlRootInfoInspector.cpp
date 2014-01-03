@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #include <ArpInterface/ArpPrefs.h>
 #include <GlPublic/GlNode.h>
 #include <GlPublic/GlRootNode.h>

@@ -22,8 +22,8 @@
 #ifndef GLPUBLIC_GLPARAMTYPE_H
 #define GLPUBLIC_GLPARAMTYPE_H
 
-#include <be/app/Message.h>
-#include <be/support/SupportDefs.h>
+#include <app/Message.h>
+#include <support/SupportDefs.h>
 #include <ArpMath/ArpPoint3d.h>
 #include <ArpSupport/ArpVoxel.h>
 #include <ArpCore/String16.h>

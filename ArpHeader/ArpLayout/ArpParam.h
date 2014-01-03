@@ -40,15 +40,15 @@
 #define ARPLAYOUT_ARPPARAM_H
 
 #ifndef _MESSAGE_H
-#include <be/app/Message.h>
+#include <app/Message.h>
 #endif
 
 #ifndef _PROPERTY_INFO_H
-#include <be/app/PropertyInfo.h>
+#include <app/PropertyInfo.h>
 #endif
 
 #ifndef __BSTRING__
-#include <be/support/String.h>
+#include <support/String.h>
 #endif
 
 // Forward reference parameter and global sets.

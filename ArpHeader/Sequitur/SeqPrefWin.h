@@ -23,8 +23,8 @@
 #ifndef SEQUITUR_SEQPREFWIN_H
 #define SEQUITUR_SEQPREFWIN_H
 
-#include <be/interface/CheckBox.h>
-#include <be/interface/Window.h>
+#include <interface/CheckBox.h>
+#include <interface/Window.h>
 #include "ArpViews/ArpIntControl.h"
 #include "Sequitur/SeqWindowStateI.h"
 class BFilePanel;
