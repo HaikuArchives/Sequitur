@@ -63,9 +63,9 @@ include $(ARPROOT)/makefiles/platform
 #--------------------------------------------------------
 
 #	specify the list of source files
-	SRCS		= $(shell ls 2>/dev/null -1 *.cpp *.S)
+	SRCS		+= $(shell ls 2>/dev/null -1 *.cpp *.S)
 
-	RSRC_DIRS	= $(shell ls 2>/dev/null -1 *.rdef)
+	RSRC_DIRS	+= $(shell ls 2>/dev/null -1 *.rdef)
 
 ifeq ($(CPU), ppc)
 	CFLAGS		= -str pool -ansi strict -bool on -requireprotos

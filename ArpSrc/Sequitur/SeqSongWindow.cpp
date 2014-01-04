@@ -6,7 +6,7 @@
 #include <RecentItems.h>
 #include <Roster.h>
 #include <experimental/BitmapButton.h>
-#include <experimental/DocApplication.h>
+#include <SelfWritten/DocApplication.h>
 #include <InterfaceKit.h>
 #include <kernel/fs_attr.h>
 #include <StorageKit.h>
@@ -364,7 +364,7 @@ static void tracks_for_each_device(AmSong* song, uint32 channelLimit, int32 addo
 
 // #pragma mark -
 
-SeqSongWindow::SeqSongWindow(WindowRoster *wr, entry_ref *ref, const char *title,
+SeqSongWindow::SeqSongWindow(DocApplication *wr, entry_ref *ref, const char *title,
 					 window_look /*look*/, window_feel /*feel*/,
 					 uint32 flags, uint32 workspace)
 	: inherited(wr, ref, figure_best_frame(this, NULL),

@@ -35,5 +35,6 @@
 
 	ARPROOT		= ../..
 	IMG_NAME	= BeExp
+	SRCS		= $(shell ls 2>/dev/null -1 *.cpp *.S */*.cpp */*.S)
 
 include $(ARPROOT)/makefiles/library

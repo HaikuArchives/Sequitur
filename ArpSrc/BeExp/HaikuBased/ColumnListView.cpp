@@ -65,7 +65,7 @@ All rights reserved.
 #include <SupportDefs.h>
 #include <Window.h>
 
-#include <priv/ObjectListPrivate.h>
+#include <private/ObjectListPrivate.h>
 
 #include <experimental/ColorTools.h>
 #include <ObjectList.h>

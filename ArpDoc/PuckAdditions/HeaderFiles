@@ -25,6 +25,6 @@ UndoContext.h
 
 These headers were on the Dano BeOS cd and need to be eliminated:
 
-be/experimental/DocApplication.h
-be/experimental/DocWindow.h
+be/SelfWritten/DocApplication.h
+be/SelfWritten/DocWindow.h
 be/experimental/WindowRoster.h

@@ -133,7 +133,7 @@ status_t seq_make_skin_menu(BMenu* into, BMessage* baseMsg)
 }
 
 static
-DocWindow *myfactory(WindowRoster *wr, entry_ref *ref, const char *title,
+DocWindow *myfactory(DocApplication *wr, entry_ref *ref, const char *title,
 		window_look look, window_feel feel, uint32 flags, uint32 workspace)
 {
 	return new SeqSongWindow(wr, ref, title, look, feel, flags, workspace);

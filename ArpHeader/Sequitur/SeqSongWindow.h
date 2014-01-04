@@ -35,7 +35,8 @@
 #include <FilePanel.h>
 #endif
 
-#include <experimental/DocWindow.h>
+#include <SelfWritten/DocApplication.h>
+#include <SelfWritten/DocWindow.h>
 
 class BMenuItem;
 
@@ -72,7 +73,7 @@ private:
 	typedef DocWindow	inherited;
 	
 public:
-	SeqSongWindow(WindowRoster *wr, entry_ref *ref, const char *title,
+	SeqSongWindow(DocApplication *wr, entry_ref *ref, const char *title,
 		window_look look, window_feel feel, uint32 flags, uint32 workspace);
 	virtual ~SeqSongWindow();
 
