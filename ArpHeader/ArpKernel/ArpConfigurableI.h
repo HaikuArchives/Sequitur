@@ -44,6 +44,10 @@
 #include <ArpCollections/ArpVectorI.h>
 #endif
 
+#include <Message.h>
+#include <Messenger.h>
+#include <View.h>
+
 enum {
 	/**	This is a standard message that configurable objects
 	 ** can implement to update their settings.

@@ -1,6 +1,6 @@
 /* SeqEditMotionWindow.cpp
  */
-#include <be/InterfaceKit.h>
+#include <InterfaceKit.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "AmPublic/AmControls.h"

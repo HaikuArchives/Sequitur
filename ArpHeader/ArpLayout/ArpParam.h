@@ -40,15 +40,15 @@
 #define ARPLAYOUT_ARPPARAM_H
 
 #ifndef _MESSAGE_H
-#include <be/app/Message.h>
+#include <app/Message.h>
 #endif
 
 #ifndef _PROPERTY_INFO_H
-#include <be/app/PropertyInfo.h>
+#include <app/PropertyInfo.h>
 #endif
 
 #ifndef __BSTRING__
-#include <be/support/String.h>
+#include <support/String.h>
 #endif
 
 // Forward reference parameter and global sets.
@@ -88,8 +88,8 @@ struct parameter_info
 class ArpParamI
 {
 public:
-	ArpParamI()												{ }
-	virtual ~ArpParamI()									{ }
+	ArpParamI();
+	virtual ~ArpParamI();
 	
 	status_t Init(ArpParamSet* set, const char* name);
 	
@@ -99,14 +99,14 @@ public:
 		const parameter_info*	info;
 	};
 	
-	virtual	const char* Name(std_arg& sarg) const			{ return sarg.info->property->name; }
-	virtual type_code Type(std_arg& sarg) const				{ return sarg.info->property->types[0]; }
+	virtual	const char* Name(std_arg& sarg) const;
+	virtual type_code Type(std_arg& sarg) const;
 
 	// Return reference to global value:
 	// * NULL if this parameter can not reference a global.
 	// * "" if parameter is not currently referencing a global.
 	// * or the name of the global it is referencing.
-	virtual const char* GlobalRef(std_arg&) const			{ return 0; }
+	virtual const char* GlobalRef(std_arg&) const;
 	
 	virtual status_t ArchiveParam(std_arg& sarg,
 								  BMessage* msg,

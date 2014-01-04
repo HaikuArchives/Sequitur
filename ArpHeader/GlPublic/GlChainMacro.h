@@ -31,7 +31,7 @@
 #define GLPUBLIC_GLCHAINMACRO_H
 
 #include <ArpCore/String16.h>
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 class GlChain;
 class _GlChainMacroData;
 

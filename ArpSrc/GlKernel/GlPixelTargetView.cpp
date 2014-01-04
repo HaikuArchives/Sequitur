@@ -1,4 +1,4 @@
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #include <ArpSupport/ArpUniversalStringMachine.h>
 #include <ArpMath/ArpDefs.h>
 #include <ArpInterface/ArpPrefs.h>
@@ -18,7 +18,7 @@ static const char*		DENSITY_STR		= "Density";
 static const char*		COHESION_STR	= "Cohesion";
 static const char*		FLUIDITY_STR	= "Fluidity";
 
-static const uint32		CHANGE_MSG		= WM_USER + 1;
+static const uint32		CHANGE_MSG		= 'WMUR' + 1;
 
 /***************************************************************************
  * GL-PIXEL-TARGET-VIEW

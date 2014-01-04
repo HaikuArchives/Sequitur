@@ -1,9 +1,9 @@
 /* SeqTrackHrzSecondaryInfo.cpp
  */
 #include <stdio.h>
-#include <be/interface/MenuItem.h>
-#include <be/interface/StringView.h>
-#include <be/interface/Window.h>
+#include <interface/MenuItem.h>
+#include <interface/StringView.h>
+#include <interface/Window.h>
 #include "ArpViews/ArpMultiScrollBar.h"
 #include "AmPublic/AmGlobalsI.h"
 #include "AmPublic/AmPrefsI.h"

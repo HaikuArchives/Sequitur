@@ -35,11 +35,32 @@
 //                                ArpParamI
 // --------------------------------------------------------------------------
 
+ArpParamI::ArpParamI() {}
+ArpParamI::~ArpParamI() {}
+
 status_t
 ArpParamI::Init(ArpParamSet* set, const char* name)
 {
 	return set->AttachParameter(name, this) ? B_OK : B_ERROR;
 }
+
+const char* 
+ArpParamI::Name(std_arg& sarg) const
+{
+	return sarg.info->property->name;
+}
+type_code
+ArpParamI::Type(std_arg& sarg) const
+{
+	return sarg.info->property->types[0];
+}
+
+const char* 
+ArpParamI::GlobalRef(std_arg&) const
+{
+	return 0;
+}
+
 
 void
 ArpParamI::MakeGlobalName(std_arg& std, BString* name) const

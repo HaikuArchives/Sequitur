@@ -25,8 +25,8 @@
 #ifndef SEQUITUR_SEQMESSAGEWRAPPER_H
 #define SEQUITUR_SEQMESSAGEWRAPPER_H
 
-#include <be/app/Message.h>
-#include <be/support/String.h>
+#include <app/Message.h>
+#include <support/String.h>
 
 /*************************************************************************
  * SEQ-MESSAGE-WRAPPER

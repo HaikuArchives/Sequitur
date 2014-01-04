@@ -31,6 +31,8 @@
 #define GLPUBLIC_GLACTIONS_H
 
 #include <GlPublic/GlDefs.h>
+#include <ArpKernel/ArpDebug.h>
+
 class GlAlgo;
 class GlAlgo1d;
 class GlAlgo2d;

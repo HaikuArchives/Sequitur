@@ -1,5 +1,5 @@
-//#include <be/AppKit.h>
-#include <be/StorageKit.h>
+//#include <AppKit.h>
+#include <StorageKit.h>
 #include <ArpCore/StlVector.h>
 #include <ArpInterface/ArpBitmap.h>
 #include <ArpInterface/ArpPainter.h>

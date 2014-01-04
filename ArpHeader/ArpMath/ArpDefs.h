@@ -32,8 +32,8 @@
 
 #include <stdlib.h>
 #include <math.h>
-#include <be/support/SupportDefs.h>
-#include <ArpCore/ArpDebug.h>
+#include <support/SupportDefs.h>
+#include <ArpKernel/ArpDebug.h>
 
 /* absolute value of a */
 #define ARP_ABS(a)			(((a)<0) ? -(a) : (a))

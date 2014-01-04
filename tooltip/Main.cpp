@@ -1,33 +1,33 @@
 #ifndef _MESSAGE_H
-#include <be/app/Message.h>
+#include <app/Message.h>
 #endif
 
 #ifndef _MESSAGE_RUNNER_H
-#include <be/app/MessageRunner.h>
+#include <app/MessageRunner.h>
 #endif
 
 #ifndef _BITMAP_H
-#include <be/interface/Bitmap.h>
+#include <interface/Bitmap.h>
 #endif
 
 #ifndef _PICTURE_H
-#include <be/interface/Picture.h>
+#include <interface/Picture.h>
 #endif
 
 #ifndef _SCREEN_H
-#include <be/interface/Screen.h>
+#include <interface/Screen.h>
 #endif
 
 #ifndef _VIEW_H
-#include <be/interface/View.h>
+#include <interface/View.h>
 #endif
 
 #ifndef _WINDOW_H
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #endif
 
-#include <be/support/Debug.h>
-#include <be/support/String.h>
+#include <support/Debug.h>
+#include <support/String.h>
 
 #ifndef MAIN_H
 #include "Main.h"

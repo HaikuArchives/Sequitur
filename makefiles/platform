@@ -157,7 +157,7 @@ endif
 
 #	specify the command to copy a file and attributes
 ifeq ($(shell [ -e /bin/copyattr ] && echo "YES"), YES)
-	COPY			= copyattr --data
+	COPY			= $(ARPROOT)/copyfile
 else
 	COPY			= cp
 endif

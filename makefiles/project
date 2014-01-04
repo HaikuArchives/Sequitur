@@ -53,7 +53,7 @@
 #			automatically have .rsrc added to the end.
 #		RSRC_DIRS: Specify directories that contain additional data.
 #			There must also be a file in the parent of this directory
-#			name "{DIRECTORY}.r", which contains a mwbres script to
+#			name "{DIRECTORY}.rdef", which contains a rc script to
 #			create a resource file from this data.  The resulting file
 #			will automatically be merged into your application.
 #		ADD_BESHLIBS: Specify any additional beos shared libraries needed.
@@ -93,9 +93,9 @@ else
 	DIST_FULLDESTDIR := $(DIST_TARGET)/$(DIST_DESTDIR)
 endif
 
-	CFLAGS		+= $(DEFINE_VERSION)
+	CFLAGS		+= $(DEFINE_VERSION) -DB_BEOS_VERSION_DANO=1 -g
 	
-	LDFLAGS		+= $(LDPLATFLAGS)
+	LDFLAGS		+= $(LDPLATFLAGS) -g
 
 #	create the final list of libraries to include
 	LIBS_TO_USE =	$(addprefix -l, $(addsuffix $(LIB_EXTENSION), $(ADD_SHLIBS) $(DEFAULT_LIBS) $(ADD_BESHLIBS)))  $(ADD_STLIBS) $(ADD_BESTLIBS)
@@ -213,9 +213,9 @@ $(OBJ_DIR)/%.o : %.S
 	$(CC) $(INCLUDES) $(CPLATFLAGS) $(CFLAGS) -E "$<" > "$(OBJ_DIR)/$*.s"
 	$(AS) "$(OBJ_DIR)/$*.s" -o "$@"
 
-#	default rule to take xxx.r files on compile into $(OBJ_DIR)/xxx.rsrc
-$(OBJ_DIR)/%.rsrc : %.r
-	mwbres -o "$@" "$<"
+#	default rule to take xxx.rdef files on compile into $(OBJ_DIR)/xxx.rsrc
+$(OBJ_DIR)/%.rsrc : %.rdef
+	rc -o "$@" "$<"
 
 # This is here for when a header file is removed, but the deps aren't up to
 # date yet.
@@ -242,11 +242,11 @@ $(OBJ_DIR)/%.d: %.S
 	@mkdir --parents "$(shell dirname $@)"
 	@echo > "$@" ""
 
-$(OBJ_DIR)/%.d : %.r
+$(OBJ_DIR)/%.d : %.rdef
 	@echo "Finding dependencies for $<"
 	@mkdir --parents "$(shell dirname $@)"
-	@$(SHELL) -ec 'ls 2>/dev/null -1 "$(<:.r=)" \
-			| sed '\''s;^\(.*\)$$;"$(@:.d=.rsrc)" "$@" : "$(<:.r=)/\1";g'\'' > $@; \
+	@$(SHELL) -ec 'ls 2>/dev/null -1 "$(<:.rdef=)" \
+			| sed '\''s;^\(.*\)$$;"$(@:.d=.rsrc)" "$@" : "$(<:.rdef=)/\1";g'\'' > $@; \
 				[ -s $@ ] || rm -f $@'
 
 #	empty rule. Things that depend on this rule will always get triggered

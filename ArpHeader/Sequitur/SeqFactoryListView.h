@@ -24,8 +24,8 @@
 #ifndef SEQUITUR_SEQFACTORYLISTVIEW_H
 #define SEQUITUR_SEQFACTORYLISTVIEW_H
 
-#include <be/experimental/ColumnListView.h>
-#include <be/experimental/ColumnTypes.h>
+#include <experimental/ColumnListView.h>
+#include <experimental/ColumnTypes.h>
 
 /********************************************************
  * SEQ-FACTORY-LIST-VIEW

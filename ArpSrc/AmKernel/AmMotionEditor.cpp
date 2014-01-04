@@ -1,9 +1,9 @@
 /* AmEditMotionWindow.cpp
  */
 #include <vector.h>
-#include <be/experimental/BitmapTools.h>
-#include <be/InterfaceKit.h>
-#include <be/support/String.h>
+#include <experimental/BitmapTools.h>
+#include <InterfaceKit.h>
+#include <support/String.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpKernel/ArpBitmapCache.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
@@ -636,9 +636,9 @@ void AmMotionEditor::ComputeDimens(ArpDimens& cur_dimens)
 	dx.AddBody(12);
 }
 
-void AmMotionEditor::Layout(void)
+void AmMotionEditor::LayoutView(void)
 {
-	inherited::Layout();
+	inherited::LayoutView();
 }
 
 static BMenuField* new_view_as_field(BRect f)

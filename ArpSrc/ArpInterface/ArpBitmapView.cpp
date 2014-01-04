@@ -1,4 +1,4 @@
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #include <ArpInterface/ArpBitmapCache.h>
 #include <ArpInterface/ArpBitmapView.h>
 #include <ArpInterface/ArpPrefs.h>

@@ -46,19 +46,19 @@
 #endif
 
 #ifndef _TABVIEW_H
-#include <be/interface/TabView.h>
+#include <interface/TabView.h>
 #endif
 
 #ifndef _MESSAGE_H
-#include <be/app/Message.h>
+#include <app/Message.h>
 #endif
 
 #ifndef _INVOKER_H
-#include <be/app/Invoker.h>
+#include <app/Invoker.h>
 #endif
 
 #ifndef _PATH_H
-#include <be/storage/Path.h>
+#include <storage/Path.h>
 #endif
 
 // forward references

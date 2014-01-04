@@ -1,6 +1,6 @@
-#include <be/StorageKit.h>
-#include <be/support/Autolock.h>
-#include <ArpCore/ArpDebug.h>
+#include <StorageKit.h>
+#include <support/Autolock.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpInterface/ArpBitmap.h>
 #include <ArpInterface/ArpBitmapCache.h>
 #include <ArpInterface/ArpPopUpMenu.h>
@@ -360,7 +360,8 @@ status_t GlMainPathView::Recache()
 	BPoint						pt(padX, Bounds().bottom);
 
 	for (int32 k = int32(vec.size()) - 1; k >= 0; k--) {
-		float					w = StringWidth(&(vec[k]->label));
+		float					w = StringWidth(vec[k]->label.LockBuffer(64));
+		vec[k]->label.UnlockBuffer();
 		vec[k]->frame.Set(pt.x, pt.y - fH, pt.x + w, pt.y);
 		pt.x += w + padX;
 		mNodes->e.push_back(vec[k]);
@@ -1171,7 +1172,7 @@ BMenuItem* add_menu_item(	BMenu* toMenu,
 							char shortcut,
 							uint32 modifiers)
 {
-	BMenuItem	*item = new BMenuItem(label, msg, shortcut, modifiers);
+	BMenuItem	*item = new BMenuItem(label->String(), msg, shortcut, modifiers);
 	if (!item) {
 		delete msg;
 		return NULL;

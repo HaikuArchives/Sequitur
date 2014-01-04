@@ -35,3 +35,10 @@ ArpLayout* ArpLayout::Instantiate(BMessage* archive)
 		return new ArpLayout(archive); 
 	return 0;
 }
+
+void ArpLayout::initialize() {}
+
+ARPLAYOUT_HANDLERHOOKS_SOURCE(ArpLayout, BHandler);
+ARPLAYOUT_SUITEHOOKS_SOURCE(ArpLayout, BHandler);
+ARPLAYOUT_ARCHIVEHOOKS_SOURCE(ArpLayout, BHandler, false);
+

@@ -58,7 +58,7 @@
 #endif
 
 #ifndef _HANDLER_H
-#include <be/app/Handler.h>
+#include <app/Handler.h>
 #endif
 
 // -------------------- ARPLAYOUT_HANDLERHOOKS --------------------
@@ -83,13 +83,21 @@
  **/
 
 #define ARPLAYOUT_HANDLERHOOKS(ParentClass)								\
-	virtual void MessageReceived(BMessage *message)						\
+	virtual void MessageReceived(BMessage *message);						\
+	virtual BHandler*													\
+	ResolveSpecifier(BMessage *msg, int32 index, BMessage *specifier,	\
+					 int32 form, const char *property);					\
+	virtual BHandler* LayoutHandler();									\
+	virtual const BHandler* LayoutHandler() const;						
+
+#define ARPLAYOUT_HANDLERHOOKS_SOURCE(Class, ParentClass)								\
+	void Class::MessageReceived(BMessage *message)						\
 	{																	\
 		if( LayoutMessageReceived(message) == B_OK ) return;			\
 		ParentClass::MessageReceived(message);							\
 	}																	\
-	virtual BHandler*													\
-	ResolveSpecifier(BMessage *msg, int32 index, BMessage *specifier,	\
+	BHandler*													\
+	Class::ResolveSpecifier(BMessage *msg, int32 index, BMessage *specifier,	\
 					 int32 form, const char *property)					\
 	{																	\
 		BHandler* ret = 0;												\
@@ -100,11 +108,11 @@
 		return ParentClass::ResolveSpecifier(msg, index, specifier,		\
 											 form, property);			\
 	}																	\
-	virtual BHandler* LayoutHandler()									\
+	BHandler* Class::LayoutHandler()									\
 	{																	\
 		return this;													\
 	}																	\
-	virtual const BHandler* LayoutHandler() const						\
+	const BHandler* Class::LayoutHandler() const						\
 	{																	\
 		return this;													\
 	}																	\
@@ -122,7 +130,10 @@
  **/
  
 #define ARPLAYOUT_SUITEHOOKS(ParentClass)								\
-	virtual status_t GetSupportedSuites(BMessage *data)					\
+	virtual status_t GetSupportedSuites(BMessage *data);					
+
+#define ARPLAYOUT_SUITEHOOKS_SOURCE(Class, ParentClass)					\
+	status_t Class::GetSupportedSuites(BMessage *data)					\
 	{																	\
 		LayoutGetSupportedSuites(data);									\
 		return ParentClass::GetSupportedSuites(data);					\
@@ -141,13 +152,16 @@
  **/
 
 #define ARPLAYOUT_ARCHIVEHOOKS(ThisClass, ParentClass, ViewDeep)		\
-	ThisClass(BMessage* data, bool final=true)							\
+	ThisClass(BMessage* data, bool final=true);							\
+	virtual status_t Archive(BMessage* data, bool deep=true) const;		
+#define ARPLAYOUT_ARCHIVEHOOKS_SOURCE(ThisClass, ParentClass, ViewDeep)		\
+	ThisClass::ThisClass(BMessage* data, bool final=true)							\
 		: ParentClass(data), ArpBaseLayout(data, false)					\
 	{																	\
 		initialize();													\
 		if( final ) InstantiateParams(data);							\
 	}																	\
-	virtual status_t Archive(BMessage* data, bool deep=true) const		\
+	status_t ThisClass::Archive(BMessage* data, bool deep) const		\
 	{																	\
 		status_t status;												\
 		status = ParentClass::Archive(data, ViewDeep ? deep:false);		\
@@ -180,27 +194,34 @@
  **/
  
 #define ARPLAYOUT_VIEWHOOKS(ParentClass)								\
-	virtual void Draw(BRect updateRect)									\
+	virtual void Draw(BRect updateRect);									\
+	virtual void MakeFocus(bool focusState=true);						\
+	virtual void AttachedToWindow();										\
+	virtual void DetachedFromWindow();									\
+	virtual BView*	OwnerView();											
+
+#define ARPLAYOUT_VIEWHOOKS_SOURCE(Class, ParentClass)								\
+	void Class::Draw(BRect updateRect)									\
 	{																	\
 		DrawLayout(this, updateRect);									\
 		ParentClass::Draw(updateRect);									\
 	}																	\
-	virtual void MakeFocus(bool focusState=true)						\
+	void Class::MakeFocus(bool focusState=true)						\
 	{																	\
 		ParentClass::MakeFocus(focusState);								\
 		SetFocusShown(focusState);										\
 	}																	\
-	virtual void AttachedToWindow()										\
+	void Class::AttachedToWindow()										\
 	{																	\
 		ParentClass::AttachedToWindow();								\
 		AttachLayoutWindow(Window());									\
 	}																	\
-	virtual void DetachedFromWindow()									\
+	void Class::DetachedFromWindow()									\
 	{																	\
 		ParentClass::DetachedFromWindow();								\
 		AttachLayoutWindow(0);											\
 	}																	\
-	virtual BView*	OwnerView()											\
+	BView* Class::OwnerView()											\
 	{																	\
 		return this;													\
 	}																	\

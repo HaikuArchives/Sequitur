@@ -304,7 +304,7 @@ status_t _ParamViewFileNameEntry::EnableControl(bool enable)
 status_t _ParamViewFileNameEntry::SetControl(GlParamWrap& wrap)
 {
 	ArpVALIDATE(wrap.Type() == GL_TEXT_TYPE, return B_ERROR);
-	mCtrl->SetFileName(((GlTextWrap&)wrap).v.String());
+	mCtrl->SetFileName(&((GlTextWrap&)wrap).v);
 	return B_OK;
 }
 

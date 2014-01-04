@@ -39,15 +39,15 @@
 #define ARPKERNEL_ARPABOUTVIEW_H
 
 #ifndef _VIEW_H
-#include <be/interface/View.h>
+#include <interface/View.h>
 #endif
 
 #ifndef _BITMAP_H
-#include <be/interface/Bitmap.h>
+#include <interface/Bitmap.h>
 #endif
 
 #ifndef __BSTRING__
-#include <be/support/String.h>
+#include <support/String.h>
 #endif
 
 #ifndef ARPCOLLECTIONS_ARPVECTORI_H

@@ -22,7 +22,7 @@
 #ifndef ARPSUPPORT_ARPVOXEL_H
 #define ARPSUPPORT_ARPVOXEL_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 #include <ArpMath/ArpDefs.h>
 class BMessage;
 

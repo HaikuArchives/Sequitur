@@ -33,6 +33,7 @@
 #include "AmPublic/AmTrackDataView.h"
 #include "AmPublic/AmTrackInfoView.h"
 #include "AmStdFactory/AmStdViewFactoryAux.h"
+class BCheckBox;
 class BMenu;
 class AmTrackMeasureBackground;
 class AmViewPropertyI;

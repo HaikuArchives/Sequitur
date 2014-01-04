@@ -1,11 +1,11 @@
 #include <stdio.h>
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #include <ArpInterface/ArpPrefs.h>
 #include <GlPublic/GlNode.h>
 #include <GlPublic/GlRootNode.h>
 #include <Glasslike/GlDefs.h>
 #include <Glasslike/GlRootInfoInspector.h>
-
+#define WM_USER 'WMUS'
 static const uint32		CREATOR_MSG		= WM_USER + 1;
 static const uint32		KEY_MSG			= WM_USER + 2;
 static const uint32		CATEGORY_MSG	= WM_USER + 3;
@@ -25,7 +25,7 @@ GlRootInfoInspector::GlRootInfoInspector(BRect frame, const GlRootNode* root)
 	float				w = 200;
 	float				fh = ViewFontHeight();
 	float				sx = 2, sy = 2;
-	float				div = StringWidth(SZ(SZ_Category)) + 10;
+	float				div = StringWidth(SZ(SZ_Category)->String()) + 10;
 	/* Add the node label.
 	 */	
 	BString16		lab(root->Label());
@@ -73,7 +73,7 @@ void GlRootInfoInspector::SetString(BTextControl* ctrl)
 	ArpVALIDATE(ctrl, return);
 	GlRootNode*			root = mRef.WriteLock();
 	if (root) {
-		BString16		str((ctrl->Text()) ? ctrl->Text() : BString16(""));
+		BString16		str((ctrl->Text()) ? ctrl->Text() : "");
 		if (ctrl == mCreator) root->SetCreator(str);
 		else if (ctrl == mCategory) root->SetCategory(str);
 		else if (ctrl == mLabel) root->SetLabel(str);
@@ -84,7 +84,7 @@ void GlRootInfoInspector::SetString(BTextControl* ctrl)
 void GlRootInfoInspector::SetKey()
 {
 	if (!mKey) return;
-	int32				key = gl_key_from_string(mKey->Text());
+	int32				key = gl_key_from_string(new BString16(mKey->Text()));
 	BString16			keyStr = gl_string_from_key(key);
 	if (keyStr != mKey->Text())
 		mKey->SetText(keyStr.String());

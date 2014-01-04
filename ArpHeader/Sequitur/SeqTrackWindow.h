@@ -4,9 +4,9 @@
 #ifndef SEQUITUR_SEQTRACKWINDOW_H
 #define SEQUITUR_SEQTRACKWINDOW_H
 
-#include <be/experimental/BitmapButton.h>
-#include <be/interface/ScrollBar.h>
-#include <be/interface/Window.h>
+#include <experimental/BitmapButton.h>
+#include <interface/ScrollBar.h>
+#include <interface/Window.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "AmPublic/AmSongObserver.h"
 #include "AmPublic/AmViewFactory.h"

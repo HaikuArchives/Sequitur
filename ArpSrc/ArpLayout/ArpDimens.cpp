@@ -23,7 +23,7 @@
 #include <float.h>
 #include <algobase.h>
 
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 
 ArpMOD();
 

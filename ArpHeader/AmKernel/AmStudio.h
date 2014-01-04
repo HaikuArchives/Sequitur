@@ -25,11 +25,11 @@
 #define AMKERNEL_AMSTUDIO_H
 
 #include <vector.h>
-#include <be/app/Message.h>
-#include <be/storage/File.h>
-#include <be/support/DataIO.h>
-#include <be/support/Locker.h>
-#include <be/support/SupportDefs.h>
+#include <app/Message.h>
+#include <storage/File.h>
+#include <support/DataIO.h>
+#include <support/Locker.h>
+#include <support/SupportDefs.h>
 #include "AmPublic/AmDeviceI.h"
 
 /**********************************************************************

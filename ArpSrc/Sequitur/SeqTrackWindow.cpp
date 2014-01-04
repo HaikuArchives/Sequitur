@@ -1,9 +1,9 @@
 /* SeqTrackWindow.cpp
  */
 #include <stdio.h>
-#include <be/app/Application.h>
-#include <be/app/Clipboard.h>
-#include <be/InterfaceKit.h>
+#include <app/Application.h>
+#include <app/Clipboard.h>
+#include <InterfaceKit.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "ArpViews/ArpMultiScrollBar.h"

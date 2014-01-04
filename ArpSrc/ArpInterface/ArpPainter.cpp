@@ -1,5 +1,5 @@
-#include <be/interface/View.h>
-#include <ArpCore/ArpDebug.h>
+#include <interface/View.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpInterface/ArpPainter.h>
 
 #if 1

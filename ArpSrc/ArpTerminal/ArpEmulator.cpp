@@ -20,19 +20,19 @@
 #endif
 
 #ifndef _MESSAGE_H
-#include <be/app/Message.h>
+#include <app/Message.h>
 #endif
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #ifndef _INTERFACE_DEFS_H
-#include <be/interface/InterfaceDefs.h>
+#include <interface/InterfaceDefs.h>
 #endif
 
 #ifndef _VIEW_H
-#include <be/interface/View.h>
+#include <interface/View.h>
 #endif
 
 #include <string.h>

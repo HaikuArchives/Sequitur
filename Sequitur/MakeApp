@@ -71,7 +71,7 @@ endif
 #					$(shell ls 2>/dev/null -1 *.rsrc) Makefile MakeApp
 	
 #	specify any additional beos shared libraries needed.
-	ADD_BESHLIBS	= midi midi2 translation tracker media
+	ADD_BESHLIBS	= midi midi2 translation tracker media png
 
 #	specify additional non-beos shared libraries needed.
 	ADD_SHLIBS		= $(CPPLIB) AmKernel
@@ -85,7 +85,7 @@ endif
 					  $(ARPROOT)/ArpLib/$(OBJ_DIR)/libFFont.a
 
 #	specify any additional beos static libraries needed.
-	ADD_BESTLIBS	= /boot/develop/lib/x86/libexperimental.a
+#	ADD_BESTLIBS	= $(ARPROOT)/unknown.a
 
 #	specify additional non-beos static libraries needed.
 

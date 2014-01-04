@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <be/interface/StringView.h>
-#include <be/support/Errors.h>
-#include <ArpCore/ArpDebug.h>
+#include <interface/StringView.h>
+#include <support/Errors.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpCore/StlVector.h>
 #include <ArpInterface/ArpPrefs.h>
 #include <ArpInterface/ViewTools.h>
@@ -234,7 +234,7 @@ float GlControlView::ViewFontHeight() const
 
 float GlControlView::CheckBoxW(const BString16* label)
 {
-	return StringWidth(label) + 20;
+	return StringWidth(label->String()) + 20;
 }
 
 float GlControlView::MenuW(const BString16* label, const BMessage& items)
@@ -249,14 +249,14 @@ float GlControlView::MenuW(const BString16* label, const BMessage& items)
 			longLen = len;
 		}
 	}
-	if (!longItem) return StringWidth(label) + 40;
+	if (!longItem) return StringWidth(label->String()) + 40;
 	return MenuW(label, longItem);
 }
 
 float GlControlView::MenuW(const BString16* label, const char* longItem)
 {
 	ArpASSERT(label && longItem);
-	return StringWidth(label) + 5 + StringWidth(longItem) + 30;
+	return StringWidth(label->String()) + 5 + StringWidth(longItem) + 30;
 }
 
 // #pragma mark -
@@ -366,7 +366,7 @@ BButton* _ControlPanel::AddButton(	const BRect& frame, const char* name,
 {
 	BMessage*			msg = 0;
 	if (msgWhat > 0) msg = new BMessage(msgWhat);
-	BButton*			ctrl = new BButton(frame, name, label, msg);
+	BButton*			ctrl = new BButton(frame, name, label->String(), msg);
 	if (ctrl) {
 		mParent->AddChild(ctrl);
 		mControlsI.push_back(ctrl);
@@ -380,7 +380,7 @@ BCheckBox* _ControlPanel::AddCheckBox(	const BRect& frame, const char* name,
 {
 	BMessage*			msg = 0;
 	if (msgWhat > 0) msg = new BMessage(msgWhat);
-	BCheckBox*			ctrl = new BCheckBox(frame, name, label, msg);
+	BCheckBox*			ctrl = new BCheckBox(frame, name, label->String(), msg);
 	if (ctrl) {
 		if (on) ctrl->SetValue(B_CONTROL_ON);
 		else ctrl->SetValue(B_CONTROL_OFF);
@@ -550,7 +550,7 @@ BTextControl* _ControlPanel::AddTextControl(	const BRect& frame, const char* nam
 												const BString16* label, uint32 message, uint32 modificationMsg,
 												const BString16& text, float divider)
 {
-	BTextControl*		ctrl = new BTextControl(frame, name, label, text.String(), new BMessage(message));
+	BTextControl*		ctrl = new BTextControl(frame, name, label->String(), text.String(), new BMessage(message));
 	if (ctrl) {
 		ctrl->SetDivider(divider);
 		if (modificationMsg != 0) ctrl->SetModificationMessage(new BMessage(modificationMsg));

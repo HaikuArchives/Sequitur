@@ -32,11 +32,10 @@
 #define GLPUBLIC_GLNODE2_H
 
 #include <ArpCore/ArpCoreDefs.h>
-#include <ArpCore/ArpSynchronization.h>
 #include <ArpCore/String16.h>
-#include <be/app/Message.h>
-#include <be/interface/Rect.h>
-#include <be/interface/View.h>
+#include <app/Message.h>
+#include <interface/Rect.h>
+#include <interface/View.h>
 #include <ArpSupport/ArpSafeDelete.h>
 #include <GlPublic/GlDefs.h>
 #include <GlPublic/GlNodeData.h>

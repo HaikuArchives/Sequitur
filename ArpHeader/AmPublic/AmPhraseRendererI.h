@@ -24,7 +24,7 @@
 #ifndef AMPUBLIC_AMPHRASERENDERERI_H
 #define AMPUBLIC_AMPHRASERENDERERI_H
 
-#include <be/interface/View.h>
+#include <interface/View.h>
 #include "ArpKernel/ArpLineArrayCache.h"
 class AmPhraseEvent;
 class AmTrack;

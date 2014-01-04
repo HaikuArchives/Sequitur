@@ -1,13 +1,13 @@
 /* SeqBitmapEditor.cpp
  */
 #include <stdio.h>
-#include <be/experimental/BitmapTools.h>
-#include <be/app/Clipboard.h>
-#include <be/interface/ColorControl.h>
-#include <be/interface/ScrollView.h>
-#include <be/interface/Window.h>
-#include <be/storage/Entry.h>
-#include <be/translation/TranslationUtils.h>
+#include <experimental/BitmapTools.h>
+#include <app/Clipboard.h>
+#include <interface/ColorControl.h>
+#include <interface/ScrollView.h>
+#include <interface/Window.h>
+#include <storage/Entry.h>
+#include <translation/TranslationUtils.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "ArpKernel/ArpDebug.h"
 #include "ArpKernel/ArpLineArrayCache.h"

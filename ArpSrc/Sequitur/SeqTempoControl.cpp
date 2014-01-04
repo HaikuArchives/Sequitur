@@ -5,7 +5,7 @@
 #include <string.h>
 #include <malloc.h>
 #include <math.h>
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "ArpViewsPublic/ArpPrefsI.h"
 #include "AmPublic/AmDefs.h"

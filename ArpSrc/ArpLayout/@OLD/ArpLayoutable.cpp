@@ -24,11 +24,11 @@
 #endif
 
 #ifndef _WINDOW_H
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #endif
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #include <algobase.h>
@@ -963,9 +963,9 @@ void ArpLayoutable::MoveLayout(float left, float top, bool force)
 	LayoutChanged(force);
 }
 
-void ArpLayoutable::SetLayout(const BRect& frame, bool force)
+void ArpLayoutable::SetViewLayout(const BRect& frame, bool force)
 {
-	ArpD(cdb << ADH << "ArpLayoutable::SetLayout(" << frame << "): "
+	ArpD(cdb << ADH << "ArpLayoutable::SetViewLayout(" << frame << "): "
 				  << LayoutName() << endl);
 	cur_frame = frame;
 	LayoutChanged(force);
@@ -1049,7 +1049,7 @@ void ArpLayoutable::LayoutChanged(bool force)
 			last_frame = cur_frame;
 			cur_bounds = cur_frame;
 			if( view ) cur_bounds.OffsetTo(0,0);
-			Layout();
+			LayoutView();
 		}
 		return;
 	}
@@ -1093,17 +1093,17 @@ void ArpLayoutable::LayoutChanged(bool force)
 	}
 	last_frame = cur_frame;
 	if( changed ) {
-		Layout();
+		LayoutView();
 	}
 }
 
-void ArpLayoutable::Layout()
+void ArpLayoutable::LayoutView()
 {
 	BRect frm = LayoutBounds();
-	ArpD(cdb << ADH << "ArpLayoutable::Layout() -- " << LayoutName()
+	ArpD(cdb << ADH << "ArpLayoutable::LayoutView() -- " << LayoutName()
 			<< " " << frm << endl);
 	ArpLayoutable* child = (ArpLayoutable*)children.FirstItem();
 	if( child ) {
-		child->SetLayout(frm);
+		child->SetViewLayout(frm);
 	}
 }

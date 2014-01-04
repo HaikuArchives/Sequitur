@@ -2,10 +2,10 @@
  */
 #include <stdio.h>
 #include <string.h>
-#include <be/app/Message.h>
-#include <be/interface/Menu.h>
-#include <be/interface/MenuItem.h>
-#include <be/interface/View.h>
+#include <app/Message.h>
+#include <interface/Menu.h>
+#include <interface/MenuItem.h>
+#include <interface/View.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
 

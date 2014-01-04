@@ -1,5 +1,5 @@
-#include <be/support/Autolock.h>
-#include <ArpCore/ArpDebug.h>
+#include <support/Autolock.h>
+#include <ArpKernel/ArpDebug.h>
 #include <GlPublic/GlRecorder.h>
 
 //static uint32	gCount = 0;

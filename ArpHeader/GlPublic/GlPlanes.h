@@ -22,8 +22,8 @@
 #ifndef GLPUBLIC_GLPLANES_H
 #define GLPUBLIC_GLPLANES_H
 
-#include <be/support/SupportDefs.h>
-#include <ArpCore/ArpDebug.h>
+#include <support/SupportDefs.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpMath/ArpDefs.h>
 #include <GlPublic/GlDefs.h>
 

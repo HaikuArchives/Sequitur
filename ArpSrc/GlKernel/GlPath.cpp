@@ -1,4 +1,4 @@
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include "GlPublic/GlPath.h"
 
 static const uint32			GROW_BY		= 10;

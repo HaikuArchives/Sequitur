@@ -1,0 +1,11 @@
+echo "COPYING $1 TO $2"
+copyattr -d "$1" "$2"
+echo "RESULT: $?, FILE EXISTS: "
+if [ -f $2 ]; then
+	echo YEAH
+else
+	echo NO
+#	thiscopy "$1" "$2"
+fi
+
+echo DONE

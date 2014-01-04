@@ -66,7 +66,7 @@
 #endif
 
 #ifndef _VIEW_H
-#include <be/interface/View.h>
+#include <interface/View.h>
 #endif
 
 // Forward reference parameter interfaces.
@@ -303,7 +303,7 @@ class _EXPORT ArpBaseLayout {
 	 */
 	virtual ArpBaseLayout*	SetLayoutInhibit(bool state);
 	//* @see SetLayoutInhibit()
-	bool	LayoutInhibit(void) const	{ return inhibit_layout; }
+	bool	LayoutInhibit(void) const;
 	
 	/** Child manipulation.  Work just like BView's respective
 	 	functions.  These should -always- be called instead
@@ -317,7 +317,7 @@ class _EXPORT ArpBaseLayout {
 	//* @see AddLayoutChild()
 	virtual	bool		RemoveLayoutChild(ArpBaseLayout* child);
 	//* @see AddLayoutChild()
-	ArpBaseLayout*		LayoutParent(void) const { return mParent; }
+	ArpBaseLayout*		LayoutParent(void) const;
 	//* @see AddLayoutChild()
 	int32				CountLayoutChildren(void) const;
 	//* @see AddLayoutChild()
@@ -336,13 +336,13 @@ class _EXPORT ArpBaseLayout {
 	 */
 	virtual BWindow* LayoutWindow() const;
 	//* @see LayoutWindow()
-	virtual void LayoutAttachedToWindow()			{ }
+	virtual void LayoutAttachedToWindow();
 	//* @see LayoutWindow()
-	virtual void LayoutAllAttached()				{ }
+	virtual void LayoutAllAttached();
 	//* @see LayoutWindow()
-	virtual void LayoutDetachedFromWindow()			{ }
+	virtual void LayoutDetachedFromWindow();
 	//* @see LayoutWindow()
-	virtual void LayoutAllDetached()				{ }
+	virtual void LayoutAllDetached();
 	
 	/**	Check to see if there is space in the container for children.
 	 	This function should return the number of children it can
@@ -352,7 +352,7 @@ class _EXPORT ArpBaseLayout {
 	 	currently has none and 0 if it does; if it can take any
 	 	number of children, always return INT_MAX; etc.
 	 */
-	virtual int 		LayoutChildSpace() const	{ return 0; }
+	virtual int 		LayoutChildSpace() const;
 	
 	/**	Predict where a child will appear in its container.  The
 	 	arguments define where the child will be inserted, just
@@ -382,9 +382,9 @@ class _EXPORT ArpBaseLayout {
 	 	in -- this is either OwnerView() if there is one, or the
 	 	closest parents' OwnerView().
 	 */
-	virtual BView*	OwnerView()			{ return NULL; }
+	virtual BView*	OwnerView();
 	//* @see OwnerView()
-	BView*	InView()					{ return in_view ? in_view : (in_view=OwnerView()); }
+	BView*	InView();
 
 	/**	Dimensioning.
 	 	LayoutDimens() is called by others to retrieve this
@@ -399,9 +399,9 @@ class _EXPORT ArpBaseLayout {
 		results in a change, all of the children will automatically be
 	 	updated as well.
 	 */
-	virtual void	SetLayout(BRect frame, BRect body = BRect(),
+	virtual void	SetViewLayout(BRect frame, BRect body = BRect(),
 							  bool force = false);
-	//* @see SetLayout()
+	//* @see SetViewLayout()
 	virtual void	RequestLayout(bool force = false);
 	
 	/** This sets the gravity to determine how the frame and body
@@ -414,7 +414,7 @@ class _EXPORT ArpBaseLayout {
 		cause the left side of the view to match the frame rectangle,
 		and the other sides to align with the body rectangle.
 		
-		@see SetLayout()
+		@see SetViewLayout()
 		@see ::ArpGravity
 	 **/
 	void SetBodyFill(ArpGravity fill);
@@ -517,7 +517,7 @@ class _EXPORT ArpBaseLayout {
 	 	reposition its children.  By default, it just places
 	 	the first child within its entire frame.
 	 */
-	virtual void Layout();
+	virtual void LayoutView();
 	
 	/** Dimensioning.  When a recomputation of the object is
 	 	needed (indicated with InvalidateDimens() above),

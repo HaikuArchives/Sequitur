@@ -20,15 +20,15 @@
 #endif
 
 #ifndef _MENU_H
-#include <be/interface/Menu.h>
+#include <interface/Menu.h>
 #endif
 
 #ifndef _MENUITEM_H
-#include <be/interface/MenuItem.h>
+#include <interface/MenuItem.h>
 #endif
 
 #ifndef _ENTRY_H
-#include <be/storage/Entry.h>
+#include <storage/Entry.h>
 #endif
 
 #include <support/Autolock.h>

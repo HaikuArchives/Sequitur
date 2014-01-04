@@ -24,8 +24,8 @@
 #ifndef SEQUITUR_SEQMANAGEROSTERWINDOWS_H
 #define SEQUITUR_SEQMANAGEROSTERWINDOWS_H
 
-#include <be/experimental/ColumnListView.h>
-#include <be/interface/Window.h>
+#include <experimental/ColumnListView.h>
+#include <interface/Window.h>
 #include "AmPublic/AmToolRef.h"
 #include "Sequitur/SeqWindowStateI.h"
 class AmFileRoster;

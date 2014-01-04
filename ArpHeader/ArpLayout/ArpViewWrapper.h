@@ -60,7 +60,7 @@
 #endif
 
 #ifndef _VIEW_H
-#include <be/interface/View.h>
+#include <interface/View.h>
 #endif
 
 class _EXPORT ArpViewWrapper : public ArpLayout {

@@ -1,6 +1,6 @@
 #include <ArpCore/ArpCoreDefs.h>
 #include <stdio.h>
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #include <ArpInterface/ArpBitmapCache.h>
 #include <ArpInterface/ArpPainter.h>
 #include <ArpInterface/ArpPrefs.h>
@@ -14,7 +14,7 @@
  * GL-RESULT-VIEW
  *************************************************************************/
 GlResultView::GlResultView(BRect frame, GlResultCache& result)
-		: inherited(frame, "preview", B_FOLLOW_ALL, B_WILL_DRAW | B_FRAME_EVENTS | B_ACCEPTS_DROPS),
+		: inherited(frame, "preview", B_FOLLOW_ALL, B_WILL_DRAW | B_FRAME_EVENTS),// | B_ACCEPTS_DROPS),
 		  mResult(result), mBitmap(0), mInited(false)
 {
 }
@@ -119,6 +119,6 @@ void GlResultView::DrawOn(BView* view, BRect clip)
 		float		fh = arp_get_font_height(this);
 		float		padX = Prefs().GetFloat(ARP_PADX_F),
 					padY = Prefs().GetFloat(ARP_PADY_F);
-		view->DrawString(SZ(SZ_drop_image_here), BPoint(padX, padY + fh));
+		view->DrawString(SZ(SZ_drop_image_here)->String(), BPoint(padX, padY + fh));
 	}
 }

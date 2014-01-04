@@ -1,8 +1,8 @@
 /* SeqEditToolWindow.cpp
  */
-#include <be/experimental/ColumnListView.h>
-#include <be/experimental/ColumnTypes.h>
-#include <be/support/String.h>
+#include <experimental/ColumnListView.h>
+#include <experimental/ColumnTypes.h>
+#include <support/String.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "AmPublic/AmGraphicEffect.h"
@@ -399,7 +399,7 @@ static status_t add_bool_items(	BMenu** menu, const BMessage& props, const char*
 {
 	if (!label) return B_ERROR;
 #if B_BEOS_VERSION_DANO
-	const char*			name;
+	char*			name;
 #else
 	char*			name;
 #endif

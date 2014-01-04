@@ -33,6 +33,8 @@
 #include <GlPublic/GlNode.h>
 #include <GlPublic/GlNotifier.h>
 
+#include <Locker.h>
+
 /***************************************************************************
  * GL-ROOT-NODE
  * A special node that forms the root of a hierarchy.  Handles locking
@@ -80,7 +82,8 @@ public:
 
 private:
 	typedef GlNode				inherited;
-	mutable ArpReadWriteLock	mLock;
+	mutable BLocker				mReadLock;
+	mutable BLocker				mWriteLock;
 	BMessage					mInfoChanges, mNodeChanges,
 								mChainChanges;
 	

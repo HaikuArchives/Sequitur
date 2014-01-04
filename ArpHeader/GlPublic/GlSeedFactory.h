@@ -22,7 +22,7 @@
 #ifndef GLPUBLIC_GLSEEDFACTORY_H
 #define GLPUBLIC_GLSEEDFACTORY_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 class ArpPoint3d;
 class GlAlgo2d;
 class GlPlanes;

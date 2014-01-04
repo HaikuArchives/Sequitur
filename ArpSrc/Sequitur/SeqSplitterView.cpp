@@ -2,9 +2,9 @@
  */
 #include <assert.h>
 #include <stdio.h>
-#include <be/app/Cursor.h>
-#include <be/app/Message.h>
-#include <be/interface/Window.h>
+#include <app/Cursor.h>
+#include <app/Message.h>
+#include <interface/Window.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpPrefsI.h"
 #include "AmPublic/AmDefs.h"

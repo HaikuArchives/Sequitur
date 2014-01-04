@@ -30,7 +30,7 @@
 #ifndef GLPUBLIC_GLLINECACHE_H
 #define GLPUBLIC_GLLINECACHE_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 
 /*******************************************************
  * GL-LINE-CACHE

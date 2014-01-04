@@ -30,7 +30,7 @@
 #ifndef GLPUBLIC_GLNODEREADERWRITER_H
 #define GLPUBLIC_GLNODEREADERWRITER_H
 
-#include <be/app/Message.h>
+#include <app/Message.h>
 #include <GlPublic/GlDefs.h>
 class GlNode;
 

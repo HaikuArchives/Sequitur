@@ -1,0 +1,1 @@
+../SampleCodeLicense/ColorTools.h

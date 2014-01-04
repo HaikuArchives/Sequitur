@@ -34,13 +34,13 @@
 #include <ArpLayout/ViewStubs.h>
 #endif
 
-#include <be/interface/Button.h>
-#include <be/interface/CheckBox.h>
-#include <be/interface/ColorControl.h>
-#include <be/interface/PopUpMenu.h>
-#include <be/interface/TextControl.h>
-#include <be/interface/MenuItem.h>
-#include <be/support/Autolock.h>
+#include <interface/Button.h>
+#include <interface/CheckBox.h>
+#include <interface/ColorControl.h>
+#include <interface/PopUpMenu.h>
+#include <interface/TextControl.h>
+#include <interface/MenuItem.h>
+#include <support/Autolock.h>
 
 #include <float.h>
 #include <string.h>

@@ -112,6 +112,10 @@
 #ifndef ARPKERNEL_ARPDEBUG_H
 #define ARPKERNEL_ARPDEBUG_H
 
+
+//FORCE DEBUG
+#define ArpDEBUG 1
+
 #if defined(ArpDEBUG)
 #ifndef DEBUG
 #define DEBUG 1
@@ -120,7 +124,7 @@
 
 #include <assert.h>
 
-#include <be/support/Debug.h>
+#include <support/Debug.h>
 
 #define RPTERR(ARGS)	_debugPrintf ARGS
 
@@ -196,7 +200,10 @@ public:
 						   << " of file " << __FILE__ << endl);
 #define ArpMARK() ArpMARKL(__FILE__,1)
 
-
+#define ArpPOLISH(__A__) cdb << "ArpPOLISH: At line " << __LINE__ << \
+								"of file " << __FILE__ <<": " __A__
+#define ArpFINISH() cdb << "ArpFINISH: At line " << __LINE__ << \
+								"of file " << __FILE__ <<", finish this!"
 // OLD DEBUGGING INFRASTRUCTURE -- DO NOT USE IN NEW CODE
 #define D(x) x
 #define DB(level,x) { if(level) { x; } cdb.flush(); DB_WAIT(DB_DELAY) }

@@ -80,6 +80,75 @@ bigtime_t pulse_to_realtime(AmTime pulse, int32 bpm, AmTime baseBeat, bigtime_t 
 }
 
 /* ----------------------------------------------------------------
+   AmPerformerEvent Implementation
+   ---------------------------------------------------------------- */
+AmPerformerEvent::AmPerformerEvent(AmTime time)
+	: AmEvent(time), mBeatOffset(-1)
+{
+	
+}
+
+AmPerformerEvent::AmPerformerEvent(const AmPerformerEvent& o)
+	: AmEvent(o), mBeatOffset(o.mBeatOffset)
+{
+}
+
+AmPerformerEvent::EventType AmPerformerEvent::Type() const
+{
+	return PERFORMER_TYPE;
+}
+
+AmEvent* AmPerformerEvent::Copy() const
+{
+	return new AmPerformerEvent(*this);
+}
+
+void AmPerformerEvent::Print() const
+{
+	printf("AmPerformerEvent at %lld: base=%lld\n", mTime, mBeatOffset);
+}
+
+void AmPerformerEvent::SetBeatOffset(AmTime t)
+{
+	mBeatOffset = t;
+}
+
+AmTime AmPerformerEvent::BeatOffset() const
+{
+	return mBeatOffset;
+}
+
+void* AmPerformerEvent::operator new(size_t size)
+{
+	ArpASSERT( size == sizeof(AmPerformerEvent) );
+	return GetEvent( PERFORMER_TYPE, size );
+}
+
+void AmPerformerEvent::operator delete(void* ptr, size_t size)
+{
+	ArpASSERT( size == sizeof(AmPerformerEvent) );
+	SaveEvent( PERFORMER_TYPE, ptr );
+}
+
+AmPerformerEvent::~AmPerformerEvent()
+{
+	
+}
+
+AmPerformerEvent& AmPerformerEvent::operator=(const AmPerformerEvent& o)
+{
+	AmEvent::operator=(o);
+	mBeatOffset = o.mBeatOffset;
+	return *this;
+}
+/* ----------------------------------------------------------------
+   AmClockTarget Implementation
+   ---------------------------------------------------------------- */
+AmClockTarget::~AmClockTarget()
+{
+	
+}
+/* ----------------------------------------------------------------
    AmPerformer Implementation
    ---------------------------------------------------------------- */
 
@@ -216,6 +285,16 @@ bool AmPerformer::IsRunning() const
 enum {
 	PRIVATE_RESTART = 1<<16
 };
+
+AmPerformer::AmPerformer(const AmPerformer&)
+{
+	
+}
+
+AmPerformer& AmPerformer::operator=(const AmPerformer&)
+{
+	return *this;
+}
 
 status_t AmPerformer::Restart(AmEvent* song, uint32 flags)
 {

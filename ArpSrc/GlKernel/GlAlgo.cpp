@@ -1,5 +1,5 @@
 #include <typeinfo>
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpCore/StlVector.h>
 #include <GlPublic/GlAlgo.h>
 #include <GlPublic/GlProcessStatus.h>

@@ -1,8 +1,8 @@
 #include <algo.h>
-#include <be/app/Clipboard.h>
-#include <be/experimental/ColumnListView.h>
-#include <be/experimental/ColumnTypes.h>
-#include <be/support/String.h>
+#include <app/Clipboard.h>
+#include <experimental/ColumnListView.h>
+#include <experimental/ColumnTypes.h>
+#include <support/String.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "ArpViews/ArpInlineTextView.h"
@@ -142,7 +142,7 @@ private:
 class _AbstractBankRow : public BRow
 {
 public:
-	ArpRef<AmBank>		Bank() const		{ return mBank; }
+	ArpRef<AmBank>		Bank() const;
 
 	virtual void		SelectionSetup(BTextControl* valueCtrl);
 	/* If subclasses supply 'true' to updateAll, then all rows
@@ -157,6 +157,11 @@ protected:
 	ArpRef<AmBank>		mBank;
 };
 
+ArpRef<AmBank>
+_AbstractBankRow::Bank() const
+{
+	return mBank;
+}
 /********************************************************
  * _BANK-ROW
  ********************************************************/

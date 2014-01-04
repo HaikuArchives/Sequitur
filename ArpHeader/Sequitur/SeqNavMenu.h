@@ -28,12 +28,12 @@
 #define SEQUITUR_SEQNAVMENU_H
 
 #include <vector.h>
-#include <be/app/Messenger.h>
-#include <be/interface/Menu.h>
-#include <be/interface/MenuItem.h>
-#include <be/storage/Directory.h>
-#include <be/storage/Query.h>
-#include <be/support/String.h>
+#include <app/Messenger.h>
+#include <interface/Menu.h>
+#include <interface/MenuItem.h>
+#include <storage/Directory.h>
+#include <storage/Query.h>
+#include <support/String.h>
 
 typedef vector<BMenuItem*>		item_vec;
 

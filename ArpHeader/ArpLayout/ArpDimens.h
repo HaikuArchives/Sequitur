@@ -50,7 +50,7 @@
 #define ARPLAYOUT_ARPDIMENS_H
 
 #ifndef _MESSAGE_H
-#include <be/app/Message.h>
+#include <app/Message.h>
 #endif
 
 /**

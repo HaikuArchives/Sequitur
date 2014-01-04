@@ -5,8 +5,8 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <be/interface/MenuField.h>
-#include <be/interface/MenuItem.h>
+#include <interface/MenuField.h>
+#include <interface/MenuItem.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpLayout/ArpViewWrapper.h"
 #include "ArpViews/ArpIntControl.h"

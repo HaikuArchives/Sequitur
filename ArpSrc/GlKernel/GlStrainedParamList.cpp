@@ -39,7 +39,7 @@ public:
 
 	const BString16*		Label(uint32 flags) const
 	{
-		if (mLabel.Length() > 0) return mLabel.String();
+		if (mLabel.Length() > 0) return &mLabel;
 		if (flags&GlStrainedParamList::NO_DEFAULT_LABEL_F) return 0;
 		if (paramType) return paramType->Label();
 		if (param && param->ParamType()) return param->ParamType()->Label();

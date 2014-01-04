@@ -24,9 +24,9 @@
 #ifndef SEQUITUR_SEQIMAGEMANAGER_H
 #define SEQUITUR_SEQIMAGEMANAGER_H
 
-#include <be/interface/Bitmap.h>
-#include <be/interface/Picture.h>
-#include <be/interface/Window.h>
+#include <interface/Bitmap.h>
+#include <interface/Picture.h>
+#include <interface/Window.h>
 #include <Locker.h>
 #include "ArpViewsPublic/ArpPrefsI.h"
 

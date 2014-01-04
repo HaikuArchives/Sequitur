@@ -1,8 +1,8 @@
 /* AmToolSeedsUI.cpp
  */
 #include <stdio.h>
-#include <be/interface/StringView.h>
-#include <be/interface/Window.h>
+#include <interface/StringView.h>
+#include <interface/Window.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpPrefsI.h"
 #include "ArpViewsPublic/ArpViewDefs.h"

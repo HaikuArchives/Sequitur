@@ -22,7 +22,7 @@
 #ifndef AMPUBLIC_AMSELECTIONSI_H
 #define AMPUBLIC_AMSELECTIONSI_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmRange.h"
 class AmFilterHolderI;

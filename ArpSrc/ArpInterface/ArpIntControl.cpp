@@ -7,8 +7,8 @@
 #include <string.h>
 #endif
 
-#include <be/InterfaceKit.h>
-#include <ArpCore/ArpDebug.h>
+#include <InterfaceKit.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpSupport/ArpIntFormatterI.h>
 #include <ArpSupport/ArpIntToStringMapI.h>
 #include <ArpInterface/ArpBitmapCache.h>
@@ -474,9 +474,9 @@ void ArpIntControl::ComputeDimens(ArpDimens& cur_dimens)
 	dx.AddBody(12);
 }
 
-void ArpIntControl::Layout()
+void ArpIntControl::LayoutView()
 {
-	inherited::Layout();
+	inherited::LayoutView();
 	SetDivider(BodyFrame().left - LayoutFrame().left);
 }
 #endif

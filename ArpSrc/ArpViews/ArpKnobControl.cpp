@@ -4,10 +4,10 @@
 #include <assert.h>
 #include <string.h>
 #include <malloc.h>
-#include <be/interface/Bitmap.h>
-#include <be/interface/Screen.h>
-#include <be/interface/StringView.h>
-#include <be/interface/Window.h>
+#include <interface/Bitmap.h>
+#include <interface/Screen.h>
+#include <interface/StringView.h>
+#include <interface/Window.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpIntFormatterI.h"
@@ -434,6 +434,16 @@ void ArpKnobPanel::GetPreferredSize(float* width, float* height)
 	}
 	*width = w;
 	*height = h;
+}
+
+BHandler* ArpKnobPanel::LayoutHandler()
+{
+	return this;
+}
+
+const BHandler* ArpKnobPanel::LayoutHandler() const
+{
+	return this;
 }
 
 void ArpKnobPanel::LayoutHorizontal(const char* name, const char* label, BMessage* message,

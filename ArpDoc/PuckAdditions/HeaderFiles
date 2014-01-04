@@ -1,0 +1,30 @@
+These headers were found on angryredplanet.com/~hackbod/beos and are licensed under the Be Sample code license:
+
+be/experimental/BitmapButton.h
+be/experimental/BitmapTools.h
+be/experimental/ColorTools.h
+be/experimental/ResourceSet.h
+
+
+These headers were taken from the Haiku source:
+
+be/experimental/ColumnListView.h
+be/experimental/ColumnTypes.h
+priv/ObjectListPrivate.h
+
+
+These headers were in the source package:
+
+AddOnManager.h
+atomic.h
+Gehnaphore.h
+SearchPath.h
+ToolTip.h
+UndoContext.h
+
+
+These headers were on the Dano BeOS cd and need to be eliminated:
+
+be/SelfWritten/DocApplication.h
+be/SelfWritten/DocWindow.h
+be/experimental/WindowRoster.h

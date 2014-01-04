@@ -1,6 +1,6 @@
-//#include <be/AppKit.h>
-#include <be/StorageKit.h>
-#include <ArpCore/ArpPrintDebugging.h>
+//#include <AppKit.h>
+#include <StorageKit.h>
+#include <ArpKernel/ArpDebug.h>
 #include "GlPublic/GlParamType.h"
 #include "GlPublic/GlRootNode.h"
 #include "GlKernel/GlUserNodeAddOn.h"
@@ -522,7 +522,7 @@ status_t _ToolBarInit::Install(	GlNodeAddOn* addon, const BString16& creator,
 								const BString16& category)
 {
 	const BString16*		cat = SZ(SZ_User);
-	if (category.Length() > 0) cat = category.String();
+	if (category.Length() > 0) *cat = category.String();
 
 	status_t		err = B_OK;
 

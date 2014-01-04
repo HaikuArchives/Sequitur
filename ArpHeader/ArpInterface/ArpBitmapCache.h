@@ -32,7 +32,7 @@
 #ifndef ARPINTERFACE_ARPBITMAPCACHE_H
 #define ARPINTERFACE_ARPBITMAPCACHE_H
 
-#include <be/interface/Rect.h>
+#include <interface/Rect.h>
 class BView;
 
 /*******************************************************

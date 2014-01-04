@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <string.h>
 #include <malloc.h>
-#include <be/interface/View.h>
+#include <interface/View.h>
 #include <Autolock.h>
 #include "ArpKernel/ArpDebug.h"
 #include "Sequitur/SeqImageManager.h"

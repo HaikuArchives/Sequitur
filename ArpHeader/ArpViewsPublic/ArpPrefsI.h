@@ -36,8 +36,8 @@
 #ifndef ARPVIEWSPUBLIC_ARPPREFSI_H
 #define ARPVIEWSPUBLIC_ARPPREFSI_H
 
-#include <be/interface/Bitmap.h>
-#include <be/interface/GraphicsDefs.h>
+#include <interface/Bitmap.h>
+#include <interface/GraphicsDefs.h>
 
 /***************************************************************************
  * ARP-PREFERENCES-I

@@ -61,7 +61,7 @@
 #endif
 
 #ifndef _GRAPHICS_DEFS_H
-#include <be/interface/GraphicsDefs.h>
+#include <interface/GraphicsDefs.h>
 #endif
 
 class ArpTerminalInterface : public ArpConfigurableI {

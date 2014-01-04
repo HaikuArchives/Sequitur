@@ -65,11 +65,11 @@
 #define ARPTERMINAL_ARPTERMINAL_H
 
 #ifndef _LIST_H
-#include <be/support/List.h>
+#include <support/List.h>
 #endif
 
 #ifndef _MENU_H
-#include <be/interface/Menu.h>
+#include <interface/Menu.h>
 #endif
 
 #ifndef ARPKERNEL_ARPMOUSETRACKER_H
@@ -83,6 +83,8 @@
 #ifndef ARPTERMINAL_ARPEMULATOR_H
 #include <ArpTerminal/ArpEmulator.h>
 #endif
+
+#include <Clipboard.h>
 
 // forward regs
 class BView;

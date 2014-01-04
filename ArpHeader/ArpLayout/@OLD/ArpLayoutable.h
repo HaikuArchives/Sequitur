@@ -82,11 +82,11 @@
 #endif
 
 #ifndef _LIST_H
-#include <be/support/List.h>
+#include <support/List.h>
 #endif
 
 #ifndef _VIEW_H
-#include <be/interface/View.h>
+#include <interface/View.h>
 #endif
 
 /*
@@ -496,7 +496,7 @@ class ArpLayoutable {
 	 * reposition its children.  By default, it just places
 	 * the first child within its entire frame.
 	 */
-	virtual void Layout();
+	virtual void LayoutView();
 	
 	/* Dimensioning.  When a recomputation of the object is
 	 * needed (indicated with InvalidateDimens() above),

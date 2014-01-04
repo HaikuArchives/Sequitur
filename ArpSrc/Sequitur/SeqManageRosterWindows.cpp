@@ -1,10 +1,10 @@
 /* SeqManageRosterWindows.cpp
  */
 #include <set>
-#include <be/experimental/ColorTools.h>
-#include <be/experimental/ColumnTypes.h>
-#include <be/InterfaceKit.h>
-#include <be/support/String.h>
+#include <experimental/ColorTools.h>
+#include <experimental/ColumnTypes.h>
+#include <InterfaceKit.h>
+#include <support/String.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "ArpViewsPublic/ArpPrefsI.h"

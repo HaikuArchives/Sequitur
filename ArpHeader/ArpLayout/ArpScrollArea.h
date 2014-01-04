@@ -93,7 +93,7 @@ public:
 								   const BMessage& c = ArpNoParams,
 								   ArpBaseLayout* before = NULL);
 	virtual	bool		RemoveLayoutChild(ArpBaseLayout* child);
-	virtual int 		LayoutChildSpace() const	{ return CountLayoutChildren() <= 0 ? 1 : 0; }
+	virtual int 		LayoutChildSpace() const;
 	virtual BRect		HintLayoutChild(ArpBaseLayout* before = NULL) const;
 	
 	virtual void		SetFocusShown(bool state, bool andParent);
@@ -104,7 +104,7 @@ public:
 protected:
   
 	virtual void	ComputeDimens(ArpDimens& dimens);
-	virtual void	Layout(void);
+	virtual void	LayoutView(void);
 	virtual void	AttachView(BView* par_view, BView* before);
 	virtual void	DrawLayout(BView* inside, BRect region);
 	

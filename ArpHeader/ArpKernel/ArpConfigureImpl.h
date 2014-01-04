@@ -42,19 +42,19 @@
 #endif
 
 #ifndef _VIEW_H
-#include <be/interface/View.h>
+#include <interface/View.h>
 #endif
 
 #ifndef _MESSAGE_H
-#include <be/app/Message.h>
+#include <app/Message.h>
 #endif
 
 #ifndef _MESSENGER_H
-#include <be/app/Messenger.h>
+#include <app/Messenger.h>
 #endif
 
 #ifndef _INVOKER_H
-#include <be/app/Invoker.h>
+#include <app/Invoker.h>
 #endif
 
 // Forward references

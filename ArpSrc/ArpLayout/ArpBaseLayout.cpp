@@ -28,11 +28,11 @@
 #endif
 
 #ifndef _WINDOW_H
-#include <be/interface/Window.h>
+#include <interface/Window.h>
 #endif
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #include <algobase.h>
@@ -447,6 +447,11 @@ ArpBaseLayout* ArpBaseLayout::SetLayoutInhibit(bool state)
 	return this;
 }
 
+bool ArpBaseLayout::LayoutInhibit() const
+{
+	return inhibit_layout;
+}
+
 void ArpBaseLayout::DrawLayout(BView* inside, BRect region)
 {
 	ArpBaseLayout* child = LayoutChildAt(0);
@@ -775,6 +780,11 @@ bool ArpBaseLayout::RemoveLayoutChild(ArpBaseLayout* child)
 	return true;
 }
 
+ArpBaseLayout* ArpBaseLayout::LayoutParent() const
+{
+	return mParent;
+}
+
 void ArpBaseLayout::AttachView(BView* par_view, BView* before)
 {
 	ArpD(cdb << ADH << "AttachView: par_view=" << par_view
@@ -864,9 +874,30 @@ ArpBaseLayout* ArpBaseLayout::FindLayoutable(const char* name)
 	return 0;
 }
 
+void ArpBaseLayout::LayoutAttachedToWindow()
+{
+}
+
+void ArpBaseLayout::LayoutAllAttached()
+{
+}
+
+void ArpBaseLayout::LayoutDetachedFromWindow()
+{
+}
+
+void ArpBaseLayout::LayoutAllDetached()
+{
+}
+
 BRect ArpBaseLayout::HintLayoutChild(ArpBaseLayout* before) const
 {
 	return LayoutBounds();
+}
+
+int ArpBaseLayout::LayoutChildSpace() const
+{
+	return 0;
 }
 
 void ArpBaseLayout::ComputeDimens(ArpDimens& cur_dimens)
@@ -931,9 +962,9 @@ BRect ArpBaseLayout::BodyBounds() const
 	return bounds;
 }
 
-void ArpBaseLayout::SetLayout(BRect frame, BRect body, bool force)
+void ArpBaseLayout::SetViewLayout(BRect frame, BRect body, bool force)
 {
-	ArpD(cdb << ADH << "ArpBaseLayout::SetLayout(" << frame << "): "
+	ArpD(cdb << ADH << "ArpBaseLayout::SetViewLayout(" << frame << "): "
 				  << LayoutName() << endl);
 	cur_frame = frame;
 	body_frame = body;
@@ -967,6 +998,16 @@ void ArpBaseLayout::SetBodyFill(ArpGravity fill)
 ArpGravity ArpBaseLayout::BodyFill() const
 {
 	return mBodyFill;
+}
+
+BView* ArpBaseLayout::OwnerView()
+{
+	return NULL;
+}
+
+BView* ArpBaseLayout::InView()
+{
+	return in_view ? in_view : (in_view = OwnerView());
 }
 
 void ArpBaseLayout::InvalidateDimens(void)
@@ -1057,7 +1098,7 @@ void ArpBaseLayout::LayoutChanged(bool force)
 	if( LayoutParent() == 0 ) {
 		if( force || last_frame != cur_frame ) {
 			body_frame = last_frame = cur_frame;
-			Layout();
+			LayoutView();
 		}
 		return;
 	}
@@ -1098,18 +1139,18 @@ void ArpBaseLayout::LayoutChanged(bool force)
 	}
 	last_frame = view_frame;
 	if( changed ) {
-		Layout();
+		LayoutView();
 	}
 }
 
-void ArpBaseLayout::Layout()
+void ArpBaseLayout::LayoutView()
 {
 	BRect frm = LayoutBounds();
 	BRect body = BodyBounds();
-	ArpD(cdb << ADH << "ArpBaseLayout::Layout() -- " << LayoutName()
+	ArpD(cdb << ADH << "ArpBaseLayout::LayoutView() -- " << LayoutName()
 			<< " " << frm << endl);
 	ArpBaseLayout* child = LayoutChildAt(0);
 	if( child ) {
-		child->SetLayout(frm, body);
+		child->SetViewLayout(frm, body);
 	}
 }

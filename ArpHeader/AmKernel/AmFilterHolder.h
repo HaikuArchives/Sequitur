@@ -150,8 +150,8 @@ protected:
 
 private:
 	// copying constructor and assignment are not allowed.
-	AmFilterHolder(const AmFilterHolder&) { }
-	AmFilterHolder& operator=(const AmFilterHolder&) { return *this; }
+	AmFilterHolder(const AmFilterHolder&);
+	AmFilterHolder& operator=(const AmFilterHolder&);
 	
 	const pipeline_matrix_id	mMatrix;
 	const track_id				mTrack;

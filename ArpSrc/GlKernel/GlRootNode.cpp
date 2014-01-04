@@ -29,25 +29,25 @@ GlRootNode::GlRootNode(const GlRootNode& o)
 
 bool GlRootNode::ReadLock() const
 {
-	return mLock.ReadLock();
+	return mReadLock.Lock();
 }
 
 bool GlRootNode::WriteLock(const char* name)
 {
-	
-	bool result = mLock.WriteLock();
-	return result;
+	return mWriteLock.Lock();
 }
 
 bool GlRootNode::ReadUnlock() const
 {
-	return mLock.ReadUnlock();
+	mReadLock.Unlock();
+	return true;
 }
 
 bool GlRootNode::WriteUnlock()
 {
 	FlushChanges();
-	return mLock.WriteUnlock();
+	mWriteLock.Unlock();
+	return true;
 }
 
 GlNode* GlRootNode::Clone() const
@@ -82,8 +82,8 @@ void GlRootNode::SetCreator(const BString16& str)
 	Params().SetValue(GL_PARAM_ROOT_CREATOR, w);	
 
 	mInfoChanges.what = INFO_CODE;
-	if (mInfoChanges.ReplaceString16(GL_NODE_CREATOR_STR, str) != B_OK)
-		mInfoChanges.AddString16(GL_NODE_CREATOR_STR, str);
+	if (mInfoChanges.ReplaceString(GL_NODE_CREATOR_STR, str) != B_OK)
+		mInfoChanges.AddString(GL_NODE_CREATOR_STR, str);
 }
 
 int32 GlRootNode::Key() const
@@ -116,8 +116,8 @@ void GlRootNode::SetCategory(const BString16& str)
 	Params().SetValue(GL_PARAM_ROOT_CATEGORY, w);
 
 	mInfoChanges.what = INFO_CODE;
-	if (mInfoChanges.ReplaceString16(GL_NODE_CATEGORY_STR, str) != B_OK)
-		mInfoChanges.AddString16(GL_NODE_CATEGORY_STR, str);
+	if (mInfoChanges.ReplaceString(GL_NODE_CATEGORY_STR, str) != B_OK)
+		mInfoChanges.AddString(GL_NODE_CATEGORY_STR, str);
 }
 
 BString16 GlRootNode::Label() const
@@ -133,8 +133,8 @@ void GlRootNode::SetLabel(const BString16& str)
 	Params().SetValue(GL_PARAM_ROOT_LABEL, w);
 
 	mInfoChanges.what = INFO_CODE;
-	if (mInfoChanges.ReplaceString16(GL_NODE_LABEL_STR, str) != B_OK)
-		mInfoChanges.AddString16(GL_NODE_LABEL_STR, str);
+	if (mInfoChanges.ReplaceString(GL_NODE_LABEL_STR, str) != B_OK)
+		mInfoChanges.AddString(GL_NODE_LABEL_STR, str);
 }
 
 GlAlgo* GlRootNode::Generate(const gl_generate_args& args) const

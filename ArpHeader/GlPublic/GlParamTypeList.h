@@ -22,7 +22,7 @@
 #ifndef GLPUBLIC_GLPARAMTYPELIST_H
 #define GLPUBLIC_GLPARAMTYPELIST_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 class GlParamType;
 class _ParamTypeListData;
 

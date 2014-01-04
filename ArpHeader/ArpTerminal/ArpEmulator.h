@@ -58,11 +58,11 @@
 #endif
 
 #ifndef _LOCKER_H
-#include <be/support/Locker.h>
+#include <support/Locker.h>
 #endif
 
 #ifndef _POINT_H
-#include <be/interface/Point.h>
+#include <interface/Point.h>
 #endif
 
 class ArpEmulator : public ArpEmulatorInterface {

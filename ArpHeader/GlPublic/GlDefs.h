@@ -5,8 +5,8 @@
 #define GL_DEFS_H
 
 #include <stdio.h>
-#include <be/support/Errors.h>
-#include <be/support/SupportDefs.h>
+#include <support/Errors.h>
+#include <support/SupportDefs.h>
 #include <ArpCore/String16.h>
 #include <ArpInterface/ArpPrefs.h>
 class GlStrainedParamList;

@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <string.h>
 #include <malloc.h>
-#include <be/StorageKit.h>
+#include <StorageKit.h>
 #include <ArpInterface/ArpBitmap.h>
 #include <ArpInterface/ArpPrefs.h>
 #include <ArpInterface/ArpSplitterView.h>
@@ -673,7 +673,8 @@ status_t GlMainWin::Open(BMessage* msg)
 			&& entry.IsFile()
 			&& entry.GetPath(&path) == B_OK
 			&& path.GetParent(&path) == B_OK
-			&& entry.GetName(name) == B_OK) {
+			&& entry.GetName(name.LockBuffer(64)) == B_OK) {
+		name.UnlockBuffer();
 		status_t			err;
 		BMessage			projectMsg;
 		BFile				file(&entry, B_READ_ONLY);
@@ -771,7 +772,7 @@ status_t GlMainWin::Save(const BEntry& entry, const char* name)
 status_t GlMainWin::ReadSettings(const BMessage& config)
 {
 	BString16			fn;
-	if (config.FindString16(RESULT_FN_STR, &fn) == B_OK)
+	if (config.FindString(RESULT_FN_STR, &fn) == B_OK)
 		NewImageInput(mResult.FreezeImage(fn));
 	return B_OK;
 }
@@ -784,7 +785,7 @@ status_t GlMainWin::WriteSettings()
 	BMessage			msg;
 	BString16			str;
 	if (mResult.GetFileName(str) == B_OK)
-		msg.AddString16(RESULT_FN_STR, str);
+		msg.AddString(RESULT_FN_STR, str);
 
 	app->SetSettings(app->MIXING_WIN_INDEX, msg);
 
@@ -803,7 +804,7 @@ void GlMainWin::AddMainMenu(BRect frame)
 
 	/* File Menu
 	 */
-	menu = new BMenu(SZ(SZ_File), B_ITEMS_IN_COLUMN);
+	menu = new BMenu(SZ(SZ_File)->String(), B_ITEMS_IN_COLUMN);
 	add_menu_item(menu, SZ(SZ_New), NEW_GRID_MSG, 'N');
 //	add_menu_item(menu, "Open" B_UTF8_ELLIPSIS, REQUEST_OPEN_ROOT_MSG, 'O');
 //	add_menu_item(menu, "Save As" B_UTF8_ELLIPSIS, REQUEST_SAVE_ROOT_MSG, 'A');
@@ -811,11 +812,11 @@ void GlMainWin::AddMainMenu(BRect frame)
 	add_menu_item(menu, SZ(SZ_Save_AsEll), REQUEST_SAVE_ROOT_MSG, 'A');
 	menu->AddSeparatorItem();	// ----
 //	item = new BMenuItem("Preferences" B_UTF8_ELLIPSIS, new BMessage(SHOW_PREFERENCES_MSG), 'P');
-	item = new BMenuItem(SZ(SZ_PreferencesEll), new BMessage(SHOW_PREFERENCES_MSG), 'P');
+	item = new BMenuItem(SZ(SZ_PreferencesEll)->String(), new BMessage(SHOW_PREFERENCES_MSG), 'P');
 	item->SetTarget(be_app);
 	menu->AddItem(item);
 	menu->AddSeparatorItem();	// ----
-	item = new BMenuItem(SZ(SZ_Quit), new BMessage(B_QUIT_REQUESTED), 'Q');
+	item = new BMenuItem(SZ(SZ_Quit)->String(), new BMessage(B_QUIT_REQUESTED), 'Q');
 	item->SetTarget(be_app);
 	menu->AddItem(item);
 	item = new BMenuItem(menu);
@@ -823,7 +824,7 @@ void GlMainWin::AddMainMenu(BRect frame)
 
 	/* Edit Menu
 	 */
-	menu = new BMenu(SZ(SZ_Edit), B_ITEMS_IN_COLUMN);
+	menu = new BMenu(SZ(SZ_Edit)->String(), B_ITEMS_IN_COLUMN);
 	add_menu_item(menu, SZ(SZ_Add_Grid), ADD_GRID_MSG, 'A');
 	menu->AddSeparatorItem();
 	item = new BMenuItem(menu);
@@ -831,7 +832,7 @@ void GlMainWin::AddMainMenu(BRect frame)
 
 	/* TEMP Menu
 	 */
-	menu = new BMenu(SZ(SZ_Temp), B_ITEMS_IN_COLUMN);
+	menu = new BMenu(SZ(SZ_Temp)->String(), B_ITEMS_IN_COLUMN);
 //	add_menu_item(menu, "Run", PERFORM_MSG, 'R');
 //	add_menu_item(menu, "Save Preview (PNG) As" B_UTF8_ELLIPSIS, REQUEST_SAVE_FILE_MSG, 0);
 	add_menu_item(menu, SZ(SZ_Save_Preview_PNG), REQUEST_SAVE_FILE_MSG, 0);
@@ -871,9 +872,9 @@ _PlayerView::_PlayerView(	BRect frame, BButton** play, BButton** stop,
 		: inherited(frame, "player", B_FOLLOW_TOP | B_FOLLOW_LEFT_RIGHT, B_WILL_DRAW | B_FRAME_EVENTS)
 {
 	ArpASSERT(play && stop && rewind && statusBar);
-	float			playW = this->StringWidth(SZ(SZ_Play)),
-					stopW = this->StringWidth(SZ(SZ_Stop)),
-					rewindW = this->StringWidth(SZ(SZ_Rewind));
+	float			playW = this->StringWidth(SZ(SZ_Play)->String()),
+					stopW = this->StringWidth(SZ(SZ_Stop)->String()),
+					rewindW = this->StringWidth(SZ(SZ_Rewind)->String());
 	float			w = ARP_MAX(playW, ARP_MAX(stopW, rewindW)) + 10;
 	float			padX = float(Prefs().GetInt32(ARP_PADX));
 	BRect			r(padX, 0, 0, 0);
@@ -884,17 +885,17 @@ _PlayerView::_PlayerView(	BRect frame, BButton** play, BButton** stop,
 	// want help text, too, right?
 //	BString16		playStr(PLAY_STR), stopStr(STOP_STR), rewindStr(REWIND_STR);
 
-	*play = new BButton(r, NULL, SZ(SZ_Play), new BMessage(GL_PLAY_MSG));
+	*play = new BButton(r, NULL, SZ(SZ_Play)->String(), new BMessage(GL_PLAY_MSG));
 	if (*play) AddChild(*play);
 
 	r.left = r.right + padX;
 	r.right = r.left + w;
-	*stop = new BButton(r, NULL, SZ(SZ_Stop), new BMessage(GL_STOP_MSG));
+	*stop = new BButton(r, NULL, SZ(SZ_Stop)->String(), new BMessage(GL_STOP_MSG));
 	if (*stop) AddChild(*stop);
 
 	r.left = r.right + padX;
 	r.right = r.left + w;
-	*rewind = new BButton(r, NULL, SZ(SZ_Rewind), new BMessage(REWIND_RESULT_MSG));
+	*rewind = new BButton(r, NULL, SZ(SZ_Rewind)->String(), new BMessage(REWIND_RESULT_MSG));
 	if (*rewind) AddChild(*rewind);
 
 	r.left = r.right + padX;

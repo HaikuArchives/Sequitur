@@ -4,14 +4,14 @@
 #include <assert.h>
 #include <malloc.h>
 #include <stdio.h>
-#include <be/app/Roster.h>
-#include <be/experimental/BitmapTools.h>
-#include <be/InterfaceKit.h>
-#include <be/midi2/MidiConsumer.h>
-#include <be/midi2/MidiRoster.h>
-#include <be/StorageKit.h>
-#include <be/support/Autolock.h>
-#include <be/TranslationKit.h>
+#include <app/Roster.h>
+#include <experimental/BitmapTools.h>
+#include <InterfaceKit.h>
+#include <midi2/MidiConsumer.h>
+#include <midi2/MidiRoster.h>
+#include <StorageKit.h>
+#include <support/Autolock.h>
+#include <TranslationKit.h>
 #include "ArpKernel/ArpAboutWindow.h"
 #include "ArpKernel/ArpBitmapTools.h"
 #include "ArpKernel/ArpBitmapWrite.h"
@@ -76,6 +76,12 @@ static BLocker gSkinAccess;
 static BSearchPath gSkinPath;
 static BString gSkinFile;
 
+AmGlobalsI&
+SeqApplication::AmGlobals()
+{
+	return mAmGlobals;
+}
+
 BResourceSet& Resources()
 {
 	if (!gResources) gResources = new BResourceSet();
@@ -127,7 +133,7 @@ status_t seq_make_skin_menu(BMenu* into, BMessage* baseMsg)
 }
 
 static
-DocWindow *myfactory(WindowRoster *wr, entry_ref *ref, const char *title,
+DocWindow *myfactory(DocApplication *wr, entry_ref *ref, const char *title,
 		window_look look, window_feel feel, uint32 flags, uint32 workspace)
 {
 	return new SeqSongWindow(wr, ref, title, look, feel, flags, workspace);

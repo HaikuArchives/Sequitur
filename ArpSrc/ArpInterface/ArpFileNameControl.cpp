@@ -6,8 +6,8 @@
 #include <malloc.h>
 #endif
 
-#include <be/interface/Window.h>
-#include <be/StorageKit.h>
+#include <interface/Window.h>
+#include <StorageKit.h>
 #include <ArpInterface/ArpBitmapCache.h>
 #include <ArpInterface/ArpFileNameControl.h>
 #include <ArpInterface/ViewTools.h>

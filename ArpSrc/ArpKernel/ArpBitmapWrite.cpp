@@ -22,7 +22,7 @@ static void PNGCallbackFlush(png_structp const /*a_png*/)
 	;
 }
 
-static void PNGCallbackWrite(png_structp const a_png, png_bytep const a_buf, const png_uint_32 a_buf_len)
+static void PNGCallbackWrite(png_structp const a_png, png_bytep const a_buf, const png_size_t a_buf_len)
 {
 	BDataIO *io(static_cast<BDataIO *>(png_get_io_ptr(a_png)));
 	ssize_t buf_len(a_buf_len);
@@ -30,7 +30,7 @@ static void PNGCallbackWrite(png_structp const a_png, png_bytep const a_buf, con
 	if (io->Write(a_buf, buf_len) != buf_len)
 	{
 		// We're imitating the library's own error handler here
-		longjmp(a_png->jmpbuf, B_IO_ERROR);
+//		longjmp(a_png->jmpbuf, B_IO_ERROR);
 	}
 }
 
@@ -61,8 +61,8 @@ status_t save_bitmap_as_png(BBitmap* bitmap, BDataIO* out_stream)
 		dest_png = NULL;
 		dest_info = NULL;
 		status = B_NO_MEMORY;
-	} else if ((status = setjmp(dest_png->jmpbuf)) != B_NO_ERROR) {
-		// Catch error.
+//	} else if ((status = setjmp(dest_png->jmpbuf)) != B_NO_ERROR) {
+//		// Catch error.
 	} else {
 		png_set_write_fn(	dest_png, out_stream,
 							static_cast<png_rw_ptr>(PNGCallbackWrite),

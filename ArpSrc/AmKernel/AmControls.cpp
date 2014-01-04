@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <be/interface/StringView.h>
+#include <interface/StringView.h>
 #include "ArpViewsPublic/ArpIntFormatterI.h"
 #include "ArpViewsPublic/ArpPrefsI.h"
 #include "ArpViews/ArpRangeControl.h"
@@ -346,9 +346,9 @@ void AmDurationControl::ComputeDimens(ArpDimens& cur_dimens)
 	dx.AddBody(12);
 }
 
-void AmDurationControl::Layout()
+void AmDurationControl::LayoutView()
 {
-	inherited::Layout();
+	inherited::LayoutView();
 	SetDivider(BodyFrame().left - LayoutFrame().left);
 }
 

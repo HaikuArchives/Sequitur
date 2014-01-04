@@ -74,43 +74,43 @@
 #endif
 
 #ifndef _VIEW_H
-#include <be/interface/View.h>
+#include <interface/View.h>
 #endif
 
 #ifndef _MENUBAR_H
-#include <be/interface/MenuBar.h>
+#include <interface/MenuBar.h>
 #endif
 
 #ifndef _BOX_H
-#include <be/interface/Box.h>
+#include <interface/Box.h>
 #endif
 
 #ifndef _BUTTON_H
-#include <be/interface/Button.h>
+#include <interface/Button.h>
 #endif
 
 #ifndef _COLORCONTROL_H
-#include <be/interface/ColorControl.h>
+#include <interface/ColorControl.h>
 #endif
 
 #ifndef _LISTVIEW_H
-#include <be/interface/ListView.h>
+#include <interface/ListView.h>
 #endif
 
 #ifndef _OUTLINELISTVIEW_H
-#include <be/interface/OutlineListView.h>
+#include <interface/OutlineListView.h>
 #endif
 
 #ifndef _MENUBAR_H
-#include <be/interface/MenuBar.h>
+#include <interface/MenuBar.h>
 #endif
 
 #ifndef _MENUFIELD_H
-#include <be/interface/MenuField.h>
+#include <interface/MenuField.h>
 #endif
 
 #ifndef _TEXTCONTROL_H
-#include <be/interface/TextControl.h>
+#include <interface/TextControl.h>
 #endif
 
 /** -----------------------------------------------------------
@@ -132,7 +132,7 @@ public:
   	
 	static ArpBox*		Instantiate(BMessage* archive);
 
-	virtual int 		LayoutChildSpace() const	{ return CountLayoutChildren() <= 0 ? 1 : 0; }
+	virtual int 		LayoutChildSpace() const;
 	virtual BRect		HintLayoutChild(ArpBaseLayout* before = NULL) const;
 	
 	ARPLAYOUT_VIEWHOOKS(BBox);
@@ -144,12 +144,12 @@ public:
 					 int32 form, const char *property);
 	virtual status_t GetSupportedSuites(BMessage *data);
 	
-	virtual BHandler* LayoutHandler() { return this; }
-	virtual const BHandler* LayoutHandler() const { return this; }
+	virtual BHandler* LayoutHandler();
+	virtual const BHandler* LayoutHandler() const;
 	
 protected:
 	virtual void ComputeDimens(ArpDimens& dimens);
-  	void Layout(void);
+  	void LayoutView(void);
   	
 private:
 	void initialize();
@@ -186,7 +186,7 @@ public:
 	ARPLAYOUT_HANDLERHOOKS(BButton);
 	ARPLAYOUT_SUITEHOOKS(BButton);
 	ARPLAYOUT_ARCHIVEHOOKS(ArpButton, BButton, false);
-	virtual void SetFocusShown(bool state, bool andParent=true) { }
+	virtual void SetFocusShown(bool state, bool andParent=true);
 	
 protected:
 	virtual void ComputeDimens(ArpDimens& dimens);
@@ -294,7 +294,7 @@ public:
 	ARPLAYOUT_HANDLERHOOKS(BMenuBar);
 	ARPLAYOUT_SUITEHOOKS(BMenuBar);
 	ARPLAYOUT_ARCHIVEHOOKS(ArpMenuBar, BMenuBar, true);
-	virtual void SetFocusShown(bool state, bool andParent=true) { }
+	virtual void SetFocusShown(bool state, bool andParent=true);
 	
 	virtual void FrameResized(float new_width, float new_height);
 	
@@ -338,7 +338,7 @@ public:
 	ARPLAYOUT_HANDLERHOOKS(BMenuField);
 	ARPLAYOUT_SUITEHOOKS(BMenuField);
 	ARPLAYOUT_ARCHIVEHOOKS(ArpMenuField, BMenuField, true);
-	virtual void SetFocusShown(bool state, bool andParent=true) { }
+	virtual void SetFocusShown(bool state, bool andParent=true);
 	
 	virtual void ParametersChanged(const ArpParamSet* params);
 	
@@ -348,7 +348,7 @@ public:
 	
 protected:
 	virtual void ComputeDimens(ArpDimens& dimens);
-	virtual void Layout();
+	virtual void LayoutView();
   	
 	ArpGlobalParam<rgb_color>	PV_MenuBackColor;
 	ArpGlobalParam<rgb_color>	PV_MenuForeColor;
@@ -402,7 +402,7 @@ public:
 	
 protected:
 	virtual void ComputeDimens(ArpDimens& dimens);
-	virtual void Layout();
+	virtual void LayoutView();
   	
 	ArpGlobalParam<rgb_color>	PV_FillBackColor;
 	ArpGlobalParam<rgb_color>	PV_FillForeColor;

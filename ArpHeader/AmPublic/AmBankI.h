@@ -25,8 +25,8 @@
 #ifndef AMPUBLIC_AMBANKI_H
 #define AMPUBLIC_AMBANKI_H
 
-#include <be/support/SupportDefs.h>
-#include <be/support/String.h>
+#include <support/SupportDefs.h>
+#include <support/String.h>
 #include "ArpKernel/ArpRef.h"
 #include "AmPublic/AmEvents.h"
 

@@ -44,7 +44,7 @@ class AmPhraseEvent : public AmEvent,
 					  public AmEventParent
 {
 public:
-	virtual EventType		Type() const  	{ return PHRASE_TYPE; }
+	virtual EventType		Type() const;
 	virtual AmTime			TimeOffset() const;
 	/* Answer the time range for the given event, applying any offset
 	 * that the phrase has.
@@ -98,7 +98,7 @@ public:
 	AmRootPhraseEvent(const AmPhrase& o);
 	AmRootPhraseEvent(const BMessage& flatEvent);
 	
-	virtual EventSubtype	Subtype() const  	{ return ROOT_SUBTYPE; }
+	virtual EventSubtype	Subtype() const;
 	virtual AmTime			StartTime() const;
 	virtual void			SetStartTime(AmTime newTime);
 //	virtual AmTime			Duration() const;
@@ -161,7 +161,7 @@ public:
 	// --------------------------------------------------------
 	// AM-EVENT INTERFACE
 	// --------------------------------------------------------		
-	virtual EventSubtype	Subtype() const  	{ return BANK_SUBTYPE; }
+	virtual EventSubtype	Subtype() const;
 	virtual AmEvent*		Copy() const;
 	virtual BView*			NewView(ViewType type, BRect frame) const;
 	virtual void			Print(void) const;
@@ -189,7 +189,7 @@ public:
 	AmInnerPhraseEvent(const AmPhrase& o);
 	AmInnerPhraseEvent(const BMessage& flatEvent);
 	
-	virtual EventSubtype	Subtype() const  	{ return INNER_SUBTYPE; }
+	virtual EventSubtype	Subtype() const;
 	
 	virtual AmEvent*		Copy() const;
 	virtual void			Print(void) const;
@@ -211,7 +211,7 @@ public:
 	AmLinkEvent();
 	AmLinkEvent(AmTime startTime, AmPhrase* phrase);
 	
-	virtual EventSubtype	Subtype() const  	{ return LINK_SUBTYPE; }
+	virtual EventSubtype	Subtype() const;
 	virtual AmTime			TimeOffset() const;
 	virtual AmTime			EndTime() const;
 

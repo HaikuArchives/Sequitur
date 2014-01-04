@@ -23,7 +23,7 @@
 #ifndef AMPUBLIC_AMGRAPHICEFFECT_H
 #define AMPUBLIC_AMGRAPHICEFFECT_H
 
-#include <be/interface/View.h>
+#include <interface/View.h>
 #include "AmPublic/AmDefs.h"
 
 /***************************************************************************

@@ -5,13 +5,13 @@
 #include <string.h>
 #include <RecentItems.h>
 #include <Roster.h>
-#include <be/experimental/BitmapButton.h>
-#include <be/experimental/DocApplication.h>
-#include <be/InterfaceKit.h>
-#include <be/kernel/fs_attr.h>
-#include <be/StorageKit.h>
-#include <be/support/Autolock.h>
-#include <be/support/Locker.h>
+#include <experimental/BitmapButton.h>
+#include <SelfWritten/DocApplication.h>
+#include <InterfaceKit.h>
+#include <kernel/fs_attr.h>
+#include <StorageKit.h>
+#include <support/Autolock.h>
+#include <support/Locker.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpKernel/ArpSafeDelivery.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
@@ -364,7 +364,7 @@ static void tracks_for_each_device(AmSong* song, uint32 channelLimit, int32 addo
 
 // #pragma mark -
 
-SeqSongWindow::SeqSongWindow(WindowRoster *wr, entry_ref *ref, const char *title,
+SeqSongWindow::SeqSongWindow(DocApplication *wr, entry_ref *ref, const char *title,
 					 window_look /*look*/, window_feel /*feel*/,
 					 uint32 flags, uint32 workspace)
 	: inherited(wr, ref, figure_best_frame(this, NULL),

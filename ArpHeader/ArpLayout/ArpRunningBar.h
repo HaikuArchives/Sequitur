@@ -107,7 +107,7 @@ public:
 	static const char* FillC;
 	static const char* AlignLabelsC;
 	
-	virtual int 	LayoutChildSpace() const	{ return INT_MAX; }
+	virtual int 	LayoutChildSpace() const;
 	virtual BRect	HintLayoutChild(ArpBaseLayout* before = NULL) const;
 	
 protected:
@@ -117,7 +117,7 @@ protected:
 									 BMessage* data) const;
 									 
 	virtual void	ComputeDimens(ArpDimens& dimens);
-	virtual void	Layout(void);
+	virtual void	LayoutView(void);
 	
 private:
 	void		initialize();

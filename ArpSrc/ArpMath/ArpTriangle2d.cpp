@@ -1,4 +1,4 @@
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpMath/ArpDefs.h>
 #include <ArpMath/ArpTriangle2d.h>
 

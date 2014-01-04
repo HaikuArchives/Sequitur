@@ -30,7 +30,7 @@
 #ifndef AMPUBLIC_AMSWEEP_H
 #define AMPUBLIC_AMSWEEP_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 class AmEvent;
 
 /*******************************************************

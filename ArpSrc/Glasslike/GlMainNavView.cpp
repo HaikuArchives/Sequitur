@@ -1,6 +1,6 @@
-#include <be/StorageKit.h>
-#include <be/support/Autolock.h>
-#include <ArpCore/ArpDebug.h>
+#include <StorageKit.h>
+#include <support/Autolock.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpInterface/ArpBitmap.h>
 #include <ArpInterface/ArpBitmapCache.h>
 #include <ArpInterface/ArpPrefs.h>
@@ -224,7 +224,7 @@ void GlMainNavView::MouseMoved(	BPoint where, uint32 code,
 		if (ctrl.code == ctrl.GL_ON_NODE) {
 			if (!nc) nc = mNodes->EntryAt(ctrl.id);
 			if (nc && nc->label.Length() > 0)
-				msg.AddString16(GL_TEXT_STR, nc->label);
+				msg.AddString(GL_TEXT_STR, nc->label);
 		}
 		if (Window()) Window()->PostMessage(&msg);
 	}
@@ -486,7 +486,8 @@ status_t GlMainNavView::RecacheLabels(const GlNode* node, BPoint origin)
 		if (str.Length() > 0) {
 			GlMainLabelEntry*	le = new GlMainLabelEntry(str, chain->Id());
 			if (le) {
-				float			w = StringWidth(&str);
+				float			w = StringWidth(str.LockBuffer(64));
+				str.UnlockBuffer();
 				le->frame.Set(pt.x, origin.y, pt.x + w, pt.y);
 				mLabels->e.push_back(le);
 				pt.x += w + 10;

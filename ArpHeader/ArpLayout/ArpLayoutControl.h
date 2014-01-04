@@ -56,7 +56,7 @@
 #endif
 
 #ifndef _CONTROL_H
-#include <be/interface/Control.h>
+#include <interface/Control.h>
 #endif
 
 /** -----------------------------------------------------------------------
@@ -73,7 +73,7 @@ you need to override.
 
 In particular, you should always override
 ComputeDimens() to return the appropriate dimensions of your object. Layout 
-managers also must override Layout() to correctly place their children.
+managers also must override LayoutView() to correctly place their children.
 
 	----------------------------------------------------------------------- */
 class _EXPORT ArpLayoutControl : public BControl, public ArpBaseLayout
@@ -106,7 +106,7 @@ protected:
   	void ComputeDimens(ArpDimens& dimens);
   	
 private:
-	void initialize()										{ }
+	void initialize();
 };
 
 #endif

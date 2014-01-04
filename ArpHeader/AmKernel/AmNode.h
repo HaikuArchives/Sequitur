@@ -28,7 +28,7 @@
 #ifndef AMKERNEL_AMNODE_H
 #define AMKERNEL_AMNODE_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 #include "AmPublic/AmDefs.h"
 class AmEvent;
 

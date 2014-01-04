@@ -5,10 +5,10 @@
 #ifndef ARPVIEWSPUBLIC_ARPVIEWDEFS_H
 #define ARPVIEWSPUBLIC_ARPVIEWDEFS_H
 
-#include <be/interface/Bitmap.h>
-#include <be/interface/ScrollBar.h>
-#include <be/interface/View.h>
-#include <be/support/SupportDefs.h>
+#include <interface/Bitmap.h>
+#include <interface/ScrollBar.h>
+#include <interface/View.h>
+#include <support/SupportDefs.h>
 
 class BMenu;
 class BMenuItem;

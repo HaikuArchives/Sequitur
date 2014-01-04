@@ -1,6 +1,6 @@
 #include <ArpInterface/ArpInlineTextView.h>
 
-#include <be/InterfaceKit.h>
+#include <InterfaceKit.h>
 #include <String.h>
 
 namespace ARP {

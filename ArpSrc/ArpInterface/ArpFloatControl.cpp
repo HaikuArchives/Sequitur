@@ -7,8 +7,8 @@
 #include <string.h>
 #endif
 
-#include <be/InterfaceKit.h>
-#include <ArpCore/ArpDebug.h>
+#include <InterfaceKit.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpInterface/ArpBitmapCache.h>
 #include <ArpInterface/ArpInlineTextView.h>
 #include <ArpInterface/ArpFloatControl.h>

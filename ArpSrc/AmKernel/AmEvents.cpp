@@ -201,11 +201,11 @@ AmEvent::~AmEvent() {
 #if defined(ArpDEBUG)
 	int last;
 	if ( (last=atomic_add(&counter,-1)) == 1 ) {
-		ArpDL(__FILE__, 2, cdb << ADH << "deleted FINAL event #"
-								<< last-1 << " time: " << time << endl);
+//		ArpDL(__FILE__, 2, cdb << ADH << "deleted FINAL event #"
+//								<< last-1 << " time: " << time << endl);
 	} else {
-		ArpDL(__FILE__, 3, cdb << ADH << "deleted event #"
-								<< last-1 << " time: " << time << endl);
+//		ArpDL(__FILE__, 3, cdb << ADH << "deleted event #"
+//								<< last-1 << " time: " << time << endl);
 	}
 #endif
 }
@@ -215,6 +215,16 @@ void AmEvent::SetNextFilter(AmFilterHolderI* next)
 	if (next) next->IncRefs();
 	if (mFilter) mFilter->DecRefs();
 	mFilter = next;
+}
+
+AmFilterHolderI* AmEvent::NextFilter() const
+{
+	return mFilter;
+}
+
+BView* AmEvent::NewView(ViewType type, BRect frame) const
+{
+	return NULL;
 }
 
 void AmEvent::AddedToPhrase()
@@ -229,6 +239,26 @@ void AmEvent::Invalidate(	AmEvent* changedEvent,
 							AmRange oldRange, AmRange newRange)
 {
 	if (mParent) mParent->Invalidate(changedEvent, oldRange, newRange);
+}
+
+const AmEvent* AmEvent::NextEvent() const
+{
+	return mNext;
+}
+
+const AmEvent* AmEvent::PrevEvent() const
+{
+	return mPrev;
+}
+
+AmEvent* AmEvent::NextEvent()
+{
+	return mNext;
+}
+
+AmEvent* AmEvent::PrevEvent()
+{
+	return mPrev;
 }
 
 const AmEvent* AmEvent::HeadEvent() const
@@ -335,8 +365,8 @@ AmEvent* AmEvent::RemoveEvent()
 	return NULL;
 }
 
-static inline int compare_events(const AmTime firstTime, const AmEvent::EventType firstType,
-								 const AmTime secondTime,const  AmEvent::EventType secondType)
+static inline int compare_events(const AmTime firstTime, const AmEvent::AmEvent::EventType firstType,
+								 const AmTime secondTime,const  AmEvent::AmEvent::EventType secondType)
 {
 	if (firstTime < secondTime) return -1;
 	else if (firstTime > secondTime) return 1;
@@ -361,7 +391,7 @@ AmEvent* AmEvent::MergeEvent(AmEvent* src)
 	#endif
 	if( !destPos ) return src;
 	const AmTime srcTime = src->StartTime();
-	const AmEvent::EventType srcType = src->Type();
+	const AmEvent::AmEvent::EventType srcType = src->Type();
 	#if NOISY
 	ArpD(cdb << ADH << "Source time is " << srcTime << endl);
 	#endif
@@ -508,6 +538,16 @@ AmEvent* AmEvent::CutBefore()
 	return ans;	
 }
 
+void AmEvent::SetNextEvent(AmEvent* event)
+{
+	mNext = event;
+}
+
+void AmEvent::SetPrevEvent(AmEvent* event)
+{
+	mPrev = event;
+}
+
 void AmEvent::Delete()
 {
 	if( mNext || mPrev ) RemoveEvent();
@@ -607,7 +647,7 @@ void AmEvent::Initialize(AmTime timeArg) {
 
 AmEvent* AmEvent::mFreeList[AmEvent::_NUM_TYPE] = { NULL };
 
-void* AmEvent::GetEvent(EventType type, size_t size)
+void* AmEvent::GetEvent(AmEvent::EventType type, size_t size)
 {
 	// It turns out that on the x86 platform, it is actually faster to just
 	// new and free the object...!  My guess is because this helps program
@@ -636,7 +676,7 @@ void* AmEvent::GetEvent(EventType type, size_t size)
 #endif
 }
 
-void AmEvent::SaveEvent(EventType type, void* ev)
+void AmEvent::SaveEvent(AmEvent::EventType type, void* ev)
 {
 	free(ev);
 #if 0
@@ -779,6 +819,16 @@ void AmChannelPressure::SetPressure(uint8 pressureArg)
 void AmChannelPressure::Print() const {
 	printf("AmChannelPressure pressure %d, time %lld\n",
 			mPressure, mTime);
+}
+
+AmEvent::AmEvent::EventType AmChannelPressure::Type() const
+{
+	return AmEvent::CHANNELPRESSURE_TYPE;
+}
+
+int32 AmChannelPressure::PersistentStateID() const
+{
+	return 0;
 }
 
 // #pragma mark -
@@ -946,6 +996,17 @@ void AmNoteOn::SetDuration(AmTime timeArg)
 	}
 }
 
+AmEvent::AmEvent::EventType AmNoteOn::Type() const
+{
+	return NOTEON_TYPE;
+}
+
+
+AmFilterHolderI* AmNoteOn::NextFilter() const
+{
+	return mFilter;
+}
+
 void AmNoteOn::SetEndTime(AmTime newTime)
 {
 	if (mDuration != 0) {
@@ -996,6 +1057,8 @@ bool AmNoteOn::HasDuration() const {
 	return mDuration != 0;
 }
 
+AmNoteOn::~AmNoteOn() {}
+
 // #pragma mark -
 
 /***************************************************************
@@ -1014,6 +1077,11 @@ void AmNoteOff::operator delete(void* ptr, size_t size)
 {
 	ArpASSERT(size == sizeof(AmNoteOff));
 	SaveEvent(NOTEOFF_TYPE, ptr);
+}
+
+AmEvent::EventType AmNoteOff::Type() const
+{
+	return NOTEOFF_TYPE;
 }
 
 AmNoteOff::AmNoteOff(uint8 noteArg, uint8 velocityArg, AmTime timeArg)
@@ -1073,7 +1141,12 @@ AmNoteOff& AmNoteOff::operator=(const AmNoteOff& o)
 	mVelocity = o.mVelocity;
 	return *this;
 }
+
+AmNoteOff::~AmNoteOff()
+{
 	
+}
+
 // ----------- Note Off Specific Interface -----------
 
 uint8 AmNoteOff::Note() const {
@@ -1122,6 +1195,16 @@ void AmTempoChange::operator delete(void* ptr, size_t size)
 {
 	ArpASSERT(size == sizeof(AmTempoChange));
 	SaveEvent(TEMPOCHANGE_TYPE, ptr);
+}
+
+AmEvent::EventType AmTempoChange::Type() const
+{
+	return TEMPOCHANGE_TYPE;
+}
+
+int32 AmTempoChange::PersistentStateID() const
+{
+	return 0;
 }
 
 AmTempoChange::AmTempoChange(float tempo, AmTime time)
@@ -1200,6 +1283,11 @@ void AmTempoChange::RealDelete()
 	delete this;
 }
 
+AmTempoChange::~AmTempoChange()
+{
+	
+}
+
 // #pragma mark -
 
 /***************************************************************
@@ -1218,6 +1306,16 @@ void AmControlChange::operator delete(void* ptr, size_t size)
 {
 	ArpASSERT(size == sizeof(AmControlChange));
 	SaveEvent(CONTROLCHANGE_TYPE, ptr);
+}
+
+AmEvent::EventType AmControlChange::Type() const
+{
+	return CONTROLCHANGE_TYPE;
+}
+
+int32 AmControlChange::PersistentStateID() const
+{
+	return mControlNumber;
 }
 
 AmControlChange::AmControlChange(uint8 controlNumber,
@@ -1319,7 +1417,9 @@ AmControlChange& AmControlChange::operator=(const AmControlChange& o)
 	mControlValue = o.mControlValue;
 	return *this;
 }
-	
+
+AmControlChange::~AmControlChange() { }
+
 // ----------- Tempo Change Specific Interface -----------
 
 void AmControlChange::Print() const
@@ -1362,6 +1462,16 @@ AmPitchBend::AmPitchBend(const AmPitchBend& o)
 	: AmEvent(o),
 	  mLsb(o.mLsb), mMsb(o.mMsb)
 {
+}
+
+AmEvent::EventType AmPitchBend::Type() const
+{
+	return PITCHBEND_TYPE;
+}
+
+int32 AmPitchBend::PersistentStateID() const
+{
+	return 0;
 }
 
 void AmPitchBend::RealDelete()
@@ -1412,6 +1522,8 @@ AmPitchBend& AmPitchBend::operator=(const AmPitchBend& o)
 	mMsb = o.mMsb;
 	return *this;
 }
+
+AmPitchBend::~AmPitchBend() {}
 
 // ----------- Pitch Bend Specific Interface -----------
 
@@ -1495,6 +1607,16 @@ AmProgramChange::AmProgramChange()
 {
 }
 
+AmEvent::EventType AmProgramChange::Type() const
+{
+	return PROGRAMCHANGE_TYPE;
+}
+
+int32 AmProgramChange::PersistentStateID() const
+{
+	return 0;
+}
+
 AmProgramChange::AmProgramChange(uint8 programNumber, AmTime time)
 		: AmEvent(time)
 {
@@ -1512,6 +1634,11 @@ AmProgramChange::AmProgramChange(const BMessage& flatEvent)
 {
 	int16	i;
 	if (flatEvent.FindInt16("program", &i) == B_OK) mProgramNumber = i;
+}
+
+AmProgramChange::~AmProgramChange()
+{
+	
 }
 
 AmTime AmProgramChange::EndTime() const
@@ -1612,6 +1739,18 @@ AmSignature::AmSignature()
 {
 	CalculateEndTime();
 }
+
+AmEvent::EventType AmSignature::Type() const
+{
+	return SIGNATURE_TYPE;
+}
+
+int32 AmSignature::PersistentStateID() const
+{
+	return 0;
+}
+
+AmSignature::~AmSignature() {}
 
 AmSignature::AmSignature(AmTime time, int32 measure, uint32 beats, uint32 beatValue)
 		: AmEvent(time),
@@ -1841,6 +1980,19 @@ AmMotionChange::AmMotionChange(const AmMotionChange& o)
 	if (o.mMotion) mMotion = new AmMotion(*o.mMotion);
 }
 
+
+int32 AmMotionChange::PersistentStateID() const
+{
+	return 0;
+}
+
+AmEvent::EventType AmMotionChange::Type() const
+{
+	return MOTION_TYPE;
+}
+
+AmMotionChange::~AmMotionChange() {}
+
 AmMotionChange::AmMotionChange(const BMessage& msg)
 		: AmEvent(0), mMotion(NULL), mMeasure(1),
 		  mTrackId(0)
@@ -2019,6 +2171,19 @@ void AmSystemCommon::operator delete(void* ptr, size_t size)
 	SaveEvent(SYSTEMCOMMON_TYPE, ptr);
 }
 
+uint8 AmSystemCommon::Status() const {return mStatus;}
+void AmSystemCommon::SetStatus(uint8 status)  {mStatus = status;}
+
+uint8 AmSystemCommon::Data1() const {return mData1;}
+void AmSystemCommon::SetData1(uint8 status)  {mData1 = status;}
+
+uint8 AmSystemCommon::Data2() const {return mData2;}
+void AmSystemCommon::SetData2(uint8 status)  {mData2 = status;}
+
+AmEvent::EventType AmSystemCommon::Type() const {return SYSTEMCOMMON_TYPE; }
+
+AmSystemCommon::~AmSystemCommon() {}
+
 AmSystemCommon::AmSystemCommon(uint8 status, uint8 data1,
 										 uint8 data2, AmTime time)
 		: AmEvent(time)
@@ -2140,6 +2305,20 @@ void AmSystemExclusive::RealDelete()
 	delete this;
 }
 
+const uint8* AmSystemExclusive::Data() const {
+	return (const uint8*)(const char*)mData;
+}
+
+size_t AmSystemExclusive::Length() const {
+	return mData.Length();
+}
+
+AmEvent::EventType AmSystemExclusive::Type() const {
+	return SYSTEMEXCLUSIVE_TYPE;
+}
+
+AmSystemExclusive::~AmSystemExclusive() {}
+
 void AmSystemExclusive::SetData(const uint8* data, size_t length)
 {
 	mData.Set((const ichar*)data, (int32)length);
@@ -2250,6 +2429,12 @@ void AmSongPosition::operator delete(void* ptr, size_t size)
 	SaveEvent(SONGPOSITION_TYPE, ptr);
 }
 
+AmEvent::EventType AmSongPosition::Type() const {
+	return SONGPOSITION_TYPE;
+}
+
+AmSongPosition::~AmSongPosition() {}
+
 AmSongPosition::AmSongPosition()
 		: AmSystemCommon((0xF2), 0, 0, 0)
 {
@@ -2302,6 +2487,11 @@ AmLyric::AmLyric(const AmLyric& o)
 	: AmEvent(o),
 	  mLyric(o.mLyric)
 {
+}
+
+AmEvent::EventType AmLyric::Type() const
+{
+	return LYRIC_TYPE;
 }
 
 BString AmLyric::Lyric() const
@@ -2421,7 +2611,7 @@ AmEvent* AmKeyPressure::Copy() {
 
 #endif
 
-void string_for_event_type(	BString& answer, AmEvent::EventType type,
+void string_for_event_type(	BString& answer, AmEvent::AmEvent::EventType type,
 							AmEvent::EventSubtype subtype, bool plural)
 {
 	if (plural) {

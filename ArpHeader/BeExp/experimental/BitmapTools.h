@@ -1,0 +1,1 @@
+../SampleCodeLicense/BitmapTools.h

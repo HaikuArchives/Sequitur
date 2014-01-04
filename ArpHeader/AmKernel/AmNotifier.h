@@ -24,9 +24,9 @@
 
 #include <map.h>
 #include <vector.h>
-#include <be/app/Handler.h>
-#include <be/app/Messenger.h>
-#include <be/support/Locker.h>
+#include <app/Handler.h>
+#include <app/Messenger.h>
+#include <support/Locker.h>
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmRange.h"
 
@@ -134,11 +134,11 @@ protected:
 	/* Subclasses must implement to answer whatever phrase the event
 	 * currently resides in (or should reside in).
 	 */
-	virtual AmPhrase*	PhraseFor(AmEvent* event) const			{ return NULL; }
+	virtual AmPhrase*	PhraseFor(AmEvent* event) const;
 	/* This is an optional place for subclasses to add any additional
 	 * info before a message is sent out as a change notice.
 	 */
-	virtual void		AnnotateMessage(BMessage& msg)	const	{ }
+	virtual void		AnnotateMessage(BMessage& msg)	const;
 	uint32				CodeForEvent(AmEvent::EventType type) const;
 
 private:

@@ -30,8 +30,8 @@
 #ifndef GLPUBLIC_GLRECORDER_H
 #define GLPUBLIC_GLRECORDER_H
 
-#include <be/app/Messenger.h>
-#include <be/support/Locker.h>
+#include <app/Messenger.h>
+#include <support/Locker.h>
 #include <GlPublic/GlControlState.h>
 #include <GlPublic/GlDefs.h>
 #include <GlPublic/GlMidiEvent.h>

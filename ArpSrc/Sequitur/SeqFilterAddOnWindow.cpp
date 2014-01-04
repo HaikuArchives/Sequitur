@@ -2,10 +2,10 @@
  */
 #include <assert.h>
 #include <stdio.h>
-#include <be/experimental/ColumnListView.h>
-#include <be/experimental/ColumnTypes.h>
-#include <be/InterfaceKit.h>
-#include <be/support/Autolock.h>
+#include <experimental/ColumnListView.h>
+#include <experimental/ColumnTypes.h>
+#include <InterfaceKit.h>
+#include <support/Autolock.h>
 #include "ArpViewsPublic/ArpPrefsI.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "AmKernel/AmFileRosters.h"
@@ -16,6 +16,8 @@
 #include "Sequitur/SeqColoredColumn.h"
 #include "Sequitur/SeqFilterAddOnWindow.h"
 #include <ArpKernel/ArpDebug.h>
+
+#define B_BEOS_VERSION_DANO 1
 
 #include <set>
 

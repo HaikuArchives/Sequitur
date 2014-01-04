@@ -24,11 +24,11 @@
 #endif
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #ifndef _SCROLLBAR_H
-#include <be/interface/ScrollBar.h>
+#include <interface/ScrollBar.h>
 #endif
 
 #include <algobase.h>
@@ -265,6 +265,11 @@ bool ArpScrollArea::RemoveLayoutChild(ArpBaseLayout* child)
 	return ret;
 }
 
+int ArpScrollArea::LayoutChildSpace() const
+{
+	return CountLayoutChildren() <= 0 ? 1 : 0;
+}
+
 BRect ArpScrollArea::HintLayoutChild(ArpBaseLayout* before) const
 {
 	BRect frm = LayoutBounds();
@@ -381,7 +386,7 @@ void ArpScrollArea::ComputeDimens(ArpDimens& cur_dimens)
 			<< ", pref_height = " << cury.PrefBody() << endl);
 }
 
-void ArpScrollArea::Layout(void)
+void ArpScrollArea::LayoutView(void)
 {
 	if( PV_BorderStyle != B_NO_BORDER && InView() ) {
 		// If we are drawing a frame around the children, we need to
@@ -465,7 +470,7 @@ void ArpScrollArea::Layout(void)
 	if( num >= 1 ) {
 		ArpBaseLayout* child = LayoutChildAt(0);
 		ArpD(cdb << ADH << "Moving child to " << frm << endl);
-		if( child ) child->SetLayout(frm);
+		if( child ) child->SetViewLayout(frm);
 	}
 	
 	ArpD(cdb << ADH << "cframe=" << (get_child() ? get_child()->Frame():BRect())

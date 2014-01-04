@@ -27,16 +27,17 @@
 #endif
 
 #ifndef _MENUITEM_H
-#include <be/interface/MenuItem.h>
+#include <interface/MenuItem.h>
 #endif
 
 #ifndef _AUTOLOCK_H
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #endif
 
 #include <float.h>
 #include <algobase.h>
 #include <string.h>
+#include <stdio.h>
 
 ArpMOD();
 
@@ -67,6 +68,11 @@ ArpBox* ArpBox::Instantiate(BMessage* archive)
 	if ( validate_instantiation(archive, "ArpBox") ) 
 		return new ArpBox(archive); 
 	return NULL;
+}
+
+int ArpBox::LayoutChildSpace() const
+{
+	return CountLayoutChildren() <= 0 ? 1 : 0;
 }
 
 BRect ArpBox::HintLayoutChild(ArpBaseLayout* before) const
@@ -191,6 +197,16 @@ void ArpBox::ComputeIndents(void)
 	}
 }
 
+BHandler* ArpBox::LayoutHandler()
+{
+	return this;
+}
+
+const BHandler* ArpBox::LayoutHandler() const
+{
+	return this;
+}
+
 void ArpBox::ComputeDimens(ArpDimens& cur_dimens)
 {
 	ArpBaseLayout::ComputeDimens(cur_dimens);
@@ -206,7 +222,7 @@ void ArpBox::ComputeDimens(ArpDimens& cur_dimens)
 	cury.AddLabel(indent_t,indent_b);
 }
 
-void ArpBox::Layout(void)
+void ArpBox::LayoutView(void)
 {
 	BRect frm = LayoutBounds();
 	BRect bdy = BodyBounds();
@@ -220,9 +236,12 @@ void ArpBox::Layout(void)
 	if( child ) {
 		ArpD(cdb << ADH << "Box moving child to Lab:" << frm
 				<< " / Bod:" << bdy << endl);
-		child->SetLayout(frm, bdy);
+		child->SetViewLayout(frm, bdy);
 	}	
 }
+
+ARPLAYOUT_VIEWHOOKS_SOURCE(ArpBox, BBox);
+ARPLAYOUT_ARCHIVEHOOKS_SOURCE(ArpBox, BBox, false);
 
 /* ------ ArpButton object ------
  */
@@ -253,6 +272,16 @@ void ArpButton::ComputeDimens(ArpDimens& cur_dimens)
 	get_view_dimens(&cur_dimens, this, false);
 }
 
+void ArpButton::SetFocusShown(bool state, bool andParent)
+{
+	
+}
+
+ARPLAYOUT_VIEWHOOKS_SOURCE(ArpButton, BButton);
+ARPLAYOUT_HANDLERHOOKS_SOURCE(ArpButton, BButton);
+ARPLAYOUT_SUITEHOOKS_SOURCE(ArpButton, BButton);
+ARPLAYOUT_ARCHIVEHOOKS_SOURCE(ArpButton, BButton, false);
+
 /* ------ ArpListView object ------
  */
  
@@ -271,6 +300,7 @@ void ArpListView::initialize()
 
 ArpListView* ArpListView::Instantiate(BMessage* archive)
 {
+	printf("lk");
 	if ( validate_instantiation(archive, "ArpListView") ) 
 		return new ArpListView(archive); 
 	return NULL;
@@ -315,9 +345,14 @@ void ArpListView::ComputeDimens(ArpDimens& cur_dimens)
 	cur_dimens.Y().SetTo(0, min_h, pref_h, ArpAnySize, 0);
 }
 
+ARPLAYOUT_VIEWHOOKS_SOURCE(ArpListView, BListView);
+ARPLAYOUT_HANDLERHOOKS_SOURCE(ArpListView, BListView);
+ARPLAYOUT_SUITEHOOKS_SOURCE(ArpListView, BListView);
+ARPLAYOUT_ARCHIVEHOOKS_SOURCE(ArpListView, BListView, true);
+
 /* ------ ArpOutlineListView object ------
  */
- 
+
 ArpOutlineListView::ArpOutlineListView(const char* name, list_view_type type)
 	:BOutlineListView(InitFrame, name, type, B_FOLLOW_NONE)
 {
@@ -334,7 +369,7 @@ void ArpOutlineListView::initialize()
 ArpOutlineListView* ArpOutlineListView::Instantiate(BMessage* archive)
 {
 	if ( validate_instantiation(archive, "ArpOutlineListView") ) 
-		return new ArpOutlineListView(archive); 
+		return new ArpOutlineListView(archive, true);
 	return NULL;
 }
 
@@ -376,6 +411,11 @@ void ArpOutlineListView::ComputeDimens(ArpDimens& cur_dimens)
 	cur_dimens.X().SetTo(0, min_w, pref_w, ArpAnySize, 0);
 	cur_dimens.Y().SetTo(0, min_h, pref_h, ArpAnySize, 0);
 }
+
+ARPLAYOUT_VIEWHOOKS_SOURCE(ArpOutlineListView, BOutlineListView);
+ARPLAYOUT_HANDLERHOOKS_SOURCE(ArpOutlineListView, BOutlineListView);
+ARPLAYOUT_SUITEHOOKS_SOURCE(ArpOutlineListView, BOutlineListView);
+ARPLAYOUT_ARCHIVEHOOKS_SOURCE(ArpOutlineListView, BOutlineListView, true);
 
 /* ------ ArpMenuBar object ------
  */
@@ -448,6 +488,11 @@ void ArpMenuBar::copy_font(BMenu* menu, BFont* font)
 	}
 }
 
+void ArpMenuBar::SetFocusShown(bool state, bool andParent)
+{
+	
+}
+
 void ArpMenuBar::ComputeDimens(ArpDimens& cur_dimens)
 {
 	InvalidateLayout();
@@ -458,6 +503,11 @@ void ArpMenuBar::ComputeDimens(ArpDimens& cur_dimens)
 	get_view_dimens(&cur_dimens, this, false);
 	cur_dimens.X().SetMaxBody(ArpAnySize);
 }
+
+ARPLAYOUT_VIEWHOOKS_SOURCE(ArpMenuBar, BMenuBar);
+ARPLAYOUT_HANDLERHOOKS_SOURCE(ArpMenuBar, BMenuBar);
+ARPLAYOUT_SUITEHOOKS_SOURCE(ArpMenuBar, BMenuBar);
+ARPLAYOUT_ARCHIVEHOOKS_SOURCE(ArpMenuBar, BMenuBar, true);
 
 /* ------ ArpMenuField object ------
  */
@@ -592,6 +642,11 @@ void ArpMenuField::ParametersChanged(const ArpParamSet* params)
 	inherited::ParametersChanged(params);
 }
 
+void ArpMenuField::SetFocusShown(bool state, bool andParent)
+{
+	
+}
+
 void ArpMenuField::ComputeDimens(ArpDimens& cur_dimens)
 {
 	BMenu* menu = MenuBar();
@@ -637,10 +692,15 @@ void ArpMenuField::ComputeDimens(ArpDimens& cur_dimens)
 						 0);
 }
 
-void ArpMenuField::Layout()
+void ArpMenuField::LayoutView()
 {
 	SetDivider(BodyFrame().left - LayoutFrame().left);
 }
+
+ARPLAYOUT_VIEWHOOKS_SOURCE(ArpMenuField, BMenuField);
+ARPLAYOUT_HANDLERHOOKS_SOURCE(ArpMenuField, BMenuField);
+ARPLAYOUT_SUITEHOOKS_SOURCE(ArpMenuField, BMenuField);
+ARPLAYOUT_ARCHIVEHOOKS_SOURCE(ArpMenuField, BMenuField, true);
 
 /* ------ ArpTextControl object ------
  */
@@ -896,7 +956,12 @@ void ArpTextControl::ComputeDimens(ArpDimens& cur_dimens)
 	dx.AddBody(12);
 }
 
-void ArpTextControl::Layout()
+void ArpTextControl::LayoutView()
 {
 	SetDivider(BodyFrame().left - LayoutFrame().left);
 }
+
+ARPLAYOUT_VIEWHOOKS_SOURCE(ArpTextControl, BTextControl);
+ARPLAYOUT_HANDLERHOOKS_SOURCE(ArpTextControl, BTextControl);
+ARPLAYOUT_SUITEHOOKS_SOURCE(ArpTextControl, BTextControl);
+ARPLAYOUT_ARCHIVEHOOKS_SOURCE(ArpTextControl, BTextControl, true);

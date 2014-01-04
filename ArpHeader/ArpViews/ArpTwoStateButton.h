@@ -24,7 +24,7 @@
 #ifndef ARPVIEWS_ARPTWOSTATEBUTTON_H
 #define ARPVIEWS_ARPTWOSTATEBUTTON_H
 
-#include <be/interface/Control.h>
+#include <interface/Control.h>
 
 /***************************************************************************
  * ARP-TWO-STATE-BUTTON

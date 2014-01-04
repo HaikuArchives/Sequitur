@@ -1,5 +1,6 @@
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #include <Glasslike/GlToolBar.h>
+#include <ArpKernel/ArpDebug.h>
 
 class _GlToolBarEntry
 {
@@ -26,23 +27,25 @@ GlToolBar::~GlToolBar()
 
 bool GlToolBar::ReadLock() const
 {
-	return mLock.ReadLock();
+	return mReadLock.Lock();
 }
 
 bool GlToolBar::ReadUnlock() const
 {
-	return mLock.ReadUnlock();
+	mReadLock.Unlock();
+	return true;
 }
 
 bool GlToolBar::WriteLock(const char* name)
 {
-	bool result = mLock.WriteLock();
+	bool result = mWriteLock.Lock();
 	return result;
 }
 
 bool GlToolBar::WriteUnlock()
 {
-	return mLock.WriteUnlock();
+	mWriteLock.Unlock();
+	return true;
 }
 
 gl_id GlToolBar::Id() const

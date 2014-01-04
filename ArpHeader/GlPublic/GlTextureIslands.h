@@ -1,7 +1,7 @@
 #ifndef GLPUBLIC_GLTEXTUREISLANDS_H
 #define GLPUBLIC_GLTEXTUREISLANDS_H
 
-#include <be/support/SupportDefs.h>
+#include <support/SupportDefs.h>
 class GlImage;
 class _GlIslandData;
 

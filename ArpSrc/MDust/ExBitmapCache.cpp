@@ -1,12 +1,12 @@
 /* ExBitmapCache.cpp
  */
  
-#include <be/interface/Bitmap.h>
-#include <be/interface/Screen.h>
-#include <be/interface/View.h>
-#include <be/interface/Window.h>
+#include <interface/Bitmap.h>
+#include <interface/Screen.h>
+#include <interface/View.h>
+#include <interface/Window.h>
 
-#include <be/support/String.h>
+#include <support/String.h>
 
 #include "MDust/ExBitmapCache.h"
 

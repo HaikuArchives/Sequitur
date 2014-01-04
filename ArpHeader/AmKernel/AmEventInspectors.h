@@ -36,7 +36,7 @@
 #define AMKERNEL_AMEVENTINSPECTORS_H
 
 #include <vector.h>
-#include <be/interface/View.h>
+#include <interface/View.h>
 #include "AmPublic/AmSongRef.h"
 #include "AmPublic/AmTrackRef.h"
 class AmBankChangeView;

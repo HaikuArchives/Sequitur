@@ -30,6 +30,19 @@ AmMultiFilter::~AmMultiFilter()
 {
 }
 
+void AmMultiFilter::AddRef() const {}
+void AmMultiFilter::RemoveRef() const {}
+
+bool AmMultiFilter::ReadLock() const {return true;}
+bool AmMultiFilter::WriteLock(const char* name) {return true;}
+bool AmMultiFilter::ReadUnlock() const {return true;}
+bool AmMultiFilter::WriteUnlock() {return true;}
+
+void AmMultiFilter::SetDirty(bool dirty) {}
+
+const BUndoContext* AmMultiFilter::UndoContext() const { return NULL; }
+BUndoContext* AmMultiFilter::UndoContext() { return NULL; }
+
 static inline int32 next_holder_index(AmFilterHolderI* holder, vector<filter_id>& fids)
 {
 	if (!holder || !holder->Filter() ) return -1;
@@ -690,6 +703,10 @@ AmMultiFilterAddOn::AmMultiFilterAddOn(const AmMultiFilterAddOn& o)
 	BMessage	msg;
 	if (o.WriteTo(msg) == B_OK) ReadFrom(msg);
 }
+
+AmFilterAddOn::VersionType AmMultiFilterAddOn::Version() const { return VERSION_CURRENT; }
+AmFilterAddOn::type AmMultiFilterAddOn::Type() const {return THROUGH_FILTER; }
+AmFilterAddOn::subtype AmMultiFilterAddOn::Subtype() const {return MULTI_SUBTYPE; }
 
 AmMultiFilterAddOn::AmMultiFilterAddOn(const BMessage& config, bool readOnly, const char* filePath)
 		: inherited(NULL), mIsValid(true),

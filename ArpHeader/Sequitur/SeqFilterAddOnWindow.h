@@ -26,9 +26,9 @@
 #ifndef SEQUITUR_SEQFILTERADDONWINDOW_H
 #define SEQUITUR_SEQFILTERADDONWINDOW_H
 
-#include <be/interface/Window.h>
-#include <be/interface/Bitmap.h>
-#include <be/support/List.h>
+#include <interface/Window.h>
+#include <interface/Bitmap.h>
+#include <support/List.h>
 #include "Sequitur/SeqWindowStateI.h"
 
 class AmFilterRoster;

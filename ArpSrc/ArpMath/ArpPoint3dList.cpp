@@ -1,5 +1,5 @@
-#include <be/support/Errors.h>
-#include <ArpCore/ArpDebug.h>
+#include <support/Errors.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpMath/ArpPoint3dList.h>
 
 static const uint32			GROW_BY		= 10;

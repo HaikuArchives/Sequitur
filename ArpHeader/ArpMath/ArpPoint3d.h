@@ -31,7 +31,7 @@
 #define ARPMATH_ARPPOINT3D_H
 
 #include <math.h>
-#include <be/app/Message.h>
+#include <app/Message.h>
 
 /***************************************************************************
  * ARP-POINT-3D

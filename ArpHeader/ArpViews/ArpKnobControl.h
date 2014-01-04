@@ -27,7 +27,7 @@
 #ifndef ARPVIEWS_ARPKNOBCONTROL_H
 #define ARPVIEWS_ARPKNOBCONTROL_H
 
-#include <be/interface/Control.h>
+#include <interface/Control.h>
 #include "BeExp/ToolTip.h"
 #include <ArpLayout/ArpBaseLayout.h>
 #include "ArpViewsPublic/ArpIntToStringMapI.h"
@@ -193,8 +193,8 @@ public:
 	virtual	void	DetachedFromWindow();
 	virtual	void	GetPreferredSize(float* width, float* height);
 
-	virtual BHandler* LayoutHandler()				{ return this; }
-	virtual const BHandler* LayoutHandler() const	{ return this; }
+	virtual BHandler* LayoutHandler();
+	virtual const BHandler* LayoutHandler() const;
  
 private:
 	typedef BView	inherited;

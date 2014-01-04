@@ -20,7 +20,7 @@
 #include "ArpKernel/ArpDebug.h"
 #endif
 
-#include <be/support/Autolock.h>
+#include <support/Autolock.h>
 #include <float.h>
 
 ArpMOD();
@@ -77,3 +77,10 @@ void ArpLayoutControl::ComputeDimens(ArpDimens& dimens)
 	ArpD(cdb << ADH << "Computing ArpLayoutControl dimensions...\n");
 	ArpBaseLayout::ComputeDimens(dimens);
 }
+
+void ArpLayoutControl::initialize() {}
+
+ARPLAYOUT_VIEWHOOKS_SOURCE(ArpLayoutControl, BControl);
+ARPLAYOUT_HANDLERHOOKS_SOURCE(ArpLayoutControl, BControl);
+ARPLAYOUT_SUITEHOOKS_SOURCE(ArpLayoutControl, BControl);
+ARPLAYOUT_ARCHIVEHOOKS_SOURCE(ArpLayoutControl, BControl, false);

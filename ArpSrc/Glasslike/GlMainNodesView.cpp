@@ -1,6 +1,6 @@
 #include <ArpCore/StlVector.h>
-#include <be/StorageKit.h>
-#include <be/support/Autolock.h>
+#include <StorageKit.h>
+#include <support/Autolock.h>
 #include <ArpInterface/ArpBitmap.h>
 #include <ArpInterface/ArpBitmapCache.h>
 #include <ArpInterface/ArpPopUpMenu.h>
@@ -148,7 +148,7 @@ void GlMainNodesView::MouseMoved(	BPoint where, uint32 code,
 	if (barIndex != mMouseOverBarIndex || nodeIndex != mMouseOverNodeIndex) {
 		BMessage		msg(GL_SET_STATUS_MSG);
 		if (barIndex >= 0 && nodeIndex >= 0)
-			msg.AddString16(GL_TEXT_STR, mManager->cache->bars[barIndex]->e[nodeIndex]->label);
+			msg.AddString(GL_TEXT_STR, mManager->cache->bars[barIndex]->e[nodeIndex]->label);
 		if (Window()) Window()->PostMessage(&msg);
 		mMouseOverBarIndex = barIndex;
 		mMouseOverNodeIndex = nodeIndex;
@@ -325,7 +325,8 @@ BPoint _GlMainNodesBar::Layout(	const BRect& b, const BView* v,
 	mOrigin = origin;
 	mRowH = rowH;
 //	float			lW = arp_get_string_width(v, label);
-	float			lW = v->StringWidth(&label);
+	float			lW = v->StringWidth(label.LockBuffer(64));
+	label.UnlockBuffer();
 	origin.x += lW + 8;
 
 	/* I need to fit at least 2 nodes and my label, or else I drop

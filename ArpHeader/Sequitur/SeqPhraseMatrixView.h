@@ -26,8 +26,8 @@
 #ifndef SEQUITUR_SEQPHRASEMATRIXVIEW_H
 #define SEQUITUR_SEQPHRASEMATRIXVIEW_H
 
-#include <be/app/Messenger.h>
-#include <be/interface/View.h>
+#include <app/Messenger.h>
+#include <interface/View.h>
 #include "ArpKernel/ArpLineArrayCache.h"
 #include "AmPublic/AmSongRef.h"
 #include "AmPublic/AmTimeConverter.h"

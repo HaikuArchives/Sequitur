@@ -24,8 +24,8 @@
 #ifndef ARPVIEWS_ARPINTCONTROL_H
 #define ARPVIEWS_ARPINTCONTROL_H
 
-#include <be/app/MessageRunner.h>
-#include <be/support/String.h>
+#include <app/MessageRunner.h>
+#include <support/String.h>
 #include "ArpLayout/ArpLayoutControl.h"
 class ArpInlineTextView;
 class ArpIntControlMotionI;
@@ -131,7 +131,7 @@ public:
 	
 protected:
 	virtual void	ComputeDimens(ArpDimens& dimens);
-	virtual void	Layout();
+	virtual void	LayoutView();
 
 	/* If subclasses want to override the drawing, here's where.
 	 */

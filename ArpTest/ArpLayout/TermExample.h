@@ -37,11 +37,11 @@
 #define TERMEXAMPLE_H
 
 #ifndef _VIEW_H
-#include <be/interface/View.h>
+#include <interface/View.h>
 #endif
 
 #ifndef _MESSENGER_H
-#include <be/app/Messenger>
+#include <app/Messenger>
 #endif
 
 #ifndef ARPKERNEL_ARPMESSAGE_H

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <be/interface/StringView.h>
+#include <interface/StringView.h>
 #include <ArpInterface/ArpPrefs.h>
 #include <ArpInterface/ArpColourControl.h>
 

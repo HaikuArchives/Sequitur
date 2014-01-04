@@ -25,11 +25,11 @@
 #ifndef SEQUITUR_SEQSONGTITLEMATRIXVIEW_H
 #define SEQUITUR_SEQSONGTITLEMATRIXVIEW_H
 
-#include <be/app/Message.h>
-#include <be/app/MessageRunner.h>
-#include <be/interface/PopUpMenu.h>
-#include <be/interface/ScrollBar.h>
-#include <be/support/List.h>
+#include <app/Message.h>
+#include <app/MessageRunner.h>
+#include <interface/PopUpMenu.h>
+#include <interface/ScrollBar.h>
+#include <support/List.h>
 #include "AmPublic/AmSongRef.h"
 class ArpInlineTextView;
 

@@ -28,7 +28,7 @@
 #ifndef SEQUITUR_SEQTIMEVIEWS_H
 #define SEQUITUR_SEQTIMEVIEWS_H
 
-#include <be/interface/View.h>
+#include <interface/View.h>
 #include "AmPublic/AmSongObserver.h"
 class AmPhrase;
 class AmSignature;

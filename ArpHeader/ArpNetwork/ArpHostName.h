@@ -41,11 +41,11 @@
 #define ARPNETWORK_ARPHOSTNAME_H
 
 #ifndef _NETDB_H
-#include <net/netdb.h>
+#include <posix/netdb.h>
 #endif
 
 #ifndef _SOCKET_H
-#include <net/socket.h>
+#include <sys/socket.h>
 #endif
 
 #ifndef __errno_

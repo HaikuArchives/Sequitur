@@ -1,4 +1,4 @@
-#include <ArpCore/ArpDebug.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpInterface/ArpFont.h>
 
 static const char*	FONTFAMILY		= "fam";

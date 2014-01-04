@@ -41,9 +41,9 @@
 #ifndef ARPVIEWS_ARPHRZVIEWMANAGER_H
 #define ARPVIEWS_ARPHRZVIEWMANAGER_H
 
-#include <be/app/Message.h>
-#include <be/interface/View.h>
-#include <be/support/List.h>
+#include <app/Message.h>
+#include <interface/View.h>
+#include <support/List.h>
 
 #include "ArpViewsPublic/ArpViewDefs.h"
 #include "ArpViews/ArpMultiScrollBar.h"

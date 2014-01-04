@@ -1,4 +1,3 @@
-#include <ArpCore/ArpChar.h>
 #include <ArpSupport/ArpUniversalStringMachine.h>
 
 /*******************************************************
@@ -18,13 +17,13 @@ const char* ArpUniversalStringMachine::String(const BString16* str)
 {
 	if (!str || !(str->WinString())) return NULL;
 	delete[] mString;
-	mString = arp_char_from_wchar(str->WinString());
+	mString = str->WinString();
 	return mString;
 }
 
 const BString16* ArpUniversalStringMachine::String16(const char* str)
 {
 	mString16.WinRelease();
-	if (str) mString16 = str;
+	if (str) mString16.SetTo(str);
 	return &mString16;
 }

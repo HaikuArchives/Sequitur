@@ -1,5 +1,5 @@
-#include <be/support/SupportDefs.h>
-#include <ArpCore/ArpDebug.h>
+#include <support/SupportDefs.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpSupport/ArpSafeDelete.h>
 
 ArpSafeDelete::ArpSafeDelete()
@@ -42,7 +42,7 @@ void ArpSafeDelete::DecRefs() const
 		ArpASSERT(false);
 }
 
-//#include <be/KernelKit.h>
+//#include <KernelKit.h>
 
 ArpSafeDelete::~ArpSafeDelete()
 {

@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <be/interface/View.h>
-#include <be/support/Errors.h>
-#include <ArpCore/ArpDebug.h>
+#include <interface/View.h>
+#include <support/Errors.h>
+#include <ArpKernel/ArpDebug.h>
 #include <ArpInterface/ArpBitmap.h>
 #include <ArpInterface/ArpControlLayer.h>
 

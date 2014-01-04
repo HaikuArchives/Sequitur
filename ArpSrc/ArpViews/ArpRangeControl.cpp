@@ -5,12 +5,12 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
-#include <be/app/Message.h>
-#include <be/interface/Bitmap.h>
-#include <be/interface/Region.h>
-#include <be/interface/Screen.h>
-#include <be/interface/Shape.h>
-#include <be/interface/Window.h>
+#include <app/Message.h>
+#include <interface/Bitmap.h>
+#include <interface/Region.h>
+#include <interface/Screen.h>
+#include <interface/Shape.h>
+#include <interface/Window.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "ArpViewsPublic/ArpPrefsI.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
@@ -248,8 +248,8 @@ private:
 	rgb_color				mBackgroundColor;
 	
 	float FontHeight();
-	bool ShowX()			{ return mMinX != mMaxX; }
-	bool ShowY()			{ return mMinY != mMaxY; }
+	bool ShowX();
+	bool ShowY();
 
 	void FreeMemory();
 	
@@ -1502,6 +1502,16 @@ float _ArpShowTextView::FontHeight()
 void _ArpShowTextView::FreeMemory()
 {
 	if (mBitmap != 0) delete mBitmap;
+}
+
+bool _ArpShowTextView::ShowX()
+{
+	return mMinX != mMaxX;
+}
+
+bool _ArpShowTextView::ShowY()
+{
+	return mMinY != mMaxY;
 }
 
 /***************************************************************************

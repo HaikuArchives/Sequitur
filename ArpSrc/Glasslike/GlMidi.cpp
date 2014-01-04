@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <string.h>
-#include <be/interface/Window.h>
-#include <be/midi2/MidiProducer.h>
-#include <be/midi2/MidiRoster.h>
-#include <be/StorageKit.h>
-#include <be/support/Autolock.h>
+#include <interface/Window.h>
+#include <midi2/MidiProducer.h>
+#include <midi2/MidiRoster.h>
+#include <StorageKit.h>
+#include <support/Autolock.h>
 #include <ArpCore/StlVector.h>
 #include "GlPublic/GlImage.h"
 #include "GlPublic/GlParamType.h"
