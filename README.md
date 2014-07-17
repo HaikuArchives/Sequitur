@@ -1,6 +1,6 @@
 Sequitur
 ======================
-![sequitur](https://cloud.githubusercontent.com/assets/2175324/3618522/edbceb22-0dea-11e4-9d05-fadac8860e5d.png)
+![sequitur](https://cloud.githubusercontent.com/assets/2175324/3618522/edbceb22-0dea-11e4-9d05-fadac8860e5d.png)  
 NOTE: While Sequitur currently does compile and start on Haiku, it doesn't load files and doesn't play anything. :frowning:
 
 Sequitur is a BeOS-native MIDI sequencer with a MIDI processing add-on architecture. It allows you to record, compose, 
