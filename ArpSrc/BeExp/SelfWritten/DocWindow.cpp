@@ -9,11 +9,13 @@ DocWindow::DocWindow(DocApplication* r, entry_ref* ref, BRect frame,
 	const char *title, window_look look, window_feel feel,
 	uint32 flags, uint32 workspace)
 	:
-	BWindow(frame, title, look, feel, flags, workspace)
+	BWindow(frame, title, look, feel, flags, workspace), untitled(true)
 {
 	windowroster = r;
-	if (ref)
+	if (ref) {
 		fileref = *ref;
+		untitled = false;
+	}
 	dirty = false;
 	printf("DocWindow::DocWindow(%s)\n", title);
 }
@@ -28,7 +30,8 @@ DocWindow::~DocWindow()
 bool
 DocWindow::QuitRequested()
 {
-	return !dirty;
+//	return !dirty;
+	return !IsDirty();	// Virtual!
 }
 
 void
@@ -37,9 +40,11 @@ DocWindow::MessageReceived(BMessage* msg)
 	switch (msg->what) {
 		case DOC_WIN_SAVE:
 			if(untitled)
-				Save(new BEntry(&fileref));
-			else
 				SaveAs();
+			else {
+				BEntry ent(&fileref);
+				Save(&ent);
+			}
 			break;
 		case DOC_WIN_SAVE_AS:
 			SaveAs();

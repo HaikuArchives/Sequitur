@@ -10,7 +10,10 @@
 
 // The R5 PNG translator sometimes has problem writing alpha correctly,
 // so talk to libpng.so directly.
-#define USE_LIB_PNG 1
+// OTOH, the libpng.so code doesn't work in Haiku [not pursued]
+// but the translator seems to be OK, so back to that ...!
+
+//#define USE_LIB_PNG 1
 
 #if USE_LIB_PNG
 #include "png.h"
@@ -98,9 +101,45 @@ status_t save_bitmap_as_png(BBitmap* bitmap, BDataIO* out_stream)
 	return status;
 }
 
-#else
+status_t save_bitmap_as_png(BBitmap* bitmap, const char* filename)
+{
+	ArpASSERT(bitmap && filename);
+	if (!bitmap || !filename) {
+		delete bitmap;
+		return B_ERROR;
+	}
+	
+	BFile		file(filename,  B_WRITE_ONLY | B_CREATE_FILE | B_ERASE_FILE);
+	status_t	status = file.InitCheck();
+	
+	if (status != B_OK) {
+		delete bitmap;
+		return status;
+	}
+	
+	status = save_bitmap_as_png(bitmap, &file);
+	
+	if (status == B_OK) {
+		BNodeInfo	nodeInfo(&file);
+		nodeInfo.SetType("image/png");
+	}
+	
+	return status;
+}
 
-static status_t save_bitmap_as_png(BBitmap* bitmap, BDataIO* out_stream)
+#else
+// for Haiku...
+
+#include <TranslatorRoster.h>
+#include <BitmapStream.h>
+
+status_t save_bitmap_as_png(BBitmap* bitmap, BDataIO* out_stream)
+{
+	// Dummy to satisfy ArpBitmapWrite.h -- not used
+	return B_ERROR;
+}
+
+status_t save_bitmap_as_png(BBitmap* bitmap, const char* filename)
 {
 	printf("Saving bitmap %s, colorspace = 0x%08x\n", filename, bitmap->ColorSpace());
 	ArpASSERT(bitmap && filename);
@@ -127,28 +166,3 @@ static status_t save_bitmap_as_png(BBitmap* bitmap, BDataIO* out_stream)
 
 #endif
 
-status_t save_bitmap_as_png(BBitmap* bitmap, const char* filename)
-{
-	ArpASSERT(bitmap && filename);
-	if (!bitmap || !filename) {
-		delete bitmap;
-		return B_ERROR;
-	}
-	
-	BFile		file(filename,  B_WRITE_ONLY | B_CREATE_FILE | B_ERASE_FILE);
-	status_t	status = file.InitCheck();
-	
-	if (status != B_OK) {
-		delete bitmap;
-		return status;
-	}
-	
-	status = save_bitmap_as_png(bitmap, &file);
-	
-	if (status == B_OK) {
-		BNodeInfo	nodeInfo(&file);
-		nodeInfo.SetType("image/png");
-	}
-	
-	return status;
-}

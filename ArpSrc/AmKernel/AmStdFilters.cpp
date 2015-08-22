@@ -2122,7 +2122,7 @@ AmNullOutputAddOn::VersionType AmNullOutputAddOn::Version() const
 
 BString	AmNullOutputAddOn::Name() const
 {
-	return "Input";
+	return "Output";
 }
 
 BString	AmNullOutputAddOn::Key() const

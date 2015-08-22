@@ -17,7 +17,7 @@ public:
 	virtual			~DocWindow();
 	virtual	bool	QuitRequested();
 	virtual	void	MessageReceived(BMessage* msg);
-	
+
 	virtual	bool		IsDirty();
 	virtual	status_t	Load(BEntry* e);
 	virtual status_t	Save(BEntry* e, const BMessage* args = 0);
@@ -26,7 +26,7 @@ public:
 	void				SetDirty(bool dirty = true);
 	entry_ref			FileRef() const;
 
-private:
+protected:
 	virtual	BFilePanel*	CreateSavePanel() const;
 	DocApplication	*windowroster;
 	void			AddMe(entry_ref *ref);

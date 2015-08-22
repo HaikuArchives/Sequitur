@@ -1,8 +1,22 @@
 <HTML>
-<TITLE>Sequitur 2.1 Release Notes</TITLE>
+<TITLE>Sequitur 2.1.2 Release Notes</TITLE>
 <body bgcolor=b4b4b4>
 
-<H1>Sequitur 2.1 Release Notes</H1>
+<H1>Sequitur Release Notes</H1>
+<HR>
+<p>Sequitur 2.1.2 (Haiku version) Release Notes</p>
+<ul>
+	<li>Fixed crash on exit due to static destructor not releasing MIDI endpoints.
+	<li>Fixed missing icons in Filters window, due to Haiku BBitmap::Archive(xxx, false)
+not saving data.
+	<li>Files are now saved with the standard MIDI Mimetype "audio/midi", rather
+than the original "audio/x-midi".
+	<li>FilePanels are now smarter: they only list files with a MIDI Mimetype
+(one of audio/midi, audio/mid, or audio/x-midi), and remember the directory a file
+was last loaded from when using "Save As" (rather than always going "back home").
+	<li>Various internal restorations and rewrites were needed for Haiku, but the
+resulting performance should be unchanged.
+</ul>
 <HR>
 <p>Sequitur 2.1.1f Release Notes</p>
 <ul>

@@ -27,6 +27,7 @@ public:
 	bool WriteLock();
 	bool ReadUnlock() const;
 	bool WriteUnlock();
+	void close();
 
 	const BBitmap*	PianoRollView(		float width, float noteHeight) const;
 	const BBitmap*	NewPianoRollView(	float width, float noteHeight,
@@ -40,6 +41,10 @@ private:
 };
 
 static _AmPianoRollCache		gCache;
+
+void closePianoRollCache() {	// Hack for Haiku
+	gCache.close();
+}
 
 /*************************************************************************
  * AM-PIANO-ROLL-GENERATOR
@@ -112,6 +117,11 @@ _AmPianoRollCache::_AmPianoRollCache(uint32 limit)
 
 _AmPianoRollCache::~_AmPianoRollCache()
 {
+//	for (uint32 k = 0; k < mBitmaps.size(); k++) delete mBitmaps[k];
+//	mBitmaps.resize(0);
+}
+
+void _AmPianoRollCache::close() {
 	for (uint32 k = 0; k < mBitmaps.size(); k++) delete mBitmaps[k];
 	mBitmaps.resize(0);
 }

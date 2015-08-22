@@ -84,12 +84,14 @@ public:
 	virtual status_t			Load(BEntry *e, bool merge, uint32 flags = 0);
 	virtual status_t			Load(BEntry *e)					{ return Load(e, false); }
 	virtual status_t			Save(BEntry *e, const BMessage* args = 0);
+	virtual void				SaveAs();
 	virtual void				WindowFrame(BRect *proposed);
 	
 	virtual	void				MenusBeginning();
 	virtual	void				MenusEnded();
 	virtual	void				DispatchMessage(BMessage *message, BHandler *handler);
 	virtual void				MessageReceived(BMessage*);
+	virtual	bool				QuitRequested();
 	virtual void				Quit();
 	virtual	void				WindowActivated(bool state);
 	/* Clients can use this command to scroll the arrange window
@@ -227,6 +229,8 @@ private:
 	BMenuItem*	mToolItem;
 	BFilePanel*	mImportPanel;
 	BFilePanel*	mSavePanel;
+	bool		mQuitAfterSave;
+	
 	/* Sequitur doesn't have a global midi receiver -- every input
 	 * filter is receiving every event.  This is used to weed out
 	 * multiple MMC events.

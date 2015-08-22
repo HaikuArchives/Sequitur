@@ -93,9 +93,9 @@ else
 	DIST_FULLDESTDIR := $(DIST_TARGET)/$(DIST_DESTDIR)
 endif
 
-	CFLAGS		+= $(DEFINE_VERSION) -DB_BEOS_VERSION_DANO=1 -g
+	CFLAGS		+= $(DEFINE_VERSION) -DB_BEOS_VERSION_DANO=1
 	
-	LDFLAGS		+= $(LDPLATFLAGS) -g
+	LDFLAGS		+= $(LDPLATFLAGS)
 
 #	create the final list of libraries to include
 	LIBS_TO_USE =	$(addprefix -l, $(addsuffix $(LIB_EXTENSION), $(ADD_SHLIBS) $(DEFAULT_LIBS) $(ADD_BESHLIBS)))  $(ADD_STLIBS) $(ADD_BESTLIBS)

@@ -46,7 +46,7 @@ void
 DocApplication::ReadyToRun()
 {
 	printf("DocApplication::ReadyToRun\n");
-	New();
+	if (window_list.IsEmpty()) New();
 }
 
 
@@ -75,7 +75,8 @@ DocApplication::New()
 	printf("DocApplication::New\n");
 	BString title = "Untitled ";
 	title << ++untitledcount;
-	AddWindow(factory(this, NULL, title.String(), B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL, 0, B_ALL_WORKSPACES), NULL);
+//	AddWindow(factory(this, NULL, title.String(), B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL, 0, B_ALL_WORKSPACES), NULL);
+	AddWindow(factory(this, NULL, title.String(), B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL, 0, B_CURRENT_WORKSPACE), NULL);
 }
 
 
@@ -136,15 +137,19 @@ DocApplication::UpdateWindowMenu(DocWindow* window)
 
 
 void
+DocApplication::LoadRef(entry_ref* ref)
+{
+	DocWindow* window = factory(this, ref, ref->name, B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL, 0, B_CURRENT_WORKSPACE);
+	AddWindow(window, ref);
+}
+
+
+void
 DocApplication::LoadRefs(BMessage* message)
 {
-	
 	entry_ref* ref = new entry_ref();
 	message->FindRef("refs", 0, ref);
-
-	DocWindow* window = factory(this, ref, ref->name, B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL, 0, B_ALL_WORKSPACES);
-	AddWindow(window, ref);
-
+	LoadRef(ref);
 }
 
 

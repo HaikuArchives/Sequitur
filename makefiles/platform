@@ -167,7 +167,8 @@ endif
 
 #		set the initial compiler flags
 ifndef RELEASE_BUILD
-		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -fno-implement-inlines
+		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline
+#		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -fno-implement-inlines
 #		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -fno-implement-inlines -fcheck-memory-usage -D_KERNEL_MODE
 else
 		CPLATFLAGS		= 
@@ -202,7 +203,8 @@ ifeq ($(CPU), x86)
 
 #		specify the optimizer setting
 ifdef RELEASE_BUILD
-		CPLATFLAGS	+= -O3 -DNDEBUG=1
+#		CPLATFLAGS	+= -O3 -DNDEBUG=1 -- O3 crashes compiler! NDEBUG not in Sequitur
+		CPLATFLAGS	+= -O2
 else
 		CPLATFLAGS	+= -O0
 endif

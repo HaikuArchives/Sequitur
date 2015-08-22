@@ -419,6 +419,8 @@ AmFilterAddOn* AmFilterAddOnHandle::AddOn() const
 	
 AmFilterAddOnHandle::~AmFilterAddOnHandle()
 {
+	delete mAddOn;
+	mAddOn = NULL;
 	delete mImage;
 	mImage = NULL;
 }
@@ -564,6 +566,7 @@ AmFilterRoster::~AmFilterRoster()
 static int32 gFilterRosterCreated = 0;
 static AmFilterRoster* gFilterRoster = NULL;
 
+/*** Static Destructors are different in Haiku! ****
 struct FilterRosterCleanup
 {
 	~FilterRosterCleanup()
@@ -572,6 +575,13 @@ struct FilterRosterCleanup
 	}
 };
 static FilterRosterCleanup gFilterRosterCleanup;
+************************************************/
+// Use this instead:
+
+void closeFilterRoster() {	// Hack for Haiku
+	delete gFilterRoster;
+}
+
 
 AmFilterRoster* AmFilterRoster::Default()
 {

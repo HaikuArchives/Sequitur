@@ -32,6 +32,7 @@ public:
 	virtual	void	RefsReceived(BMessage* msg);
 	virtual	void	FileOpen();
 	virtual	void	New();
+	virtual	void	LoadRef(entry_ref* ref);
 
 private:
 

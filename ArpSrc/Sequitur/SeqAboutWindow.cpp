@@ -19,7 +19,8 @@ static const float		height			= 475;
 
 static const BBitmap*	arp_logo		= NULL;
 static const BBitmap*	seq_logo		= NULL;
-static const char*		VERSION_STR		= "2.1.1g";
+//static const char*		VERSION_STR		= "2.1.1g";
+static const char*		VERSION_STR		= "2.1.2";
 
 enum {
 	kShowWindow = 'swnd'

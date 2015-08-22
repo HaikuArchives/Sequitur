@@ -10,6 +10,7 @@
 #include <interface/Bitmap.h>
 #include <interface/Picture.h>
 #include <support/Locker.h>
+#include <storage/MimeType.h>
 
 #include "AmKernel/AmGlobalsImpl.h"
 
@@ -31,6 +32,7 @@ public:
 	virtual void	ArgvReceived(int32 argc, char** argv);
 	virtual bool	QuitRequested(void);
 	virtual void	AboutRequested(void);
+	virtual	void	FileOpen();
 
 	// Answer the default size of the bitmaps our filters return.
 	// Not sure if this is the best place for this?
@@ -120,6 +122,7 @@ private:
 	 */
 	BMessage			mShutdownMsg;
 	bool				mGrossErrorHack;
+	BFilePanel			*mLoadPanel;
 
 	/* Save the application's state (including preferences)
 	 */
@@ -141,5 +144,18 @@ private:
 /* A convenience for anyone accessing the application
  */
 #define		seq_app		((SeqApplication*)be_app)
+
+
+// FilePanel filter for general access
+
+class MIDIRefFilter : public BRefFilter {
+public:
+	bool MIDIRefFilter::Filter(const entry_ref *r, BNode *node, struct stat_beos *,
+									   const char *mimetype);
+private:
+	static BMimeType typeA, typeB, typeC;
+};
+
+extern MIDIRefFilter midifileFilter;
 
 #endif

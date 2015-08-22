@@ -375,6 +375,7 @@ SeqSongWindow::SeqSongWindow(DocApplication *wr, entry_ref *ref, const char *tit
 	  mRedoItem(0), mMergeItem(NULL), mSeparateItem(NULL), mDeleteItem(NULL),
 	  mExpandItem(NULL), mContractItem(NULL),
 	  mDeviceItem(NULL), mFilterItem(NULL), mMotionItem(NULL), mToolItem(NULL),
+	  mImportPanel(NULL), mSavePanel(NULL), mQuitAfterSave(false),
 	  mAddedRefToSettings(false)
 {
 	AmSongRef	songRef;
@@ -411,6 +412,13 @@ SeqSongWindow::SeqSongWindow(DocApplication *wr, entry_ref *ref, const char *tit
 				BEntry		entry(&ref);
 				if (entry.InitCheck() == B_OK) Load(&entry, false, NO_CONFIGURATION);
 			}
+		} else if (ref) {
+			BString msg("Loading song ");
+			msg += ref->name;
+			msg += "...";
+			am_report_startup_status(msg.String());
+			BEntry		entry(ref);
+			if (entry.InitCheck() == B_OK) Load(&entry);
 		}
 	}
 	
@@ -796,7 +804,8 @@ status_t SeqSongWindow::Save(BEntry *ent, const BMessage* /*args*/)
 		if( !err ) {
 			BNodeInfo	ni;
 			if(ni.SetTo(&f) == B_OK)
-				ni.SetType("audio/x-midi");
+//				ni.SetType("audio/x-midi");
+				ni.SetType("audio/midi");
 		}
 	}
 	
@@ -826,6 +835,11 @@ status_t SeqSongWindow::Save(BEntry *ent, const BMessage* /*args*/)
 		entry_ref ref;
 		if (ent->GetRef(&ref) == B_OK) {
 			be_roster->AddToRecentDocuments(&ref);
+			if (ref != fileref) {
+				fileref = ref;
+				SetTitle(ref.name);
+				untitled = false;
+			}
 		}
 	}
 	
@@ -842,6 +856,25 @@ status_t SeqSongWindow::Save(BEntry *ent, const BMessage* /*args*/)
 	
 	return err;
 }
+
+
+static MIDIRefFilter savefilefilter;
+
+void SeqSongWindow::SaveAs() {
+		if (!mSavePanel) {
+			BMessenger msngr(this);	// only temporary...
+			mSavePanel = new BFilePanel(B_SAVE_PANEL, &msngr);
+			mSavePanel->SetRefFilter(&midifileFilter);
+		}
+		BEntry ent(&fileref);	// if anything was previously loaded
+		if (ent.InitCheck() == B_OK) {
+			BEntry dir;
+			ent.GetParent(&dir);
+			mSavePanel->SetPanelDirectory(&dir);
+		}
+		mSavePanel->Show();
+}
+
 
 void SeqSongWindow::WindowFrame(BRect *proposed)
 {
@@ -1305,11 +1338,49 @@ void SeqSongWindow::MessageReceived(BMessage *msg)
 				mc->SetMarkerVisible(AM_LEFT_LOOP_MARKER | AM_RIGHT_LOOP_MARKER, isLooping);
 			}
 		} break;
+		case B_SAVE_REQUESTED: {
+			entry_ref r;
+			const char * name;
+			msg->FindRef("directory", &r);
+			BDirectory dir(&r);
+			msg->FindString("name", &name);
+			BEntry ent(&dir, name);
+			Save(&ent);
+			if (mQuitAfterSave) Quit();
+		}
 		default:
 			inherited::MessageReceived(msg);
 			break;
 	}
 }
+
+bool SeqSongWindow::QuitRequested()
+{
+	if (IsDirty()) {
+		BString alertStr("Save changes to \"");
+		alertStr << Title() << "\"?";
+		BAlert *quitAlert = new BAlert("Alert", alertStr.String(),
+			 "Cancel", "Don't Save", "Save",
+			 B_WIDTH_AS_USUAL, B_OFFSET_SPACING, B_WARNING_ALERT);
+		int32 res = quitAlert->Go();
+		switch (res) {
+			case 2:
+					if(untitled) {
+						SaveAs();
+						mQuitAfterSave = true;
+						return false;	// until actually saved
+					} else {
+						BEntry ent(&fileref);
+						Save(&ent);
+					}
+					// fall through
+			case 1:	return true;
+			case 0: return false;
+		}
+	}
+	return true;
+}
+
 
 void SeqSongWindow::Quit()
 {

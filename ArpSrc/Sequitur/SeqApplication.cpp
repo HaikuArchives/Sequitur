@@ -248,7 +248,7 @@ private:
  ****************************************************************************/
 SeqApplication::SeqApplication()
 		: inherited(app_signature, myfactory),
-		  mGrossErrorHack(false)
+		  mGrossErrorHack(false), mLoadPanel(NULL)
 {
 	AM_LOG("SeqApplication::SeqApplication() 1\n");	
 	/* The preferences must be loaded in FIRST THING.  Anything else --
@@ -370,6 +370,9 @@ SeqApplication::~SeqApplication()
 	AM_LOG("SeqApplication::~SeqApplication() 9\n");
 	AmFilterRoster::ShutdownDefault(true);
 	AM_LOG("SeqApplication::~SeqApplication() 10 (end)\n");
+
+	extern void closeFilterRoster();	// Hack for Haiku
+	closeFilterRoster();
 }
 
 BBitmap* SeqApplication::DefaultFilterImage()
@@ -432,6 +435,14 @@ void SeqApplication::ArgvReceived(int32 argc, char** argv)
 {
 	inherited::ArgvReceived(argc, argv);
 	ArpParseDBOpts(argc, argv);
+	for (int i = 1; i < argc; i++) {
+		BEntry ent(argv[i]);
+		if (ent.InitCheck() == B_OK) {
+			entry_ref* ref = new entry_ref();	// must be new -- kept in list
+			ent.GetRef(ref);
+			LoadRef(ref);
+		}
+	}
 }
 
 bool SeqApplication::QuitRequested(void)
@@ -446,6 +457,9 @@ bool SeqApplication::QuitRequested(void)
 		for (int32 k = 0; k < _NUM_AUX_WIN; k++) {
 			if (mAuxWins[k].IsValid() )	mAuxWins[k].SendMessage(B_QUIT_REQUESTED);
 		}
+		extern void closePianoRollCache();	// Hack for Haiku
+		closePianoRollCache();
+
 //		if( mFiltersWin.IsValid() )			mFiltersWin.SendMessage(B_QUIT_REQUESTED);
 //		if( mToolPropertiesWin.IsValid() )	mToolPropertiesWin.SendMessage(B_QUIT_REQUESTED);
 	} else {
@@ -462,6 +476,19 @@ void SeqApplication::AboutRequested(void)
 		win->Show();
 	}
 }
+
+
+static MIDIRefFilter loadfilefilter;
+
+void SeqApplication::FileOpen()
+{
+	if(!mLoadPanel) {
+		mLoadPanel = new BFilePanel(B_OPEN_PANEL);
+		mLoadPanel->SetRefFilter(&midifileFilter);
+	}
+	mLoadPanel->Show();
+}
+
 
 bool SeqApplication::FlagIsOn(uint32 flags) const
 {
@@ -1457,3 +1484,35 @@ status_t seq_get_tools_ref(entry_ref* ref)
 	if (ref) err = entry.GetRef(ref);
 	return err;
 }
+
+
+//////////////////////////////////////////////////////////
+
+bool MIDIRefFilter::Filter(const entry_ref *r, BNode *node, struct stat_beos *,
+									   const char *mimetype)
+{
+	BNode linked;
+	char mimestr[B_MIME_TYPE_LENGTH+1];
+	const char *mimep = mimetype;
+	if (node->IsSymLink()) {
+		BEntry ent(r, true);
+		linked.SetTo(&ent);
+		node = &linked;
+		BNodeInfo info(node);
+		info.GetType(mimestr);
+		mimep = mimestr;
+	}
+	if (node->IsDirectory()) return true;
+	if (typeA == mimep || typeB == mimep || typeC == mimep)
+		return true;
+	else return false;
+	}
+
+BMimeType MIDIRefFilter::typeA("audio/x-midi");
+BMimeType MIDIRefFilter::typeB("audio/midi");
+BMimeType MIDIRefFilter::typeC("audio/mid");
+
+// The actual filter all can use:
+MIDIRefFilter midifileFilter;
+
+//////////////////////////////////////////////////////////

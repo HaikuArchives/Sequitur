@@ -1,20 +1,21 @@
 Sequitur
-MIDI Sequencing for BeOS
+MIDI Sequencing for Haiku
 
 ------------------------------------------------------------------------
 
-Version 2.1 / 03 August 2002
+Version 2.1.5 / 18 August 2015
 
-Copyright ©2000-2002 by Angry Red Planet, Eric Hackborn, Dianne Hackborn,
-and Daniel Civello.  All rights reserved.
+** Public Domain **
+Originally Copyright ©2000-2002 by Angry Red Planet, Eric Hackborn,
+Dianne Hackborn, and Daniel Civello.  All rights reserved.  (The authors
+have generously transferred the code to Public Domain, and donated
+the original source to the HaikuArchives on GitHub.)
 
 This software and all accompanying documentation is released as
 freeware.  Users are granted the right to use this software without
-restriction, and distribute it freely provided no contents are removed
-or modified in any way.  This software comes with no guarantees or
-warranties.  The authors are not responsible in any way for any damage
-that occurs as a result of using this software.  Please direct any questions
-or requests to Eric Hackborn, at <hackborn@angryredplanet.com>.
+restriction, and distribute it freely.  This software comes with no guarantees
+or warranties.  The authors are not responsible in any way for any damage
+that occurs as a result of using this software. 
 
 ------------------------------------------------------------------------
 

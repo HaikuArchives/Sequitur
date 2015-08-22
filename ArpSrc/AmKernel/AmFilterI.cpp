@@ -377,7 +377,8 @@ status_t AmFilterAddOn::GetArchiveTemplate(BMessage* into, uint32 flags) const
 		BBitmap* bm = Image(BPoint(20, 20));
 		if (bm) {
 			BMessage arch;
-			if (bm->Archive(&arch, false) == B_OK) {
+//	BeOS:	if (bm->Archive(&arch, false) == B_OK) { (saved image data)
+			if (bm->Archive(&arch) == B_OK) {	// Haiku bug(?)
 				res = into->AddMessage(SZ_FILTER_IMAGE, &arch);
 			}
 			delete bm;
