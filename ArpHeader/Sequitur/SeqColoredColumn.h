@@ -24,8 +24,8 @@
 #ifndef SEQUITUR_SEQCOLOREDCOLUMN_H
 #define SEQUITUR_SEQCOLOREDCOLUMN_H
 
-#include <experimental/ColumnListView.h>
-#include <experimental/ColumnTypes.h>
+#include <private/interface/ColumnListView.h>
+#include <private/interface/ColumnTypes.h>
 
 /********************************************************
  * SEQ-COLORED-COLUMN

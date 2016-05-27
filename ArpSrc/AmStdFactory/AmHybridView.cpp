@@ -2,7 +2,6 @@
  */
 #include <stdio.h>
 #include <math.h>
-#include <experimental/ColorTools.h>
 #include <interface/Bitmap.h>
 #include <interface/MenuField.h>
 #include <interface/MenuItem.h>
@@ -114,7 +113,7 @@ public:
 										BPoint where,
 										const am_trans_params& params);
 	// Performing
-	virtual void Perform(const AmSong* song, const AmSelectionsI* selections); 
+	virtual void Perform(const AmSong* song, const AmSelectionsI* selections);
 
 private:
 	AmPerformer				mPerformer;
@@ -315,7 +314,7 @@ void AmHybridDataView::DrawEvent(	BView* view, const AmPhraseEvent& topPhrase,
 		view->FillRect(rect);
 	} else {
 		rect.left = rect.left + SS_SHARP_WIDTH;
-		view->SetHighColor(c);	
+		view->SetHighColor(c);
 		view->FillRect(rect);
 
 		// Draw a sharp...
@@ -326,7 +325,7 @@ void AmHybridDataView::DrawEvent(	BView* view, const AmPhraseEvent& topPhrase,
 		if (h + 1 == 5) { t = 1; b = 3; }
 		else if (h + 1 == 6) { t = 1; b = 4; }
 		else { t = (h/3); b = ((h/3) * 2); }
-		
+
 		lines.BeginLineArray(6);
 		// Draw the vertical bars
 		lines.AddLine(BPoint(rect.left - 4, rect.top), BPoint(rect.left - 6, rect.bottom), view->HighColor());
@@ -340,7 +339,7 @@ void AmHybridDataView::DrawEvent(	BView* view, const AmPhraseEvent& topPhrase,
 	}
 
 	/* Lighten the top left edges
-	 */	
+	 */
 	if (properties&ARPEVENT_SHADOW && mShadowSaturation < 1) {
 		rgb_color	c2 = tint_color(c, B_LIGHTEN_2_TINT);
 		c2.alpha = (uint8)(mShadowSaturation*255);
@@ -526,7 +525,7 @@ void AmHybridInfoView::AddOctaveMenu()
 {
 	BMenuField*	menuField;
 	BPopUpMenu*	popUpMenu;
-	
+
 	BPoint		leftTop = OctaveMenuLeftTop();
 	BRect		rect(leftTop.x, leftTop.y, Bounds().right - 1, leftTop.y + 20);
 
@@ -570,7 +569,7 @@ BPopUpMenu*	AmHybridInfoView::NewPropertiesMenu() const
 		if ( BString(AM_INFO_CHANGE_VIEW_STR).Compare(item->Label()) == 0)
 			item->SetEnabled(false);
 	}
-	
+
 	BMenu*		hybridMenu = NewHybridMenu();
 	if (!hybridMenu) return menu;
 	item = new BMenuItem(hybridMenu);
@@ -941,7 +940,7 @@ static uchar note_from_pixel(float y, _AmHybridSharedData& shared)
 	int32	numberOfNotes = shared.NotesOnScreen();
 //	NOTES_ABOVE_CLEFS + (NOTES_IN_CLEFS * 2) + shared.mNotesBetweenClefs + NOTES_BELOW_CLEFS;
 	if (screenNote > numberOfNotes) screenNote = numberOfNotes;
-	screenNote = numberOfNotes - screenNote;	
+	screenNote = numberOfNotes - screenNote;
 
 	int32	octaveCompensation = 0;
 	if (shared.mNotesBetweenClefs == 3) octaveCompensation = 3;
@@ -950,7 +949,7 @@ static uchar note_from_pixel(float y, _AmHybridSharedData& shared)
 	int32	octaveOffset = ((shared.mOctave - octaveCompensation) * 12) + 7;
 	int32 	smallPattern = (screenNote % 7);
 	int32	largePattern = (screenNote / 7) * 5;
-	
+
 	if (smallPattern == 1) {
 		screenNote = screenNote + 1;
 	} else if ((smallPattern == 2) || (smallPattern == 3)) {
@@ -960,7 +959,7 @@ static uchar note_from_pixel(float y, _AmHybridSharedData& shared)
 	} else if ((smallPattern == 5) || (smallPattern == 6)) {
 		screenNote = screenNote + 4;
 	}
-	
+
 	int32	midiNote = screenNote + largePattern + octaveOffset;
 	if (midiNote < 0) return(0);
 	if (midiNote > 127) return(127);
@@ -985,7 +984,7 @@ static float pixel_from_note(uchar note, _AmHybridSharedData& shared)
 	uchar	div = (note / 12);		// produces 0 - 10;
 	uchar	rem = (note % 12);		// produces 0 - 11;
 	int		pixel, tmp = 0;
-	
+
 	if ((rem == 0) || (rem == 1)) tmp = 0;
 	if ((rem == 2) || (rem == 3)) tmp = 1;
 	if (rem == 4) tmp = 2;
@@ -993,7 +992,7 @@ static float pixel_from_note(uchar note, _AmHybridSharedData& shared)
 	if ((rem == 7) || (rem == 8)) tmp = 4;
 	if ((rem == 9) || (rem == 10)) tmp = 5;
 	if (rem == 11) tmp = 6;
-	
+
 	int32	notesAboveC = 0;
 	if (shared.mNotesBetweenClefs == 3) notesAboveC = 17;
 	else if (shared.mNotesBetweenClefs == 17) notesAboveC = 24;
@@ -1037,7 +1036,7 @@ static void draw_no_mans_land(BView* view, BRect clip, _AmHybridSharedData& shar
 
 	rgb_color	cbg = Prefs().Color(AM_CONTROL_BG_C);
 	rgb_color	dbg = Prefs().Color(AM_DATA_BG_C);
-	
+
 	BRect	r(clip.left, bottomY + 3, clip.right, clip.bottom);
 	view->SetHighColor(cbg);
 	view->FillRect(r);
@@ -1046,7 +1045,7 @@ static void draw_no_mans_land(BView* view, BRect clip, _AmHybridSharedData& shar
 	view->SetDrawingMode(B_OP_ALPHA);
 	view->SetBlendingMode(B_PIXEL_ALPHA, B_ALPHA_COMPOSITE);
 	view->SetLowColor(dbg);
-	
+
 	cbg.alpha = 64;
 	view->SetHighColor(cbg);
 	view->StrokeLine( BPoint(r.left, bottomY), BPoint(r.right, bottomY) );

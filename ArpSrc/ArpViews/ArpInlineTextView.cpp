@@ -39,7 +39,7 @@ class InlineEditText : public BTextView
 {
 private:
 	typedef BTextView inherited;
-	
+
 public:
 	InlineEditText(	BMessenger	owner,
 					BRect		frame,
@@ -50,10 +50,10 @@ public:
 		: BTextView(frame, name, textRect, resizeMask, flags),
 		  mOwner(owner), mOrigText(""), mDefButton(NULL), mHasChanged(false)
 	{ }
-	
+
 	virtual ~InlineEditText()
 	{ }
-	
+
 	virtual void KeyDown(const char *bytes, int32 numBytes)
 	{
 		int32 mods = 0;
@@ -61,7 +61,7 @@ public:
 		if( msg ) {
 			msg->FindInt32("modifiers",&mods);
 		}
-		
+
 		if( *bytes == B_ESCAPE ) {
 			BString tmp = mOrigText;
 			mOrigText = Text();
@@ -71,13 +71,13 @@ public:
 			mOwner.SendMessage(&msg);
 			return;
 		}
-		
+
 		if( *bytes == '\n' || *bytes == '\r' ) {
 			BMessage msg(INLINE_FINALUPDATE_MSG);
 			mOwner.SendMessage(&msg);
 			return;
 		}
-		
+
 		if( Window() && Parent() ) {
 			if( *bytes == B_UP_ARROW && CurrentLine() <= 0 ) {
 				BMessage msg(INLINE_GOTOPREVIOUS_MSG);
@@ -92,13 +92,13 @@ public:
 		}
 		inherited::KeyDown(bytes, numBytes);
 	}
-	
+
 	virtual void AttachedToWindow()
 	{
 		mDefButton = Window()->DefaultButton();
 		Window()->SetDefaultButton(NULL);
 	}
-	
+
 	virtual void DetachedFromWindow()
 	{
 		if( IsFocus() ) {
@@ -112,31 +112,31 @@ public:
 		}
 		mDefButton = NULL;
 	}
-	
+
 	void MakeFocus(bool focusState=true)
 	{
 		if( Window() && Parent() && IsFocus() != focusState ) {
 			BMessage msg(focusState ? INLINE_STARTFOCUS_MSG:INLINE_ENDFOCUS_MSG);
 			mOwner.SendMessage(&msg);
 		}
-		
+
 		inherited::MakeFocus(focusState);
 	}
 
-	void SetInitText(const char *inText, 
+	void SetInitText(const char *inText,
 					 const text_run_array *inRuns = NULL)
 	{
 		SetText(inText, inRuns);
 		SelectAll();
 		mOrigText = inText;
 	}
-	
+
 	bool HasChanged() const			{ return mHasChanged; }
 	void HasChanged(bool state)		{ mHasChanged = state; }
-	
+
 protected:
-	virtual	void			InsertText(const char				*inText, 
-									   int32					inLength, 
+	virtual	void			InsertText(const char				*inText,
+									   int32					inLength,
 									   int32					inOffset,
 									   const text_run_array		*inRuns)
 	{
@@ -145,7 +145,7 @@ protected:
 		BMessage msg(INLINE_INTERMEDIATEUPDATE_MSG);
 		mOwner.SendMessage(&msg);
 	}
-	
+
 	virtual	void			DeleteText(int32 fromOffset, int32 toOffset)
 	{
 		inherited::DeleteText(fromOffset, toOffset);
@@ -153,7 +153,7 @@ protected:
 		BMessage msg(INLINE_INTERMEDIATEUPDATE_MSG);
 		mOwner.SendMessage(&msg);
 	}
-	
+
 private:
 	BMessenger mOwner;
 	BString mOrigText;
@@ -208,7 +208,7 @@ void ArpInlineTextView::SetText(const char* text)
 		tbnd.InsetBy(FRAMESIZE, FRAMESIZE);
 		BRect tfrm(tbnd);
 		tfrm.OffsetTo(0,0);
-		
+
 		mEditText = new InlineEditText(mOwner, tbnd, "InlineTextEdit",
 									 tfrm, B_FOLLOW_ALL);
 		mEditText->SetStylable(false);
@@ -293,7 +293,7 @@ void ArpInlineTextView::MakeFocus(bool focusState=true)
 		BMessage msg(focusState ? INLINE_STARTFOCUS_MSG:INLINE_ENDFOCUS_MSG);
 		mOwner.SendMessage(&msg);
 	}
-	
+
 	inherited::MakeFocus(focusState);
 }
 
@@ -324,8 +324,8 @@ void ArpInlineTextView::SetFont(const BFont *font, uint32 mask = B_FONT_ALL)
 
 void ArpInlineTextView::Draw(BRect inRect)
 {
-	rgb_color textCol = mix_color(HighColor(), ViewColor(), .5);
-	
+	rgb_color textCol = mix_color(HighColor(), ViewColor(), 0.5f);
+
 	BRect bnd(Bounds());
 	BeginLineArray(4);
 	AddLine(BPoint(bnd.left, bnd.top),
@@ -345,10 +345,10 @@ BRect ArpInlineTextView::frame_from_font(float textleft, float rightmost,
 	BRect rect;
 	rect.left = textleft-FRAMESIZE-1;
 	rect.right = rightmost;
-	
+
 	rect.top = baseline-fh->ascent-FRAMESIZE;
 	rect.bottom = baseline+fh->descent+FRAMESIZE;
-	
+
 	return rect;
 }
 

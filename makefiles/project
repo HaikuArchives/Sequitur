@@ -94,18 +94,18 @@ else
 endif
 
 	CFLAGS		+= $(DEFINE_VERSION) -DB_BEOS_VERSION_DANO=1
-	
+
 	LDFLAGS		+= $(LDPLATFLAGS)
 
 #	create the final list of libraries to include
 	LIBS_TO_USE =	$(addprefix -l, $(addsuffix $(LIB_EXTENSION), $(ADD_SHLIBS) $(DEFAULT_LIBS) $(ADD_BESHLIBS)))  $(ADD_STLIBS) $(ADD_BESTLIBS)
-	
+
 
 #	additional common linker flags
 ifneq ($(IMG_TYPE), STATIC)
-	LDFLAGS	+= -L $(FULL_DIR) -L $(ARPROOT)/ArpLib/$(OBJ_DIR) -L $(BELIBRARIES) -L $(MWLIBRARIES) $(LIBS_TO_USE)
+	LDFLAGS	+= -L$(FULL_DIR) -L$(ARPROOT)/ArpLib/$(OBJ_DIR) $(LIBS_TO_USE)
 endif
-	
+
 #	create the list of include paths
 	INCLUDES = $(INCLUDE_FLAG) . \
 				$(addprefix $(INCLUDE_FLAG) ,$(LOCAL_INCLUDES)) \
@@ -129,7 +129,7 @@ endef
 
 #	create the list of all resources
 	ALL_APP_RESOURCES := $(RSRCS_TO_USE) $(RSRC_DIRS_LIST_TO_OBJS)
-	
+
 #	create the resource instruction
 ifneq ($(IMG_TYPE), STATIC)
 	ifneq ($(ALL_APP_RESOURCES), )
@@ -157,7 +157,7 @@ endef
 	DEPS		:= $(OBJS:.o=.d) $(RSRC_DIRS_LIST_TO_OBJS:.rsrc=.d)
 
 	DEPENDENCIES := $(OBJ_DIR)/$(IMG_NAME).Depends
-	
+
 ifeq ($(IMG_TYPE), STATIC)
 	BUILD_LINE = ar -cru $@ $(OBJS)
 else

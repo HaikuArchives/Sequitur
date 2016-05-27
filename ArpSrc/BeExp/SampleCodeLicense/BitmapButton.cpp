@@ -17,7 +17,6 @@ class _EXPORT BBitmapButton;
 #include <Debug.h>
 
 #include <experimental/BitmapTools.h>
-#include <experimental/ColorTools.h>
 
 #define AUTO_BITMAP_GENERATION 1
 #define FANCY_OVER_SHADOWS 1
@@ -31,14 +30,14 @@ typedef bool (*recolor_bitmap_func)(rgb_color* inout_color, void* data);
 static status_t recolor_bitmap(BBitmap* bm, recolor_bitmap_func func, void* data)
 {
 	rgb_color color;
-	
+
 	switch( bm->ColorSpace() ) {
 		case B_RGB32:
 		case B_RGBA32:
 		{
 			uint8* start = (uint8*)bm->Bits();
 			uint8* end = start + bm->BitsLength();
-			
+
 			while( start < end ) {
 				color.blue = start[0];
 				color.green = start[1];
@@ -53,13 +52,13 @@ static status_t recolor_bitmap(BBitmap* bm, recolor_bitmap_func func, void* data
 				start += 4;
 			}
 		} break;
-		
+
 		case B_RGB32_BIG:
 		case B_RGBA32_BIG:
 		{
 			uint8* start = (uint8*)bm->Bits();
 			uint8* end = start + bm->BitsLength();
-			
+
 			while( start < end ) {
 				color.blue = start[3];
 				color.green = start[2];
@@ -74,12 +73,12 @@ static status_t recolor_bitmap(BBitmap* bm, recolor_bitmap_func func, void* data
 				start += 4;
 			}
 		} break;
-		
+
 		case B_RGB16:
 		{
 			uint16* start = (uint16*)bm->Bits();
 			uint16* end = start + bm->BitsLength()/2;
-			
+
 			while( start < end ) {
 				color.red = (((*start>>11)&0x1f)*0xff)/0x1f;
 				color.green = (((*start>>5)&0x3f)*0xff)/0x3f;
@@ -93,13 +92,13 @@ static status_t recolor_bitmap(BBitmap* bm, recolor_bitmap_func func, void* data
 				start++;
 			}
 		} break;
-		
+
 		case B_RGB15:
 		case B_RGBA15:
 		{
 			uint16* start = (uint16*)bm->Bits();
 			uint16* end = start + bm->BitsLength()/2;
-			
+
 			while( start < end ) {
 				color.red = (((*start>>10)&0x1f)*0xff)/0x1f;
 				color.green = (((*start>>5)&0x1f)*0xff)/0x1f;
@@ -114,15 +113,15 @@ static status_t recolor_bitmap(BBitmap* bm, recolor_bitmap_func func, void* data
 				start++;
 			}
 		} break;
-		
+
 		case B_CMAP8:
 		{
 			uint8* start = (uint8*)bm->Bits();
 			uint8* end = start + bm->BitsLength();
-			
+
 			BScreen s;
 			const color_map* cm = system_colors();
-			
+
 			while( start < end ) {
 				if( *start == B_TRANSPARENT_MAGIC_CMAP8 ) {
 					color = B_TRANSPARENT_COLOR;
@@ -142,12 +141,12 @@ static status_t recolor_bitmap(BBitmap* bm, recolor_bitmap_func func, void* data
 				start++;
 			}
 		} break;
-		
+
 		default:
 			TRESPASS();
 			return B_BAD_VALUE;
 	}
-	
+
 	return B_OK;
 }
 
@@ -156,26 +155,26 @@ static status_t recolor_bitmap(BBitmap* bm, recolor_bitmap_func func, void* data
 static bool disable_bitmap_alpha_func(rgb_color* c, void* background)
 {
 	(void)background;
-	
+
 	if( c->alpha == 0 ) return false;
-	
+
 	//uint8 gray = ( c->red/50 + c->green/30 + c->blue/75 ) * 15;
 	uint8 gray = ( c->red/3 + c->green/3 + c->blue/3 );
 	c->red = c->blue = c->green = gray;
 	c->alpha /= 2;
-	
+
 	return true;
 }
 
 static bool disable_bitmap_color_func(rgb_color* c, void* background)
 {
 	if( c->alpha == 0 ) return false;
-	
+
 	uint8 gray = c->red/6 + c->green/6 + c->blue/6;
 	c->red = gray + ((rgb_color*)background)->red/2;
 	c->green = gray + ((rgb_color*)background)->green/2;
 	c->blue = gray + ((rgb_color*)background)->blue/2;
-	
+
 	return true;
 }
 
@@ -184,7 +183,7 @@ static status_t disable_bitmap(BBitmap* bm, rgb_color background)
 	if( background.alpha == 0 ) {
 		return recolor_bitmap(bm, disable_bitmap_alpha_func, &background);
 	}
-	
+
 	return recolor_bitmap(bm, disable_bitmap_color_func, &background);
 }
 
@@ -193,7 +192,7 @@ static status_t disable_bitmap(BBitmap* bm, rgb_color background)
 static bool tint_bitmap_func(rgb_color* c, void* background)
 {
 	if( c->alpha == 0 ) return false;
-	
+
 	const uint8 mix = ((rgb_color*)background)->alpha;
 	c->red = (uint8)( ( ((uint16)c->red)*(255-mix)
 						+ ((uint16)((rgb_color*)background)->red)*(mix)
@@ -204,7 +203,7 @@ static bool tint_bitmap_func(rgb_color* c, void* background)
 	c->blue = (uint8)( ( ((uint16)c->blue)*(255-mix)
 						+ ((uint16)((rgb_color*)background)->blue)*(mix)
 						) / 255 );
-	
+
 	return true;
 }
 
@@ -249,14 +248,14 @@ static status_t shadow_bitmap(BBitmap* bm, const shadow_offset* offsets,
 		TRESPASS();
 		return B_ERROR;
 	}
-	
+
 	if( !source ) source = bm;
-	
+
 	if( bm->ColorSpace() != B_RGB32 && bm->ColorSpace() != B_RGBA32 ) {
 		TRESPASS();
 		return B_ERROR;
 	}
-	
+
 	bool all_exterior = true;
 	bool all_interior = true;
 	const shadow_offset* so = offsets;
@@ -266,48 +265,48 @@ static status_t shadow_bitmap(BBitmap* bm, const shadow_offset* offsets,
 		else break;
 		so++;
 	}
-	
+
 	const uint8* const sourceMin = (const uint8*)source->Bits();
 	const uint8* const sourceMax = sourceMin + source->BitsLength();
 	uint8* const destMin = (uint8*)bm->Bits();
 	uint8* const destMax = destMin + bm->BitsLength();
-	
+
 	const uint8* sourcePos = sourceMin;
 	uint8* destPos = destMin;
 	const size_t sourceRow = source->BytesPerRow();
 	const size_t destRow = bm->BytesPerRow();
-	
+
 	while( sourcePos < sourceMax ) {
 		const uint8* const sourceEOL = sourcePos + sourceRow;
 		uint8* const destEOL = destPos + destRow;
 		const uint8* source = sourcePos;
 		uint8* dest = destPos;
 		for( ; source < sourceEOL; source+=4, dest+=4 ) {
-		
+
 			// If all shadows are exterior, source pixel must be
 			// somewhat opaque.
 			if( all_exterior && source[L_ALPHA] == 0 ) continue;
-			
+
 			// If all shadows are interior, source pixel must be
 			// somewhat transparent.
 			if( all_interior && source[L_ALPHA] == 255 ) continue;
-			
+
 			for( so = offsets; so && so->op != B_SHADOW_END; so++ ) {
 				uint8* realDest = dest + so->x_offset*4;
 				if( realDest < destPos || realDest >= destEOL ) continue;
 				realDest += so->y_offset*destRow;
 				if( realDest < destMin || realDest >= destMax ) continue;
-				
+
 				// If shadow is exterior, destination pixel must be
 				// somewhat transparent and source somewhat opaque.
 				if( so->op == B_SHADOW_EXTERIOR &&
 						(realDest[L_ALPHA] == 255 || source[L_ALPHA] == 0) ) continue;
-				
+
 				// If shadow is interior, destination pixel must be
 				// somewhat opaque and source somewhat transparent.
 				if( so->op == B_SHADOW_INTERIOR &&
 						(realDest[L_ALPHA] == 0 || source[L_ALPHA] == 255) ) continue;
-				
+
 				const int16 total = realDest[L_ALPHA] + so->color.alpha;
 				const uint8 mix = (uint8)( (255*so->color.alpha)/total );
 				realDest[L_RED] = (uint8)( ( ((uint16)realDest[L_RED])*(255-mix)
@@ -319,23 +318,23 @@ static status_t shadow_bitmap(BBitmap* bm, const shadow_offset* offsets,
 				realDest[L_BLUE] = (uint8)( ( ((uint16)realDest[L_BLUE])*(255-mix)
 									+ ((uint16)so->color.blue)*(mix)
 									) / 255 );
-				
+
 				realDest[L_ALPHA] = (uint8)( ( ((uint16)realDest[L_ALPHA])*(255-so->color.alpha)
 									+ ((uint16)255)*(so->color.alpha)
 									) / 255 );
 			}
-			
+
 		}
-		
+
 		sourcePos = sourceEOL;
 		destPos = destEOL;
 	}
-	
+
 	return B_OK;
 }
 
 #endif
-		
+
 BBitmapButton::BBitmapButton(BRect frame, const char* name,
 							  const char* label,
 							  BMessage* message,
@@ -400,7 +399,7 @@ void BBitmapButton::MouseMoved(BPoint where, uint32 transit, const BMessage *dra
 			}
 		}
 	}
-	
+
 	inherited::MouseMoved(where, transit, drag);
 }
 
@@ -476,9 +475,9 @@ void BBitmapButton::Draw(BRect updateRect)
 			Invalidate(updateRect);
 			return;
 		}
-		
+
 		PushState();
-		
+
 		font_height fh;
 		float lw;
 		const char* l = Label();
@@ -491,7 +490,7 @@ void BBitmapButton::Draw(BRect updateRect)
 			fh.ascent = fh.descent = fh.leading = 0;
 			lw = 0;
 		}
-		
+
 		const BBitmap* bm = NormalBitmap();
 #if AUTO_BITMAP_GENERATION
 		const shadow_offset* s = default_shadows;
@@ -524,16 +523,16 @@ void BBitmapButton::Draw(BRect updateRect)
 			s = disabled_shadows;
 #endif
 		}
-		
+
 		BRect bounds(Bounds());
-		
+
 		SetDrawingMode(B_OP_ALPHA);
 		SetBlendingMode(B_PIXEL_ALPHA, B_ALPHA_OVERLAY);
 		float bmX = floor((bounds.Width()-bm->Bounds().Width())/2);
 		DrawBitmap(bm, BPoint(bmX, 0));
-		
+
 		bool isFocus = IsFocus() && Window()->IsActive();
-		
+
 		if( l && *l ) {
 			SetDrawingMode(B_OP_ALPHA);
 			SetBlendingMode(B_CONSTANT_ALPHA, B_ALPHA_OVERLAY);
@@ -544,7 +543,7 @@ void BBitmapButton::Draw(BRect updateRect)
 			} else {
 				textColor = disable_color(HighColor(), ViewColor());
 			}
-			
+
 			BPoint where(floor((bounds.Width()-lw)/2), bounds.bottom-fh.descent);
 #if AUTO_BITMAP_GENERATION
 			while( s ) {
@@ -580,9 +579,9 @@ void BBitmapButton::Draw(BRect updateRect)
 			SetHighColor(255,255,255);
 			StrokeLine(BPoint(where.x+1, where.y+1), BPoint(where.x+w+1, where.y+1));
 		}
-		
+
 		PopState();
-		
+
 	} else {
 		inherited::Draw(updateRect);
 	}
@@ -618,9 +617,9 @@ void BBitmapButton::MakeFocus(bool focusState)
 	if( NormalBitmap() ) {
 		fSettingValue = true;
 	}
-	
+
 	inherited::MakeFocus(focusState);
-	
+
 	fSettingValue = false;
 }
 
@@ -629,9 +628,9 @@ void BBitmapButton::SetValue(int32 value)
 	if( NormalBitmap() ) {
 		fSettingValue = true;
 	}
-	
+
 	inherited::SetValue(value);
-	
+
 	fSettingValue = false;
 }
 
@@ -640,20 +639,20 @@ void BBitmapButton::SetEnabled(bool on)
 	if( NormalBitmap() ) {
 		fSettingValue = true;
 	}
-	
+
 	inherited::SetEnabled(on);
-	
+
 	fSettingValue = false;
 }
 
 const BBitmap* BBitmapButton::NormalBitmap(bool create) const
 {
 	(void)create;
-	
+
 	if( fNormalBitmap ) return fNormalBitmap;
 	if( create && RawBitmap() ) {
 		BBitmapButton* This = const_cast<BBitmapButton*>(this);
-		
+
 #if AUTO_BITMAP_GENERATION
 		BBitmap* bm = new BBitmap(RawBitmap());
 		if( shadow_bitmap(bm, default_shadows, RawBitmap()) == B_OK ) {
@@ -668,9 +667,9 @@ const BBitmap* BBitmapButton::NormalBitmap(bool create) const
 		This->fNormalBitmap = fRawBitmap;
 		This->fMadeNormal = false;
 #endif
-		
+
 		return This->fNormalBitmap;
-		
+
 	}
 	return 0;
 }
@@ -680,10 +679,10 @@ const BBitmap* BBitmapButton::OverBitmap(bool create) const
 	if( fOverBitmap ) return fOverBitmap;
 	if( create && RawBitmap() ) {
 		BBitmapButton* This = const_cast<BBitmapButton*>(this);
-		
+
 #if AUTO_BITMAP_GENERATION
 		rgb_color shine = { 255, 255, 255, 64 };
-		
+
 		BBitmap* bm = new BBitmap(RawBitmap());
 		if( tint_bitmap(bm, shine) == B_OK &&
 #if FANCY_OVER_SHADOWS
@@ -701,7 +700,7 @@ const BBitmap* BBitmapButton::OverBitmap(bool create) const
 		This->fOverBitmap = fRawBitmap;
 		This->fMadeOver = false;
 #endif
-		
+
 		return This->fOverBitmap;
 	}
 	return 0;
@@ -712,7 +711,7 @@ const BBitmap* BBitmapButton::PressedBitmap(bool create) const
 	if( fPressedBitmap ) return fPressedBitmap;
 	if( create && RawBitmap() ) {
 		BBitmapButton* This = const_cast<BBitmapButton*>(this);
-		
+
 #if AUTO_BITMAP_GENERATION
 		BBitmap* bm = new BBitmap(RawBitmap()->Bounds(), 0,
 								  RawBitmap()->ColorSpace(),
@@ -722,12 +721,12 @@ const BBitmap* BBitmapButton::PressedBitmap(bool create) const
 		while( bits && bits < bits_end ) {
 			*bits++ = B_TRANSPARENT_MAGIC_RGBA32;
 		}
-		
+
 		BRect src = RawBitmap()->Bounds();
 		src.right -= 1;
 		src.bottom -= 1;
 		rgb_color shadow = { 0, 0, 0, 64 };
-		
+
 		if( copy_bitmap(bm, RawBitmap(), src, BPoint(1, 1)) == B_OK &&
 				tint_bitmap(bm, shadow) == B_OK &&
 				shadow_bitmap(bm, pressed_pre_shadows, RawBitmap()) == B_OK &&
@@ -743,7 +742,7 @@ const BBitmap* BBitmapButton::PressedBitmap(bool create) const
 		This->fPressedBitmap = fRawBitmap;
 		This->fMadePressed = false;
 #endif
-		
+
 		return This->fPressedBitmap;
 	}
 	return 0;
@@ -754,7 +753,7 @@ const BBitmap* BBitmapButton::DisabledBitmap(bool create) const
 	if( fDisabledBitmap ) return fDisabledBitmap;
 	if( create && RawBitmap() ) {
 		BBitmapButton* This = const_cast<BBitmapButton*>(this);
-		
+
 #if AUTO_BITMAP_GENERATION
 		BBitmap* bm = new BBitmap(RawBitmap());
 		rgb_color background = { 0, 0, 0, 0 };
@@ -770,7 +769,7 @@ const BBitmap* BBitmapButton::DisabledBitmap(bool create) const
 		This->fDisabledBitmap = fRawBitmap;
 		This->fMadeDisabled = false;
 #endif
-		
+
 		return This->fDisabledBitmap;
 	}
 	return 0;
@@ -782,7 +781,7 @@ const BBitmap* BBitmapButton::DisabledPressedBitmap(bool create) const
 	const BBitmap* pressed;
 	if( create && (pressed=PressedBitmap(create)) ) {
 		BBitmapButton* This = const_cast<BBitmapButton*>(this);
-		
+
 #if AUTO_BITMAP_GENERATION
 		BBitmap* bm = new BBitmap(pressed);
 		rgb_color background = { 0, 0, 0, 0 };
@@ -798,7 +797,7 @@ const BBitmap* BBitmapButton::DisabledPressedBitmap(bool create) const
 		This->fDisabledPressedBitmap = DisabledBitmap(create);
 		This->fMadeDisabledPressed = false;
 #endif
-		
+
 		return This->fDisabledPressedBitmap;
 	}
 	if( create ) return fNormalBitmap;
@@ -811,10 +810,10 @@ void BBitmapButton::SetNormalBitmap(const BBitmap* bmap)
 	if( fPressedBitmap == fNormalBitmap ) fPressedBitmap = 0;
 	if( fDisabledBitmap == fNormalBitmap ) fDisabledBitmap = 0;
 	if( fDisabledPressedBitmap == fNormalBitmap ) fDisabledPressedBitmap = 0;
-	
+
 	if( fMadeNormal ) delete const_cast<BBitmap*>(fNormalBitmap);
 	fNormalBitmap = 0;
-	
+
 	fRawBitmap = bmap;
 	fMadeNormal = false;
 }

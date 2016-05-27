@@ -1,7 +1,7 @@
 /*
-	
+
 	ArpColor.cpp
-	
+
 	Copyright (c)1998 by Angry Red Planet.
 
 	This code is distributed under a modified form of the
@@ -87,7 +87,7 @@ ArpColor& ArpColor::operator = (const ArpColor & set)
 	color.alpha = set.color.alpha;
 	return *this;
 }
-		
+
 ArpColor& ArpColor::operator = (const rgb_color & set)
 {
 	color.red = set.red;
@@ -96,7 +96,7 @@ ArpColor& ArpColor::operator = (const rgb_color & set)
 	color.alpha = set.alpha;
 	return *this;
 }
-		
+
 bool ArpColor::operator == (const ArpColor & comp) const
 {
 	return (color.red==comp.color.red
@@ -104,7 +104,7 @@ bool ArpColor::operator == (const ArpColor & comp) const
 			&& color.blue==comp.color.blue
 			&& color.alpha==comp.color.alpha);
 }
-		
+
 bool ArpColor::operator == (const rgb_color & comp) const
 {
 	return (color.red==comp.red
@@ -127,7 +127,7 @@ float ArpColor::GetGray(void) {
 	return ( (color.red+color.green+color.blue)
 			 / (3.0*256.0) );
 }
-	
+
 const ArpColor ArpColor::Black = ArpColor(0x00,0x00,0x00);
 const ArpColor ArpColor::White = ArpColor(0xff,0xff,0xff);
 const ArpColor ArpColor::Red = ArpColor(0xff,0x00,0x00);

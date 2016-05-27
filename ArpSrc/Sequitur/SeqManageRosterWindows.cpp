@@ -1,8 +1,7 @@
 /* SeqManageRosterWindows.cpp
  */
 #include <set>
-#include <experimental/ColorTools.h>
-#include <experimental/ColumnTypes.h>
+#include <private/interface/ColumnTypes.h>
 #include <InterfaceKit.h>
 #include <support/String.h>
 #include "ArpKernel/ArpDebug.h"
@@ -82,7 +81,7 @@ public:
 #endif
 	virtual void DrawLatch(BView *view, BRect rect, LatchType pos, BRow *row);
 	virtual void ItemInvoked();
-	
+
 private:
 	typedef BColumnListView	inherited;
 	SeqManageRosterWindow* mWindow;
@@ -107,7 +106,7 @@ public:
 				const char* filePath = NULL,
 				const char* col2 = NULL);
 	virtual ~_EntryRow();
-		
+
 	virtual bool		HasLatch() const		{ return false; }
 	BString				Label() const;
 	BString				Key() const;
@@ -336,16 +335,16 @@ struct entry_row
 									: row(inRow), id(inId)		{ }
 	entry_row(file_entry_id inId)	: row(NULL), id(inId)		{ }
 	entry_row(const entry_row& r)	: row(r.row), id(r.id)		{ }
-	
+
 	_EntryRow*		row;
 	file_entry_id	id;
-	
+
 	#define COMPARE(OP)										\
 		bool operator OP(const entry_row& o) const {		\
 			if (id && o.id) return id OP o.id;				\
 			return row OP o.row;							\
 		}
-	
+
 	COMPARE(==);
 	COMPARE(!=);
 	COMPARE(<=);
@@ -362,7 +361,7 @@ void SeqManageRosterWindow::BuildList()
 	AmFileRoster*		roster = Roster();
 	if (!roster) return;
 	set<entry_row>		rows;
-	
+
 	for (int32 k = 0; k < listView->CountRows(); k++) {
 		_EntryRow*		row = dynamic_cast<_EntryRow*>(listView->RowAt(k));
 		if (row) rows.insert(entry_row(row, row->EntryId() ));
@@ -378,7 +377,7 @@ void SeqManageRosterWindow::BuildList()
 			} else rows.erase(it);
 		}
 	}
-	
+
 	for (set<entry_row>::iterator it = rows.begin(); it != rows.end(); it++) {
 		if (it->row) {
 			listView->RemoveRow(it->row);
@@ -405,7 +404,7 @@ status_t SeqManageRosterWindow::GetSelectionInfo(	BString& key, BString& filePat
 	_EntryRow*		row = dynamic_cast<_EntryRow*>( listView->CurrentSelection() );
 	if (!row) return B_ERROR;
 	key = row->Key();
-	filePath = row->FilePath();	
+	filePath = row->FilePath();
 	if (readOnly) *readOnly = row->IsReadOnly();
 	return B_OK;
 }
@@ -435,10 +434,10 @@ status_t SeqManageRosterWindow::AddColumn(	const char* name, uint32 index, float
 		delete msg;
 		return B_NO_MEMORY;
 	}
-	
+
 	table->AddColumn(col, index);
 	menu->AddItem(item);
-	return B_OK;	
+	return B_OK;
 }
 
 void SeqManageRosterWindow::Initialize()
@@ -448,7 +447,7 @@ void SeqManageRosterWindow::Initialize()
 	f.bottom = f.top + Prefs().Size(MAINMENU_Y);
 	AddMainMenu(f);
 	f.top = f.bottom + 1;
-	f.bottom = b.bottom;	
+	f.bottom = b.bottom;
 	AddViews(f);
 
 	BuildList();
@@ -509,7 +508,7 @@ void SeqManageRosterWindow::AddMainMenu(BRect frame)
 }
 
 void SeqManageRosterWindow::AddViews(BRect frame)
-{	
+{
 	frame.right++;
 	frame.bottom++;
 	BColumnListView*	listView;
@@ -715,7 +714,7 @@ void SeqManageToolsWindow::InitiateDrag(BPoint where, bool wasSelected,
 	if (!row) return;
 	if (row->Key().Length() < 1) return;
 	if (!row->IsValid() ) return;
-	
+
 	BBitmap*		bm = NULL;
 	AmToolRoster*	roster = AmToolRoster::Default();
 	if (roster) {

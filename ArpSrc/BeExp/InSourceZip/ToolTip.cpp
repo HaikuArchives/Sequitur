@@ -17,7 +17,6 @@
 #include <stdio.h>
 #include <memory.h>
 
-#include <experimental/ColorTools.h>
 #include <experimental/BitmapTools.h>
 
 namespace BPrivate {
@@ -40,32 +39,32 @@ public:
 		}
 		SetViewColor(B_TRANSPARENT_COLOR);
 	}
-	
+
 	virtual	void Draw(BRect /*updateRect*/)
 	{
 		static rgb_color shine = { 255, 255, 255, 255 };
 		static rgb_color shadow = { 0, 0, 0, 255 };
 		rgb_color text = HighColor();
-		
+
 		BRect b(Bounds());
-		
+
 		SetHighColor(shadow);
 		StrokeRect(b);
 		b.InsetBy(1, 1);
-		
+
 		SetHighColor(mix_color(LowColor(), shine, 128+64));
 		StrokeLine(BPoint(b.left, b.bottom), BPoint(b.left, b.top));
 		StrokeLine(BPoint(b.left, b.top), BPoint(b.right, b.top));
 		SetHighColor(mix_color(LowColor(), shadow, 128-64));
 		StrokeLine(BPoint(b.right, b.top), BPoint(b.right, b.bottom));
 		StrokeLine(BPoint(b.right, b.bottom), BPoint(b.top+1, b.bottom));
-		
+
 		FillRect(BRect(b.left+1, b.top+1, b.right-1, b.bottom-1), B_SOLID_LOW);
-		
+
 		font_height fh;
 		GetFontHeight(&fh);
 		SetHighColor(text);
-		
+
 		DrawString(fTip.String(), BPoint(b.left+2, b.top+1+fh.ascent));
 	}
 
@@ -76,14 +75,14 @@ public:
 		*height = floor( fh.ascent+fh.descent + 4 + .5 );
 		*width = floor( StringWidth(fTip.String()) + 6 + .5 );
 	}
-	
+
 	BPoint TextOrigin() const
 	{
 		font_height fh;
 		GetFontHeight(&fh);
 		return BPoint(3, floor(fh.ascent+2+.5));
 	}
-	
+
 private:
 	BString fTip;
 };
@@ -121,7 +120,7 @@ public:
 		StopStateTimer();
 		DestroyTip(true);
 	}
-	
+
 	void ShowTip(BMessenger source)
 	{
 		BAutolock l(this);
@@ -146,10 +145,10 @@ public:
 			default:
 				TRESPASS();
 		}
-		
+
 		fSource = source;
 	}
-	
+
 	void SetToolTipInfo(BRect region, BToolTipInfo* info)
 	{
 		BAutolock l(this);
@@ -161,18 +160,18 @@ public:
 		fState = S_SHOWN;
 		CreateTip(region, info);
 	}
-	
+
 	void CursorMoved(BPoint /*where*/, BPoint delta)
 	{
 		if( fState != S_HOVER ) return;
-		
+
 		BAutolock l(this);
 		if( delta.x > 3 || delta.x < -3 || delta.y > 3 || delta.y < -3 ) {
 			PRINT(("Cursor moved enough to restart tool tip.\n"));
 			StartStateTimer(fShowTime);
 		}
 	}
-	
+
 	void HideTip()
 	{
 		BAutolock l(this);
@@ -198,10 +197,10 @@ public:
 			default:
 				TRESPASS();
 		}
-		
+
 		DestroyTip();
 	}
-	
+
 	void KillTip()
 	{
 		BAutolock l(this);
@@ -225,16 +224,16 @@ public:
 			default:
 				TRESPASS();
 		}
-		
+
 		DestroyTip(true);
 	}
-	
+
 	void TransitionState()
 	{
 		StopStateTimer();
-		
+
 		bigtime_t next_time = 0;
-		
+
 		switch( fState ) {
 			case S_OFF:
 				PRINT(("Transition: S_OFF to S_OFF\n"));
@@ -261,10 +260,10 @@ public:
 			default:
 				TRESPASS();
 		}
-		
+
 		if( next_time > 0 ) StartStateTimer(next_time);
 	}
-	
+
 	void RequestTipInfo()
 	{
 		if( fSource.IsValid() ) {
@@ -272,7 +271,7 @@ public:
 			fSource.SendMessage(&msg);
 		}
 	}
-	
+
 	void StartStateTimer(bigtime_t when)
 	{
 		StopStateTimer();
@@ -281,13 +280,13 @@ public:
 										 new BMessage('puls'),
 										 when);
 	}
-	
+
 	void StopStateTimer()
 	{
 		delete fStateTimer;
 		fStateTimer = 0;
 	}
-	
+
 	virtual void DispatchMessage(BMessage* msg, BHandler* handler)
 	{
 		switch( msg->what ) {
@@ -312,17 +311,17 @@ public:
 					StartAnimation();
 				}
 			} break;
-			
+
 			case B_MOUSE_DOWN:
 			case B_MOUSE_UP:
 				// TO DO: Forward message to underlying window.
 				KillTip();
 				return;
 		}
-		
+
 		inherited::DispatchMessage(msg, handler);
 	}
-	
+
 	virtual void MessageReceived(BMessage* msg)
 	{
 		switch( msg->what ) {
@@ -342,7 +341,7 @@ public:
 						return;
 					}
 				}
-				
+
 				PRINT(("Drawing with alpha=%f, tip=%p\n",
 						fCurAlpha, fTip));
 				if( fMixPic && fBackPic && fForePic ) {
@@ -351,17 +350,17 @@ public:
 					fDrawer.DrawBitmap(fMixPic);
 				}
 				break;
-				
+
 			case 'puls':
 				TransitionState();
 				break;
-				
+
 			default:
 				inherited::MessageReceived(msg);
 				break;
 		}
 	}
-	
+
 	void CreateTip(BRect region, BToolTipInfo* info, bool now=false)
 	{
 		// Grab the current screen bitmap, in case our new tip
@@ -369,10 +368,10 @@ public:
 		// originally on the screen at that point.
 		BBitmap* prev_pic = fBackPic;
 		fBackPic = 0;
-		
+
 		fDestAlpha = 0.0;
 		StopAnimation();
-		
+
 		/*if( info->View() ) {
 			fTip = info->DetachView();
 		} else*/ if( info->Text() && *info->Text() ) {
@@ -380,21 +379,21 @@ public:
 		} else {
 			DestroyTip();
 		}
-		
+
 		fInline = info->Inline();
 		fInlineRegion = region;
-		
+
 		BScreen s(this);
 		BRect sb(s.Frame());
-		
+
 		float w, h;
 		fTip->GetPreferredSize(&w, &h);
 		if( w > sb.Width() ) w = sb.Width();
 		if( h > sb.Height() ) h = sb.Height();
-		
+
 		float x = (region.left+region.right)/2 - w/2;
 		float y = region.bottom + 6;
-		
+
 		TipView* tipView = NULL;
 		if (info->HasOrigin() && (tipView=dynamic_cast<TipView*>(fTip)) != NULL) {
 			// Tool tip should be placed with text at this
@@ -403,7 +402,7 @@ public:
 			x = region.left + info->Origin().x - tipOrigin.x;
 			y = region.top + info->Origin().y - tipOrigin.y;
 		}
-		
+
 		#if 0
 		if( info->Inline() ) {
 			x = region.left;
@@ -412,10 +411,10 @@ public:
 			if( h < region.Height() ) h = region.Height();
 		}
 		#endif
-		
+
 		ResizeTo(w, h);
 		fTip->ResizeTo(w, h);
-		
+
 		if( x < sb.left ) x = sb.left;
 		if( (x+w) > sb.right ) x = sb.right-w;
 		if( y < sb.top ) y = sb.top;
@@ -427,17 +426,17 @@ public:
 		if( y < sb.top ) y = sb.top;
 		x = floor(x+.5);
 		y = floor(y+.5);
-		
+
 		delete info;
 		info = 0;
-		
+
 		MoveTo(x, y);
-		
+
 		fDestAlpha = 1.0;
-		
+
 		BRect bbnd(Bounds());
 		bbnd.bottom++;
-		
+
 		BRect wfrm(Frame());
 		fBackPic = new BBitmap(bbnd, 0,
 							   s.ColorSpace(), B_ANY_BYTES_PER_ROW,
@@ -450,7 +449,7 @@ public:
 			delete prev_pic;
 			return;
 		}
-		
+
 		// If there was still a tool tip displayed, and the new tip overlaps
 		// the previous one, copy the screen bitmap we had for that area into
 		// our new screen bitmap.
@@ -475,9 +474,9 @@ public:
 			delete prev_pic;
 			prev_pic = 0;
 		}
-		
+
 		fBackRegion = wfrm;
-		
+
 		fForePic = new BBitmap(bbnd,
 							   B_BITMAP_CLEAR_TO_WHITE|B_BITMAP_ACCEPTS_VIEWS,
 							   fBackPic->ColorSpace(), B_ANY_BYTES_PER_ROW,
@@ -490,10 +489,10 @@ public:
 		fTip->Sync();
 		fTip->RemoveSelf();
 		fForePic->Unlock();
-		
+
 		fMixPic = new BBitmap(bbnd, 0, fBackPic->ColorSpace(),
 							  B_ANY_BYTES_PER_ROW, s.ID());
-                              
+
 		if( !now ) {
 			StartAnimation();
 		} else {
@@ -501,7 +500,7 @@ public:
 			StopAnimation();
 		}
 	}
-	
+
 	void DestroyTip(bool now=false)
 	{
 		if( fTip ) {
@@ -509,11 +508,11 @@ public:
 			delete fTip;
 			fTip = 0;
 		}
-		
+
 		fDestAlpha = 0.0;
-		
+
 		if( IsHidden() ) return;
-		
+
 		if( !now ) {
 			StartAnimation();
 		} else {
@@ -521,7 +520,7 @@ public:
 			StopAnimation();
 		}
 	}
-	
+
 	void StartAnimation()
 	{
 		delete fAnim;
@@ -530,12 +529,12 @@ public:
 									new BMessage('anim'), 50*1000);
 		if( IsHidden() ) Show();
 	}
-	
+
 	void StopAnimation()
 	{
 		delete fAnim;
 		fAnim = 0;
-		
+
 		if( fDestAlpha > 0.5 ) {
 			if( fTip ) {
 				if( fTip->Window() ) {
@@ -544,10 +543,10 @@ public:
 				fDrawer.AddChild(fTip);
 				if( IsHidden() ) Show();
 			}
-			
+
 		} else {
 			if( !IsHidden() ) Hide();
-			
+
 			delete fBackPic;
 			fBackPic = 0;
 			delete fForePic;
@@ -556,10 +555,10 @@ public:
 			fMixPic = 0;
 		}
 	}
-	
+
 private:
 	typedef BWindow inherited;
-	
+
 	BToolTip& fOwner;
 	BView fDrawer;
 
@@ -570,14 +569,14 @@ private:
 		S_SHOWN,
 		S_SETTLE
 	};
-	
+
 	tip_state fState;
 	bigtime_t fShowTime;
 	bigtime_t fHideTime;
 	bigtime_t fSettleTime;
-	
+
 	BMessenger fSource;
-	
+
 	BMessageRunner* fStateTimer;
 	BMessageRunner* fAnim;
 	BView* fTip;
@@ -605,7 +604,7 @@ BToolTipInfo::BToolTipInfo()
 	fFillColor.green = 255;
 	fFillColor.blue = 0;
 	fFillColor.alpha = 255;
-	
+
 	fTextColor.red = fTextColor.green = fTextColor.blue = 0;
 	fTextColor.alpha = 255;
 }
@@ -748,7 +747,7 @@ status_t BToolTipable::GetToolTipInfo(BPoint /*where*/, BRect* out_region,
 		*out_region = BRect();
 		return B_OK;
 	}
-	
+
 	*out_region = fOwner.Frame().OffsetToCopy(0, 0);
 	if( out_info ) out_info->SetText(fText.String());
 	return B_OK;
@@ -896,12 +895,12 @@ filter_result BToolTipFilter::Filter(BMessage *message, BHandler **target)
 			fButtons = but;
 		}
 	}
-	
+
 	switch( message->what ) {
 		case B_REQUEST_TOOL_INFO: {
 			SendToolTipInfo();
 		} break;
-		
+
 		case B_MOUSE_MOVED: {
 			//message->PrintToStream();
 			if( fButtons ) {
@@ -917,7 +916,7 @@ filter_result BToolTipFilter::Filter(BMessage *message, BHandler **target)
 				}
 			}
 		} break;
-		
+
 		case B_WINDOW_ACTIVATED:
 		case B_SCREEN_CHANGED:
 		case B_WINDOW_MOVED:
@@ -928,7 +927,7 @@ filter_result BToolTipFilter::Filter(BMessage *message, BHandler **target)
 			//message->PrintToStream();
 			HideTip();
 		} break;
-		
+
 		case B_MOUSE_DOWN:
 		case B_MOUSE_UP:
 		case B_KEY_DOWN:
@@ -947,18 +946,18 @@ filter_result BToolTipFilter::Filter(BMessage *message, BHandler **target)
 status_t BToolTipFilter::SendToolTipInfo()
 {
 	BAutolock l(Looper());
-	
+
 	if( !fShower ) return B_NO_INIT;
-	
+
 	// make sure the tipped view is still attached to the window.
 	BWindow* w = dynamic_cast<BWindow*>(Looper());
 	if( !w || !find_view(w->ChildAt(0), fShower) ) return B_BAD_VALUE;
 	if( !w->IsActive() ) return B_OK;
-	
+
 	// try to get a BTipable interface for this view.
 	BToolTipable* tipable = dynamic_cast<BToolTipable*>(fShower);
 	if( !tipable ) return B_OK;
-	
+
 	// retrieve tip information.
 	status_t err;
 	BRect region;
@@ -967,10 +966,10 @@ status_t BToolTipFilter::SendToolTipInfo()
 								  &fRegion, info);
 	fShower->ConvertToScreen(&fRegion);
 	region = fRegion;
-	
+
 	if( err == B_OK ) fTip.SetToolTipInfo(fLooper, region, info);
 	else HideTip();
-	
+
 	return err;
 }
 
@@ -978,7 +977,7 @@ void BToolTipFilter::MoveCursor(BView* v, BPoint screen_loc)
 {
 	BWindow* w = dynamic_cast<BWindow*>(Looper());
 	if( !w || !w->IsActive() ) return;
-	
+
 	BPoint last_loc = fCursor;
 	fCursor = screen_loc;
 
@@ -987,7 +986,7 @@ void BToolTipFilter::MoveCursor(BView* v, BPoint screen_loc)
 			last_loc.x, last_loc.y, screen_loc.x, screen_loc.y,
 			fCursor.x, fCursor.y));
 #endif
-			
+
 	if( fShower ) {
 		// currently displaying a tool tip.
 		if( fRegion.Contains(screen_loc) ) {
@@ -999,7 +998,7 @@ void BToolTipFilter::MoveCursor(BView* v, BPoint screen_loc)
 			HideTip();
 		}
 	}
-	
+
 	// find the view under the cursor.
 	BPoint window_loc(w->ConvertFromScreen(screen_loc));
 	if( !v ) v = w->FindView(window_loc);
@@ -1009,20 +1008,20 @@ void BToolTipFilter::MoveCursor(BView* v, BPoint screen_loc)
 		tipable = dynamic_cast<BToolTipable*>(v);
 	}
 	if( !v || !tipable ) return;
-	
+
 #if 0
 	PRINT(("v=%p (%s), window_loc=(%.2f,%.2f), view_loc=(%.2f,%.2f)\n",
 			v, v ? v->Name() : "--", window_loc.x, window_loc.y,
 			v->ConvertFromScreen(screen_loc).x,
 			v->ConvertFromScreen(screen_loc).y));
 #endif
-			
+
 	status_t err;
 	err = tipable->GetToolTipInfo(v->ConvertFromScreen(screen_loc), &fRegion);
 	if( err != B_OK ) return;
 	v->ConvertToScreen(&fRegion);
 	if( !fRegion.Contains(screen_loc) ) return;
-	
+
 	fShower = v;
 	if (!fLooper.IsValid()) fLooper = BMessenger(Looper());
 	fTip.ShowTip(fLooper);
@@ -1050,6 +1049,6 @@ bool BToolTipFilter::find_view(BView* root, BView* which)
 		if( c && find_view(c, which) ) return true;
 		root = root->NextSibling();
 	}
-	
+
 	return false;
 }

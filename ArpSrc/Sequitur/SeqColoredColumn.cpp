@@ -1,7 +1,6 @@
 /* SeqColoredColumn.cpp
  */
 #include <stdio.h>
-#include <experimental/ColorTools.h>
 #include "ArpKernel/ArpDebug.h"
 #include "Sequitur/SeqColoredColumn.h"
 

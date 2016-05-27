@@ -23,7 +23,7 @@
 #ifndef SEQUITUR_SEQEDITROSTERWINDOW_H
 #define SEQUITUR_SEQEDITROSTERWINDOW_H
 
-#include <experimental/ColumnTypes.h>
+#include <private/interface/ColumnTypes.h>
 #include <InterfaceKit.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "BeExp/ToolTip.h"
@@ -45,7 +45,7 @@ public:
 						window_feel feel = B_NORMAL_WINDOW_FEEL,
 						uint32 flags = B_ASYNCHRONOUS_CONTROLS | B_FRAME_EVENTS);
 	~SeqEditRosterWindow();
-	
+
 	virtual void		MessageReceived(BMessage *message);
 	virtual	void		Quit();
 	virtual	bool		QuitRequested();
@@ -82,14 +82,14 @@ protected:
 	 * SaveChanges() implementation.
 	 */
 	void				SetHiddenPrefs();
-	
+
 	bool				HasChanges() const;
 	void				SetHasChanges(bool hasChanges);
 	status_t			AddPage(BView* page);
 
 	BRect				CurrentPageFrame() const;
 	status_t			SetFirstPage();
-	
+
 	/* Raise an alert with the error and answer false.
 	 */
 	bool				ReportError(const char* error = "Unknown error");
@@ -100,7 +100,7 @@ protected:
 	 * message before setting the control.
 	 */
 	void				SetTextControl(BTextControl* ctrl, const char* text, uint32 what);
-	
+
 private:
 	typedef BWindow 	inherited;
 
@@ -112,7 +112,7 @@ private:
 
 	bool				mHasChanges;
 	bool				mForceClose;
-	
+
 	void				AddViews(BRect frame);
 	void				BuildViews(BColumnListView* list);
 };
@@ -128,10 +128,10 @@ public:
 	SeqDumbTextView(BRect frame, const char* name, BRect textRect,
 					uint32 resizeMask, uint32 flags = B_WILL_DRAW | B_PULSE_NEEDED);
 	virtual ~SeqDumbTextView();
-	
+
 	virtual	void	DeleteText(int32 fromOffset, int32 toOffset);
 	virtual	void	FrameResized(float width, float height);
-	virtual	void	InsertText(	const char *inText, int32 inLength, 
+	virtual	void	InsertText(	const char *inText, int32 inLength,
 								int32 inOffset, const text_run_array *inRuns);
 
 	void			SetModificationMessage(BMessage* msg);

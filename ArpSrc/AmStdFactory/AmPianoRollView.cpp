@@ -2,7 +2,6 @@
  */
 #include <stdio.h>
 #include <math.h>
-#include <experimental/ColorTools.h>
 #include <interface/Bitmap.h>
 #include <interface/MenuField.h>
 #include <interface/MenuItem.h>
@@ -95,16 +94,16 @@ public:
 										BPoint where,
 										const am_trans_params& params);
 	// Performing
-	virtual void Perform(const AmSong* song, const AmSelectionsI* selections); 
+	virtual void Perform(const AmSong* song, const AmSelectionsI* selections);
 	virtual void Stop();
 
 private:
 	AmPerformer	mPerformer;
-	
+
 	/* The pixel height of the notes.
 	 */
 	float		mNoteHeight;
-	
+
 	/* Answer the pixel location of the supplied MIDI note value
 	 */
 	int32	BoundlessNoteFromPixel(float y) const;
@@ -122,7 +121,7 @@ public:
 	{
 		mNoteHeight = noteHeight;
 	}
-	
+
 protected:
 	virtual void DrawOn(BView* view, BRect clip)
 	{
@@ -173,7 +172,7 @@ AmPianoRollDataView::AmPianoRollDataView(	BRect frame,
 		}
 	}
 	mInitialTop = pixel_from_note(initialNote, mNoteHeight);
-	
+
 	mTarget = new _AmPianoRollTarget(trackWinProps, this, 0, 1, mNoteHeight);
 
 	ArpBackground*		bg = new AmPropGridBackground(trackWinProps);
@@ -297,7 +296,7 @@ void AmPianoRollDataView::DrawEvent(BView* view, const AmPhraseEvent& topPhrase,
 	} else {
 		c = AmPrefs().SelectedColor(vel);
 	}
-	
+
 	// Draw the note
 	BRect		rect( -1,-1,-1,-1 );
 	rect = mTarget->RectFor(event, eventRange);
@@ -325,7 +324,7 @@ void AmPianoRollDataView::DrawEvent(BView* view, const AmPhraseEvent& topPhrase,
 
 	if( rect.Width() >= 2 ) {
 		/* Lighten the top left edges
-		 */	
+		 */
 		if (properties&ARPEVENT_SHADOW && mShadowSaturation < 1) {
 			rgb_color	c2 = tint_color(c, B_LIGHTEN_2_TINT);
 			c2.alpha = (uint8)(mShadowSaturation * 255);
@@ -380,7 +379,7 @@ AmPianoRollInfoView::AmPianoRollInfoView(	BRect frame,
 	const BMessage* config = property->Configuration();
 	if (config && config->FindFloat(NOTE_Y_STR, &mNoteHeight) != B_OK)
 		mNoteHeight = DEFAULT_NOTE_HEIGHT;
-	
+
 	mFactorySignature = property->Signature();
 	mViewName = property->Name();
 }
@@ -543,7 +542,7 @@ AmEvent* _AmPianoRollTarget::InterestingEventAt(const AmTrack* track,
 	AmNode*		node = phrase.HeadNode();
 	AmNoteOn*	noteOn;
 	AmRange		eventRange;
-	
+
 	while (node) {
 		if ( IsInteresting( node->Event() ) ) {
 			AmEvent*	event = node->Event();

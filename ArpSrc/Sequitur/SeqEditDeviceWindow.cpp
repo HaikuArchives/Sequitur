@@ -1,7 +1,7 @@
 #include <algo.h>
 #include <app/Clipboard.h>
-#include <experimental/ColumnListView.h>
-#include <experimental/ColumnTypes.h>
+#include <private/interface/ColumnListView.h>
+#include <private/interface/ColumnTypes.h>
 #include <support/String.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
@@ -82,7 +82,7 @@ public:
 	 * it into the device.
 	 */
 	void			SaveSelection();
-	
+
 private:
 	typedef BColumnListView		inherited;
 	ArpRef<AmDevice>			mDevice;
@@ -150,7 +150,7 @@ public:
 	 */
 	virtual status_t	SaveSelection(BTextControl* valueCtrl, bool* updateAll) = 0;
 	virtual void		SetNameField()		{ }
-		
+
 protected:
 	_AbstractBankRow(ArpRef<AmBank> bank);
 
@@ -216,7 +216,7 @@ public:
 	_ControlChangeRow(	AmControlChange* event,
 						BColumnListView* owner, BRow* parent);
 	virtual ~_ControlChangeRow();
-	
+
 	virtual bool		HasLatch() const		{ return false; }
 	virtual void		SelectionSetup(BTextControl* valueCtrl);
 	virtual status_t	SaveSelection(BTextControl* valueCtrl, bool* updateAll);
@@ -259,7 +259,7 @@ public:
 	virtual void		SetNameField();
 
 	uint32				Number() const;
-	
+
 private:
 	typedef _AbstractBankRow inherited;
 	uint32				mNumber;
@@ -308,7 +308,7 @@ SeqEditDeviceWindow::SeqEditDeviceWindow(	BRect frame,
 	if (config) SetConfiguration(config);
 	else SetFirstPage();
 	if (deviceMsg) SetDevice(deviceMsg);
-	
+
 	AddShortcut('Z', B_COMMAND_KEY, new BMessage(B_UNDO), (BView *)NULL);
 }
 
@@ -680,7 +680,7 @@ void SeqEditDeviceWindow::SetDevice(const BString& key, const BString& path)
 	SetHasChanges(false);
 
 	if (mIconEditor) mIconEditor->SetBitmap(NULL);
-	
+
 	if (mDevice) {
 		mInitialAuthor = mDevice->Author();
 		mInitialEmail = mDevice->Email();
@@ -716,7 +716,7 @@ bool SeqEditDeviceWindow::Validate()
 {
 	if (!mDevice) return ReportError("There is no device");
 
-	BString			key = mDevice->Key();	
+	BString			key = mDevice->Key();
 	if (key.Length() < 1) return ReportError("This device must have a name or manufacturer");
 	if (mInitialKey.Length() < 1 || mInitialKey != key) {
 		AmDeviceRoster*	roster = AmDeviceRoster::Default();
@@ -726,7 +726,7 @@ bool SeqEditDeviceWindow::Validate()
 			error << key.String() << "\'";
 			return ReportError(error.String() );
 		}
-	}	
+	}
 	return true;
 }
 
@@ -816,7 +816,7 @@ status_t SeqEditDeviceWindow::PastePatchList(_AbstractBankRow* parent, uint32 fi
 
 	uint32				patches = bank->CountPatches();
 	const char*			text = NULL;
-	int32				len; 
+	int32				len;
 	if (clip->FindData("text/plain", B_MIME_TYPE, (const void **)&text, &len) == B_OK) {
 		int32			pos = 0;
 		int32			length = -1;
@@ -914,7 +914,7 @@ static BMenuField* new_bank_selection_control(BRect f)
 	menu->AddItem(item4);
 	item1->SetMarked(true);
 	menu->SetLabelFromMarked(true);
-	
+
 	BMenuField*	field = new BMenuField(f, "bank_selection_field", "Select banks with:", menu, B_FOLLOW_LEFT | B_FOLLOW_TOP);
 	if (!field) {
 		delete menu;
@@ -944,7 +944,7 @@ static BMenuField* new_bank_menu(BRect f)
 	menu->AddSeparatorItem();
 	menu->AddItem(item4);
 	menu->SetLabelFromMarked(false);
-	
+
 	BMenuField*	field = new BMenuField(f, "bank_field", "", menu, B_FOLLOW_LEFT | B_FOLLOW_TOP);
 	if (!field) {
 		delete menu;
@@ -1081,17 +1081,17 @@ static BMenu* new_icon_editor_menu()
 	if (item) menu->AddItem(item);
 	menu->AddSeparatorItem();
 	item = new BMenuItem("Copy", new BMessage(COPY_ICON_MSG), 0, 0);
-	if (item) menu->AddItem(item);	
+	if (item) menu->AddItem(item);
 	item = new BMenuItem("Paste", new BMessage(PASTE_ICON_MSG), 0, 0);
-	if (item) menu->AddItem(item);	
+	if (item) menu->AddItem(item);
 	menu->AddSeparatorItem();
 	item = new BMenuItem("Flip Vertically", new BMessage(FLIP_VERTICALLY_ICON_MSG), 0, 0);
-	if (item) menu->AddItem(item);	
+	if (item) menu->AddItem(item);
 	item = new BMenuItem("Flip Horizontally", new BMessage(FLIP_HORIZONTALLY_ICON_MSG), 0, 0);
-	if (item) menu->AddItem(item);	
+	if (item) menu->AddItem(item);
 	menu->AddSeparatorItem();
 	item = new BMenuItem("Fill with Alpha", new BMessage(FILL_WITH_ALPHA_MSG), 0, 0);
-	if (item) menu->AddItem(item);	
+	if (item) menu->AddItem(item);
 	return menu;
 }
 
@@ -1159,7 +1159,7 @@ static BMenu* new_filter_menu(	AmPipelineType pipelineType,
 		}
 	}
 	roster->Locker()->Unlock();
-	
+
 	AmMultiFilterRoster*			roster2 = AmMultiFilterRoster::Default();
 	if (roster2) {
 		ArpRef<AmMultiFilterAddOn>	addon = NULL;
@@ -1178,7 +1178,7 @@ static BMenu* new_filter_menu(	AmPipelineType pipelineType,
 			}
 		}
 	}
-		
+
 	sort(items.begin(), items.end(), sort_items);
 	if ((item = new BMenuItem(NONE_STR, new BMessage(INPUT_FILTER_MSG))) != 0) {
 		menu->AddItem(item);
@@ -1209,7 +1209,7 @@ BView* SeqEditDeviceWindow::NewFilterView(BRect frame)
 	}
 	mInputFilterMenu = m;
 	v->AddChild(mf);
-	
+
 	return v;
 }
 
@@ -1394,7 +1394,7 @@ void _BankList::SelectNext()
 	BRow*	parent;
 	bool	isVisible;
 	if (FindParent(selection, &parent, &isVisible) == true && isVisible == true) {
-		selection = RowAt(next, parent);		
+		selection = RowAt(next, parent);
 	} else selection = RowAt(next);
 	if (!selection) selection = RowAt(int32(0) );
 	if (selection) AddToSelection(selection);
@@ -1407,7 +1407,7 @@ void _BankList::SelectNext()
 	BRow*	parent;
 	bool	isVisible;
 	if (FindParent(selection, &parent, &isVisible) == true && isVisible == true) {
-		selection = RowAt(next, parent);		
+		selection = RowAt(next, parent);
 	} else selection = RowAt(next);
 	if (!selection) selection = RowAt(int32(0) );
 	if (selection) {
@@ -1439,7 +1439,7 @@ void _BankList::SelectPrev()
 	BRow*	parent;
 	bool	isVisible;
 	if (FindParent(selection, &parent, &isVisible) == true && isVisible == true) {
-		selection = RowAt(next, parent);		
+		selection = RowAt(next, parent);
 	} else selection = RowAt(next);
 	if (!selection) selection = RowAt(int32(0) );
 	if (selection) {
@@ -1600,7 +1600,7 @@ filter_result _BankFilter::Filter(BMessage *message, BHandler **target)
 	int8 byte;
 	if (message->FindInt32("modifiers", &mods) != B_OK) mods = 0;
 	if (message->FindInt8("byte", &byte) != B_OK) byte = 0;
-	
+
 	BMessage cmd;
 	bool eat = false;
 	if ((mods&(B_SHIFT_KEY|B_CONTROL_KEY|B_COMMAND_KEY|B_OPTION_KEY)) == 0 && byte == B_UP_ARROW) {
@@ -1612,7 +1612,7 @@ filter_result _BankFilter::Filter(BMessage *message, BHandler **target)
 	} else if ((mods&(B_SHIFT_KEY|B_CONTROL_KEY|B_COMMAND_KEY|B_OPTION_KEY)) == 0 && byte == B_ENTER) {
 		cmd.what = NEXT_BANK_VALUE_MSG;
 	}
-	
+
 	if (cmd.what) {
 		BView* v = dynamic_cast<BView*>(*target);
 		if (v) {
@@ -1620,7 +1620,7 @@ filter_result _BankFilter::Filter(BMessage *message, BHandler **target)
 			if (invk) invk->Messenger().SendMessage(&cmd);
 		}
 	}
-	
+
 	return eat ? B_SKIP_MESSAGE : B_DISPATCH_MESSAGE;
 }
 

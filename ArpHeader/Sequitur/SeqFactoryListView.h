@@ -24,8 +24,8 @@
 #ifndef SEQUITUR_SEQFACTORYLISTVIEW_H
 #define SEQUITUR_SEQFACTORYLISTVIEW_H
 
-#include <experimental/ColumnListView.h>
-#include <experimental/ColumnTypes.h>
+#include <private/interface/ColumnListView.h>
+#include <private/interface/ColumnTypes.h>
 
 /********************************************************
  * SEQ-FACTORY-LIST-VIEW
@@ -55,7 +55,7 @@ protected:
 
 private:
 	typedef BColumnListView		inherited;
-	
+
 	bool					HasRow(	const BString& facKey,
 									const BString& viewKey) const;
 };
@@ -69,14 +69,14 @@ public:
 	SeqFactoryRow(bool root = false);
 	SeqFactoryRow(const BString& factoryKey);
 	SeqFactoryRow(const BString& factoryKey, const BString& viewKey);
-	
+
 	virtual bool		HasLatch() const;
 	bool				Matches(const BString& factoryKey,
 								const BString& viewKey) const;
 
 	void				SetKey(const char* key);
 	void				GetKeyInfo(BString& factoryKey, BString& viewKey, BString& key) const;
-	
+
 	void				Print() const;
 
 protected:

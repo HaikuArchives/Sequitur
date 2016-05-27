@@ -1,8 +1,8 @@
 /* SeqStudioWindow.cpp
  */
 #include <algo.h>
-#include <experimental/ColumnListView.h>
-#include <experimental/ColumnTypes.h>
+#include <private/interface/ColumnListView.h>
+#include <private/interface/ColumnTypes.h>
 #include <interface/Button.h>
 #include <interface/MenuBar.h>
 #include <interface/MenuItem.h>
@@ -72,7 +72,7 @@ public:
 	status_t		MidiUnregistered(int32 id, AmEndpointType type);
 
 	void			DeleteCurrentSelection();
-	
+
 private:
 	typedef BColumnListView		inherited;
 
@@ -110,10 +110,10 @@ public:
 
 	am_studio_endpoint	mEndpoint;
 	bool				mReadOnly, mIsValid;
-	
+
 private:
 	_EndpointList*		mList;
-	
+
 	void	GetLabellingInfo(BString& outDeviceLabel, BString& outLabel) const;
 	// Answer:  0 = None, 1 = Various, 2 = devMfg and devName are valid.
 	int32	GetAllChannelDeviceInfo(BString& label, BString& devMfg, BString& devName) const;
@@ -124,7 +124,7 @@ private:
  * SEQ-STUDIO-WINDOW
  *************************************************************************/
 SeqStudioWindow::SeqStudioWindow(	BRect frame,
-									const BMessage* config = NULL) 
+									const BMessage* config = NULL)
 		: inherited(frame,
 					"Studio",
 					B_DOCUMENT_WINDOW_LOOK,
@@ -177,7 +177,7 @@ static void add_device_menu_items(BMenu* menu)
 	BMenuItem*	item = menu->FindMarked();
 	if (item) markedLabel = item->Label();
 	menu->RemoveItems(0, menu->CountItems(), true);
-	
+
 	AmDeviceRoster*				roster = AmDeviceRoster::Default();
 	if (roster) {
 		vector<BMenuItem*>		items;
@@ -535,7 +535,7 @@ public:
 			  mIsNone(true), mIsVarious(false)
 	{
 	}
-	
+
 	bool IsValid() const
 	{
 		return mValid;
@@ -578,7 +578,7 @@ public:
 		devMfg = mDevMfg;
 		devName = mDevName;
 	}
-	
+
 	int32 Status() const
 	{
 		if (mIsNone) return 0;
@@ -588,7 +588,7 @@ public:
 
 private:
 	bool			mValid;
-	
+
 	BString			mLabel, mDevMfg, mDevName;
 	bool			mCannotHaveLabel;
 	bool			mIsNone, mIsVarious;
@@ -867,7 +867,7 @@ void _EndpointRow::HandleLabelChange(const char* label)
 		}
 	}
 }
-	
+
 void _EndpointRow::HandleDeviceChange(const char* devMfg, const char* devName)
 {
 	AmGlobalsImpl*	globals = dynamic_cast<AmGlobalsImpl*>( &(AmGlobals()) );
@@ -921,7 +921,7 @@ void _EndpointRow::UpdateLabelColumn()
 	SetField(new SeqColoredField(colLabel.String(), mReadOnly, mIsValid), 3);
 	if (mList) mList->UpdateRow(this);
 }
-	
+
 void _EndpointRow::GetLabellingInfo(BString& outDeviceLabel, BString& outLabel) const
 {
 	BString			label;

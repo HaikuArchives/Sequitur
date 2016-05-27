@@ -4,7 +4,6 @@
 #include <assert.h>
 #include <string.h>
 #include <malloc.h>
-#include <experimental/ColorTools.h>
 #include <interface/Font.h>
 #include <interface/InterfaceDefs.h>
 #include <interface/StatusBar.h>
@@ -79,13 +78,13 @@ void SeqPreferences::Initialize()
 	}
 
 	// --------- COLORS ---------
-	
+
 	SetColor(INT_CTRL_BG_C, tint_color(ui_color(B_PANEL_BACKGROUND_COLOR), B_LIGHTEN_2_TINT));
 	SetColor(INT_CTRL_BGF_C, 255, 255, 255);
 	SetColor(INT_CTRL_FG_C, 0, 0, 0);
 	SetColor(INT_CTRL_FGF_C, 0, 0, 0);
 
-	/* ------- Default colors should be overwritten from my resource file ------ */	
+	/* ------- Default colors should be overwritten from my resource file ------ */
 	SetColor(AM_CONTROL_BG_C,			180, 180, 190);
 	SetColor(AM_CONTROL_FG_C,			0, 0, 0);
 	SetColor(AM_LCD_C,					120, 120, 138);
@@ -144,7 +143,7 @@ void SeqPreferences::Initialize()
 	SetColor(DUPLICATE_FILTER_9_C,		100, 255, 0, 64);
 
 	// --------- IMAGES ---------
-	
+
 	const BBitmap *bm = ImageManager().FindBitmap( KNOB_000_IMAGE_STR );
 	if( bm ) {
 		mPrefSizes[KNOB_X] = bm->Bounds().Width() + 1;
@@ -165,7 +164,7 @@ void SeqPreferences::Initialize()
 		mPrefSizes[PROP_FIELD_X] = bm->Bounds().Width();
 		mPrefSizes[PROP_FIELD_Y] = bm->Bounds().Height();
 	}
-	
+
 	size_t			size;
 	const void*		res = Resources().FindResource(B_RGB_COLOR_TYPE, "Control BG", &size);
 	if( res && size == sizeof(rgb_color) ) SetColor(AM_CONTROL_BG_C, ((rgb_color*)res)->red, ((rgb_color*)res)->green, ((rgb_color*)res)->blue);
@@ -179,7 +178,7 @@ void SeqPreferences::Initialize()
 	 */
 	rgb_color		c = mix_color(mColors[AM_MEASURE_TOP_BG_C], mColors[AM_MEASURE_BOTTOM_BG_C], 127);
 	SetColor( AM_MEASURE_HIGHLIGHT_C, tint_color(c, B_LIGHTEN_1_TINT) );
-	
+
 	res = Resources().FindResource(B_RGB_COLOR_TYPE, "Measure Left BG", &size);
 	if( res && size == sizeof(rgb_color) ) SetColor(AM_MEASURE_LEFT_BG_C, ((rgb_color*)res)->red, ((rgb_color*)res)->green, ((rgb_color*)res)->blue);
 	res = Resources().FindResource(B_RGB_COLOR_TYPE, "Measure Right BG", &size);
@@ -319,7 +318,7 @@ void SeqPreferences::SetColorArray(rgb_color highC, rgb_color lowC, rgb_color* c
 	float	redInc = (float)(highC.red - lowC.red) / (COLOR_ARRAY_SIZE - 2),
 			greenInc = (float)(highC.green - lowC.green) / (COLOR_ARRAY_SIZE - 2),
 			blueInc = (float)(highC.blue - lowC.blue) / (COLOR_ARRAY_SIZE - 2);
-	
+
 	colorArray[0] = lowC;
 	colorArray[0].alpha = 255;
 	colorArray[COLOR_ARRAY_SIZE-1] = highC;

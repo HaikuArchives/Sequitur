@@ -2,8 +2,8 @@
  */
 #include <assert.h>
 #include <stdio.h>
-#include <experimental/ColumnListView.h>
-#include <experimental/ColumnTypes.h>
+#include <private/interface/ColumnListView.h>
+#include <private/interface/ColumnTypes.h>
 #include <InterfaceKit.h>
 #include <support/Autolock.h>
 #include "ArpViewsPublic/ArpPrefsI.h"
@@ -118,13 +118,13 @@ class _HandleRow : public _AddOnRow
 public:
 	_HandleRow(AmFilterAddOnHandle* addon, float height);
 	virtual ~_HandleRow();
-	
+
 	virtual status_t		BuildDragMessage(BMessage* into) const;
 	AmFilterAddOnHandle*	AddOn() const;
-	
+
 	bool					SetMatching(AmFilterAddOnHandle* second);
 	AmFilterAddOnHandle*	Matching() const;
-	
+
 private:
 	AmFilterAddOnHandle*	mAddOn;
 	AmFilterAddOnHandle*	mMatching;
@@ -137,16 +137,16 @@ struct row_entry {
 										: row(inRow), addon(inH)			{ }
 	row_entry(AmFilterAddOnHandle* inH)	: row(NULL), addon(inH)				{ }
 	row_entry(const row_entry& r)		: row(r.row), addon(r.addon)		{ }
-	
+
 	_HandleRow* row;
 	AmFilterAddOnHandle* addon;
-	
+
 	#define COMPARE(OP)										\
 		bool operator OP(const row_entry& o) const {		\
 			if( addon && o.addon ) return addon OP o.addon;	\
 			return row OP o.row;							\
 		}
-	
+
 	COMPARE(==);
 	COMPARE(!=);
 	COMPARE(<=);
@@ -179,25 +179,25 @@ struct assoc_entry {
 			assoc_class = inH->Key();
 		}
 	}
-	
+
 	bool can_associate() const
 	{
 		return (assoc_class.Length() > 0);
 	}
-	
+
 	AmFilterAddOn::type assoc_type;
 	BString assoc_class;
 	BString assoc_name;
-	
+
 	_HandleRow* row;
-	
+
 	#define COMPARE(OP)															\
 		bool operator OP(const assoc_entry& o) const {							\
 			if (assoc_type != o.assoc_type) return assoc_type OP o.assoc_type;	\
 			if (assoc_name != o.assoc_name) return assoc_name OP o.assoc_name;	\
 			return assoc_class OP o.assoc_class;								\
 		}
-	
+
 	COMPARE(==);
 	COMPARE(!=);
 	COMPARE(<=);
@@ -214,14 +214,14 @@ class _MultiRow : public _AddOnRow
 {
 public:
 	_MultiRow(ArpRef<AmMultiFilterAddOn> addon, float height, bool readOnly, bool isValid);
-	
+
 	virtual status_t		GetInfo(BString& key, bool* readOnly = NULL, BString* outPath = NULL) const;
 	virtual status_t		BuildDragMessage(BMessage* into) const;
 	ArpRef<AmMultiFilterAddOn>	AddOn() const;
-	
+
 	bool					SetMatching(ArpRef<AmMultiFilterAddOn> second);
 	ArpRef<AmMultiFilterAddOn>	Matching() const;
-	
+
 private:
 	ArpRef<AmMultiFilterAddOn>	mAddOn;
 	ArpRef<AmMultiFilterAddOn>	mMatching;
@@ -234,16 +234,16 @@ struct multi_row_entry {
 												: row(inRow), addon(inA)			{ }
 	multi_row_entry(ArpRef<AmMultiFilterAddOn> inA)	: row(NULL), addon(inA)				{ }
 	multi_row_entry(const multi_row_entry& r)	: row(r.row), addon(r.addon)		{ }
-	
+
 	_MultiRow* 				row;
 	ArpRef<AmMultiFilterAddOn> 	addon;
-	
+
 	#define COMPARE(OP)										\
 		bool operator OP(const multi_row_entry& o) const {	\
 			if (addon && o.addon) return addon OP o.addon;	\
 			return row OP o.row;							\
 		}
-	
+
 	COMPARE(==);
 	COMPARE(!=);
 	COMPARE(<=);
@@ -276,25 +276,25 @@ struct multi_assoc_entry {
 			assoc_class = inA->Key();
 		}
 	}
-	
+
 	bool can_associate() const
 	{
 		return (assoc_class.Length() > 0);
 	}
-	
+
 	AmFilterAddOn::type assoc_type;
 	BString assoc_class;
 	BString assoc_name;
-	
+
 	_MultiRow* row;
-	
+
 	#define COMPARE(OP)															\
 		bool operator OP(const multi_assoc_entry& o) const {					\
 			if (assoc_type != o.assoc_type) return assoc_type OP o.assoc_type;	\
 			if (assoc_name != o.assoc_name) return assoc_name OP o.assoc_name;	\
 			return assoc_class OP o.assoc_class;								\
 		}
-	
+
 	COMPARE(==);
 	COMPARE(!=);
 	COMPARE(<=);
@@ -327,13 +327,13 @@ SeqFilterAddOnWindow::SeqFilterAddOnWindow(	BRect frame,
 thread_id SeqFilterAddOnWindow::Run()
 {
 	thread_id tid = BWindow::Run();
-	
+
 	if (tid >= B_OK && mRoster) {
 		BAutolock _l(this);
 		mRoster->StartWatching(BMessenger(this));
 		UpdateList();
 	}
-	
+
 	return tid;
 }
 
@@ -412,7 +412,7 @@ void SeqFilterAddOnWindow::MessageReceived(BMessage *message)
 		case AM_FILE_ROSTER_CHANGED: {
 			UpdateMultiList();
 		} break;
-		
+
 		case NEW_MULTI_MSG: {
 			BString		key;
 			ShowEditMultiWin(key, BString() );
@@ -439,7 +439,7 @@ void SeqFilterAddOnWindow::MessageReceived(BMessage *message)
 				roster->DeleteEntry(key);
 			}
 		} break;
-		
+
 		case NAME_MSG:
 			ToggleColumn(NAME_STR);
 			break;
@@ -590,14 +590,14 @@ void SeqFilterAddOnWindow::UpdateHandleList()
 	// For each item in the addon list, add it to my list and
 	// make a view for it.
 	BAutolock _l(mRoster->Locker());
-	
+
 	BColumnListView*	listView = dynamic_cast<BColumnListView*>( FindView(TABLE_STR) );
 	if (!listView) return;
-	
+
 	set<row_entry>		rows;
 	set<assoc_entry>	assoc;
 	int32				i;
-	
+
 	for (i=0; i<listView->CountRows(); i++) {
 		_HandleRow*		row = dynamic_cast<_HandleRow*>(listView->RowAt(i));
 		if (row) {
@@ -605,7 +605,7 @@ void SeqFilterAddOnWindow::UpdateHandleList()
 			if (row->Matching()) rows.insert(row_entry(row, row->Matching()));
 		}
 	}
-	
+
 	for (i=0; i<mRoster->CountAddOns(); i++) {
 		BAddOnHandle* h = mRoster->AddOnAt(i);
 		AmFilterAddOnHandle* fh = dynamic_cast<AmFilterAddOnHandle*>(h);
@@ -621,7 +621,7 @@ void SeqFilterAddOnWindow::UpdateHandleList()
 					continue;
 				}
 			}
-			
+
 			_HandleRow* row = NULL;
 			if (r == rows.end()) {
 				row = new _HandleRow( fh, mRowHeight );
@@ -630,13 +630,13 @@ void SeqFilterAddOnWindow::UpdateHandleList()
 				row = r->row;
 				rows.erase(r);
 			}
-			
+
 			if (ae.can_associate()) {
 				assoc.insert(assoc_entry(fh, false, row));
 			}
 		}
 	}
-	
+
 	for (set<row_entry>::iterator j=rows.begin(); j != rows.end(); j++) {
 		if (j->row) {
 			listView->RemoveRow(j->row);
@@ -650,17 +650,17 @@ void SeqFilterAddOnWindow::UpdateMultiList()
 	// For each item in the addon list, add it to my list and
 	// make a view for it.
 	BAutolock _l(mRoster->Locker());
-	
+
 	BColumnListView*		listView = dynamic_cast<BColumnListView*>( FindView(TABLE_STR) );
 	if (!listView) return;
-	
+
 	AmMultiFilterRoster*	roster = AmMultiFilterRoster::Default();
 	if (!roster) return;
-	
+
 	set<multi_row_entry>	rows;
 	set<multi_assoc_entry>	assoc;
 	int32					i;
-	
+
 	for (i = 0; i < listView->CountRows(); i++) {
 		_MultiRow*		row = dynamic_cast<_MultiRow*>(listView->RowAt(i));
 		if (row) {
@@ -668,7 +668,7 @@ void SeqFilterAddOnWindow::UpdateMultiList()
 			if (row->Matching()) rows.insert(multi_row_entry(row, row->Matching()));
 		}
 	}
-	
+
 	ArpRef<AmMultiFilterAddOn>	h;
 	for (i = 0; (h = roster->FilterAt(i)) != NULL; i++) {
 		if (h) {
@@ -683,7 +683,7 @@ void SeqFilterAddOnWindow::UpdateMultiList()
 					continue;
 				}
 			}
-			
+
 			_MultiRow* row = NULL;
 			if (r == rows.end()) {
 				row = new _MultiRow(h, mRowHeight, h->IsReadOnly(), h->IsValid() );
@@ -692,13 +692,13 @@ void SeqFilterAddOnWindow::UpdateMultiList()
 				row = r->row;
 				rows.erase(r);
 			}
-			
+
 			if (ae.can_associate()) {
 				assoc.insert(multi_assoc_entry(h, false, row));
 			}
 		}
 	}
-	
+
 	for (set<multi_row_entry>::iterator j=rows.begin(); j != rows.end(); j++) {
 		if (j->row) {
 			listView->RemoveRow(j->row);
@@ -769,7 +769,7 @@ void SeqFilterAddOnWindow::AddMainMenu()
 	BMenu*		menu;
 	BMenuItem*	item;
 	BRect		f = Bounds();
-	
+
 	f.bottom = f.top + Prefs().Size( MAINMENU_Y );
 	menuBar = new BMenuBar(	f,
 							NULL,
@@ -889,7 +889,7 @@ void _AddOnList::DrawLatch(BView *view, BRect rect, LatchType pos, BRow *row)
 	inherited::DrawLatch(view, oldRect, pos, row);
 	_AddOnRow*	r = dynamic_cast<_AddOnRow*>(row);
 	if (r && r->Image() ) {
-		view->SetDrawingMode(B_OP_OVER);	
+		view->SetDrawingMode(B_OP_OVER);
 		view->DrawBitmap(r->Image(), BPoint(oldRect.left + 2, oldRect.top + 1) );
 	}
 }
@@ -934,7 +934,7 @@ _HandleRow::_HandleRow(AmFilterAddOnHandle* addon, float height)
 	if (mAddOn->Type() == AmFilterAddOn::DESTINATION_FILTER) type << SZ_DESTINATION;
 	else if (mAddOn->Type() == AmFilterAddOn::SOURCE_FILTER) type << SZ_SOURCE;
 	else type << SZ_THROUGH;
-	
+
 	SetField( new BStringField(mAddOn->Name().String() ), NAME_INDEX);
 	SetField( (mTypeField = new BStringField(type.String() )), TYPE_INDEX);
 	SetField( new BStringField(mAddOn->ShortDescription().String() ), DESCRIPTION_INDEX);
@@ -1020,7 +1020,7 @@ _MultiRow::_MultiRow(	ArpRef<AmMultiFilterAddOn> addon, float height,
 	if (mAddOn->Type() == AmFilterAddOn::DESTINATION_FILTER) type << SZ_DESTINATION;
 	else if (mAddOn->Type() == AmFilterAddOn::SOURCE_FILTER) type << SZ_SOURCE;
 	else type << SZ_THROUGH;
-	
+
 	SetField( new SeqColoredField(mAddOn->Name().String(), readOnly, isValid), NAME_INDEX);
 	SetField( (mTypeField = new SeqColoredField(type.String(), readOnly, isValid)), TYPE_INDEX);
 	SetField( new SeqColoredField(mAddOn->ShortDescription().String(), readOnly, isValid), DESCRIPTION_INDEX);

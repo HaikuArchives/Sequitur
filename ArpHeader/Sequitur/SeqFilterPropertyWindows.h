@@ -23,7 +23,7 @@
 #ifndef SEQUITUR_SEQEDITROSTERWINDOW_H
 #define SEQUITUR_SEQEDITROSTERWINDOW_H
 
-#include <experimental/ColumnTypes.h>
+#include <private/interface/ColumnTypes.h>
 #include <InterfaceKit.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "AmPublic/AmPipelineMatrixRef.h"
@@ -49,7 +49,7 @@ public:
 									window_feel feel = B_NORMAL_WINDOW_FEEL,
 									uint32 flags = B_ASYNCHRONOUS_CONTROLS | B_FRAME_EVENTS);
 	~SeqAbstractFilterPropertyWindow();
-	
+
 	virtual void		MessageReceived(BMessage* msg);
 	virtual	bool		QuitRequested();
 
@@ -58,7 +58,7 @@ public:
 protected:
 	BRect				CurrentPageFrame() const;
 	status_t			SetFirstPage();
-	
+
 	virtual void		AddPages(BColumnListView* list, BPoint& pt) = 0;
 
 	void				Init();
@@ -93,7 +93,7 @@ public:
 	SeqPipelinePropertyWindow(	const AmPipelineMatrixRef& matrixRef,
 								AmPipelineType pipelineType,
 								const char* pipelineName,		// Like the name of the tool or filter
-								BWindow* parent = NULL);	
+								BWindow* parent = NULL);
 protected:
 	virtual void		AddPages(BColumnListView* list, BPoint& pt);
 

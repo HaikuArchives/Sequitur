@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <experimental/ColumnListView.h>
-#include <experimental/ColumnTypes.h>
+#include <private/interface/ColumnListView.h>
+#include <private/interface/ColumnTypes.h>
 #include <interface/Alert.h>
 #include <interface/Box.h>
 #include <interface/CheckBox.h>
@@ -86,7 +86,7 @@ public:
 	 * message, and build a new list, based on my current state.
 	 */
 	void			ReplacePreferences(BMessage& prefs);
-	
+
 private:
 	typedef BColumnListView		inherited;
 	BMessenger		mAddWin;
@@ -112,7 +112,7 @@ public:
 	status_t		GetPreferences(BMessage* prefs);
 	status_t		SetPreferences(const BMessage* prefs);
 	void			SetRef(const entry_ref& ref);
-	
+
 private:
 	bool		mOn, mSkip;
 	BString		mName;
@@ -162,7 +162,7 @@ void SeqPrefWin::MessageReceived(BMessage* msg)
 		case CHANGE_SKIN_MSG:
 			{
 				const char*		skin;
-				if (msg->FindString("seq:skin", &skin) == B_OK) { 
+				if (msg->FindString("seq:skin", &skin) == B_OK) {
 					SetStringPref(CURRENT_SKIN_PREF, skin);
 					new_skin_warning();
 				}
@@ -197,7 +197,7 @@ void SeqPrefWin::MessageReceived(BMessage* msg)
 			if (mFilePanel->Window() ) {
 				mFilePanel->Window()->SetTitle("Select File" B_UTF8_ELLIPSIS);
 			}
-					
+
 			mFilePanel->SetTarget(BMessenger(this));
 			mFilePanel->SetMessage( new BMessage('nfen') );
 			mFilePanel->Show();
@@ -359,7 +359,7 @@ void SeqPrefWin::FactoryRowSelected()
 	}
 
 	if (!mFactoryView) return;
-	
+
 	ArpVALIDATE(mFactoryList, return);
 	float				sx = Prefs().Size(SPACE_X), sy = Prefs().Size(SPACE_Y);
 	BPoint				at = BPoint(sx, mFactoryList->Frame().bottom + sy);
@@ -399,7 +399,7 @@ void SeqPrefWin::AddViews(const BMessage& prefs)
 				v->AddChild( button );
 				button->MakeDefault( true );
 			}
-			f.OffsetBy( 0-(buttonW + 10), 0 );	
+			f.OffsetBy( 0-(buttonW + 10), 0 );
 			button = new BButton( f, "cancel_button", "Cancel", new BMessage( CANCEL_MSG ), B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM );
 			if( button ) v->AddChild( button );
 
@@ -831,7 +831,7 @@ public:
 					if( mFilePanel->Window() ) {
 						mFilePanel->Window()->SetTitle("Select File" B_UTF8_ELLIPSIS);
 					}
-					
+
 					mFilePanel->SetTarget(BMessenger(this));
 					mFilePanel->SetMessage( new BMessage('entr') );
 					mFilePanel->Show();
@@ -871,7 +871,7 @@ private:
 	BButton*		mFileButton;
 	BCheckBox*		mSkipBox;
 	entry_ref*		mRef;
-	
+
 	status_t GetPrefs(BMessage& pref)
 	{
 		if( !mOnBox || !mNameCtrl ) return B_ERROR;
@@ -908,7 +908,7 @@ private:
 		if( mFileButton ) mFileButton->SetEnabled( enable );
 		if( mSkipBox ) mSkipBox->SetEnabled( enable );
 	}
-	
+
 };
 
 /********************************************************
@@ -1146,7 +1146,7 @@ void _OwqRow::SetRef(const entry_ref& ref)
 {
 	delete mRef;
 	mRef = new entry_ref(ref);
-	
+
 	BString		filename("<drop query or folder here>");
 	if( mRef ) {
 		BPath	path(mRef);

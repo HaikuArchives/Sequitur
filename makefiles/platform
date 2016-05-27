@@ -112,7 +112,7 @@ else
 endif
 
 	DEFINE_VERSION :=
-	
+
 #	set up version information
 ifndef VERSION
 	ifdef SUBREV_CODE
@@ -135,7 +135,7 @@ ifndef VERSION
 endif
 
 	DEFINE_VERSION += -DPROGRAM_VERSION=\"$(VERSION)\"
-	
+
 #	set the object directory
 ifndef RELEASE_BUILD
 	OBJ				:= obj.$(CPU)
@@ -145,9 +145,9 @@ else
 	OBJ_DIR			:= obj.$(CPU)
 endif
 
-#	specify the directory for libraries 
-	BELIBRARIES		=	/boot/develop/lib/$(CPU)
-	MWLIBRARIES		=	/boot/develop/lib/$(CPU)
+#	specify the directory for libraries
+	BELIBRARIES		=
+	MWLIBRARIES		=
 
 #	specify the default libraries
 	DEFAULT_LIBS	=	be root
@@ -163,7 +163,7 @@ else
 endif
 
 #		specify the path to the headers
-		BEHEADERS		= /boot/develop/headers 
+		BEHEADERS		= /boot/develop/headers
 
 #		set the initial compiler flags
 ifndef RELEASE_BUILD
@@ -171,7 +171,7 @@ ifndef RELEASE_BUILD
 #		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -fno-implement-inlines
 #		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -fno-implement-inlines -fcheck-memory-usage -D_KERNEL_MODE
 else
-		CPLATFLAGS		= 
+		CPLATFLAGS		=
 endif
 
 #		specify the basic linker flags
@@ -189,7 +189,7 @@ ifeq ($(CPU), x86)
 
 #		specify flags to cause compiler to generate dependencies
 		MK_DEPS_FLAGS	= -M
-							
+
 #		specify the compiler
 		CC				= gcc
 
@@ -197,7 +197,7 @@ ifeq ($(CPU), x86)
 		INCLUDE_FLAG	= -I
 		SYSINCLUDE_SEP	=
 		SYSINCLUDE_FLAG	= -isystem
-		
+
 #		specify the library extension
 		LIB_EXTENSION	=
 
@@ -231,7 +231,7 @@ endif
 			LDPLATFLAGS += -nostart -Xlinker -soname=$(IMG_NAME)
 		else
 		ifeq ($(IMG_TYPE), STATIC)
-		
+
 		else
 		ifeq ($(IMG_TYPE), DRIVER)
 			CPLATFLAGS += -no-fpic
@@ -250,7 +250,7 @@ endif
 			SYMBOLNAME		=
 			SYMBOLFLAGS		=
 		endif
-		
+
 #		specify the Standard C++ link library
 		CPPLIB			= stdc++.r4
 
@@ -260,15 +260,15 @@ ifeq ($(CPU), ppc)
 
 #		specify flags to cause compiler to generate dependencies
 		MK_DEPS_FLAGS	= -make
-							
+
 #		specify the compiler
 		CC				= mwcc$(CPU)
-		
+
 #		specify flags for including files
 		INCLUDE_FLAG	= -i
 		SYSINCLUDE_SEP	= -i-
 		SYSINCLUDE_FLAG	= -i
-		
+
 #		specify the library extension
 		LIB_EXTENSION	=
 
@@ -278,16 +278,13 @@ ifdef RELEASE_BUILD
 endif
 
 #		specify additional compiler flags
-		CPLATFLAGS		+= 
-		
+		CPLATFLAGS		+=
+
 #		specify the linker
 		LD				= mwld$(CPU)
 
-		LDPLATFLAGS		+= -nodefaults \
-							$(BELIBRARIES)/glue-noinit.a \
-							$(BELIBRARIES)/init_term_dyn.o \
-							$(BELIBRARIES)/start_dyn.o 
-							
+		LDPLATFLAGS		+=
+
 							# -imagebase 0x80000000 \
 
 #		specify additional linker flags
@@ -309,10 +306,10 @@ endif
 			LDPLATFLAGS		+=	-xml
 		else
 		ifeq ($(IMG_TYPE), DRIVER)
-	
-		endif 
-		endif 
-		endif 
+
+		endif
+		endif
+		endif
 		endif
 		endif
 
@@ -322,7 +319,7 @@ endif
 			SYMBOLNAME		= $(TARGET).xSYM
 			SYMBOLFLAGS		= -sym full -osym $(SYMBOLNAME)
 		endif
-		
+
 #		specify the Standard C++ link library
 		CPPLIB			= mslcpp_2_2
 		#CPPLIB			= $(shell cd $(MWLIBRARIES); ls libmslcpp*.a )
@@ -331,7 +328,7 @@ endif
 endif
 
 	TARGET_NAME		= $(IMG_NAME)
-	
+
 ifeq ($(IMG_TYPE), SHARED)
 	TARGET_NAME = lib$(IMG_NAME).so
 endif

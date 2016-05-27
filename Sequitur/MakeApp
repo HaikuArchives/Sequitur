@@ -20,20 +20,20 @@
 #--------------------------------------------------------
 
 	ARPROOT		= ..
-	
+
 #--------------------------------------------------------
 #	High-level Project Information
 #--------------------------------------------------------
 
 #	specify the name of the project
 	IMG_NAME	= Sequitur
-	
+
 #	specify the type of image to create
 	IMG_TYPE	= APP
 
 #	specify version of project
 	VERSION		= 2.1.2
-	
+
 # first include the common rules for setting up all
 # platform-specific information
 
@@ -46,12 +46,12 @@ include $(ARPROOT)/makefiles/platform
 #	specify the list of source files
 	SRCS		= $(shell echo *.cpp)
 	HEADERS		= $(shell echo *.h)
-	
+
 	CFLAGS		=
 
 ifeq ($(CPU), PPC)
 	CFLAGS		= -str pool -ansi strict -bool on -requireprotos
-	CFLAGS		+= -str ro -toc_data on 
+	CFLAGS		+= -str ro -toc_data on
 	LDFLAGS		= -dead on
 endif
 
@@ -59,19 +59,19 @@ endif
 	RSRCS		:= Sequitur \
 				   SequiturSkin \
 				   $(ARPROOT)/ArpLib/$(OBJ_DIR)/AboutWindow
-	RSRC_DIRS	:= 
+	RSRC_DIRS	:=
 
 #	specify how to create distribution
-#	DIST_MAKES	= 
+#	DIST_MAKES	=
 	DIST_SRCDIR	= Sequitur
 	DIST_FILES	= README
 	DIST_SRCS	= $(DIST_FILES)
-	
+
 #$(HEADERS) $(SRCS) $(DIST_FILES) \
 #					$(shell ls 2>/dev/null -1 *.rsrc) Makefile MakeApp
-	
+
 #	specify any additional beos shared libraries needed.
-	ADD_BESHLIBS	= midi midi2 translation tracker media png
+	ADD_BESHLIBS	= midi midi2 translation tracker media png columnlistview
 
 #	specify additional non-beos shared libraries needed.
 	ADD_SHLIBS		= $(CPPLIB) AmKernel
@@ -105,13 +105,13 @@ endif
 	DEST_DIR	= ./
 	PUBLIC_TARGET	= $(DEST_DIR)$(TARGET_NAME)
 
-# define the actual work to be done	
+# define the actual work to be done
 
 default: $(PUBLIC_TARGET)
 	@mkdir --parents add-ons
 	@[ -e add-ons/Filters ] || ln -s ../../AmFilters/add-ons/Filters add-ons/Filters
 	@[ -e lib ] || ln -s ../ArpLib/$(OBJ_DIR) lib
-	
+
 release: default
 
 $(PUBLIC_TARGET): $(TARGET)
@@ -123,7 +123,7 @@ $(PUBLIC_TARGET): $(TARGET)
 clean:: clean_project
 	rm -f $(PUBLIC_TARGET) $(PUBLIC_TARGET).xSYM $(PUBLIC_TARGET).xMAP $(PUBLIC_TARGET).dbg
 	rm -rf add-ons lib
-	
+
 dist:: dist_project
 	mkdir --parents $(DIST_TARGET)/add-ons/Filters
 	for i in add-ons/Filters/*; do \
@@ -176,7 +176,7 @@ dist:: dist_project
 	(. "$(ARPROOT)/tools/distribute.sh"; \
 		distribute $(ARPROOT)/AmFilters $(DIST_TARGET)/DevKit/ExampleFilters Sequitur \
 	)
-	
+
 # include common build rules for above definitions
 
 include $(ARPROOT)/makefiles/project

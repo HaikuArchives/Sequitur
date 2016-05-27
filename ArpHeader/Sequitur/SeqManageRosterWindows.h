@@ -24,7 +24,7 @@
 #ifndef SEQUITUR_SEQMANAGEROSTERWINDOWS_H
 #define SEQUITUR_SEQMANAGEROSTERWINDOWS_H
 
-#include <experimental/ColumnListView.h>
+#include <private/interface/ColumnListView.h>
 #include <interface/Window.h>
 #include "AmPublic/AmToolRef.h"
 #include "Sequitur/SeqWindowStateI.h"
@@ -42,7 +42,7 @@ class SeqManageRosterWindow : public BWindow,
 {
 public:
 	SeqManageRosterWindow(	BRect frame,
-							const BMessage* config = NULL); 
+							const BMessage* config = NULL);
 	virtual ~SeqManageRosterWindow();
 
 	virtual	void			MenusBeginning();
@@ -69,17 +69,17 @@ protected:
 	virtual uint32			ConfigWhat() const = 0;
 	virtual uint32			WindowSettingsIndex() const = 0;
 	virtual const char*		EntryMenuType() const = 0;
-	
+
 	void					Initialize();
 	status_t				GetSelectionInfo(	BString& key, BString& filePath,
 												bool* readOnly = NULL) const;
-	
+
 	/* Always adds string columns.
 	 */
 	status_t				AddColumn(	const char* name, uint32 index, float width = 110,
 										float minWidth = 20, float maxWidth = 350,
 										uint32 truncate = B_TRUNCATE_MIDDLE);
-	
+
 private:
 	typedef BWindow			inherited;
 
@@ -96,7 +96,7 @@ class SeqManageDevicesWindow : public SeqManageRosterWindow
 {
 public:
 	SeqManageDevicesWindow(	BRect frame,
-							const BMessage* config = NULL); 
+							const BMessage* config = NULL);
 
 protected:
 	virtual _EntryRow*		NewEntryRow(uint32 index, file_entry_id entryId) const;
@@ -107,7 +107,7 @@ protected:
 	virtual uint32			ConfigWhat() const;
 	virtual uint32			WindowSettingsIndex() const;
 	virtual const char*		EntryMenuType() const;
-	
+
 private:
 	typedef SeqManageRosterWindow inherited;
 };
@@ -119,7 +119,7 @@ class SeqManageMotionsWindow : public SeqManageRosterWindow
 {
 public:
 	SeqManageMotionsWindow(	BRect frame,
-							const BMessage* config = NULL); 
+							const BMessage* config = NULL);
 
 protected:
 	virtual _EntryRow*		NewEntryRow(uint32 index, file_entry_id entryId) const;
@@ -128,7 +128,7 @@ protected:
 	virtual uint32			ConfigWhat() const;
 	virtual uint32			WindowSettingsIndex() const;
 	virtual const char*		EntryMenuType() const;
-	
+
 private:
 	typedef SeqManageRosterWindow inherited;
 };
@@ -140,7 +140,7 @@ class SeqManageToolsWindow : public SeqManageRosterWindow
 {
 public:
 	SeqManageToolsWindow(	BRect frame,
-							const BMessage* config = NULL); 
+							const BMessage* config = NULL);
 
 	virtual void			MessageReceived(BMessage* msg);
 	virtual void			InitiateDrag(	BPoint where, bool wasSelected,

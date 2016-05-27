@@ -1,7 +1,7 @@
 /* SeqEditToolWindow.cpp
  */
-#include <experimental/ColumnListView.h>
-#include <experimental/ColumnTypes.h>
+#include <private/interface/ColumnListView.h>
+#include <private/interface/ColumnTypes.h>
 #include <support/String.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpViewDefs.h"
@@ -102,7 +102,7 @@ public:
 protected:
 	AmToolRef		mToolRef;
 	BRect			mPropertyFrame;
-		
+
 	virtual _ViewRow*	NewRow(bool root = false) const = 0;
 	virtual _ViewRow*	NewRow(const BString& factoryKey) const = 0;
 	virtual _ViewRow*	NewRow(const BString& factoryKey, const BString& viewKey) const = 0;
@@ -124,7 +124,7 @@ protected:
 
 private:
 	typedef BColumnListView		inherited;
-	
+
 	bool			HasRow(	const BString& facKey,
 							const BString& viewKey) const;
 };
@@ -171,7 +171,7 @@ public:
 
 	virtual void		SelectionChanged();
 	void				SetMenuControl(BMenuField* menuCtrl);
-	
+
 protected:
 	virtual _ViewRow*	NewRow(bool root = false) const;
 	virtual _ViewRow*	NewRow(const BString& factoryKey) const;
@@ -202,7 +202,7 @@ public:
 	_ViewRow(bool root = false);
 	_ViewRow(const BString& factoryKey);
 	_ViewRow(const BString& factoryKey, const BString& viewKey);
-	
+
 	virtual bool		HasLatch() const;
 	bool				Matches(const BString& factoryKey,
 								const BString& viewKey) const;
@@ -210,7 +210,7 @@ public:
 	void				SetKey(const char* key);
 	virtual void		SetToolKey(const char* key, AmTool* tool) = 0;
 	void				GetKeyInfo(BString& factoryKey, BString& viewKey, BString& key) const;
-	
+
 	void				Print() const;
 
 protected:
@@ -235,7 +235,7 @@ public:
 	_SeedRow(bool root = false);
 	_SeedRow(const BString& factoryKey);
 	_SeedRow(const BString& factoryKey, const BString& viewKey);
-	
+
 	virtual void		SetToolKey(const char* key, AmTool* tool);
 
 protected:
@@ -254,7 +254,7 @@ public:
 	_GraphicRow(bool root = false);
 	_GraphicRow(const BString& factoryKey);
 	_GraphicRow(const BString& factoryKey, const BString& viewKey);
-	
+
 	virtual void		SetToolKey(const char* key, AmTool* tool);
 
 protected:
@@ -293,11 +293,11 @@ class _ToolControlRow : public BRow
 {
 public:
 	_ToolControlRow(const AmToolControl* control, uint32 index);
-	
+
 	virtual bool		HasLatch() const;
 	uint32				Type() const;
 	uint32				Index() const;
-	
+
 private:
 	typedef BRow	inherited;
 	void*			mToolControlId;
@@ -323,7 +323,7 @@ private:
 	typedef BColumnListView		inherited;
 	AmToolRef			mToolRef;
 	_ToolControlList*	mControls;
-	
+
 	void			BuildRows(_ToolControlRow* row, const AmTool* tool);
 };
 
@@ -335,12 +335,12 @@ class _ControlTargetRow : public BRow
 public:
 	_ControlTargetRow(	uint32 index, int32 pipeline,
 						int32 filter, const BString& name);
-	
+
 	virtual bool		HasLatch() const;
 	uint32				Index() const;
 	int32				Pipeline() const;
 	int32				Filter() const;
-	
+
 private:
 	typedef BRow	inherited;
 	uint32			mIndex;
@@ -364,7 +364,7 @@ SeqEditToolWindow::SeqEditToolWindow(	BRect frame,
 		  mEffectCtrl(NULL), mGraphicList(NULL)
 {
 //	mSeedPropFactory.SetNewFunction(new_seed_prop_function);
-	
+
 	BRect		targetF(CurrentPageFrame() );
 	BView*		view = NULL;
 	if ((view = NewGeneralView(targetF))) AddPage(view);
@@ -439,7 +439,7 @@ static void add_targets_to(BMenu* menu, const AmTool* tool, uint32 type)
 				BString		fLabel;
 				fLabel << fIndex + 1 << " " << holder->Filter()->Label();
 				if (type == AmToolControl::BOOL_TYPE) {
-					add_bool_items(&pMenu, msg, fLabel.String(), k, fIndex); 
+					add_bool_items(&pMenu, msg, fLabel.String(), k, fIndex);
 				}
 			}
 			msg.MakeEmpty();
@@ -557,7 +557,7 @@ void SeqEditToolWindow::MessageReceived(BMessage* msg)
 		} break;
 		case SEED_MSG: {
 			const char*		key;
-			if (msg->FindString(SEED_STR, &key) != B_OK) key = NULL;		
+			if (msg->FindString(SEED_STR, &key) != B_OK) key = NULL;
 			if (mSeedList) {
 				// WRITE TOOL BLOCK
 				AmTool*		tool = mToolRef.WriteLock();
@@ -683,7 +683,7 @@ void SeqEditToolWindow::MessageReceived(BMessage* msg)
 		} break;
 		case EFFECT_MSG: {
 			const char*		key;
-			if (msg->FindString(EFFECT_STR, &key) != B_OK) key = NULL;		
+			if (msg->FindString(EFFECT_STR, &key) != B_OK) key = NULL;
 			if (mGraphicList) {
 				// WRITE TOOL BLOCK
 				AmTool*		tool = mToolRef.WriteLock();
@@ -775,7 +775,7 @@ void SeqEditToolWindow::SetTool(const BString& key, const BString& path)
 		if (mGraphicList) mGraphicList->SetTool(tool);
 		if (mToolControlList) mToolControlList->SetTool(tool);
 		if (mControlTargetList) mControlTargetList->SetTool(tool);
-		
+
 		BString		title("Edit ");
 		if (tool->Label().Length() > 0) title << tool->Label();
 		else title << "Unnamed tool";
@@ -805,7 +805,7 @@ bool SeqEditToolWindow::Validate()
 	BString				error;
 	size_t				len = 0;
 	if (mKeyCtrl->Text() ) len = strlen(mKeyCtrl->Text() );
-	
+
 	if (len < 1) error = "This tool must have a key";
 	else if (mInitialKey.Length() < 1 || mInitialKey != mKeyCtrl->Text() ) {
 		AmToolRoster*	roster = AmToolRoster::Default();
@@ -949,7 +949,7 @@ static BMenuField* new_seed_control(BRect f)
 		menu->AddItem(item);
 	}
 	menu->SetLabelFromMarked(true);
-	menu->SetRadioMode(true);	
+	menu->SetRadioMode(true);
 	BMenuField*	field = new BMenuField(f, "seed_field", "Seed:", menu, B_FOLLOW_LEFT | B_FOLLOW_TOP);
 	if (!field) {
 		delete menu;
@@ -1016,7 +1016,7 @@ BView* SeqEditToolWindow::NewPipelineView(BRect frame)
 		mPipelineView->SetResizingMode(B_FOLLOW_ALL);
 		mPipelineView->SetShowProperties(true);
 		mPipelineView->ForceViewColor( tint_color(Prefs().Color(AM_AUX_WINDOW_BG_C), B_DARKEN_1_TINT) );
-		mPipelineScrollView = new BScrollView("pipeline_scroll", mPipelineView, B_FOLLOW_ALL, 0, true, true);	
+		mPipelineScrollView = new BScrollView("pipeline_scroll", mPipelineView, B_FOLLOW_ALL, 0, true, true);
 		if (mPipelineScrollView) {
 			v->AddChild(mPipelineScrollView);
 			mPipelineScrollView->SetViewColor( Prefs().Color(AM_AUX_WINDOW_BG_C) );
@@ -1074,17 +1074,17 @@ static BMenu* new_icon_editor_menu()
 	menu->AddSeparatorItem();
 #endif
 	BMenuItem*	item = new BMenuItem("Copy", new BMessage(COPY_ICON_MSG), 0, 0);
-	if (item) menu->AddItem(item);	
+	if (item) menu->AddItem(item);
 	item = new BMenuItem("Paste", new BMessage(PASTE_ICON_MSG), 0, 0);
-	if (item) menu->AddItem(item);	
+	if (item) menu->AddItem(item);
 	menu->AddSeparatorItem();
 	item = new BMenuItem("Flip Vertically", new BMessage(FLIP_VERTICALLY_ICON_MSG), 0, 0);
-	if (item) menu->AddItem(item);	
+	if (item) menu->AddItem(item);
 	item = new BMenuItem("Flip Horizontally", new BMessage(FLIP_HORIZONTALLY_ICON_MSG), 0, 0);
-	if (item) menu->AddItem(item);	
+	if (item) menu->AddItem(item);
 	menu->AddSeparatorItem();
 	item = new BMenuItem("Fill with Alpha", new BMessage(FILL_WITH_ALPHA_MSG), 0, 0);
-	if (item) menu->AddItem(item);	
+	if (item) menu->AddItem(item);
 	return menu;
 }
 
@@ -1116,7 +1116,7 @@ BView* SeqEditToolWindow::NewControlView(BRect frame)
 	 */
 //	float		fh = arp_get_font_height(v);
 	float		spaceX = 5, spaceY = 5;
-	float		half = frame.top + (frame.Height() / 2);	
+	float		half = frame.top + (frame.Height() / 2);
 	BRect		controlF(spaceX, 0, frame.Width(), frame.Height() + half);
 	float		deleteW = v->StringWidth("Delete") + 10;
 	float		buttonH = 24;
@@ -1175,7 +1175,7 @@ static BMenuField* new_effect_control(BRect f)
 		menu->AddItem(item);
 	}
 	menu->SetLabelFromMarked(true);
-	menu->SetRadioMode(true);	
+	menu->SetRadioMode(true);
 	BMenuField*	field = new BMenuField(f, "effect_field", "Effect:", menu, B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
 	if (!field) {
 		delete menu;
@@ -1578,7 +1578,7 @@ void _SeedRow::GetKeyLabel(const char* key, BString& outLabel)
 	if (AmToolSeedI::GetSeedInfo(BString(key), label) != B_OK)
 		outLabel = key;
 	else
-		outLabel = label;	
+		outLabel = label;
 }
 
 /********************************************************
@@ -1617,7 +1617,7 @@ void _GraphicRow::GetKeyLabel(const char* key, BString& outLabel)
 	if (AmGraphicEffect::GetEffectInfo(BString(key), label) != B_OK)
 		outLabel = key;
 	else
-		outLabel = label;	
+		outLabel = label;
 }
 
 /********************************************************
@@ -1712,7 +1712,7 @@ _ToolControlRow::_ToolControlRow(	const AmToolControl* control,
 	SetField(new BStringField(n.String() ), TC_INDEX_FIELD);
 	SetField(new BStringField("Tool Control"), TC_NAME_FIELD);
 }
-	
+
 bool _ToolControlRow::HasLatch() const
 {
 	return false;
@@ -1764,7 +1764,7 @@ void _ControlTargetList::BuildRows()
 {
 	_ToolControlRow*	row = NULL;
 	if (mControls) row = dynamic_cast<_ToolControlRow*>( mControls->CurrentSelection() );
-	
+
 	// READ TOOL BLOCK
 	const AmTool*	tool = mToolRef.ReadLock();
 	if (tool) BuildRows(row, tool);
@@ -1813,7 +1813,7 @@ _ControlTargetRow::_ControlTargetRow(	uint32 index, int32 pipeline,
 	SetField(new BStringField(n2.String() ), CT_FILTER_FIELD);
 	SetField(new BStringField(mName.String()), CT_PROPERTY_FIELD);
 }
-	
+
 bool _ControlTargetRow::HasLatch() const
 {
 	return false;
@@ -1854,7 +1854,7 @@ void _SeqKeyFactory::SetNewFunction(new_function)
 {
 	mNewFunction = new_function;
 }
-	
+
 BView* _SeqKeyFactory::ViewFor(	const BString& key,
 								const BMessage* config)
 {
