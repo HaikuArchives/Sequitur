@@ -54,7 +54,7 @@ Multi filters are stored as files on your hard drive, so they can be shared easi
 
 	<UL>
 		<LI><i>MultiFilters/</i> (from the folder in which Sequitur was launched)</LI>
-		<LI><i>/boot/home/config/settings/AngryRedPlanet/Sequitur/MultiFilters/</i></LI>
+		<LI><i>/boot/home/config/settings/Sequitur/MultiFilters/</i></LI>
 	</UL>
 
 <P>All multi filters located in the first folder can not be modified, and appear as light gray in the Manage Filters window.  By default, all multi filters that ship with Sequitur are located in this read-only directory.  Use the path attribute of the Manage Filters window to locate a particular multi filter.</P>
@@ -92,13 +92,24 @@ Users identify filters by their icon that appears in the Manage Filters window a
 
 
 <P><B><font size=+2><a name="Section_7_4">7.4.  Installing New Filters</a></font></B><BR>
-Filter add-ons for Sequitur can be placed in the following folder:<br>
+Filter add-ons for Sequitur are found under <i>add-ons/Filters</i> in its installation folder. Additionally, you can put Filter add-ons in the following folders:</P>
+
+<P>When installed manually in one of the writable locations:
 	<UL>
-		<LI><i>add-ons/Filters/</i> (from the folder in which Sequitur was launched)</LI>
-<!--		<LI><i>/boot/home/config/add-ons/AngryRedPlanet/Sequitur/Filters/</i></LI>  -->
+		<LI><i>/boot/home/config/non-packaged/add-ons/Sequitur/Filters/</i> </LI>
+		<LI><i>/boot/system/non-packaged/add-ons/Sequitur/Filters/</i></LI>
 	</UL>
 
-<P>True to the live nature of BeOS, it's not necessary to exit Sequitur before installing new add-ons.  Simply drop them in a valid directory and watch them appear in the filter window.</P>
+<P>When installed with a HPKG package, they appear in:</P>
+	<UL>
+		<LI><i>/boot/home/config/add-ons/Sequitur/Filters/</i> or</LI>
+		<LI><i>/boot/system/add-ons/Sequitur/Filters/</i></LI>
+	</UL>
+
+<!--
+<P>True to the live nature of BeOS, it's not necessary to exit Sequitur before installing new add-ons.  Simply drop them in a valid directory and watch them appear in the filter window.</P> -->
+
+<P>Adding or removing Filter add-ons may require a restart of Sequitur.</P>
 
 
 <P><B><font size=+2><a name="Section_7_5">7.5.  Writing New Filters<a/></font></B><BR>

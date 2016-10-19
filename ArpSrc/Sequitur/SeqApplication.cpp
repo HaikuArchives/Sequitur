@@ -52,8 +52,8 @@ static SeqImageManager		im;
 static SeqPreferences		pr;
 
 // This directory will be located in the user settings directory.
-static const char*	ARPSETTINGSDIR_STR		= "AngryRedPlanet";
-// This directory will be located in ARPSETTINGSDIR_STR.
+// static const char*	ARPSETTINGSDIR_STR		= "AngryRedPlanet";
+// This directory will be located in ARPSETTINGSDIR_STR (now B_USER_SETTINGS_DIRECTORY).
 static const char*	SEQUITURSETTINGSDIR_STR	= "Sequitur";
 
 static const char*	VERSION_STR				= "version";
@@ -272,18 +272,17 @@ SeqApplication::SeqApplication()
 	}
 	
 	gSkinPath.AddSearchPath("%A/Skins");
-	gSkinPath.AddDirectory(B_USER_SETTINGS_DIRECTORY, "AngryRedPlanet/Sequitur/Skins");
+	gSkinPath.AddDirectory(B_USER_SETTINGS_DIRECTORY, "Sequitur/Skins");
 
 	am_set_startup_status_func(report_startup_status);
 	am_report_startup_status("Starting up...");
-	/* Construct the AngryRedPlanet/Sequitur/ directory in the config/settings/,
-	 * as well as AngryRedPlanet/Sequitur/Skins/
+	/* Construct the Sequitur/ directory in the config/settings/,
+	 * as well as Sequitur/Skins/
 	 */
 	BPath		path;
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
 	if (path.InitCheck() == B_OK) {
 		BString		dir(path.Path());
-		dir << "/" << ARPSETTINGSDIR_STR;
 		if (verify_directory(dir) == B_OK) {
 			dir << "/" << SEQUITURSETTINGSDIR_STR;
 			if (verify_directory(dir) == B_OK) {
@@ -840,7 +839,7 @@ BFile* SeqApplication::SettingsFile(uint32 open_mode,
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
 	if (path.InitCheck() != B_OK) return NULL;
 	BString		strPath(path.Path());
-	strPath << "/" << ARPSETTINGSDIR_STR << "/" << SEQUITURSETTINGSDIR_STR;
+	strPath << "/" << SEQUITURSETTINGSDIR_STR;
 	if (verify_directory(strPath) != B_OK) return NULL;
 
 	strPath << "/" << fileName;

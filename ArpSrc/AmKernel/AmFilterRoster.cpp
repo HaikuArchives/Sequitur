@@ -589,8 +589,10 @@ AmFilterRoster* AmFilterRoster::Default()
 		gFilterRoster = new AmFilterRoster("Default Filter Roster");
 		
 		gFilterRoster->AddSearchPath("%A/add-ons/Filters");
-		gFilterRoster->AddDirectory(B_SYSTEM_ADDONS_DIRECTORY,"AngryRedPlanet/Sequitur/Filters");
-		gFilterRoster->AddDirectory(B_USER_ADDONS_DIRECTORY,"AngryRedPlanet/Sequitur/Filters");
+		gFilterRoster->AddDirectory(B_SYSTEM_ADDONS_DIRECTORY,"Sequitur/Filters");
+		gFilterRoster->AddDirectory(B_USER_ADDONS_DIRECTORY,"Sequitur/Filters");
+		gFilterRoster->AddDirectory(B_SYSTEM_NONPACKAGED_ADDONS_DIRECTORY,"Sequitur/Filters");
+		gFilterRoster->AddDirectory(B_USER_NONPACKAGED_ADDONS_DIRECTORY,"Sequitur/Filters");
 		
 		// Here are our standard filter addons...
 		AmFilterAddOn *addon;

@@ -529,7 +529,7 @@ AmDeviceRoster::AmDeviceRoster()
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
 	if (path.InitCheck() != B_OK) return;
 	BString		dir(path.Path());
-	dir << "/AngryRedPlanet/" << APP_NAME << "/Devices";
+	dir << "/" << APP_NAME << "/Devices";
 	status_t	err = verify_directory(dir);
 	if (err != B_OK) printf("AmDeviceRoster::AmDeviceRoster() error: %s\n", strerror(err));
 	SetCreationDirectory(dir.String());
@@ -719,7 +719,7 @@ AmMotionRoster::AmMotionRoster()
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
 	if (path.InitCheck() != B_OK) return;
 	BString		dir(path.Path());
-	dir << "/AngryRedPlanet/" << APP_NAME << "/Motions";
+	dir << "/" << APP_NAME << "/Motions";
 	status_t	err = verify_directory(dir);
 	if (err != B_OK) printf("AmMotionRoster::AmMotionRoster() error: %s\n", strerror(err));
 	SetCreationDirectory(dir.String());
@@ -885,7 +885,7 @@ AmMultiFilterRoster::AmMultiFilterRoster()
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
 	if (path.InitCheck() != B_OK) return;
 	BString		dir(path.Path());
-	dir << "/AngryRedPlanet/" << APP_NAME << "/MultiFilters";
+	dir << "/" << APP_NAME << "/MultiFilters";
 	status_t	err = verify_directory(dir);
 	if (err != B_OK) printf("AmMultiFilterRoster::AmMultiFilterRoster() error: %s\n", strerror(err));
 	SetCreationDirectory(dir.String());
@@ -1110,7 +1110,7 @@ AmToolRoster::AmToolRoster()
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
 	if (path.InitCheck() != B_OK) return;
 	BString		dir(path.Path());
-	dir << "/AngryRedPlanet/" << APP_NAME << "/Tools";
+	dir << "/" << APP_NAME << "/Tools";
 	status_t	err = verify_directory(dir);
 	if (err != B_OK) printf("AmToolRoster::AmToolRoster() error: %s\n", strerror(err));
 	SetCreationDirectory(dir.String());
