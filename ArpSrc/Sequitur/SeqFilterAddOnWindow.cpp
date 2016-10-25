@@ -390,7 +390,7 @@ void SeqFilterAddOnWindow::DispatchMessage(BMessage *message, BHandler *handler)
 static void read_only_warning(const BString& key)
 {
 	BString			warning("Multi filter \'");
-	warning << key << "\' is read only";
+	warning << key << "\' is read only.\nTo change it, it needs to be duplicated first.";
 	BAlert*	alert = new BAlert(	"Warning", warning.String(),
 								"OK", NULL, NULL, B_WIDTH_AS_USUAL, B_WARNING_ALERT);
 	if (alert) alert->Go();

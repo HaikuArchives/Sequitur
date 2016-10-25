@@ -17,6 +17,8 @@
 
 <P>This window, available from the <B>Windows->Devices</B> menu item of any song window, displays a list of all the devices installed on your system.  From the <B>Device</B> menu you can create, modify, or delete devices.</P>
 
+<P>Devices that are packaged with Sequitur are read-only and can't be edited or removed. To make changes, you have to duplicate the device first (see the Device menu below) and make your changes there.</P>
+
 <P>The Manage Devices window is similar to a Tracker window, and displays a list of devices and their attributes.  By default, the Manage Devices window displays the name and a short description of each installed device.  The attributes are:
 	<UL>
 		<LI><I>Name</I>.&nbsp;  The name of the device, which is just a combination of the device manufacturer and name.  No two devices can have an identical manufacturer and name.</LI>
@@ -46,14 +48,15 @@ BeOS includes a built-in MIDI synthesizer, which appears in Sequitur as the Be M
 
 
 <P><B><font size=+2><a name="Section_10_2">10.2.  Sharing Devices</a></font></B><BR>
-Devices are stored as files on your hard drive, so they can be shared easily with other users.  A device can be stored in one of two directories:</P>
+Devices are stored as files on your hard drive, so they can be shared easily with other users. Devices are stored in one of two directories:</P>
 
 	<UL>
 		<LI><i>Devices/</i> (from the folder in which Sequitur was launched)</LI>
-		<LI><i>/boot/home/config/settings/Sequitur/Devices/</i></LI>
+		<LI><i>/boot/home/config/settings/AngryRedPlanet/Sequitur/Devices/</i></LI>
 	</UL>
 
-<P>All devices located in the first folder can not be modified, and appear as light gray in the Manage Devices window.  By default, all devices that ship with Sequitur are located in this read-only directory.  Use the path attribute of the Manage Devices window to locate a particular device.</P>
+<P>All devices located in the first folder can not be modified, and appear as light gray in the Manage Devices window.  By default, all devices that ship with Sequitur are located in this read-only directory.  Use the path attribute of the Manage Devices window to locate a particular device.<BR />
+To make changes, you have to duplicate the device first and make your changes there.</P>
 
 
 <P><B><font size=+2><a name="Section_10_3">10.3.  Editing Devices</a></font></B><BR>

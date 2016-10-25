@@ -6,9 +6,13 @@
 
 <P>Filters do nothing more than receive MIDI events and transform them into other MIDI events.  Filters are placed in pipelines and connected to other filters.  A filter receives input from the previous filter in its pipeline, and sends output to the next filter in its pipeline.</p>
 
-<p>There are two broad classes of filters:  Standard filters are C++ add-ons that can be added and removed from the system.  Sequitur includes a number of standard filters that cover a wide range of tasks, as well as a development kit that allows C++ developers to add additional filters.</p>
+<p>There are two broad classes of filters:<br />
+Standard filters are C++ add-ons.  Sequitur includes a number of standard filters that cover a wide range of tasks, as well as a development kit that allows C++ developers to add additional filters.</p>
 
 <p>Sequitur also includes multi filters, which are filters built from other filters.  Users can add, delete and modify multi filters with the imcluded Edit Multi Filter window.</p>
+
+<P>Multi Filters that are packaged with Sequitur are read-only and can't be edited or removed. To make changes, you have to duplicate the Multi Filter first (see the Filter menu below) and make your changes there.</P>
+
 
 <P><B><font size=+2><a name="Section_7_1">7.1.  Managing Filters</a></font></B><BR>
 <CENTER><IMG SRC = "images/manage_filters_win.jpg"></CENTER>
@@ -50,14 +54,15 @@ how many filters it can send output to.  Most filters can have only a single con
 
 
 <P><B><font size=+2><a name="Section_7_2">7.2.  Sharing Multi Filters</a></font></B><BR>
-Multi filters are stored as files on your hard drive, so they can be shared easily with other users.  A multi filter can be stored in one of two directories:</P>
+Multi filters are stored as files on your hard drive, so they can be shared easily with other users. Multi filters are stored in one of two directories:</P>
 
 	<UL>
 		<LI><i>MultiFilters/</i> (from the folder in which Sequitur was launched)</LI>
-		<LI><i>/boot/home/config/settings/Sequitur/MultiFilters/</i></LI>
+		<LI><i>/boot/home/config/settings/AngryRedPlanet/Sequitur/MultiFilters/</i></LI>
 	</UL>
 
-<P>All multi filters located in the first folder can not be modified, and appear as light gray in the Manage Filters window.  By default, all multi filters that ship with Sequitur are located in this read-only directory.  Use the path attribute of the Manage Filters window to locate a particular multi filter.</P>
+<P>All multi filters located in the first folder can not be modified, and appear as light gray in the Manage Filters window.  By default, all multi filters that ship with Sequitur are located in this read-only directory.  Use the path attribute of the Manage Filters window to locate a particular multi filter.<BR />
+To make changes, you have to duplicate the multi filter first and make your changes there.</P>
 
 
 <P><B><font size=+2><a name="Section_7_3">7.3.  Editing Multi Filters</a></font></B><BR>
