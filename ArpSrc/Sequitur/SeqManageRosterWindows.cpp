@@ -59,7 +59,7 @@ static const int32		ATTRIBUTES_MENU_INDEX	= 1;
 static void read_only_warning(const char* entryType, const BString& rhythmName)
 {
 	BString			warning(entryType);
-	warning << " \'" << rhythmName << "\' is read only.\nTo change it, it needs to be duplicated first.";
+	warning << " \'" << rhythmName << "\' is read only.\nTo change it, duplicate it first.";
 	BAlert*	alert = new BAlert(	"Warning", warning.String(),
 								"OK", NULL, NULL, B_WIDTH_AS_USUAL, B_WARNING_ALERT);
 	if (alert) alert->Go();

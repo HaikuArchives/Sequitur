@@ -8,61 +8,7 @@ in a Sequitur song window.</p>
 
 <p>The images on this page are in PNG format.  If your browser does not display the images
 correctly, it is probably missing a PNG viewer plugin.</EM><BR><table><tr>
-<td><H3><a name ="Section_A_arp:MidiProducer">A.1.&nbsp;</A></H3></td>
-<td align="center"><img src="images/gen_filt_MIDI In.png">&nbsp;</td>
-<td><H3>MIDI In</H3></td>
-</tr> </table>
-<blockquote>
-<EM>Type: Input<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><p>I correspond to a single BeOS MIDI producer.  The most common type of MIDI
-		producer is a hardware MIDI port installed on your system, although any application
-		that generates MIDI data can publish a MIDI producer.  Any MIDI In filter that is
-		a result of an application will appear and disappear as the application is opened
-		and closed.  A BeOS MIDI producer can supply its own icon (software synthesizers
-		frequently do), although any that don't will receive the standard icon with a
-		unique colour.</p>
-
-		<P>These filters can only be placed in the first slot of the input pipeline.  Once
-		the filter is in the pipeline, you can change its MIDI channel by clicking anywhere
-		on the icon and selecting a new channel from the popup menu.  Alternatively, you can
-		open the properties window for the filter and change the channel there.  The properties
-		window also allows you to turn off MIDI event types, which prevents them from appearing
-		in a track.</p>
-		
-		<p>There are a variety of ways to add MIDI ports to your system:  Some soundcards
-		have supported MIDI ports, or drivers have been published for several popular USB-based
-		MIDI interfaces (such as the Yamaha UX256).</p></blockquote>
-<table><tr>
-<td><H3><a name ="Section_A_arp:MidiConsumer">A.2.&nbsp;</A></H3></td>
-<td align="center"><img src="images/gen_filt_MIDI Out.png">&nbsp;</td>
-<td><H3>MIDI Out</H3></td>
-</tr> </table>
-<blockquote>
-<EM>Type: Output<BR>Maximum connections: 1<BR>Version: 1.1</EM><BR><p>I correspond to a single BeOS MIDI consumer.  The most common type of MIDI
-			consumer is a hardware MIDI port installed on your system, although any application
-			that receives MIDI data can publish a MIDI consumer.  Any MIDI Out filter that is
-			a result of an application will appear and disappear as the application is opened
-			and closed.  A BeOS MIDI consumer can supply its own icon (software synthesizers
-			frequently do), although any that don't will receive the standard icon with a
-			unique colour.</p>
-
-			<p>These filters can only be placed in the last slot of the output pipeline.  Once
-			the filter is in the pipeline, you can change its MIDI channel by clicking anywhere
-			on the icon and selecting a new channel from the popup menu.  Alternatively, you can
-			open the properties window for the filter and change the channel there.</p>
-		
-			<p>The properties window allows you to turn off MIDI event types, which prevents
-			them from being performed.  Additionally, the Send MIDI Clock checkbox, when
-			on, will send MIDI clock signals to the MIDI consumer.  This can be used for
-			any MIDI device which syncs to MIDI clock.  For example, many devices with an
-			arpeggiator can sync to MIDI clock so the sequencer's tempo controllers the
-			tempo of the arpeggiation.  <i>Note that you only need to turn this option on
-			for a single channel of a single MIDI consumer.</i></p>
-		
-			<p>There are a variety of ways to add MIDI ports to your system:  Some soundcards
-			have supported MIDI ports, or drivers have been published for several popular USB-based
-			MIDI interfaces (such as the Yamaha UX256).</p></blockquote>
-<table><tr>
-<td><H3><a name ="Section_A_arp:MidiConsumer">A.3.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:MidiConsumer">A.1.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_Be MIDI Synth.png">&nbsp;</td>
 <td><H3>Be MIDI Synth</H3></td>
 </tr> </table>
@@ -77,7 +23,7 @@ correctly, it is probably missing a PNG viewer plugin.</EM><BR><table><tr>
 			to change any device properties (such as patch or controller names) for tracks
 			that use the Be MIDI Synth, change that device.&nbsp;</blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Chorus">A.4.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Chorus">A.2.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Chorus.png">&nbsp;</td>
 <td><H3>Chorus</H3></td>
 </tr> </table>
@@ -87,67 +33,79 @@ correctly, it is probably missing a PNG viewer plugin.</EM><BR><table><tr>
 	and their velocities can be scaled. Typically, the velocity should be increased
 	for notes lower in pitch and decreased for notes higher in pitch.</P></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Console">A.5.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Console">A.3.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Console.png">&nbsp;</td>
 <td><H3>Console</H3></td>
 </tr> </table>
 <blockquote>
-<EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><P>I print in the terminal every MIDI event I receive. I am useful
+<EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.1</EM><BR><P>I print in the terminal every MIDI event I receive. I am useful
 	for debugging any filters you've written, so you can see the output
 	they are providing.  In order for this filter to work, Sequitur must be
 	launched from a command line.</P></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:ControllerEnvelope">A.6.&nbsp;</A></H3></td>
-<td align="center"><img src="images/gen_filt_arp_3ControllerEnvelope.png">&nbsp;</td>
-<td><H3>Controller Envelope</H3></td>
+<td><H3><a name ="Section_A_arp:ControllerLimiter">A.4.&nbsp;</A></H3></td>
+<td align="center"><img src="images/gen_filt_arp_3ControllerLimiter.png">&nbsp;</td>
+<td><H3>Controller Limiter</H3></td>
 </tr> </table>
 <blockquote>
-<EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.1</EM><BR><P><I>This filter is now obsolete.  Use Motion Control, instead.</I></P>
-	<P>I convert each note I receive into a series of control changes based on the note 
-velocity -- effectively, I transform a note into a controller sweep. One such application would
-be to write a single drum part, and 'carve' that part out of a long, evolving sound. Here is how
-you would achieve that effect:</P>
+<EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><P>I transform each note I receives into a series of control changes
+		based on my current motion.</P>
+	<h4>Amount</h4>
+		Amount determines the level of the controls generated.
+		<UL>
+			<LI><I>From velocity</I> uses each note's velocity to determine the amount.
+					For example, if a note has a velocity of 64, then the final generated
+					control changes will range from 0 to 64.  If a note has a velocity of
+					100, then the resulting control changes will range from 0 to 100.</LI>
+			<LI><I>From value</I> uses the value of the knob (immediately below the From
+					value radio button) to determine the final control change values.  If
+					the knob is at 100, then motion values of 100 translate to the maximum
+					possible control change value - 127.  If the knob has a negative value,
+					then the motion is inverted.</LI>
+			<LI><I>Follow mouse</I> uses the mouse's Y position to determine the level.</LI>
+		</UL>
+	
+	<h4>Motion</h4>
+		The Motion menu button presents a list of all available motions.  Selecting one
+		will copy that motion into the filter, making it the current motion.  Below this
+		button is a motion editor, which operates the same as the Edit Motion window.
 
-<P>Create a song with two tracks, both of which have the same MIDI port and channel chosen as their
-output filter. On the second track, select a sound that will play for any note duration (for example,
-a flute would work -- a percussion sound like a snare drum would not work, because the sound stops
-playing shortly after the note is triggered), then place a note down at measure two and continue it
-for two measures. Keep in mind that you want this track to have a very thick sound. Since you'll be
-carving pieces out of it, there shouldn't be any quiet time. Layer the voice or even start a new one
-halfway through the original if necessary.</P>
-
-<P>On the first track, place a Controller Envelope filter as the only filter in the output pipeline
-(other than the output filter). Now open the first track and place several short notes (start with
-16ths) during the two measures that you placed the note on track two. When you play the song, you
-should only hear track two during the notes you placed in track one.</P>
-
-<P>This filter generates control changes of your choice (the default is volume, control change 7),
-starting with an initial value (by default zero), and continuing for the attack duration until the
-start of the note is reached. The final control change of the attack duration will be the same value
-as the note velocity -- that is, the controllers will sweep down if the initial value is higher than
-the note velocity, and sweep up if the initial value is lower than the note velocity. The decay
-duration sweeps the controllers back to the initial value. You can select how many controllers are
-generated by setting the density value -- lower values will generate more controllers. 
-
-<P>While this filter might not seem obvious from the description, you can spend a few moments using
-it in the edit pipeline to understand how it works.</P></blockquote>
+	<h4>Control Number</h4>
+		This list box allows you to select the type of control change that will be created.</blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:ControllerMap">A.7.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:ControllerMap">A.5.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3ControllerMap.png">&nbsp;</td>
 <td><H3>Controller Map</H3></td>
 </tr> </table>
 <blockquote>
-<EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><p>I take every control change with a number of From Number and
-	transform them into a control change with a number of To Number.</p></blockquote>
+<EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.1</EM><BR><p>I am a map of control changes.  Every controller can be
+	mapped to a new control value.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Copy">A.8.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:ControllerRange">A.6.&nbsp;</A></H3></td>
+<td align="center"><img src="images/gen_filt_arp_3ControllerRange.png">&nbsp;</td>
+<td><H3>Controller Range</H3></td>
+</tr> </table>
+<blockquote>
+<EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><p>I am a map of control change ranges.  Every controller can be
+	given a new range.  For example, if the range is 0 9, then the controller is
+	mapped so that it stays within this range.  If the incoming value is 10, it's
+	remapped to 0, 11 to 1, etc.</p>
+	<p>The intended use for this filter is to map button presses from keyboards
+	to a range suitable for the destination control.  For example, if you have
+	a keyboard with a button configured to send values of 0 - 127 on controller
+	12, you can use a Controller Range to map those values into something useful.
+	Say controller 12 controls the filter type on a synthesizer, and their are
+	10 types, so the valid range is 0 - 9.  This filter will step through the range,
+	always keeping the control value valid.</p></blockquote>
+<table><tr>
+<td><H3><a name ="Section_A_arp:Copy">A.7.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Copy.png">&nbsp;</td>
 <td><H3>Copy</H3></td>
 </tr> </table>
 <blockquote>
 <EM>Type: Through<BR>Maximum connections: Unlimited<BR>Version: 1.0</EM><BR><P>I copy all events I receive to all of my outputs.</P></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Dan">A.9.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Dan">A.8.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Dan.png">&nbsp;</td>
 <td><H3>Dan</H3></td>
 </tr> </table>
@@ -155,7 +113,7 @@ it in the edit pipeline to understand how it works.</P></blockquote>
 <EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><P>I am thoroughly commented template for writing your own C++ filters.  The source
 	code can be found in the <i>DevKit/ExampleFilters/</i> folder.</P></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Example">A.10.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Example">A.9.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Example.png">&nbsp;</td>
 <td><H3>Dianne</H3></td>
 </tr> </table>
@@ -168,14 +126,14 @@ it in the edit pipeline to understand how it works.</P></blockquote>
 	note I receive, I create a softer note one beat before and one beat after
 	the input note.</P></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_Dissolve">A.11.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_Dissolve">A.10.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_Dissolve.png">&nbsp;</td>
 <td><H3>Dissolve</H3></td>
 </tr> </table>
 <blockquote>
 <EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><P>1 a: to become dissipated or decomposed.  1 b: to fade away.</P></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Duration">A.12.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Duration">A.11.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Duration.png">&nbsp;</td>
 <td><H3>Duration</H3></td>
 </tr> </table>
@@ -191,7 +149,7 @@ it in the edit pipeline to understand how it works.</P></blockquote>
 				operated from inside a tool.</LI>
 	</UL></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:EatDuplicates">A.13.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:EatDuplicates">A.12.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3EatDuplicates.png">&nbsp;</td>
 <td><H3>Eat Duplicates</H3></td>
 </tr> </table>
@@ -209,7 +167,7 @@ it in the edit pipeline to understand how it works.</P></blockquote>
 		</UL>
 		This filter has no controls.&nbsp;</blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Echo">A.14.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Echo">A.13.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Echo.png">&nbsp;</td>
 <td><H3>Echo</H3></td>
 </tr> </table>
@@ -275,7 +233,7 @@ it in the edit pipeline to understand how it works.</P></blockquote>
 		two connections, then all events it receives are sent out the first connection, and
 		all events it generates are sent out the second.</blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Eric">A.15.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Eric">A.14.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Eric.png">&nbsp;</td>
 <td><H3>Eric</H3></td>
 </tr> </table>
@@ -283,12 +241,19 @@ it in the edit pipeline to understand how it works.</P></blockquote>
 <EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><P>I am a template for writing your own C++ filters.  The source
 	code can be found in the <i>DevKit/ExampleFilters/</i> folder.</P></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_Erode">A.16.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_Erode">A.15.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_Erode.png">&nbsp;</td>
 <td><H3>Erode</H3></td>
 </tr> </table>
 <blockquote>
 <EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><P>Successive notes placed at half duration.</P></blockquote>
+<table><tr>
+<td><H3><a name ="Section_A_arp:EventMap">A.16.&nbsp;</A></H3></td>
+<td align="center"><img src="images/gen_filt_arp_3EventMap.png">&nbsp;</td>
+<td><H3>Event Map</H3></td>
+</tr> </table>
+<blockquote>
+<EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><p>I transform each event type into a new event type.</p></blockquote>
 <table><tr>
 <td><H3><a name ="Section_A_arp:NullInput">A.17.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3NullInput.png">&nbsp;</td>
@@ -308,7 +273,14 @@ it in the edit pipeline to understand how it works.</P></blockquote>
 		filter.  All previous filters in the pipeline with the multi filter
 		send their output to this Tool Input filter.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:KeyboardSplitter">A.18.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Inverse">A.18.&nbsp;</A></H3></td>
+<td align="center"><img src="images/gen_filt_arp_3Inverse.png">&nbsp;</td>
+<td><H3>Inverse</H3></td>
+</tr> </table>
+<blockquote>
+<EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><P>This filter inverts the pitches of all notes.&nbsp;</blockquote>
+<table><tr>
+<td><H3><a name ="Section_A_arp:KeyboardSplitter">A.19.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3KeyboardSplitter.png">&nbsp;</td>
 <td><H3>Keyboard Splitter</H3></td>
 </tr> </table>
@@ -316,7 +288,7 @@ it in the edit pipeline to understand how it works.</P></blockquote>
 <EM>Type: Through<BR>Maximum connections: 2<BR>Version: 1.0</EM><BR><P>All notes above the split point continue down my pipeline.  Notes
 below the split point are sent to my connection, if any</P></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Merge">A.19.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Merge">A.20.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Merge.png">&nbsp;</td>
 <td><H3>Merge</H3></td>
 </tr> </table>
@@ -324,7 +296,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 <EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><P>I am a simple passthrough.  I merge together input from multiple
 	sources.</P></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Metronome">A.20.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Metronome">A.21.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Metronome.png">&nbsp;</td>
 <td><H3>Metronome</H3></td>
 </tr> </table>
@@ -336,7 +308,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 	will only click while the song is recording; however, unchecking the <I>On only
 	while recording</I> box will allow it to click during playback, as well.</P></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Monophobic">A.21.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Monophobic">A.22.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Monophobic.png">&nbsp;</td>
 <td><H3>Monophobic</H3></td>
 </tr> </table>
@@ -344,7 +316,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 <EM>Type: Tool Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><P>I am only available in a tool pipeline.  I cause all selected
 	note events to follow the mouse as it is dragged up and down.</P></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:MotionControl">A.22.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:MotionControl">A.23.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3MotionControl.png">&nbsp;</td>
 <td><H3>Motion Control</H3></td>
 </tr> </table>
@@ -374,7 +346,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 	<h4>Control Number</h4>
 		This list box allows you to select the type of control change that will be created.</blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:MotionSplitter">A.23.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:MotionSplitter">A.24.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3MotionSplitter.png">&nbsp;</td>
 <td><H3>Motion Splitter</H3></td>
 </tr> </table>
@@ -386,7 +358,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 		to 100.
 		
 		<h4>Amount</h4>
-			<P>These controls modify the motion curve, acting as an offset to the split point.
+			<P>This control modifies the motion curve, acting as an offset to the split point.
 			When the Amount: value is at 100%, the split point directly corresponds to
 			the current motion.  As the amount increases, the split point effectively
 			decreases.</P>
@@ -398,7 +370,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 			
 		<h4>Frequency</h4>
 			This control determines how often the filter is applied.  With a Frequency
-			of 0%, this filter is effectively bypassed.  With a Frequency of 100% this filter
+			of 0%, this filter is bypassed.  With a Frequency of 100% this filter
 			operates on every event it receives.  When between those values, this filter
 			will operate on each event based on the selected Frequency.
 			
@@ -409,14 +381,14 @@ below the split point are sent to my connection, if any</P></blockquote>
 			ignored, and whatever motion is active in the track for the events being processed
 			is used.</blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:MultiChorus">A.24.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:MultiChorus">A.25.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3MultiChorus.png">&nbsp;</td>
 <td><H3>MultiChorus</H3></td>
 </tr> </table>
 <blockquote>
 <EM>Type: Multi Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><EM>Type: Multi Through.</EM><BR></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Note">A.25.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Note">A.26.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Note.png">&nbsp;</td>
 <td><H3>Note</H3></td>
 </tr> </table>
@@ -424,18 +396,28 @@ below the split point are sent to my connection, if any</P></blockquote>
 <EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><p>I perform no processing on events.  I am merely a place to store
 	some text.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:On Key">A.26.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:On Key">A.27.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3On Key.png">&nbsp;</td>
 <td><H3>On Key</H3></td>
 </tr> </table>
 <blockquote>
-<EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><p>I take all incoming notes and makes them conform to a desired key.
+<EM>Type: Through<BR>Maximum connections: 2<BR>Version: 1.1</EM><BR><p>I take all incoming notes and makes them conform to a desired key.
 	You can choose from several predefined scales or make your own. Incoming notes
 	that aren't in the selected scale can either be discarded -- they are never heard
 	from again -- shifted down to the next note that is in the scale, shifted up, or
-	shifted up or down, depending upon which shift is closest.</p></blockquote>
+	shifted up or down, depending upon which shift is closest.</p>
+
+	<p>This filter can have either one or two connections.  If I have two connections
+	and I am in Discard mode, then all discarded events are sent to the second connection.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:NullOutput">A.27.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Oscillator">A.28.&nbsp;</A></H3></td>
+<td align="center"><img src="images/gen_filt_arp_3Oscillator.png">&nbsp;</td>
+<td><H3>Oscillator</H3></td>
+</tr> </table>
+<blockquote>
+<EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><P>This filter time stretches all selected events.  Tool only.&nbsp;</blockquote>
+<table><tr>
+<td><H3><a name ="Section_A_arp:NullOutput">A.29.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3NullOutput.png">&nbsp;</td>
 <td><H3>Tool Output</H3></td>
 </tr> </table>
@@ -455,7 +437,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 		filter can have, and each Tool Output filter corresponds with any
 		connection filters, in order.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Pandemic">A.28.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Pandemic">A.30.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Pandemic.png">&nbsp;</td>
 <td><H3>Pandemic</H3></td>
 </tr> </table>
@@ -467,26 +449,26 @@ below the split point are sent to my connection, if any</P></blockquote>
 	value to the new random value. The density control sets how many controllers are generated 
 	during the sweep -- lower values generate more controllers.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_Particle Decay">A.29.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_Particle Decay">A.31.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_Particle Decay.png">&nbsp;</td>
 <td><H3>Particle Decay</H3></td>
 </tr> </table>
 <blockquote>
 <EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><p>Successive notes asymptotically approach zero. Simulates radioactive beta decay.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_Pink Noise">A.30.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_Pink Noise">A.32.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_Pink Noise.png">&nbsp;</td>
 <td><H3>Pink Noise</H3></td>
 </tr> </table>
 <blockquote>
 <EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><p>Successive notes constrained to Voss-McCartney 1/f fractal algorithm.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Quantize">A.31.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Quantize">A.33.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Quantize.png">&nbsp;</td>
 <td><H3>Quantize</H3></td>
 </tr> </table>
 <blockquote>
-<EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.2</EM><BR><p>I snap event times to a grid.  If the <B>Tools use grid</B> option is
+<EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.3</EM><BR><p>I snap event times to a grid.  If the <B>Tools use grid</B> option is
 	active, then I will use the grid from the current track window (this option is
 	only valid if I am being run from a tool).  Otherwise, I snap events to the
 	grid specified by my duration control.</p>
@@ -495,7 +477,14 @@ below the split point are sent to my connection, if any</P></blockquote>
 	to the grid.  If <B>Quantize end time</B> is active, then I align the end of
 	all events to the grid.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:RubberStamp">A.32.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Reverse">A.34.&nbsp;</A></H3></td>
+<td align="center"><img src="images/gen_filt_arp_3Reverse.png">&nbsp;</td>
+<td><H3>Reverse</H3></td>
+</tr> </table>
+<blockquote>
+<EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><P>This filter time-reverses all events.&nbsp;</blockquote>
+<table><tr>
+<td><H3><a name ="Section_A_arp:RubberStamp">A.35.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3RubberStamp.png">&nbsp;</td>
 <td><H3>Rubber Stamp</H3></td>
 </tr> </table>
@@ -503,7 +492,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 <EM>Type: Tool Through<BR>Maximum connections: 1<BR>Version: 0.1</EM><BR><p>I transform events into control changes based on my motion.
 	<I>This is a prerelease version of this filter.</I></p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Selective">A.33.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Selective">A.36.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Selective.png">&nbsp;</td>
 <td><H3>Selective</H3></td>
 </tr> </table>
@@ -516,7 +505,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 	For control change events, you can choose the specific controller number
 	to allow.</P></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:ShortShift">A.34.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:ShortShift">A.37.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3ShortShift.png">&nbsp;</td>
 <td><H3>Short Shift</H3></td>
 </tr> </table>
@@ -531,7 +520,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 	event.  To retain the same note duration, the End shift and End negative
 	values should be identical to the Start shift and Start negative values.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:TilTheEnd">A.35.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:TilTheEnd">A.38.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3TilTheEnd.png">&nbsp;</td>
 <td><H3>Til The End</H3></td>
 </tr> </table>
@@ -548,14 +537,21 @@ below the split point are sent to my connection, if any</P></blockquote>
 	<p>The Grid is only active in Fill mode.  It determines the grid on which
 	each note is aligned.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Transpose">A.36.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:TimeStretch">A.39.&nbsp;</A></H3></td>
+<td align="center"><img src="images/gen_filt_arp_3TimeStretch.png">&nbsp;</td>
+<td><H3>TimeStretch</H3></td>
+</tr> </table>
+<blockquote>
+<EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><P>This filter time stretches all selected events.  Tool only.&nbsp;</blockquote>
+<table><tr>
+<td><H3><a name ="Section_A_arp:Transpose">A.40.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Transpose.png">&nbsp;</td>
 <td><H3>Transpose</H3></td>
 </tr> </table>
 <blockquote>
 <EM>Type: Through<BR>Maximum connections: 1<BR>Version: 1.0</EM><BR><p>I shift notes up or down in pitch. You can control the shift in octaves or steps.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:UncertainChorus">A.37.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:UncertainChorus">A.41.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3UncertainChorus.png">&nbsp;</td>
 <td><H3>Uncertain Chorus</H3></td>
 </tr> </table>
@@ -565,7 +561,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 	I am in a tool pipeline, I follow the mouse, and create random notes between
 	where the mouse was pressed and its current Y position.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:UncertainShuttle">A.38.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:UncertainShuttle">A.42.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3UncertainShuttle.png">&nbsp;</td>
 <td><H3>Uncertain Shuttle</H3></td>
 </tr> </table>
@@ -574,7 +570,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 	connections and send the event to it.  I can have any number of
 	connections.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Unquantize">A.39.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Unquantize">A.43.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Unquantize.png">&nbsp;</td>
 <td><H3>Unquantize</H3></td>
 </tr> </table>
@@ -595,7 +591,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 	on the return.  This filter is used heavily in the file <i>Examples/DianneHackborn
 	- Bells.mid</i></p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Unstack">A.40.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Unstack">A.44.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Unstack.png">&nbsp;</td>
 <td><H3>Unstack</H3></td>
 </tr> </table>
@@ -618,7 +614,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 	grid box is checked, then the Shift: time specified is ignored, and the current
 	grid is used.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Vaccine">A.41.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Vaccine">A.45.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Vaccine.png">&nbsp;</td>
 <td><H3>Vaccine</H3></td>
 </tr> </table>
@@ -665,7 +661,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 			I use whatever the current track motion is active for each event being
 			processed.  If no track motion is set, then nothing happens.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:Velocity">A.42.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:Velocity">A.46.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3Velocity.png">&nbsp;</td>
 <td><H3>VelociTease</H3></td>
 </tr> </table>
@@ -684,7 +680,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 		<LI><I>Random</I> will assign a random velocity to each note.</LI>
 	</UL>&nbsp;</blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:VelocityMap">A.43.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:VelocityMap">A.47.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3VelocityMap.png">&nbsp;</td>
 <td><H3>Velocity Map</H3></td>
 </tr> </table>
@@ -695,7 +691,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 	(by setting the To values to a wider range than the From values) or expand
 	(by doing the opposite).</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:VelocitySplitter">A.44.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:VelocitySplitter">A.48.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3VelocitySplitter.png">&nbsp;</td>
 <td><H3>Velocity Splitter</H3></td>
 </tr> </table>
@@ -703,7 +699,7 @@ below the split point are sent to my connection, if any</P></blockquote>
 <EM>Type: Through<BR>Maximum connections: 2<BR>Version: 1.0</EM><BR><p>All notes above the split point continue down my pipeline.  Notes
 below the split point are sent to my connection, if any.</p></blockquote>
 <table><tr>
-<td><H3><a name ="Section_A_arp:WipeOut">A.45.&nbsp;</A></H3></td>
+<td><H3><a name ="Section_A_arp:WipeOut">A.49.&nbsp;</A></H3></td>
 <td align="center"><img src="images/gen_filt_arp_3WipeOut.png">&nbsp;</td>
 <td><H3>Wipe Out</H3></td>
 </tr> </table>
