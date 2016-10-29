@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <app/Roster.h>
 #include <experimental/BitmapTools.h>
+#include <FindDirectory.h>
 #include <InterfaceKit.h>
 #include <midi2/MidiConsumer.h>
 #include <midi2/MidiRoster.h>
@@ -1087,11 +1088,12 @@ status_t seq_generate_filter_docs()
 {
 	const char*			IMAGE_DIR = "images";
 	BPath				htmlPath;
-	status_t			err = seq_get_app_path(&htmlPath);
+	status_t err = find_directory(B_USER_CACHE_DIRECTORY,
+		&htmlPath, true);
 	if (err != B_OK) return err;
 	if ((err = htmlPath.InitCheck()) != B_OK) return err;
-	if ((err = htmlPath.Append("Documentation")) != B_OK) return err;
-	if ((err = htmlPath.Append("UsersGuide")) != B_OK) return err;
+	if ((err = htmlPath.Append("Sequitur")) != B_OK)
+		if ((err = create_directory(htmlPath.Path(), 0777)) != B_OK) return err;
 	BString				str = htmlPath.Path();
 	if ((err = verify_directory(str)) != B_OK) return err;
 	BPath				imagePath(htmlPath);
@@ -1246,11 +1248,12 @@ status_t seq_generate_tool_docs()
 {
 	const char*			IMAGE_DIR = "images";
 	BPath				htmlPath;
-	status_t			err = seq_get_app_path(&htmlPath);
+	status_t err = find_directory(B_USER_CACHE_DIRECTORY,
+		&htmlPath, true);
 	if (err != B_OK) return err;
 	if ((err = htmlPath.InitCheck()) != B_OK) return err;
-	if ((err = htmlPath.Append("Documentation")) != B_OK) return err;
-	if ((err = htmlPath.Append("UsersGuide")) != B_OK) return err;
+	if ((err = htmlPath.Append("Sequitur")) != B_OK)
+		if ((err = create_directory(htmlPath.Path(), 0777)) != B_OK) return err;
 	BString				str = htmlPath.Path();
 	if ((err = verify_directory(str)) != B_OK) return err;
 	BPath				imagePath(htmlPath);
@@ -1461,12 +1464,13 @@ status_t seq_get_users_guide_ref(entry_ref* ref)
 status_t seq_get_filters_ref(entry_ref* ref)
 {
 	BPath				htmlPath;
-	status_t			err = seq_get_app_path(&htmlPath);
+	status_t err = find_directory(B_USER_CACHE_DIRECTORY,
+		&htmlPath, true);
 	if (err != B_OK) return err;
 	BDirectory			dir(htmlPath.Path() );
 	if ( (err = dir.InitCheck() ) != B_OK) return err;
 	BEntry			entry;
-	if ( (err = dir.FindEntry("Documentation/UsersGuide/a_filters_generated.html", &entry)) != B_OK) return err;
+	if ( (err = dir.FindEntry("Sequitur/a_filters_generated.html", &entry)) != B_OK) return err;
 	if (ref) err = entry.GetRef(ref);
 	return err;
 }
@@ -1474,12 +1478,13 @@ status_t seq_get_filters_ref(entry_ref* ref)
 status_t seq_get_tools_ref(entry_ref* ref)
 {
 	BPath				htmlPath;
-	status_t			err = seq_get_app_path(&htmlPath);
+	status_t err = find_directory(B_USER_CACHE_DIRECTORY,
+		&htmlPath, true);
 	if (err != B_OK) return err;
 	BDirectory			dir(htmlPath.Path() );
 	if ( (err = dir.InitCheck() ) != B_OK) return err;
 	BEntry			entry;
-	if ( (err = dir.FindEntry("Documentation/UsersGuide/b_tools_generated.html", &entry)) != B_OK) return err;
+	if ( (err = dir.FindEntry("Sequitur/b_tools_generated.html", &entry)) != B_OK) return err;
 	if (ref) err = entry.GetRef(ref);
 	return err;
 }

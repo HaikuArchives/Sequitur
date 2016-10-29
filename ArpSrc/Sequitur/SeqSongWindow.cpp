@@ -1674,11 +1674,11 @@ void SeqSongWindow::AddMainMenu()
 	item = new BMenuItem("Filter Guide", new BMessage(SHOW_FILTER_GUIDE_MSG)); 
 	item->SetTarget(this); 
 	menu->AddItem(item);
-	if (seq_get_filters_ref(&docref) != B_OK) item->SetEnabled(false);
+//	if (seq_get_filters_ref(&docref) != B_OK) item->SetEnabled(false);
 	item = new BMenuItem("Tool Guide", new BMessage(SHOW_TOOL_GUIDE_MSG)); 
 	item->SetTarget(this); 
 	menu->AddItem(item);
-	if (seq_get_tools_ref(&docref) != B_OK) item->SetEnabled(false);
+//	if (seq_get_tools_ref(&docref) != B_OK) item->SetEnabled(false);
 
 	menu->AddSeparatorItem();
 	add_menu_item( menu, "About Sequitur" B_UTF8_ELLIPSIS, ARPMSG_ABOUTSEQUITUR, 0 );
