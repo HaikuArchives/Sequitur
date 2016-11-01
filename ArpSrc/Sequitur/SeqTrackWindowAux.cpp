@@ -365,7 +365,7 @@ static const float		EDGE			= 8;
 
 static void no_notes_warning()
 {
-	BAlert*	alert = new BAlert(	"Warning", "You must have one or more notes selected to create a motion",
+	BAlert*	alert = new BAlert(	"Warning", "You must have one or more notes selected to create a motion.",
 								"OK", NULL, NULL, B_WIDTH_AS_USUAL, B_WARNING_ALERT);
 	if (alert) alert->Go();
 }

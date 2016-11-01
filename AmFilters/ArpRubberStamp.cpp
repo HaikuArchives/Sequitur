@@ -306,7 +306,7 @@ static const char*		MOTION_KEY_STR	= "motion_key";
 
 static ArpMenuField* new_rhythm_menu_field()
 {
-	BMenu*		menu = new BMenu("motion_menu");
+	BMenu*		menu = new BMenu("Motion");
 	if (!menu) return NULL;
 	BString		label, key;
 	for (uint32 k = 0; AmGlobals().GetMotionInfo(k, label, key) == B_OK; k++) {

@@ -30,10 +30,10 @@ This column lists the device currently associated with a given MIDI port.  Chang
 <P><B>9.1.3. The Label Column</B><BR>
 By selecting a MIDI port row and then entering a label, the label will be used in place of the MIDI port name (or device name if one is specified) throughout Sequitur.  This is a minor convenience.
 
-<P><B><font size=+2><a name="Section_9_2">9.2.  A Note on MIDI Ports in BeOS</a></font></B><BR>
+<P><B><font size=+2><a name="Section_9_2">9.2.  A Note on MIDI Ports in Haiku</a></font></B><BR>
 While it's comfortable to think in terms of familiar MIDI ports, it's also a little misleading.  Most operating systems, for example Windows or MacOS, have a fixed number of MIDI ports available, which corresponds to whatever MIDI interface hardware is installed.  Sound cards will often supply a single in and a single out port, but most musicians have additional hardware that supplies them with more MIDI ports.</P>
 
-<P>In BeOS, MIDI ports are actually called MIDI endpoints.  This difference in terminology reflects the fact that both hardware <I>and software</I> determine the currently available MIDI endpoints.  Applications can dynamically create and delete MIDI endpoints -- so the list of MIDI ports in the Studio window might change even as you're watching it.  Sequitur uses the term 'MIDI port' only to avoid confusion for experienced electronic musicians; this term is not a completely accurate term.</P>
+<P>In Haiku, MIDI ports are actually called MIDI endpoints.  This difference in terminology reflects the fact that both hardware <I>and software</I> determine the currently available MIDI endpoints.  Applications can dynamically create and delete MIDI endpoints -- so the list of MIDI ports in the Studio window might change even as you're watching it.  Sequitur uses the term 'MIDI port' only to avoid confusion for experienced electronic musicians; this term is not a completely accurate term.</P>
 
 <P>Occasionally, certain MIDI port rows might be displayed in red.  This indicates that the MIDI port existed at some point, but no longer does.  Sequitur can still associate devices with these transitory MIDI ports.  If you have done so, but later decide to remove the association, you can select the <B>MIDI Port->Delete</B> menu item to remove the association between the MIDI port and device.  The dynamic port, created by an application, will return the next time you use that application.</P>
 

@@ -31,7 +31,7 @@
 Devices which can not be modified appear in a light gray colour.  Devices which are invalid appear in red.  A device is usually invalid because it shares the exact same key as another device.  Invalid devices are not available anywhere but the Manage Devices window.  To make a device valid, change either its manufacturer or name to form a unique combination of these two fields.</P>
 
 <P><B>10.1.1. The Be MIDI Synth Device</B><BR>
-BeOS includes a built-in MIDI synthesizer, which appears in Sequitur as the Be MIDI Synth output filter if your soundcard is supported.  Sequitur also ships with a special device, the Be MIDI Synth device, that supplies this output filter with patch and controller names.  Note that this is just a standard General MIDI synthesizer, so the Be MIDI Synth device is just a standard General MIDI device, but with a special icon.</P>
+Haiku includes a built-in MIDI synthesizer, which appears in Sequitur as the Be MIDI Synth output filter if your soundcard is supported.  Sequitur also ships with a special device, the Be MIDI Synth device, that supplies this output filter with patch and controller names.  Note that this is just a standard General MIDI synthesizer, so the Be MIDI Synth device is just a standard General MIDI device, but with a special icon.</P>
 
 <P><B>10.1.2. Menu Bar</B><BR>
 <B> Device </B>
@@ -52,7 +52,7 @@ Devices are stored as files on your hard drive, so they can be shared easily wit
 
 	<UL>
 		<LI><i>Devices/</i> (from the folder in which Sequitur was launched)</LI>
-		<LI><i>/boot/home/config/settings/AngryRedPlanet/Sequitur/Devices/</i></LI>
+		<LI><i>/boot/home/config/settings/Sequitur/Devices/</i></LI>
 	</UL>
 
 <P>All devices located in the first folder can not be modified, and appear as light gray in the Manage Devices window.  By default, all devices that ship with Sequitur are located in this read-only directory.  Use the path attribute of the Manage Devices window to locate a particular device.<BR />
@@ -74,7 +74,7 @@ This page allows you to define one or more banks for your device.  A bank is pri
 <P>This page has four controls:  The Select banks with: menu button determines the selection event; the Bank menu button has functions for operating on banks; the tree view displays all banks and their associated data; and the text input field at the bottom is used to change the value of whatever row is currently selected in the bank tree.</P>
 
 <P>10.3.2.1. The Bank Menu Button<BR>
-This menu button controls bank management.  Initially, a new device has no banks, so the first thing you must do is select <B>Bank->New</B> to create a bank.  Alternatively, you can select <B>Bank->Merge From</B> to load in all the banks from another device (although if that device uses a different selection event, the selection information is lost).  Finally, if any of the patch rows is currently selected in the bank tree, then the <B>Bank->Paste Patch List</B> menu item is active.  This menu item expects a list of patch names in the global paste buffer, which it then pastes, in order, into the patch name list of the bank, starting with the currently selected patch.  The list that you copy from should be formatted like</P>
+This menu button controls bank management.  Initially, a new device has no banks, so the first thing you must do is select <B>Bank->New</B> to create a bank.  Alternatively, you can select <B>Bank->Merge from</B> to load in all the banks from another device (although if that device uses a different selection event, the selection information is lost).  Finally, if any of the patch rows is currently selected in the bank tree, then the <B>Bank->Paste patch list</B> menu item is active.  This menu item expects a list of patch names in the global paste buffer, which it then pastes, in order, into the patch name list of the bank, starting with the currently selected patch.  The list that you copy from should be formatted like</P>
 <PRE>	Acoustic Piano
 	Acoustic Bass
 	Harpsichord
@@ -103,11 +103,11 @@ Devices can optionally have an icon that appears on whatever input or output fil
 
 <P>If you are creating a new device, the first thing you need to do is select <B>Icon->New</B> from the menu field to make a new icon.  The only tools available are a pencil for drawing and an eye dropper for reading the current color.  The knob to the right of the colour control specifies the alpha level used by the pencil.</P>
 
-<P>The <B>Copy</B> and <B>Paste</B> menu commands can be used to transfer the icon to and from a better paint program.  Copy and paste works fine with Be's QuickRes application, and may work with other BeOS paint programs.</P>
+<P>The <B>Copy</B> and <B>Paste</B> menu commands can be used to transfer the icon to and from a better paint program.  Copy and paste works fine with the QuickRes application, and may work with other Haiku paint programs.</P>
 
-<P>The <B>Flip Horizontally</B> and <B>Flip Vertically</B> menu commands mirror the icon around the x and y axis, respectively.</P>
+<P>The <B>Flip horizontally</B> and <B>Flip vertically</B> menu commands mirror the icon around the x and y axis, respectively.</P>
 
-<P>The <B>Fill with Alpha</B> command fills every pixel in the icon with at most the current alpha value (if the pixel's alpha is already below the current alpha, it is left alone).  The devices that ship with Sequitur are all mostly transparent (the foregrounds have all been given an alpha value of 110).  This is purely an aesthetic decision, but if you choose to follow this pattern this menu option is very helpful.</P>
+<P>The <B>Fill with alpha</B> command fills every pixel in the icon with at most the current alpha value (if the pixel's alpha is already below the current alpha, it is left alone).  The devices that ship with Sequitur are all mostly transparent (the foregrounds have all been given an alpha value of 110).  This is purely an aesthetic decision, but if you choose to follow this pattern this menu option is very helpful.</P>
 
 <P><HR width = "575"><BR>
 <CENTER>

@@ -917,13 +917,13 @@ static void track_item_label(	const char* prefix, uint32 selectionCount,
 	ArpASSERT(prefix);
 	BString		label(prefix);
 	if (selectionCount > 0) {
-		if (selectionCount == 1) label << "1 Track";
-		else label << selectionCount << " Tracks";
+		if (selectionCount == 1) label << "1 track";
+		else label << selectionCount << " tracks";
 		if (postfix) label << postfix;
 		item->SetLabel(label.String() );
 		item->SetEnabled(true);
 	} else {
-		label << "Track";
+		label << "track";
 		if (postfix) label << postfix;
 		item->SetLabel(label.String() );
 		item->SetEnabled(false);
@@ -1023,9 +1023,9 @@ void SeqSongWindow::MenusBeginning()
 			else item->SetEnabled(false);
 		}
 		if ( (item = sub->FindItem(MOVE_TRACK_UP_MSG)) )
-			track_item_label("Move ", selectionCount, " Up", item);
+			track_item_label("Move ", selectionCount, " up", item);
 		if ( (item = sub->FindItem(MOVE_TRACK_DOWN_MSG)) )
-			track_item_label("Move ", selectionCount, " Down", item);
+			track_item_label("Move ", selectionCount, " down", item);
 
 		if ( (item = sub->FindItem(GROUP_MSG)) ) {
 			if (nextGroup > 0) item->SetEnabled(true);
@@ -1370,7 +1370,7 @@ bool SeqSongWindow::QuitRequested()
 		BString alertStr("Save changes to \"");
 		alertStr << Title() << "\"?";
 		BAlert *quitAlert = new BAlert("Alert", alertStr.String(),
-			 "Cancel", "Don't Save", "Save",
+			 "Cancel", "Don't save", "Save",
 			 B_WIDTH_AS_USUAL, B_OFFSET_SPACING, B_WARNING_ALERT);
 		int32 res = quitAlert->Go();
 		switch (res) {
@@ -1659,7 +1659,7 @@ void SeqSongWindow::AddMainMenu()
 	menu->AddSeparatorItem();
 	
 	add_menu_item( menu, "Save", DOC_WIN_SAVE, 'S' );
-	add_menu_item( menu, "Save As" B_UTF8_ELLIPSIS, DOC_WIN_SAVE_AS, 0);
+	add_menu_item( menu, "Save as" B_UTF8_ELLIPSIS, DOC_WIN_SAVE_AS, 0);
 	add_menu_item( menu, "Close", B_QUIT_REQUESTED, 'W' );
 	
 	menu->AddSeparatorItem();
@@ -1669,23 +1669,23 @@ void SeqSongWindow::AddMainMenu()
 	add_song_functions(menu);
 	menu->AddSeparatorItem();
 
-	item = new BMenuItem("Documentation", new BMessage(SHOW_MANUAL_MSG)); 
+	item = new BMenuItem("Documentation", new BMessage(SHOW_MANUAL_MSG));
 	item->SetTarget(this); 
 	menu->AddItem(item);
 	entry_ref	docref;
 	if (seq_get_doc_index_ref(&docref) != B_OK) item->SetEnabled(false);
 #if 0	
-	item = new BMenuItem("User\'s Guide", new BMessage(SHOW_MANUAL_MSG)); 
+	item = new BMenuItem("User\'s guide", new BMessage(SHOW_MANUAL_MSG)); 
 	item->SetTarget(this); 
 	menu->AddItem(item);
 	entry_ref	docref;
 	if (seq_get_users_guide_ref(&docref) != B_OK) item->SetEnabled(false);
 #endif
-	item = new BMenuItem("Filter Guide", new BMessage(SHOW_FILTER_GUIDE_MSG)); 
+	item = new BMenuItem("Filter guide", new BMessage(SHOW_FILTER_GUIDE_MSG));
 	item->SetTarget(this); 
 	menu->AddItem(item);
 //	if (seq_get_filters_ref(&docref) != B_OK) item->SetEnabled(false);
-	item = new BMenuItem("Tool Guide", new BMessage(SHOW_TOOL_GUIDE_MSG)); 
+	item = new BMenuItem("Tool guide", new BMessage(SHOW_TOOL_GUIDE_MSG));
 	item->SetTarget(this); 
 	menu->AddItem(item);
 //	if (seq_get_tools_ref(&docref) != B_OK) item->SetEnabled(false);
@@ -1704,30 +1704,30 @@ void SeqSongWindow::AddMainMenu()
 	mUndoItem = add_menu_item( menu, "Undo", B_UNDO, 'Z', B_COMMAND_KEY );
 	mRedoItem = add_menu_item( menu, "Redo", 'REDO', 'Z', B_SHIFT_KEY|B_COMMAND_KEY );
 	menu->AddSeparatorItem();
-	add_menu_item( menu, "Select All", SELECT_ALL_MSG, 'A' );
-	add_menu_item( menu, "Select None", SELECT_NONE_MSG, 'D' );
+	add_menu_item( menu, "Select all", SELECT_ALL_MSG, 'A' );
+	add_menu_item( menu, "Select none", SELECT_NONE_MSG, 'D' );
 	menu->AddSeparatorItem();
-	mMergeItem = add_menu_item( menu, "Merge Phrases", MERGE_PHRASES_MSG, 'M' );
-	mSeparateItem = add_menu_item( menu, "Separate Phrases", SEPARATE_PHRASES_MSG, 'E' );
-	mDeleteItem = add_menu_item( menu, "Delete Selection", DELETE_SELECTION_MSG, 0 );
+	mMergeItem = add_menu_item( menu, "Merge phrases", MERGE_PHRASES_MSG, 'M' );
+	mSeparateItem = add_menu_item( menu, "Separate phrases", SEPARATE_PHRASES_MSG, 'E' );
+	mDeleteItem = add_menu_item( menu, "Delete selection", DELETE_SELECTION_MSG, 0 );
 	menu->AddSeparatorItem();
-	mExpandItem = add_menu_item( menu, "Expand Marked Range", EXPAND_MARKED_RANGE_MSG, 0 );
-	mContractItem = add_menu_item( menu, "Contract Marked Range", CONTRACT_MARKED_RANGE_MSG, 0 );
+	mExpandItem = add_menu_item( menu, "Expand marked range", EXPAND_MARKED_RANGE_MSG, 0 );
+	mContractItem = add_menu_item( menu, "Contract marked range", CONTRACT_MARKED_RANGE_MSG, 0 );
 	menu->AddSeparatorItem();
-	add_menu_item( menu, "Set Time Signature" B_UTF8_ELLIPSIS, CHANGE_SIGNATURE_MSG, 0);
+	add_menu_item( menu, "Set time signature" B_UTF8_ELLIPSIS, CHANGE_SIGNATURE_MSG, 0);
 	menu->AddSeparatorItem();
-	add_menu_item(menu, "Stop All Notes", PANIC_MSG, 0);
+	add_menu_item(menu, "Stop all notes", PANIC_MSG, 0);
 	item = new BMenuItem(menu);
 	menuBar->AddItem( item, EDIT_MENU_INDEX );
 
 	/* Tracks Menu
 	 */
 	menu = new BMenu(TRACKS_MENU_SZ, B_ITEMS_IN_COLUMN);
-	add_menu_item(menu, "Add Track", NEW_TRACK_MSG, 'T');
+	add_menu_item(menu, "Add track", NEW_TRACK_MSG, 'T');
 	
 	/* Create a submenu of all destination filters
 	 */
-	BMenu* submenu = new BMenu("Add Tracks For", B_ITEMS_IN_COLUMN);
+	BMenu* submenu = new BMenu("Add tracks for", B_ITEMS_IN_COLUMN);
 	AmFilterRoster* roster = AmFilterRoster::Default();
 	if (roster) {
 		BAutolock _l(roster->Locker());
@@ -1751,11 +1751,11 @@ void SeqSongWindow::AddMainMenu()
 	item = new BMenuItem(submenu);
 	menu->AddItem(item);
 	menu->AddSeparatorItem();
-	add_menu_item(menu, "Edit Name", EDIT_TRACK_NAME_MSG, 0);
-	add_menu_item(menu, "Delete Track", REMOVE_TRACK_MSG, 'R');
+	add_menu_item(menu, "Edit name", EDIT_TRACK_NAME_MSG, 0);
+	add_menu_item(menu, "Delete track", REMOVE_TRACK_MSG, 'R');
 	menu->AddSeparatorItem();
-	add_menu_item(menu, "Move Track Up", MOVE_TRACK_UP_MSG, B_UP_ARROW);
-	add_menu_item(menu, "Move Track Down", MOVE_TRACK_DOWN_MSG, B_DOWN_ARROW);
+	add_menu_item(menu, "Move track up", MOVE_TRACK_UP_MSG, B_UP_ARROW);
+	add_menu_item(menu, "Move track down", MOVE_TRACK_DOWN_MSG, B_DOWN_ARROW);
 #if 0
 	menu->AddSeparatorItem();
 	add_menu_item(menu, "Group", GROUP_MSG, 0);
@@ -2423,7 +2423,7 @@ void SeqSongWindow::MergePhrases()
 			}
 		}
 		if ( song->UndoContext() ) {
-			song->UndoContext()->SetUndoName("Merge Phrases");
+			song->UndoContext()->SetUndoName("Merge phrases");
 			song->UndoContext()->CommitState();
 		}
 	}
@@ -2492,7 +2492,7 @@ void SeqSongWindow::SeparatePhrases()
 			}
 		}
 		if ( song->UndoContext() ) {
-			song->UndoContext()->SetUndoName("Separate Phrases");
+			song->UndoContext()->SetUndoName("Separate phrases");
 			song->UndoContext()->CommitState();
 		}
 	}
@@ -2613,7 +2613,7 @@ void SeqSongWindow::DeleteSelection()
 				Delete(track, r);
 		}
 		if ( song->UndoContext() ) {
-			song->UndoContext()->SetUndoName("Delete Selection");
+			song->UndoContext()->SetUndoName("Delete selection");
 			song->UndoContext()->CommitState();
 		}
 		AmTime		newEndTime = song->CountEndTime();
@@ -2702,7 +2702,7 @@ void SeqSongWindow::ExpandMarkedRange()
 				Expand(track, l, expand, undoContext);
 		}
 		if (undoContext) {
-			undoContext->SetUndoName("Expand Marked Range");
+			undoContext->SetUndoName("Expand marked range");
 			undoContext->CommitState();
 		}
 		AmTime		newEndTime = song->CountEndTime();
@@ -2736,7 +2736,7 @@ void SeqSongWindow::ContractMarkedRange()
 		}
 //		song->OffsetSignatures(r.end -1, expand + 1);
 		if (undoContext) {
-			undoContext->SetUndoName("Contract Marked Range");
+			undoContext->SetUndoName("Contract marked range");
 			undoContext->CommitState();
 		}
 		AmTime		newEndTime = song->CountEndTime();
@@ -2875,8 +2875,8 @@ void SeqSongWindow::NewTrack(const BMessage* device)
 		}
 		if ( count > 0 && song->UndoContext() ) {
 			BString  name("Add ");
-			if (count == 1) name << "1 Track";
-			else name << count << " Tracks";
+			if (count == 1) name << "1 track";
+			else name << count << " tracks";
 			song->UndoContext()->SetUndoName( name.String() );
 			song->UndoContext()->CommitState();
 		}
@@ -2912,8 +2912,8 @@ void SeqSongWindow::DeleteSelectedTracks()
 			song->RemoveTrack(ids[k] );
 		if (song->UndoContext() ) {
 			BString	undoName("Delete ");
-			if (count == 1) undoName << "1 Track";
-			else undoName << count << " Tracks";
+			if (count == 1) undoName << "1 track";
+			else undoName << count << " tracks";
 			song->UndoContext()->SetUndoName( undoName.String() );
 			song->UndoContext()->CommitState();
 		}
@@ -2955,8 +2955,8 @@ static void move_tracks_by(SeqSongSelections* selections, AmSong* song, int32 de
 		
 	if (song->UndoContext() ) {
 		BString	undoName("Move ");
-		if (selCount == 1) undoName << "1 Track";
-		else undoName << selCount << " Tracks";
+		if (selCount == 1) undoName << "1 track";
+		else undoName << selCount << " tracks";
 		song->UndoContext()->SetUndoName(undoName.String() );
 		song->UndoContext()->CommitState();
 	}

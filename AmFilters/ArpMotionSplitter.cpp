@@ -348,7 +348,7 @@ static const char*		MOTION_KEY_STR	= "motion_key";
 
 static ArpMenuField* new_rhythm_menu_field()
 {
-	BMenu*		menu = new BMenu("Use Motion");
+	BMenu*		menu = new BMenu("Use motion");
 	if (!menu) return NULL;
 	BString		label, key;
 	for (uint32 k = 0; AmGlobals().GetMotionInfo(k, label, key) == B_OK; k++) {
@@ -521,7 +521,7 @@ void _VaccineFilterSettings::AddViews(	ArpBaseLayout* toLayout, ArpConfigureImpl
 		if (intCtrl) intCtrl->SetFormatter(arp_new_frequency_formatter() );
 	}
 
-	vBar->AddLayoutChild((box = new ArpBox("MotionBox", "Motion Selection"))
+	vBar->AddLayoutChild((box = new ArpBox("MotionBox", "Motion selection"))
 		->SetConstraints(ArpMessage()
 			.SetFloat(ArpRunningBar::WeightC,0)
 			.SetInt32(ArpRunningBar::FillC,ArpFillAll)

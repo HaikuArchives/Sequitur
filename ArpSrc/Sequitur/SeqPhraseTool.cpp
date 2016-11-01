@@ -603,9 +603,9 @@ uint32 SeqPhraseTool::DroppedMenu(BPoint where, bool enableLink) const
 	BPopUpMenu*		menu = new BPopUpMenu("menu");
 	if( !menu ) return CANCEL_ANSWER;
 	menu->SetFontSize( 10 );
-//	BMenuItem*		link = new BMenuItem( "Create Link Here", new BMessage('link') );
-	BMenuItem*		move = new BMenuItem( "Move Here", new BMessage('move') );
-	BMenuItem*		copy = new BMenuItem( "Copy Here", new BMessage('copy') );
+//	BMenuItem*		link = new BMenuItem( "Create link here", new BMessage('link') );
+	BMenuItem*		move = new BMenuItem( "Move here", new BMessage('move') );
+	BMenuItem*		copy = new BMenuItem( "Copy here", new BMessage('copy') );
 	BMenuItem*		cancel = new BMenuItem( "Cancel", new BMessage('cncl') );
 	if (!move || !copy || !cancel) {
 		delete menu;

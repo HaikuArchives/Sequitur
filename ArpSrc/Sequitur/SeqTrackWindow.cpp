@@ -402,7 +402,7 @@ void SeqTrackWindow::MessageReceived(BMessage *msg)
 				}
 			}
 			if (initialNote < 0) {
-				BAlert*	alert = new BAlert(	"Warning", "You must have one or more notes selected to create a motion",
+				BAlert*	alert = new BAlert(	"Warning", "You must have one or more notes selected to create a motion.",
 										"OK", NULL, NULL, B_WIDTH_AS_USUAL, B_WARNING_ALERT );
 				if (alert) alert->Go();
 				return;
@@ -1351,7 +1351,7 @@ void SeqTrackWindow::PasteSelectedEvents()
 
 status_t SeqTrackWindow::AddChangeToMenuItem(BMenu* toMenu)
 {
-	mChangeToMenu = new BMenu("Change To");
+	mChangeToMenu = new BMenu("Change to");
 	if (!mChangeToMenu) return B_NO_MEMORY;
 	AmViewFactory*	fact = AmGlobals().FactoryNamed( BString( mFactorySignature ) );
 	if (!fact) return B_ERROR;
@@ -1634,9 +1634,9 @@ void SeqTrackWindow::AddMainMenu()
 	add_menu_item( menu, "Copy", B_COPY, 'C' );
 	add_menu_item( menu, "Paste", B_PASTE, 'V' );
 	menu->AddSeparatorItem();
-	add_menu_item(menu, "Create Motion...", CREATE_RHYTHM_MSG, 0);
+	add_menu_item(menu, "Create motion...", CREATE_RHYTHM_MSG, 0);
 	menu->AddSeparatorItem();
-	add_menu_item(menu, "Set Time Signature" B_UTF8_ELLIPSIS, CHANGE_SIGNATURE_MSG, 0);
+	add_menu_item(menu, "Set time signature" B_UTF8_ELLIPSIS, CHANGE_SIGNATURE_MSG, 0);
 	menuItem = new BMenuItem(menu);
 	menuBar->AddItem( menuItem, EDIT_MENU_INDEX );
 
@@ -1648,7 +1648,7 @@ void SeqTrackWindow::AddMainMenu()
 	menuBar->AddItem( menuItem, VIEW_MENU_INDEX );
 
 	// TOOLBARS menu
-	menu = new BMenu("Tool Bars", B_ITEMS_IN_COLUMN);
+	menu = new BMenu("Tool bars", B_ITEMS_IN_COLUMN);
 	mShowToolBarMenu = new BMenu("Show");
 	if (menu) {
 		menuItem = new BMenuItem(mShowToolBarMenu);

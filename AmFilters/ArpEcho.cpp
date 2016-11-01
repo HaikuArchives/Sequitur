@@ -611,7 +611,7 @@ struct velocity_change_info
 static const velocity_change_info velocity_change_types[] = {
 	{ "Descending", ArpEchoFilter::DESCENDING_VELOCITY },
 	{ "Ascending", ArpEchoFilter::ASCENDING_VELOCITY },
-	{ "No Change", ArpEchoFilter::EVEN_VELOCITY },
+	{ "No change", ArpEchoFilter::EVEN_VELOCITY },
 	{ NULL, 0 }
 };
 
@@ -619,9 +619,9 @@ static const velocity_change_info curve_types[] = {
 	{ "Exponential", ArpEchoFilter::EXPONENT_CURVE },
 	{ "Geometric", ArpEchoFilter::GEOMETRIC_CURVE },
 	{ "Sinusoidal", ArpEchoFilter::SINUSOIDAL_CURVE },
-	{ "Sinusoidal Decay", ArpEchoFilter::SINUSOIDAL_DECAY_CURVE },
+	{ "Sinusoidal decay", ArpEchoFilter::SINUSOIDAL_DECAY_CURVE },
 	{ "Random", ArpEchoFilter::RANDOM_CURVE },
-	{ "Random Decay", ArpEchoFilter::RANDOM_DECAY_CURVE },
+	{ "Random decay", ArpEchoFilter::RANDOM_DECAY_CURVE },
 	{ NULL, 0 }
 };
 

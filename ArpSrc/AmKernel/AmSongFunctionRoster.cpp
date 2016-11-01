@@ -31,7 +31,7 @@ class AmProgramChangeReport : public AmSongFunctionI
 public:
 	AmProgramChangeReport();
 
-	virtual const char* Name() const			{ return "Program Change Report"; }
+	virtual const char* Name() const			{ return "Program change report"; }
 	virtual bool WriteMode() const				{ return false; }
 
 	virtual void ReadSong(const AmSong* song);
@@ -49,7 +49,7 @@ class AmControlChangeReport : public AmSongFunctionI
 public:
 	AmControlChangeReport();
 
-	virtual const char* Name() const			{ return "Control Change Report"; }
+	virtual const char* Name() const			{ return "Control change report"; }
 	virtual bool WriteMode() const				{ return false; }
 
 	virtual void ReadSong(const AmSong* song);
@@ -288,7 +288,7 @@ void AmProgramChangeReport::ReadSong(const AmSong* song)
 	}
 
 	BRect		f(100, 100, 400, 400);
-	BWindow*	window = new BWindow(	f, "Program Change Report", B_DOCUMENT_WINDOW_LOOK,
+	BWindow*	window = new BWindow(	f, "Program change report", B_DOCUMENT_WINDOW_LOOK,
 										B_NORMAL_WINDOW_FEEL, B_ASYNCHRONOUS_CONTROLS);
 	if (window) {
 		BOutlineListView*	lv = new BOutlineListView(	BRect(0, 0, f.Width() - 15, f.Height() - 15), "outline",
@@ -460,7 +460,7 @@ void AmControlChangeReport::ReadSong(const AmSong* song)
 	}
 
 	BRect		f(100, 100, 400, 400);
-	BWindow*	window = new BWindow(	f, "Control Change Report", B_DOCUMENT_WINDOW_LOOK,
+	BWindow*	window = new BWindow(	f, "Control change report", B_DOCUMENT_WINDOW_LOOK,
 										B_NORMAL_WINDOW_FEEL, B_ASYNCHRONOUS_CONTROLS);
 	if (window) {
 		BOutlineListView*	lv = new BOutlineListView(	BRect(0, 0, f.Width() - 15, f.Height() - 15), "outline",

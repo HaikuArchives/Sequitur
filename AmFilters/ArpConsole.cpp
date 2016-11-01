@@ -221,7 +221,7 @@ public:
 								)
 							)
 							->AddLayoutChild((new ArpViewWrapper(
-								new BCheckBox(BRect(0,0,10,10), "kpressure", "Key Pressure",
+								new BCheckBox(BRect(0,0,10,10), "kpressure", "Key pressure",
 										mImpl.AttachCheckBox(_MASK_STR, _KEYPRESSURE, "kpressure"),
 										B_FOLLOW_NONE,
 										B_WILL_DRAW|B_FULL_UPDATE_ON_RESIZE|B_NAVIGABLE)))
@@ -231,7 +231,7 @@ public:
 								)
 							)
 							->AddLayoutChild((new ArpViewWrapper(
-								new BCheckBox(BRect(0,0,10,10), "cpressure", "Channel Pressure",
+								new BCheckBox(BRect(0,0,10,10), "cpressure", "Channel pressure",
 										mImpl.AttachCheckBox(_MASK_STR, _CHANNELPRESSURE, "cpressure"),
 										B_FOLLOW_NONE,
 										B_WILL_DRAW|B_FULL_UPDATE_ON_RESIZE|B_NAVIGABLE)))
@@ -241,7 +241,7 @@ public:
 								)
 							)
 							->AddLayoutChild((new ArpViewWrapper(
-								new BCheckBox(BRect(0,0,10,10), "pbend", "Pitch Bend",
+								new BCheckBox(BRect(0,0,10,10), "pbend", "Pitch bend",
 										mImpl.AttachCheckBox(_MASK_STR, _PITCHBEND, "pbend"),
 										B_FOLLOW_NONE,
 										B_WILL_DRAW|B_FULL_UPDATE_ON_RESIZE|B_NAVIGABLE)))
@@ -251,7 +251,7 @@ public:
 								)
 							)
 							->AddLayoutChild((new ArpViewWrapper(
-								new BCheckBox(BRect(0,0,10,10), "cchange", "Control Change",
+								new BCheckBox(BRect(0,0,10,10), "cchange", "Control change",
 										mImpl.AttachCheckBox(_MASK_STR, _CONTROLCHANGE, "cchange"),
 										B_FOLLOW_NONE,
 										B_WILL_DRAW|B_FULL_UPDATE_ON_RESIZE|B_NAVIGABLE)))
@@ -267,7 +267,7 @@ public:
 								.SetFloat(ArpRunningBar::IntraSpaceP, 0)
 							)
 							->AddLayoutChild((new ArpViewWrapper(
-								new BCheckBox(BRect(0,0,10,10), "pchange", "Program Change",
+								new BCheckBox(BRect(0,0,10,10), "pchange", "Program change",
 										mImpl.AttachCheckBox(_MASK_STR, _PROGRAMCHANGE, "pchange"),
 										B_FOLLOW_NONE,
 										B_WILL_DRAW|B_FULL_UPDATE_ON_RESIZE|B_NAVIGABLE)))
@@ -277,7 +277,7 @@ public:
 								)
 							)
 							->AddLayoutChild((new ArpViewWrapper(
-								new BCheckBox(BRect(0,0,10,10), "scommon", "System Common",
+								new BCheckBox(BRect(0,0,10,10), "scommon", "System common",
 										mImpl.AttachCheckBox(_MASK_STR, _SYSTEMCOMMON, "scommon"),
 										B_FOLLOW_NONE,
 										B_WILL_DRAW|B_FULL_UPDATE_ON_RESIZE|B_NAVIGABLE)))
@@ -287,7 +287,7 @@ public:
 								)
 							)
 							->AddLayoutChild((new ArpViewWrapper(
-								new BCheckBox(BRect(0,0,10,10), "sexclusive", "System Exclusive",
+								new BCheckBox(BRect(0,0,10,10), "sexclusive", "System exclusive",
 										mImpl.AttachCheckBox(_MASK_STR, _SYSTEMEXCLUSIVE, "sexclusive"),
 										B_FOLLOW_NONE,
 										B_WILL_DRAW|B_FULL_UPDATE_ON_RESIZE|B_NAVIGABLE)))
@@ -297,7 +297,7 @@ public:
 								)
 							)
 							->AddLayoutChild((new ArpViewWrapper(
-								new BCheckBox(BRect(0,0,10,10), "srealtime", "System Realtime",
+								new BCheckBox(BRect(0,0,10,10), "srealtime", "System realtime",
 										mImpl.AttachCheckBox(_MASK_STR, _SYSTEMREALTIME, "srealtime"),
 										B_FOLLOW_NONE,
 										B_WILL_DRAW|B_FULL_UPDATE_ON_RESIZE|B_NAVIGABLE)))
@@ -307,7 +307,7 @@ public:
 								)
 							)
 							->AddLayoutChild((new ArpViewWrapper(
-								new BCheckBox(BRect(0,0,10,10), "tchange", "Tempo Change",
+								new BCheckBox(BRect(0,0,10,10), "tchange", "Tempo change",
 										mImpl.AttachCheckBox(_MASK_STR, _TEMPO, "tchange"),
 										B_FOLLOW_NONE,
 										B_WILL_DRAW|B_FULL_UPDATE_ON_RESIZE|B_NAVIGABLE)))

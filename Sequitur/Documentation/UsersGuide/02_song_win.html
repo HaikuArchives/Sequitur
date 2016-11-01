@@ -37,11 +37,11 @@ tape deck.
       </tr> 
       <tr>
         <td align="center"><img src="images/transport_record.jpg" ></td> 
-        <td><strong>Record Mode</strong>.&nbsp;   Toggle record mode on or off.  See section 2.1.1. Recording, below.</td> 
+        <td><strong>Record mode</strong>.&nbsp;   Toggle record mode on or off.  See section 2.1.1. Recording, below.</td> 
       </tr> 
       <tr>
         <td align="center"><img src="images/transport_loop.jpg" ></td>
-        <td><strong>Loop Mode</strong>.&nbsp;   Toggle loop mode on or off.  See section 2.1.2. Looping, below.</td> 
+        <td><strong>Loop mode</strong>.&nbsp;   Toggle loop mode on or off.  See section 2.1.2. Looping, below.</td> 
       </tr> 
 </table>
 
@@ -54,7 +54,7 @@ To record a new phrase, follow these steps:
 	<LI>Place the song in record mode by clicking the Record button in the transport controls.  The Record button will stay depressed until you stop recording.  When recording is enabled, the yellow highlight turns red.
 	<LI>To begin recording, click the Play button.  As you play your instrument, you should see the phrase view update with your performance.  You should also hear what you play from whatever MIDI devices are specified by the selected tracks.
 	</UL>
-Each time you make a new recording, a new phrase is created to store your performance.  If any phrases already existed that overlap with your new performance, they will still exist, although they may be hidden by the new phrase.  You can combine your new phrase with the old by selecting the track and time range to be combined, then using the menu command <B>Edit -> Merge Phrases</B>.
+Each time you make a new recording, a new phrase is created to store your performance.  If any phrases already existed that overlap with your new performance, they will still exist, although they may be hidden by the new phrase.  You can combine your new phrase with the old by selecting the track and time range to be combined, then using the menu command <B>Edit -> Merge phrases</B>.
 
 
 <P>
@@ -113,7 +113,7 @@ The selection range can be changed by clicking and dragging anywhere in the meas
 
 <P>The selection range defines the area that the Edit menu commands will operate on.
 
-<P><B>2.3.4.  The PopUp Menu</B><BR>
+<P><B>2.3.4.  The Popup Menu</B><BR>
 Pressing the right mouse button anywhere in the measure control will invoke a popup menu that allows you to change the time signature for the selected measure.  You can choose from several predefined signatures, or select a different signature by choosing the Other... command.  This will open a <A HREF = "12_sig_win.html">Set Signature</A> window.
 
 <P><BR>
@@ -177,25 +177,25 @@ This is a standard <A HREF = "c_controls.html#Zoom">zoom control</A> for control
 <UL>
 	<LI> <B> New </B>.  Create a new song.
 	<LI> <B> Open... </B>.  Open a standard MIDI file.
-	<LI> <B> Save </B>.  Save the current song.  Sequitur saves songs as standard MIDI files, but includes filters, phrases, and all other Sequitur-specific information in areas designated by the standard MIDI file format.  <I>Note that if you load and save your song from another MIDI sequencer, all Sequitur-specific information -- including the filters in your pipelines and the motions in your tracks -- will be lost.</I>  Additionally, you may lose certain information (such as window positioning) if you move your song to a non-BeOS file system.
+	<LI> <B> Save </B>.  Save the current song.  Sequitur saves songs as standard MIDI files, but includes filters, phrases, and all other Sequitur-specific information in areas designated by the standard MIDI file format.  <I>Note that if you load and save your song from another MIDI sequencer, all Sequitur-specific information -- including the filters in your pipelines and the motions in your tracks -- will be lost.</I>  Additionally, you may lose certain information (such as window positioning) if you move your song to a non-Haiku file system.
 	<LI> <B> Save As... </B>.  Save current song as a new name.
 	<LI> <B> Close </B>.  Close this song window and any associated track windows.  If this is the only song window open, then Sequitur quits.
 	<LI> <B> Preferences... </B>.  Sequitur preferences.  See <A HREF = "16_prefs.html">Preferences</A> for details.
 	<LI> <B> Functions </B>.
 		<UL>
-			<LI> <B>Control Change Report </B>.  Open a window that lists all the song's tracks,
+			<LI> <B>Control change report </B>.  Open a window that lists all the song's tracks,
 			and what control changes exist for each track.  This is useful if you aren't sure
 			which control changes are active for a given track.
-			<LI> <B> Program Change Report </B>.  Open a window that lists all the song's output
+			<LI> <B> Program change report </B>.  Open a window that lists all the song's output
 			filters, and what program changes exist for each filter.  This is useful if
 			one of your MIDI devices has a large bank of sounds loaded, and you don't
 			know which sounds are currently being used by the song.
 		</UL>
-	<LI> <B> User's Guide</B>.  Open this manual.
-	<LI> <B> Filter Guide</B>.  Open appendix <A HREF = "a_filters_generated.html">A. Filters</A> of this manual.
+	<LI> <B> Documentation</B>.  Open this manual, a quick start tutorial, or the release notes.
+	<LI> <B> Filter guide</B>.  Open appendix <A HREF = "a_filters_generated.html">A. Filters</A> of this manual.
 	  			Appendix A is dynamically generated from the currently installed filters whenever this
 	  			menu item is invoked.
-	<LI> <B> Tool Guide</B>.  Open appendix <A HREF = "b_tools_generated.html">B. Tools</A> of this manual.
+	<LI> <B> Tool guide</B>.  Open appendix <A HREF = "b_tools_generated.html">B. Tools</A> of this manual.
 	  			Appendix B is dynamically generated from the currently installed tools whenever this
 	  			menu item is invoked.
 	<LI> <B> About Sequitur... </B>.  Self explanatory.
@@ -205,23 +205,23 @@ This is a standard <A HREF = "c_controls.html#Zoom">zoom control</A> for control
 <UL>
 	<LI> <B> Undo </B>.  Undo the last change.
 	<LI> <B> Redo </B>.  Redo the last undo.
-	<LI> <B> Select All </B>.  Select all tracks in current song.
-	<LI> <B> Select None </B>. Deselect selected tracks.
-	<LI> <B> Merge Phrases </B>.  Merge all phrases that fall within the current selection.
-	<LI> <B> Separate Phrases </B>. Merge all phrases that fall within the current selection, then separate them from any phrases left or right of the current selection.
-	<LI> <B> Delete Selection </B>. Delete all phrases and events contained within the selection.  Does not remove any tracks.
-	<LI> <B> Set Time Signature... </B>.  Open a <A HREF = "12_sig_win.html">Set Signature</A> window on the leftmost measure. 
-	<LI> <B> Stop All Notes </B>.  Stop playback and force all notes on all synthesizers to turn off.
+	<LI> <B> Select all </B>.  Select all tracks in current song.
+	<LI> <B> Select none </B>. Deselect selected tracks.
+	<LI> <B> Merge phrases </B>.  Merge all phrases that fall within the current selection.
+	<LI> <B> Separate phrases </B>. Merge all phrases that fall within the current selection, then separate them from any phrases left or right of the current selection.
+	<LI> <B> Delete selection </B>. Delete all phrases and events contained within the selection.  Does not remove any tracks.
+	<LI> <B> Set time signature... </B>.  Open a <A HREF = "12_sig_win.html">Set Signature</A> window on the leftmost measure. 
+	<LI> <B> Stop all notes </B>.  Stop playback and force all notes on all synthesizers to turn off.
 </UL>
 <B> Tracks </B>
 <UL>
-	<LI> <B> Add Track </B>.  Create a blank track.
-	<LI> <B> Add Tracks For </B>.  Create a new track for each channel (1-16) of the specified device.
-	<LI> <B> Edit Name</B>.  Begins editing the name of the currently selected track.
+	<LI> <B> Add track </B>.  Create a blank track.
+	<LI> <B> Add tracks For </B>.  Create a new track for each channel (1-16) of the specified device.
+	<LI> <B> Edit name</B>.  Begins editing the name of the currently selected track.
 	This item is only available if a single track is selected.
-	<LI> <B> Delete Track </B>.  Delete all selected tracks.
-	<LI> <B> Move Track Up</B>.  Reorder the selected tracks so they are higher in the track list.
-	<LI> <B> Move Track Down</B>.  Reorder the selected tracks so they are lower in the track list.
+	<LI> <B> Delete track </B>.  Delete all selected tracks.
+	<LI> <B> Move track up</B>.  Reorder the selected tracks so they are higher in the track list.
+	<LI> <B> Move track down</B>.  Reorder the selected tracks so they are lower in the track list.
 </UL>
 <B> Windows </B>
 <UL>

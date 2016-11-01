@@ -583,7 +583,7 @@ void SeqToolBarView::ShowPropertyMenu(const AmTool* tool, BPoint where)
 	if (msg) {
 		msg->AddString("tool_key", tool->Key() );
 		msg->AddPointer("tool_id", tool->Id() );
-		BMenuItem*		item = new BMenuItem("Remove From Tool Bar", msg);
+		BMenuItem*		item = new BMenuItem("Remove from tool bar", msg);
 		if (item) {
 			item->SetTarget(this);
 			menu->AddItem(item);

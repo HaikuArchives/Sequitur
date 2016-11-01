@@ -1085,12 +1085,12 @@ static BMenu* new_icon_editor_menu()
 	item = new BMenuItem("Paste", new BMessage(PASTE_ICON_MSG), 0, 0);
 	if (item) menu->AddItem(item);
 	menu->AddSeparatorItem();
-	item = new BMenuItem("Flip Vertically", new BMessage(FLIP_VERTICALLY_ICON_MSG), 0, 0);
+	item = new BMenuItem("Flip vertically", new BMessage(FLIP_VERTICALLY_ICON_MSG), 0, 0);
 	if (item) menu->AddItem(item);
-	item = new BMenuItem("Flip Horizontally", new BMessage(FLIP_HORIZONTALLY_ICON_MSG), 0, 0);
+	item = new BMenuItem("Flip horizontally", new BMessage(FLIP_HORIZONTALLY_ICON_MSG), 0, 0);
 	if (item) menu->AddItem(item);
 	menu->AddSeparatorItem();
-	item = new BMenuItem("Fill with Alpha", new BMessage(FILL_WITH_ALPHA_MSG), 0, 0);
+	item = new BMenuItem("Fill with alpha", new BMessage(FILL_WITH_ALPHA_MSG), 0, 0);
 	if (item) menu->AddItem(item);
 	return menu;
 }

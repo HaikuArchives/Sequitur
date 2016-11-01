@@ -42,9 +42,9 @@ lifeWin::lifeWin()
 	
 	menu = new BMenu("Control");
 	menu->AddItem(new BMenuItem("Start", new BMessage('strt')));
-	menu->AddItem(new BMenuItem("Single Step Once", new BMessage(SINGLE_STEP), 
+	menu->AddItem(new BMenuItem("Single step once", new BMessage(SINGLE_STEP), 
 					's', B_COMMAND_KEY));
-	menu->AddItem(new BMenuItem("Continuous Run", new BMessage(CONTINUOUS), 
+	menu->AddItem(new BMenuItem("Continuous run", new BMessage(CONTINUOUS), 
 					'r', B_COMMAND_KEY));
 #ifdef USE_LIFEVIEW
 	menu->SetTargetForItems(mv);
@@ -58,31 +58,31 @@ lifeWin::lifeWin()
 	BMenu *xmenu;
 	BMenu *ymenu;
 	BMenu *zmenu;
-	menu->AddItem(new BMenuItem(xmenu = new BMenu("X Rotation"), NULL));
-	menu->AddItem(new BMenuItem(ymenu = new BMenu("Y Rotation"), NULL));
-	menu->AddItem(new BMenuItem(zmenu = new BMenu("Z Rotation"), NULL));
+	menu->AddItem(new BMenuItem(xmenu = new BMenu("X rotation"), NULL));
+	menu->AddItem(new BMenuItem(ymenu = new BMenu("Y rotation"), NULL));
+	menu->AddItem(new BMenuItem(zmenu = new BMenu("Z rotation"), NULL));
 	
-	xmenu->AddItem(item = new BMenuItem("No Spin", new BMessage(X_SPIN_STOP)));
+	xmenu->AddItem(item = new BMenuItem("No spin", new BMessage(X_SPIN_STOP)));
 	item->SetMarked(true);
-	xmenu->AddItem(new BMenuItem("Positive Spin", new BMessage(X_SPIN_POS),
+	xmenu->AddItem(new BMenuItem("Positive spin", new BMessage(X_SPIN_POS),
 									'x', B_COMMAND_KEY));
-	xmenu->AddItem(new BMenuItem("Negative Spin", new BMessage(X_SPIN_NEG),
+	xmenu->AddItem(new BMenuItem("Negative spin", new BMessage(X_SPIN_NEG),
 									'x', B_CONTROL_KEY));
 	xmenu->SetRadioMode(true);
 	
-	ymenu->AddItem(item = new BMenuItem("No Spin", new BMessage(Y_SPIN_STOP)));
+	ymenu->AddItem(item = new BMenuItem("No spin", new BMessage(Y_SPIN_STOP)));
 	item->SetMarked(true);
-	ymenu->AddItem(new BMenuItem("Positive Spin", new BMessage(Y_SPIN_POS),
+	ymenu->AddItem(new BMenuItem("Positive spin", new BMessage(Y_SPIN_POS),
 									'y', B_COMMAND_KEY));
-	ymenu->AddItem(new BMenuItem("Negative Spin", new BMessage(Y_SPIN_NEG),
+	ymenu->AddItem(new BMenuItem("Negative spin", new BMessage(Y_SPIN_NEG),
 									'y', B_CONTROL_KEY));
 	ymenu->SetRadioMode(true);
 		
-	zmenu->AddItem(item = new BMenuItem("No Spin", new BMessage(Z_SPIN_STOP)));
+	zmenu->AddItem(item = new BMenuItem("No spin", new BMessage(Z_SPIN_STOP)));
 	item->SetMarked(true);
-	zmenu->AddItem(new BMenuItem("Positive Spin", new BMessage(Z_SPIN_POS),
+	zmenu->AddItem(new BMenuItem("Positive spin", new BMessage(Z_SPIN_POS),
 									'z', B_COMMAND_KEY));
-	zmenu->AddItem(new BMenuItem("Negative Spin", new BMessage(Z_SPIN_NEG),
+	zmenu->AddItem(new BMenuItem("Negative spin", new BMessage(Z_SPIN_NEG),
 									'z', B_CONTROL_KEY));
 	zmenu->SetRadioMode(true);
 

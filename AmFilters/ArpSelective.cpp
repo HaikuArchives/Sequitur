@@ -201,7 +201,7 @@ public:
 							)
 						)
 						->AddLayoutChild((new ArpViewWrapper(
-							new BCheckBox(BRect(0,0,10,10), "cpressure", "Channel Pressure",
+							new BCheckBox(BRect(0,0,10,10), "cpressure", "Channel pressure",
 									mImpl.AttachCheckBox(TYPES_STR, CHANNELPRESSURE_TYPE, "cpressure"),
 									B_FOLLOW_NONE,
 									B_WILL_DRAW|B_FULL_UPDATE_ON_RESIZE|B_NAVIGABLE)))
@@ -211,7 +211,7 @@ public:
 							)
 						)
 						->AddLayoutChild((new ArpViewWrapper(
-							new BCheckBox(BRect(0,0,10,10), "kpressure", "Key Pressure",
+							new BCheckBox(BRect(0,0,10,10), "kpressure", "Key pressure",
 									mImpl.AttachCheckBox(TYPES_STR, KEYPRESSURE_TYPE, "kpressure"),
 									B_FOLLOW_NONE,
 									B_WILL_DRAW|B_FULL_UPDATE_ON_RESIZE|B_NAVIGABLE)))
@@ -221,7 +221,7 @@ public:
 							)
 						)
 						->AddLayoutChild((new ArpViewWrapper(
-							new BCheckBox(BRect(0,0,10,10), "pbend", "Pitch Bend",
+							new BCheckBox(BRect(0,0,10,10), "pbend", "Pitch bend",
 									mImpl.AttachCheckBox(TYPES_STR, PITCHBEND_TYPE, "pbend"),
 									B_FOLLOW_NONE,
 									B_WILL_DRAW|B_FULL_UPDATE_ON_RESIZE|B_NAVIGABLE)))
@@ -241,7 +241,7 @@ public:
 							.SetInt32(ArpRunningBar::FillC,ArpWest)
 						)
 						->AddLayoutChild((new ArpViewWrapper(
-							new BCheckBox(BRect(0,0,10,10), "pchange", "Program Change",
+							new BCheckBox(BRect(0,0,10,10), "pchange", "Program change",
 									mImpl.AttachCheckBox(TYPES_STR, PROGRAMCHANGE_TYPE, "pchange"),
 									B_FOLLOW_NONE,
 									B_WILL_DRAW|B_FULL_UPDATE_ON_RESIZE|B_NAVIGABLE)))
@@ -251,7 +251,7 @@ public:
 							)
 						)
 						->AddLayoutChild((new ArpViewWrapper(
-							new BCheckBox(BRect(0,0,10,10), "scommon", "System Common",
+							new BCheckBox(BRect(0,0,10,10), "scommon", "System common",
 									mImpl.AttachCheckBox(TYPES_STR, SYSTEMCOMMON_TYPE, "scommon"),
 									B_FOLLOW_NONE,
 									B_WILL_DRAW|B_FULL_UPDATE_ON_RESIZE|B_NAVIGABLE)))
@@ -261,7 +261,7 @@ public:
 							)
 						)
 						->AddLayoutChild((new ArpViewWrapper(
-							new BCheckBox(BRect(0,0,10,10), "sexclusive", "System Exclusive",
+							new BCheckBox(BRect(0,0,10,10), "sexclusive", "System exclusive",
 									mImpl.AttachCheckBox(TYPES_STR, SYSTEMEXCLUSIVE_TYPE, "sexclusive"),
 									B_FOLLOW_NONE,
 									B_WILL_DRAW|B_FULL_UPDATE_ON_RESIZE|B_NAVIGABLE)))
@@ -271,7 +271,7 @@ public:
 							)
 						)
 						->AddLayoutChild((new ArpViewWrapper(
-							new BCheckBox(BRect(0,0,10,10), "srealtime", "System Realtime",
+							new BCheckBox(BRect(0,0,10,10), "srealtime", "System realtime",
 									mImpl.AttachCheckBox(TYPES_STR, SYSTEMREALTIME_TYPE, "srealtime"),
 									B_FOLLOW_NONE,
 									B_WILL_DRAW|B_FULL_UPDATE_ON_RESIZE|B_NAVIGABLE)))
@@ -282,7 +282,7 @@ public:
 						)
 					)
 				)
-				->AddLayoutChild((new AmControlChangeListPanel("Control Changes", this, initSettings,
+				->AddLayoutChild((new AmControlChangeListPanel("Control changes", this, initSettings,
 																AM_CONTROL_CHANGE_KEY_STR, B_MULTIPLE_SELECTION_LIST))
 					->SetParams(ArpMessage()
 						.SetBool(ArpScrollArea::ScrollHorizontalP,false)

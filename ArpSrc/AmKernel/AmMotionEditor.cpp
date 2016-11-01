@@ -643,7 +643,7 @@ void AmMotionEditor::LayoutView(void)
 
 static BMenuField* new_view_as_field(BRect f)
 {
-	BMenu*		menu = new BMenu("View As");
+	BMenu*		menu = new BMenu("View as");
 	if (!menu) return NULL;
 	BMenuItem*	item = new BMenuItem("Rhythm", new BMessage(VIEW_RHYTHM_MSG), 0, 0);
 	if (item) menu->AddItem(item);
@@ -667,7 +667,7 @@ void AmMotionEditor::AddViews(BRect bounds)
 	if (!mData) return;
 	/* Add the View As field.
 	 */
-	float			w = StringWidth("View As") + 28;
+	float			w = StringWidth("View as") + 28;
 	BRect			fieldR(0, 0, w, 10);
 	mViewAsField = new_view_as_field(fieldR);
 	if (mViewAsField) AddChild(mViewAsField);

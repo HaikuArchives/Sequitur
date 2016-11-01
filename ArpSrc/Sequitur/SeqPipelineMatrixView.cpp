@@ -1292,8 +1292,8 @@ uint32 SeqPipelineMatrixView::DroppedMenu(BPoint where) const
 	BPopUpMenu*		menu = new BPopUpMenu("menu");
 	if (!menu) return 2;
 	menu->SetFontSize(10);
-	BMenuItem*		move = new BMenuItem("Move Here", new BMessage('move') );
-	BMenuItem*		copy = new BMenuItem("Copy Here", new BMessage('copy') );
+	BMenuItem*		move = new BMenuItem("Move here", new BMessage('move') );
+	BMenuItem*		copy = new BMenuItem("Copy here", new BMessage('copy') );
 	BMenuItem*		cancel = new BMenuItem("Cancel", new BMessage('cncl') );
 	if (!move || !copy || !cancel) {
 		delete menu;
@@ -1654,7 +1654,7 @@ static BPopUpMenu* new_property_menu(	AmPipelineType pipelineType,
 	/* The Apply to Track menu item.
 	 */
 	msg = new BMessage(APPLY_TO_TRACK_MSG);
-	if (msg && (item = new BMenuItem("Apply to Track", msg)) ) {
+	if (msg && (item = new BMenuItem("Apply to track", msg)) ) {
 		if (pid) msg->AddPointer("pipeline_id", pid);
 		if (fid && pipelineType == OUTPUT_PIPELINE) msg->AddPointer("filter_id", fid);
 		else item->SetEnabled(false);
@@ -1683,7 +1683,7 @@ static BPopUpMenu* new_property_menu(	AmPipelineType pipelineType,
 	}
 	if (showPropertyToggle) {
 		msg = new BMessage(HIDE_PROPERTIES_MSG);
-		if (msg && (item = new BMenuItem("Hide Properties", msg)) ) {
+		if (msg && (item = new BMenuItem("Hide properties", msg)) ) {
 			if (pid) msg->AddPointer("pipeline_id", pid);
 			if (fid) msg->AddPointer("filter_id", fid);
 			else item->SetEnabled(false);
@@ -1703,7 +1703,7 @@ static BMenuItem* new_change_to_menu(	AmPipelineType pipelineType,
 										BMessage* archivedFilter)
 {
 	AmFilterRoster*		roster = AmFilterRoster::Default();
-	BMenu*				menu = new BMenu("Change To");
+	BMenu*				menu = new BMenu("Change to");
 	if (!menu) return NULL;
 	vector<BMenuItem*>		items;
 	
