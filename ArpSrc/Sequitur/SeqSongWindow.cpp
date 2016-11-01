@@ -423,6 +423,16 @@ SeqSongWindow::SeqSongWindow(DocApplication *wr, entry_ref *ref, const char *tit
 	}
 	
 	finish_startup_status();
+	CheckForGuides();
+}
+
+void SeqSongWindow::CheckForGuides()
+{
+	entry_ref ref;
+	if (seq_get_filters_ref(&ref) != B_OK)
+		seq_generate_filter_docs();
+	if (seq_get_tools_ref(&ref) != B_OK)
+		seq_generate_tool_docs();
 }
 
 void SeqSongWindow::InitData(AmSongRef songRef)

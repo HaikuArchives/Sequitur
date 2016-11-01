@@ -167,6 +167,7 @@ private:
 	 */
 	bool					mTrackSongPosition;
 
+	void		CheckForGuides();
 	void		InitData(AmSongRef songRef);
 	void		AddMainMenu();
 
