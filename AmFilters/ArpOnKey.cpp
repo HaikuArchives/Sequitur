@@ -42,9 +42,9 @@ static const char*		KEY_B_STR				= "b_key";
 
 static const char* wrongNoteNames[] = {
 	"Discard",
-	"Shift Down",
-	"Shift Up",
-	"Shift Closest",
+	"Shift down",
+	"Shift up",
+	"Shift closest",
 	0
 };
 
@@ -70,9 +70,9 @@ static bool gScales[][12] = {
 };
 
 static const char* gScaleNames[] = {
-	"Major",			"Natural Minor",		"Harmonic Minor",		"Melodic Minor (Asc)",		"Melodic Minor (Desc)",
-	"Enigmatic",		"Chromatic",			"Diminished",			"Whole Tone",				"Pentatonic Major",
-	"Pentatonic Minor",	"3 Semitone",			"4 Semitone",			0
+	"Major",			"Natural minor",		"Harmonic minor",		"Melodic minor (asc)",		"Melodic minor (desc)",
+	"Enigmatic",		"Chromatic",			"Diminished",			"Whole tone",				"Pentatonic major",
+	"Pentatonic minor",	"3 Semitone",			"4 Semitone",			0
 };
 
 static void get_scale(bool* scale, int32 rootConstant, int32 scaleConstant)

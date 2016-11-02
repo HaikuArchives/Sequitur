@@ -1,0 +1,133 @@
+<HTML> 
+<TITLE> Filters </TITLE>
+<BODY bgcolor=b4b4b4>
+<H1>7.  Filters</H1>
+<HR width = "575"><BR>
+
+<P>Filters do nothing more than receive MIDI events and transform them into other MIDI events.  Filters are placed in pipelines and connected to other filters.  A filter receives input from the previous filter in its pipeline, and sends output to the next filter in its pipeline.</p>
+
+<p>There are two broad classes of filters:<br />
+Standard filters are C++ add-ons.  Sequitur includes a number of standard filters that cover a wide range of tasks, as well as a development kit that allows C++ developers to add additional filters.</p>
+
+<p>Sequitur also includes multi filters, which are filters built from other filters.  Users can add, delete and modify multi filters with the imcluded Edit Multi Filter window.</p>
+
+<P>Multi Filters that are packaged with Sequitur are read-only and can't be edited or removed. To make changes, you have to duplicate the Multi Filter first (see the Filter menu below) and make your changes there.</P>
+
+
+<P><B><font size=+2><a name="Section_7_1">7.1.  Managing Filters</a></font></B><BR>
+<CENTER><IMG SRC = "images/manage_filters_win.jpg"></CENTER>
+<CENTER><i>The Manage Filters window</i></CENTER></P>
+
+<P>This window, available from the <B>Windows->Filters</B> menu item of any song or track window, displays a list of all the filters installed on your system.  From the <B>Filter</B> menu you can create, modify, or delete multi filters.  Add a filter to a pipeline by dragging it from this window to the desired location.</P>
+
+<P>The Manage Filters window is similar to a Tracker window, and displays a list of filters and their attributes.  The attributes are:</P>
+	<UL>
+		<LI><I>Name</I>.&nbsp;  The name of the filter.  Ideally, no two filters share the same name, although this is not enforced.</LI>
+		<LI><I>Type</I>.&nbsp;  Certain filters only work in certain locations in the pipeline.  <p>The most common type of filter is <i>through</i>, which can be placed anywhere in the tool and multi filter pipelines, anywhere but the head of the input pipeline, and anywhere but the tail of the output pipeline.  Through filters are further separated into <i>tool</i> filters, which can only be placed in a tool pipeline, and <i>multi</i> filters, which can be used any place a through filter can be used, and can also be added, modified and deleted by users.</p>
+		<p><i>Input</i> filters allow you to record MIDI data.  They may only be placed at the head of the input pipeline. These filters typically correspond to MIDI controller devices attached to your computer, for example a keyboard or drum machine.</p>
+		<p><i>Output</i> filters are used to select which MIDI device(s) will be used for playback.  They may only be placed at the tail of the output pipeline.  These filters typically correspond to MIDI devices attached to your computer.</p>
+		<LI><I>Description</I>.&nbsp;  A short explanation of what this filter does.</LI>
+		<LI><I>Max Connections</I>.&nbsp;  All filters can receive input from any number of filters, but each filter decides
+how many filters it can send output to.  Most filters can have only a single connection, which is generally the next filter in the pipeline (although this connection can be diverted to another pipeline).  Some filters are designed to have any number of connections, and they typically send the same output to each connection.  Pay attention to all cases where the max connection is something besides 1 or unlimited, however: the filter is probably sending different output to each of its connections.  Read the <a href = "a_filters_generated.html">filter documentation</a> to see what a specific filter sends to each connection.</LI>
+		<LI><I>Version</I>.&nbsp;  The filter version.</LI>
+		<LI><I>Key</I>.&nbsp;  A unique name for this filter.  The key is how Sequitur distinguishes different filters, so no filters can share a key.  If more than one filter has the same key, then all subsequent filters will appear in red in the Manage Filters window, and can not be dragged to pipelines.</LI>
+		<LI><I>Author</I>.&nbsp;  The name of the filter's author.</LI>
+		<LI><I>Email</I>.&nbsp;  Contact information for the filter's author.</LI>
+		<LI><I>Path</I>.&nbsp;  The filter's physical location.  This only applies to multi filters.</LI>
+	</UL>
+<P>Multi filters which can not be modified appear in a light gray colour.  Multi filters which are invalid appear in red.  A multi filter is usually invalid because it shares the exact same key as another filter.  Invalid filters are not available anywhere but the Manage Filters window.  To make a multi filter valid, change its key to a unique value.</P>
+
+<p>Descriptions of all the installed filters is available in <a href = "a_filters_generated.html">Appendix A: The Filters</a>.</p>
+
+<P><B>7.1.1. Menu Bar</B><BR>
+<B> Filter </B>
+<UL>
+	<LI> <B> New </B>.  Open the <a href = "07_filters.html#Section_7_3">Edit Multi Filter</A> window on a new multi filter.</LI>
+	<LI> <B> Edit </B>.  Open the <a href = "07_filters.html#Section_7_3">Edit Multi Filter</A> window on the selected multi filter.</LI>
+	<LI> <B> Duplicate </B>.  Create a valid duplicate of the selected multi filter.</LI>
+	<LI> <B> Delete </B>.  Delete the selected multi filter.</LI>
+</UL>
+<B> Attributes </B>
+<UL>
+	<LI> Toggle the Name, Type, Description, Max Connections, Version, Key, Author, Email and Path columns on or off.</LI>
+</UL>
+
+
+<P><B><font size=+2><a name="Section_7_2">7.2.  Sharing Multi Filters</a></font></B><BR>
+Multi filters are stored as files on your hard drive, so they can be shared easily with other users. Multi filters are stored in one of two directories:</P>
+
+	<UL>
+		<LI><i>MultiFilters/</i> (from the folder in which Sequitur was launched)</LI>
+		<LI><i>/boot/home/config/settings/Sequitur/MultiFilters/</i></LI>
+	</UL>
+
+<P>All multi filters located in the first folder can not be modified, and appear as light gray in the Manage Filters window.  By default, all multi filters that ship with Sequitur are located in this read-only directory.  Use the path attribute of the Manage Filters window to locate a particular multi filter.<BR />
+To make changes, you have to duplicate the multi filter first and make your changes there.</P>
+
+
+<P><B><font size=+2><a name="Section_7_3">7.3.  Editing Multi Filters</a></font></B><BR>
+<CENTER><IMG SRC = "images/edit_filter_win.jpg"></CENTER>
+<CENTER><i>The Edit Multi Filter window</i></CENTER></P>
+
+<P>The Edit Multi Filter window is accessed by opening the Manage Filters window and either double-clicking an existing filter or selecting <B>Filter->New</B>.  This window is divided into four pages:  General, Pipeline, Description and Icon.  The General page contains several required pieces of information; after that, the Pipeline is the most important page.</P>
+
+<P><B>7.3.1. The General Page</B><BR>
+This page allows you set the filter's name, key, author and author's email.  The author and email fields are optional, but each filter must have at least a name and a key.  Ideally, each filter has a unique name, since this is the label seen by users.</P>
+
+<P>Each filter is required to have a unique key, which is what Sequitur uses to distinguish between filters.  Keys should be given the pattern of "[implementor:filter_name]"; for example, all Angry Red Planet filters have an implementor of "arp", so a Chorus multi filter's key would be "arp:Chorus".  The Edit Multi Filter window will prevent you from using a key already in use.  Additionally, for any multi filters that share the same key, only the first one loaded will be available for use in pipelines.</P>
+
+<P><B>7.3.2. The Pipeline Page</B><BR>
+The filter can have any number of pipelines.  If it has none, it will do nothing.</P>
+
+<P>The multi filter must have one and only one Input filter -- this is the filter that receives incoming MIDI data.  The filter must have one or more Output filters.  The number of Output filters determines the filter's maximum possible connections.  When this multi filter is inserted into a pipeline, if it has two Output filters, it will be allowed to connect up  to two destination filters.  All MIDI data from the first Output filter will be sent to the first connection, all MIDI data from the second Output filter will be sent to the second connection, etc.  The Input and Output filters are added automatically whenever you press the Add button to add a new pipeline.</P>
+
+<P><B>7.3.3. The Description Page</B><BR>
+This page lets you type in two separate descriptions.  The short description, which appears in the description column of the Manage Filters window, should be a brief explanation of the filter.  The long description should be HTML-formatted text that explains in detail the filter's operation.  It appears in <a href = "a_filters_generated.html">Appendix A: The Filters</a>.</P>
+
+<P><B>7.3.4. The Icon Page</B><BR>
+Users identify filters by their icon that appears in the Manage Filters window and in the pipelines.  This icon editor is an extremely simply paint program provided as a convenience for touching up icons.  It is highly recommended that you do any real work in an application which you can copy to and paste from, such as QuickRes.  The only tools available for drawing are the pencil, which paints the current colour, and the dropper, which reads the color.</P>
+
+<P>The <B>New</B> menu commands must first be used to create a new blank icon.</P>
+
+<P>The <B>Copy</B> and <B>Paste</B> menu commands can be used to transfer the icon to and from a better paint program.  Copy and paste works fine with the QuickRes application, and may work with other Haiku paint programs.</P>
+
+<P>The <B>Flip horizontally</B> and <B>Flip vertically</B> menu commands mirror the icon around the x and y axis, respectively.</P>
+
+<P> The <B>Fill with alpha</B> command fills every pixel in the icon with at most the current alpha value (if the pixel's alpha is already below the current alpha, it is left alone).  This option is mainly used for devices.</P>
+
+
+<P><B><font size=+2><a name="Section_7_4">7.4.  Installing New Filters</a></font></B><BR>
+Filter add-ons for Sequitur are found under <i>add-ons/Filters</i> in its installation folder. Additionally, you can put Filter add-ons in the following folders:</P>
+
+<P>When installed manually in one of the writable locations:
+	<UL>
+		<LI><i>/boot/home/config/non-packaged/add-ons/Sequitur/Filters/</i> </LI>
+		<LI><i>/boot/system/non-packaged/add-ons/Sequitur/Filters/</i></LI>
+	</UL>
+
+<P>When installed with a HPKG package, they appear in:</P>
+	<UL>
+		<LI><i>/boot/home/config/add-ons/Sequitur/Filters/</i> or</LI>
+		<LI><i>/boot/system/add-ons/Sequitur/Filters/</i></LI>
+	</UL>
+
+<!--
+<P>True to the live nature of Haiku, it's not necessary to exit Sequitur before installing new add-ons.  Simply drop them in a valid directory and watch them appear in the filter window.</P> -->
+
+<P>Adding or removing Filter add-ons may require a restart of Sequitur.</P>
+
+
+<P><B><font size=+2><a name="Section_7_5">7.5.  Writing New Filters<a/></font></B><BR>
+Sequitur includes a development kit and the source code for nearly all of its filters (not included are the input and output filters) in the <i>DevKit/ExampleFilters/</i> folder.  Several specific code examples are provided:  The Dan filter is heavily commented, and the Dianne and Eric filters are additional examples.</P>
+
+<P>None of these filters provide examples of writing user interfaces to change your filter's attributes.  Please direct any questions to <A HREF="mailto:hackborn@angryredplanet.com"><EM>Eric Hackborn</EM></A>.</P>
+
+<HR width = "575"><BR>
+<CENTER>
+<A HREF = "06_tools.html"><IMG SRC = "images/left.jpg" BORDER=0></A>
+<A HREF = "index.html"><IMG SRC = "images/top.jpg" BORDER=0></A>
+<A HREF = "08_tf_props_win.html"><IMG SRC = "images/right.jpg" BORDER=0></A>
+</CENTER>
+<BR><BR>
+</BODY>
+</HTML>

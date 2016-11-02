@@ -1,0 +1,32 @@
+<HTML> 
+<TITLE>Create Motion Window</TITLE>
+<BODY bgcolor=b4b4b4>
+<H1>14.  The Create Motion Window</H1>
+<HR width = "575">
+<P></P><CENTER><IMG SRC = "images/create_motion_win.jpg"></CENTER>
+<CENTER><i>The Create Motion window</i></CENTER></P>
+
+<P>The Create Motion window provides a way to transform an existing series of notes into a motion.  This can be used to extract pitch or rhythm information from a section of a song, so that it can be mixed into other sections.</P>
+
+<P>This window is accessed from any track window.  First, select a series of notes, then choose the <B>Edit->Create motion...</B> menu item.  This window takes the track window's current selection and creates a new motion based on the selected options.</P>
+
+<P>The Name control allows you to name the motion.  Each motion must have a unique name.  You can browse motions with the <A HREF = "11_motions.html#Section_11_2">Manage Motions</A> window to see what names are in use.</P>
+
+<P>If the Progression option is selected, then the new motion is created as a progression.  Pitch and duration information is extracted from the notes, and velocity is discarded.  The Initial Note control can be used to set the initial note to offset the selection by.  For example, if the first note of the selection is C4 and the initial note is C4,
+then the first hit in the progression will be at 0.  If the selection is C4 and the initial note is B3, then the first hit in the progression will be at 1, since C4 is one step above B3.</P>
+
+<P>If the Envelope from pitch option is selected, then the new motion is created as an envelope based on the pitch information.  Note durations and velocity are discarded.  The Initial note control works in the same manner as it does when creating progressions.</P>
+
+<P>If the Rhythm option is selected, then the new motion is created as a rhythm.  Velocity and duration information is extracted from the notes, and pitch is discarded.  The Center line control is used to set the velocity value that maps to 0 on the motion.  For example, if you set the center line to 0, then a velocity of 0 is mapped to 0, so the final motion will have values between 0 and 100% (that is, velocity of 0 is mapped to value of 0, and velocity of 127 is mapped to 100%).  Likewise, if the center line is set to 127, the final motion will have values between 0 and -100% (velocity of 127 maps to 0, velocity of 0 maps to -100%).  The default center line is 64, which creates a Motion of values 100% to -100% (velocity of 127 maps to 100%, velocity of 64 maps to 0, velocity of 0 maps to -100%).</P>
+
+<P>If the Envelope from velocity option is selected, then the new motion is created as an envelope based on the velocity information.  Note durations and pitch are discarded.  The Center line control works in the same manner as it does when creating rhythms.</P>
+
+<P><HR width = "575"><BR>
+<CENTER>
+<A HREF = "13_phrase_props_win.html"><IMG SRC = "images/left.jpg" BORDER=0></A>
+<A HREF = "index.html"><IMG SRC = "images/top.jpg" BORDER=0></A>
+<A HREF = "15_saturation_win.html"><IMG SRC = "images/right.jpg" BORDER=0></A>
+</CENTER>
+<BR><BR>
+</BODY>
+</HTML>

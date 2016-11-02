@@ -656,7 +656,7 @@ void AmPipelineSegment::RemoveFilter(	AmFilterHolder* pred, AmFilterHolder* whic
 
 	if (mMatrix && mTrack && undo) {
 		BString		n(undoName);
-		if (n.Length() < 1) n = "Remove Fitler";
+		if (n.Length() < 1) n = "Remove filter";
 		undo->SuggestUndoName(n.String() );
 		undo->AddOperation(new AmTrackFilterUndo(mTrack, false, this, pred, which) );
 	}

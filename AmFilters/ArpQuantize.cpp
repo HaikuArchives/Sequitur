@@ -104,9 +104,9 @@ public:
 };
 
 static const char* gShiftNames[] = {
-	"Shift Left",
-	"Shift Right",
-	"Shift Closest",
+	"Shift left",
+	"Shift right",
+	"Shift closest",
 	0
 };
 

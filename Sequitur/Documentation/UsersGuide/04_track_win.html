@@ -1,0 +1,264 @@
+<HTML> 
+<TITLE>The Track Window </TITLE>
+<BODY bgcolor=b4b4b4>
+<H1>4.  The Track Window</H1>
+<HR width = "575"><BR>
+<CENTER><IMG SRC = "images/track_win.jpg"></CENTER>
+<CENTER><i>The track window</i></CENTER>
+<P>
+Track windows are used to edit all the event data in a single track.  This window contains the following controls:<BR>
+<UL>
+	<LI>Transport controls to play and stop the song.
+	<LI>A grid and velocity control.</LI>
+	<LI>The active tracks menu button for changing the current track.</LI>
+	<LI>Tools to operate on MIDI data.
+	<LI>An event inspector (only visible if a single event is selected), for exact control of MIDI data.
+	<LI>A measure control, like the song window.
+	<LI>A primary view (the piano roll) for editing notes.
+	<LI>Zero or more strip views, for editing MIDI data other than notes.
+	<LI>A zoom control for setting the primary and strip magnification levels.
+</UL>
+
+<P><table> <tr>
+	<td><B><font size=+2><a name="Section_1">4.1.  The Transport Controls</a></font></B>&nbsp;</td>
+	<td align = "center"> <img src="images/transport_track.jpg" ></td> 
+</tr></table>
+The track window includes several buttons for controlling playback and looping.  These buttons are analagous to the play and stop buttons found on a tape deck.
+<table>
+      <tr> 
+        <td align="center"><img src="images/transport_play_song.jpg" ></td> 
+        <td><strong>Play song</strong>.&nbsp;   Play all tracks in the song, starting from the left
+        edge of the window and stopping automatically at the right edge.</td>
+      </tr> 
+      <tr> 
+        <td align="center"><img src="images/transport_play_track.jpg" ></td> 
+        <td><strong>Play track</strong>.&nbsp;   Play this track, starting from the left edge of the
+        window and stopping automatically at the right edge.</td>
+      </tr> 
+      <tr> 
+        <td align="center"><img src="images/transport_stop_song.jpg" ></td> 
+        <td><strong>Stop</strong>.&nbsp;   Stop playback.  This will also (in most cases) stop any stuck notes that are playing.</td> 
+      </tr> 
+      <tr>
+        <td align="center"><img src="images/transport_loop.jpg" ></td>
+        <td><strong>Loop mode</strong>.&nbsp;   Toggle loop mode on or off.  See section 4.1.1. Looping, below.</td> 
+      </tr> 
+</table>
+
+<P>
+<B>4.1.1.  Looping</B><BR>
+When the loop button is activated, start and end loop markers appear in the top line of the measure control.  Loop mode is intended to be transitory:  You turn loop mode on when you want to compose a passage by continually layering it, then you turn loop mode off again.
+
+<P>The loop is set to automatically begin at the first completely visible measure, and end at the last completely visible measure.  You can drag the markers to select a new loop range, but if you turn off loop mode, enable it again, and one or both of the markers are beyond the bounds of the view, then the markers will again be placed to align with the first and last completely visible measures.
+
+<P>
+<B>4.1.2.  Keyboard Control</B><BR>
+The transport controls can also be activated from the keyboard.</P>
+<UL>
+	<LI>The ENTER key of your numeric keypad acts lile the Play Song button, playing the entire song from the start of the track window.  If the song was already playing, this key stops playback.</LI>
+	<LI>The 0 key on your numeric keypad acts like the Play Track button, playing just the primary track from the start of the window.  If the song was already playing, this key stops playback.</LI>
+</UL>
+
+<P><table> <tr>
+	<td><B><font size=+2><a name="Section_2">4.2.  The Grid and Velocity Controls</a></font></B>&nbsp;</td>
+	<td align = "center"> <img src="images/grid_and_vel.jpg" ></td> 
+</tr></table>
+These controls set the default properties for newly created events.
+
+<P>The grid control determines both the duration of new notes and the quantize value used when moving existing events.  The views in the track window will display a light vertical line to indicate the current grid.</P>
+
+<P>The velocity control sets the velocity used for any newly created notes.</P>
+
+<P><table><tr>
+	<td><B><font size=+2><a name="Section_3">4.3.  The Active Tracks</a></font></B>&nbsp;</td>
+	<td align = "center"> <img src="images/active_tracks.jpg" ></td> 
+</tr></table>
+This menu button is used to select the track currently being edited in the track window, called the <I>primary</I> track.  Press the menu button and you will see a check mark next to the primary track -- the same track whose name is currently used as the title for the track window.  Selecting a different track will activate that track, and all properties of the track window will change to the new track.
+
+<P>The active tracks button is also used to set <I>ordered</I> tracks.  In addition to the primary track, a track window can have any number of ordered tracks, which are selected in the submenu of each track in the active tracks menu.  The event inspector works only on the primary track, but other than that, the difference between the primary track and the ordered track depends on the tool.</P>
+
+<P>Ordered tracks work in conjunction with tools.  Basic tools will operate on ordered tracks just like they operate on the primary track.  For example, if you select an area with the Select tool, all primary and ordered events become selected.  If you create an event with the Pencil tool, events are created in both the primary and ordered tracks.  Using ordered tracks, you can drag events from multiple tracks together in a single track window.
+
+<P>More advanced tools make specific use of the ordered tracks.  For example, a keyboard splitter tool might take all events below the split point and send them to the second of any ordered tracks (the second ordered track will have a '2' next to its name in the active tracks menu).  The complexity is limited only by the tool design, so read the <A HREF = "b_tools_generated.html">documentation</A> for any tools you don't understand.  Also, each tool has a tool tip that appears after hovering over the tool in the tool bar -- if the tool makes use of ordered tracks, the tool tip will give you a hint as to how best to use the tool, by supplying the number of ordered tracks the tool expects.</P>
+
+<P><table><tr>
+	<td><B><font size=+2><a name="Section_4">4.4.  The Tools</a></font></B>&nbsp;</td>
+	<td align = "center"> <img src="images/tools.jpg" ></td> 
+</tr></table>
+Tools are used to operate on MIDI data.  By default, Sequitur displays standard tools for creating, selecting, modifying, and deleting MIDI events.  When you activate a tool by pressing it with the desired mouse button, it appears over the appropriate button in the active tool view.  The behaviour of each tool is provided in <A HREF = "b_tools_generated.html">B. The Tools</A>.
+
+<P>
+<table><tr>
+	<td><B>4.4.1.  The Active Tools</B>&nbsp;</td>
+	<td align = "center"> <img src="images/slots_3button.jpg" >&nbsp;</td> 
+	<td align = "center"> <img src="images/slots_2button.jpg" >&nbsp;</td> 
+	<td align = "center"> <img src="images/slots_1button.jpg" ></td> 
+</tr></table>
+This view displays which tools are active on each of your mouse buttons.  If you have two or more buttons, the right button is always reserved for the context sensitive menu.
+
+<P>
+<table><tr>
+	<td><B>4.4.2.  The Tool Bars</B>&nbsp;</td>
+</tr></table>
+The available tools are grouped into tool bars and displayed to the right of the active tool view.  Tool bars are accessed from the <B>Tool bars</B> menu of any track window.  This menu contains commands for choosing which tool bars to show, deleting tool bars, and adding new tool bars.  If you delete all tool bars, then Sequitur will automatically restore the factory default tool bars.
+
+<P>As the mouse moves over tools in a tool bar, the appropriate tool highlights, and a property button appears in the upper left corner.  If you click on the tool anywhere besides the menu button, the tool becomes active for the button you clicked.  Clicking the menu button allows you to perform these operations:</P>
+
+	<UL>
+		<LI><I>Properties</I>.  This will open a <A HREF = "08_tf_props_win.html">tool property</A> window on the tool, which allows you to set the properties for all the filters in the tool's pipelines.  Note that any changes made in this window will not be retained after closing Sequitur.</LI>
+		<LI><I>Edit</I>.  This opens the tool in the <A HREF = "06_tools.html#Section_6_3">Edit Tool</A> window.  This window allows you to change any aspect of the tool -- its name, description, pipelines, icon, etc.  Changes made here to any aspect of the tool will be retained even if Sequitur is closed.  Tools which are read only are not available for editing.</LI>
+		<LI><I>Remove From Tool Bar</I>.  The tool will be removed from the tool bar.</LI>
+	</UL>
+
+<P>You can add tools to a tool bar by opening the <A HREF = "06_tools.html#Section_6_1">Manage Tools</A> window and dragging the desired tool onto its desired place in the tool bar.  If the tool is dragged on top of an existing tool, it will replace that tool. If it is dragged to the left or right edge of a tool, it will insert appropriately.</P>
+
+<P>
+<table><tr>
+	<td><B>4.4.3.  The Popup Menu</B></td>
+</tr></table>
+Pressing the right mouse button on two- or three-button mice will open a popup menu with familiar cut-copy-paste commands.  (Note that if you are cutting or copying, the mouse must be over a selected event)
+
+<P><table><tr>
+	<td><B>4.4.4.  Keyboard Control</B></td>
+</tr></table>
+In addition to clicking on the tool buttons to activate a tool, you can use your keyboard.  The function keys F1 through F4 are used to activate each tool for the primary button.  If you have two tool slots in your track window, holding down shift wile pressing these keys will activate that tool for the second slot.
+
+<CENTER>
+	<table border cellspacing=0 cellpadding=5>
+		<tr>
+			<th>First Tool Slot</th>
+			<th>Second Tool Slot</th>
+		</tr>
+		<tr align=left>
+			<td><B>F1</B> = Pencil</td>
+			<td><B>SHIFT F1</B> = Pencil</td>
+		</tr>
+		<tr align=left>
+			<td><B>F2</B> = Select</td>
+			<td><B>SHIFT F2</B> = Select</td>
+		</tr>
+		<tr align=left>
+			<td><B>F3</B> = Wand</td>
+			<td><B>SHIFT F3</B> = Wand</td>
+		</tr>
+		<tr align=left>
+			<td><B>F4</B> = Eraser</td>
+			<td><B>SHIFT F4</B> = Eraser</td>
+		</tr>
+	</table>
+</CENTER>
+
+<P><table><tr>
+	<td><B><font size=+2><a name="Section_5">4.5.  The Event Inspector</a></font></B>&nbsp;</td>
+	<td align = "center"> <img src="images/inspector.jpg" ></td> 
+</tr> </table>
+The inspector displays numeric values for the currently selected event.  It will update to appropriate controls whether the current event is a note, program change, bank change, control change, pitch bend, channel aftertouch, or tempo event.
+
+<P><BR>
+<table> <tr>
+	<td><B><font size=+2><a name="Section_6">4.6.  The Measure Control</a></font></B>&nbsp;</td>
+	<td align = "center"> <img src="images/track_measure_ctrl.jpg" ></td> 
+</tr></table>
+The track measure control looks and behaves much the same as the <A HREF = "02_song_win.html#Section_3">song measure control</A>, so see that documentation for a description of the <A HREF = "02_song_win.html#Section_3_1">position marker</A> and <A HREF = "02_song_win.html#Section_3_2">loop markers</A>.  The one significant difference is that the track measure control allows you to set <A HREF = "11_motions.html">motions</A>, in addition to time signatures, for any given measure.  Motions are selected just like time signatures:  Invoke the popup menu by right-clicking, then select the desired motion from the list.  Like time signatures, the motion is active until a later measure sets a different motion.</P>
+
+<P>By itself, this motion will do nothing.  It will only be used in two situations:  When you are using  a tool that makes use of the current track's motions, or when the track has a filter in the output pipeline that makes use of the track's motions.  The first case is an example of destructive processing, and gives little advantages over what the tools are already capable of.  The second case is nondestructive, and is far more interesting.</P>
+
+<P>In the second case, your track data is dynamically processed based on the track's motions whenever you play your song.  This allows you to easily try different dynamics wherever you like.  For example, if you have a four measure string piece that seems a little static, try putting a crescendo into just that section -- and since the crescendo is happening nondestructively, literally one mouse click can change it into a decrescendo, or whatever dynamics you have motions for.  </P>
+
+<P>Motions are covered in detail in <A HREF = "11_motions.html">chapter 11</A>, so the possibilities might not yet be obvious.  As you'll see, there is nothing that requires a motion be tied to volume.  It can affect pitch, control changes, aftertouch, or do any kind of processing you have a filter for.  Sequitur includes several filters for manipulating motions, including <A HREF = "a_filters_generated.html#Section_A_arp:VaccineV">Vaccine.V</A>, <A HREF = "a_filters_generated.html#Section_A_arp:VaccineP">Vaccine.P</A> and <A HREF = "a_filters_generated.html#Section_A_arp:MotionControl">Motion Control</A>.</P>
+
+<P><B>4.6.1.  Track Motion Tutorial</B><BR>
+This example demonstrates track motions, as described in section 4.6.</P>
+
+Open the file <I>Examples/Tutorial 4.6.1.mid</i>, then open a track window on the Be MIDI Synth - 1 track and scroll to measures 3 and 4.  Note the label 'Pulse 4' at measure 3 of the measure control.  Play the track, and you will see that the visual look of the notes does not match what you hear -- all the notes have velocity 64, but the track clearly plays with an accent on each beat.  The Pulse 4 motion is being applied to the notes as they play because of the Vaccine.V filter located in the output pipeline of the track (visible in the song window).</P>
+
+<P>You can easily experiment with different motions.  Right click on the 'Pulse 4' label in the measure control, move to the Motions submenu, and select a different motion.  Now play the track again -- the notes will have a different accent, depending on the motion you chose.  Use the <A HREF = "11_motions.html#Section_11_2">Manage Motions</A> window to browse all the available motions.</P>
+
+<P><table><tr>
+	<td><B><font size=+2><a name="Section_7">4.7.  The Primary and Strip Views</a></a></font></B></td>
+</tr> </table>
+These views display and allow you to edit the MIDI data in your song.
+
+<CENTER>
+	<IMG SRC = "images/trackviews.jpg" height = "536" width = "599">
+</CENTER>
+
+<table><tr>
+	<td><B>4.7.1.  The Primary View</B></td>
+</tr> </table>
+The primary view is the main view for editing data.  The track window has two types
+of primary view, a piano roll and a hybrid view, which can be selected in the <B>View -> Change to</B>
+menu.  Both of these views are used to edit note data.
+
+<P>
+<table><tr>
+	<td><B>4.7.2.  The Strip Views</B></td>
+</tr> </table>
+Strip views allow access to MIDI events other than notes.  These views are stacked horizontally below the 
+primary view, and can be used to edit patch (program change), control change, pitch bend, and channel aftertouch information.  There is also a strip view for editing bank and program change data together, but this view requires that the track has an appropriate device.  See <A HREF = "10_devices.html">Devices</A> for information on creating devices and banks, and <A HREF = "09_studio.html">The Studio</A> for information on associating devices with tracks.
+
+<P>The upper-left corner of each strip view displays a property button.  Pressing this button allows you to
+manage your strip views by duplicating the current strip, changing it to another type of strip view, or
+removing it altogether.  Below the strip views is a final property button not associated with any strip.
+This button allows you to add new strips to the end of the list.
+
+<P>Certain views might add new choices to their property menu.  For example, control change views add a menu item labeled 	
+Control Change, which allows you to change the view to display and edit any of the 128 available control numbers 
+(although this menu item will be unavailable if the current track has no output filter selected).
+
+<P>
+<table><tr>
+	<td><B>4.7.3.  Keyboard Control</B></td>
+</tr></table>
+You can alter the values of MIDI events by using the keyboard.  Holding down CTRL while pressing the arrow keys operates exactly like the pencil tool.  For example, CTRL-ARROW LEFT will move the selected events left in time by the current quantize value.  CTRL-ARROW UP will increase the selected events as if dragging them with the mouse (increase the pitch of note events, increase the value of control change events, etc.).
+<P>
+Holding down OPTION (varies with your keyboard, but generally the Windows key on Windows keyboards) while pressing the arrow keys operates exactly like the wand tool.  For example, OPTION-ARROW UP will increase the velocity of note events, OPTION-ARROW LEFT will decrease their duration, etc.  Using OPTION-ARROW UP and OPTION-ARROW DOWN on program change events is an easy way step through programs without the fatigue of holding down the mouse.  Holding down the arrow keys slowly increases the rate of change.
+<P>
+The DEL key can be used to delete all the selected events.
+<P>
+<i>Preliminary note:  Using arrow keys without CTRL or other modifiers is reserved for changing the current note selection.  Currently, the right arrow key can be used to change the selected event, although this functionality is not complete.  For example, in its current state, the arrow key will not jump across phrase boundaries.</i>
+
+<P><BR>
+<table><tr>
+	<td><B><font size=+2><a name="Section_8">4.8.  Menu Bar</a></font></B>&nbsp;</td>
+</tr> </table>
+<B> Edit </B>
+<UL>
+	<LI> <B> Undo </B>.  Undo the last change.
+	<LI> <B> Redo </B>.  Redo the last undo.
+	<LI> <B> Cut </B>.  Moves selection to the paste buffer.  Useful for deleting many selected events.
+	<LI> <B> Copy </B>.  Copies selection to the paste buffer.
+	<LI> <B> Paste </B>. Pastes contents of paste buffer.
+	<LI> <B> Create motion...</B>. Open a <A HREF = "14_create_motion_win.html">Create Motion</A> window on the current selection.</LI>
+	<LI> <B> Set time signature... </B>.  Open a <A HREF = "12_sig_win.html">Set Signature</A> window on the leftmost measure. 
+</UL>
+<B> View </B>
+<UL>
+	<LI> <B> Change to </B>. Changes primary view of the track 
+	<UL>
+		<LI> <B> Piano Roll </B>.  Default view.
+		<LI> <B> Hybrid Note </B>.  Staff view.	
+	</UL>
+	<LI> <B> Saturation...</B>. Open the <A HREF = "15_saturation_win.html">Saturation</A> window.
+</UL>
+<B> Tool Bars </B>
+<UL>
+	<LI> <B> Show </B>.  Select which tool bars are visible in the track windows.</LI>
+	<LI> <B> Delete </B>.  Delete a tool bar, removing it from all track windows and the system.  Deleting all tool bars will restore the factory defaults.</LI>
+	<LI> <B> New </B>.  Create a new, empty tool bar with the supplied name.</LI>
+</UL>
+<B> Windows </B>
+<UL>
+	<LI> <B> Filters </B>.  Open the <A HREF = "07_filters.html#Section_7_1">Manage Filters</A> window.
+	<LI> <B> Tools </B>.  Open the <A HREF = "06_tools.html#Section_6_1">Manage Tools</A> window.
+</UL>
+
+<P><HR width = "575"><BR>
+<CENTER>
+<A HREF = "03_pipelines.html"><IMG SRC = "images/left.jpg" BORDER=0></A>
+<A HREF = "index.html"><IMG SRC = "images/top.jpg" BORDER=0></A>
+<A HREF = "05_tempo_win.html"><IMG SRC = "images/right.jpg" BORDER=0></A>
+</CENTER>
+<BR><BR>
+</BODY>
+</HTML>

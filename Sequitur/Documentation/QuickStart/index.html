@@ -1,0 +1,181 @@
+<HTML>
+<TITLE>Sequitur Quick Start Guide</TITLE>
+<body bgcolor=b4b4b4>
+<center><IMG SRC = "images/seq_logo.jpg"></center>
+<H1><center>Sequitur Quick Start Guide</center></H1>
+<HR>
+<p><em> This Guide was written to quickly get you up to speed in the basics of
+music composition with Sequitur. Screenshots may vary slightly due to different MIDI devices running on your system.</em></p>
+
+<table><tr>
+	<td><B><font size=+2>1.  Getting Ready</font></B>&nbsp;</td>
+</tr></table>
+<table>
+<tr> 
+<td >1.1. Sequitur is a MIDI sequencer written by
+<A HREF="http://www.angryredplanet.com"><B>Angry Red Planet</B></A>.
+After installing the Sequitur package you'll find the Sequitur icon in Deskbar's Application menu.
+</td> 
+<td align=center> <IMG SRC="images/app_icon.png" ></td>
+</tr> 
+</table>
+
+<P>
+<table><tr>
+	<td><B><font size=+2>2.  The Basics</font></B>&nbsp;</td>
+</tr></table>
+2.1. When Sequitur launches, it displays a single empty song window.  The vertical column of icons on the right hand side of the window are MIDI output filters -- one output for each track.  By default, Sequitur creates output filters for two channels of each MIDI device present on your system placed in its output pipeline. The output filter is used to designate the MIDI device that will perform MIDI events.  Examples of MIDI devices can be the internal synth on your sound card, a MIDI instrument connected to the MIDI / game port of your sound card, a MIDI interface (such as the MIDI Oxygen 44), or a software synth (such as ObjektSynth).  
+<BR><BR>
+<CENTER><img src="images/song.jpg"></CENTER>
+<P>2.2. The song window contains a set of tape deck-style transport controls for controlling song playback.  None of these controls will function until there is data in the song.
+<table>
+      <tr> 
+        <td align="center"><img src="images/transport_rewind.jpg" ></td> 
+        <td><strong>Rewind</strong>.&nbsp;   Rewind the song position to the beginning of the song.  
+	   The song position is indicated by the arrow in the measure control.
+	   </td>
+      </tr> 
+      <tr> 
+        <td align="center"><img src="images/transport_play_song.jpg" ></td> 
+        <td><strong>Play song</strong>.&nbsp;   Play the entire song from the current song position.</td>
+      </tr> 
+      <tr> 
+        <td align="center"><img src="images/transport_stop_song.jpg" ></td> 
+        <td><strong>Stop</strong>.&nbsp;   Stop playback.</td> 
+      </tr> 
+      <tr>
+        <td align="center"><img src="images/transport_record.jpg" ></td> 
+        <td><strong>Record mode</strong>.&nbsp;   Toggle record mode on or off.</td> 
+      </tr> 
+      <tr>
+        <td align="center"><img src="images/transport_loop.jpg" ></td>
+        <td><strong>Loop mode</strong>.&nbsp;   Toggle loop mode on or off.</td> 
+      </tr> 
+</table>
+
+<P>
+2.3. Sequitur makes use of filters to control the flow of MIDI data on your system.  Take a look at all available MIDI devices and filters in your system by selecting <B>Windows --> Filters.</B>  Through filters will be discussed later in this guide.  <i>Note that your Manage Filters window may vary depending on what MIDI devices you have connected.</i><BR><BR>
+
+<P>
+<table><tr>
+	<td><B><font size=+2>3.  Basic Tools - Create And Edit Notes</font></B>&nbsp;</td>
+</tr></table>
+3.1.  Open the track window for channel 1 of the Be MIDI Synth by double-clicking on the track's phrase view.  You may need to scroll down if you have a MIDI interface connected.  (Note that there will be two icons for the Be MIDI Synth, corresponding to channels 1 and 2.  Make sure you open the track window for the first channel denoted by '1' in the Be MIDI Synth icon.)  The phrase view for a track gives you a global perspective of the song.  The phrase view is the textured grey area bounded by the second and third vertical separators in the song window.<BR><BR>
+
+<P>
+3.2.  In the track window, use your primary mouse button (by default the left on two and three button mice) to place a few notes down anywhere on the grid.  If you have speakers connected to your sound card, you should hear the notes played as they are placed.  Note the song window updates to display the new notes.  These notes are placed via the Pencil tool, one of the four basic tools used to manipulate MIDI events.  In order they are:
+<P>
+<table>
+  <tr>
+	<td align="center"><img src="images/pencil.jpg" ></td>
+          <td><strong>Pencil tool</strong>.&nbsp;  Used to place notes in a track.  Single clicking on a note with the Pencil tool will select the note while clicking and dragging will move the note around in the track.&nbsp;</td> 
+      </tr> 
+  <tr>
+	<td align="center"><img src="images/select.jpg" ></td>
+        <td><strong>Select tool</strong>.&nbsp;  Used to select notes in a track.  Clicking and dragging will box an area to be selected.</td> 
+      </tr> 
+  <tr>
+	<td align="center"><img src="images/wand.jpg" ></td>
+         <td><strong>Wand tool</strong>.&nbsp; The Wand tool allows you to edit your notes.  Clicking and dragging to the left and right on a note will shorten and lengthen it, while dragging up and down changes the velocity.</td> 
+      </tr> 
+      <tr>
+	<td align="center"><img src="images/eraser.jpg" ></td>
+        <td><strong>Eraser tool</strong>.&nbsp; Click and drag to erase notes. </td> 
+      </tr> 
+</table>
+<P>
+3.3. There are more tools available which we'll explore later on.  On three button mice, any tool can be assigned to the first two mouse buttons by clicking on the tool with the desired button.  The image to the left of the basic toolbar shows you which tools are assigned to which buttons.  By default, the Pencil tool is assigned to your primary mouse button, and the Wand tool is assigned to your middle mouse button.   With the Wand tool, click and drag on one of the notes you just placed down.  Dragging to the right lengthens the duration, while dragging left shortens it.  Dragging up will increate the volume and dragging down softens the note.  Use the Select tool and place a box around a group of notes.  Active notes turn red.  Grab the Wand tool again, and try lengthening all the selected notes.  When you depress the mouse button, you'll hear the effect of your editing.  Remember that clicking the Stop button will halt playback.  Try removing a few notes with Eraser tool.  Alternatively, you can use the Select tool to box a group of notes, and hit the delete key on your keyboard.  
+
+<P>3.4. The track window contains its own set of transport controls.  These controls only play the visible area of the track.
+<table>
+      <tr>
+	<td align="center"><img src="images/playall_track.jpg" ></td>
+      <td><strong>Play song</strong>.&nbsp;   Play the entire song, from the left edge of the track window to its right edge.</td> 
+      </tr> 
+      <tr> 
+	<td align="center"><img src="images/playtrack_track.jpg" ></td>
+        <td><strong>Play track</strong>.&nbsp;   Play only this track.  Mute all other tracks in the song.</td> 
+      </tr> 
+      <tr> 
+	<td align="center"><img src="images/stoptrack_track.jpg" ></td>
+         <td><strong>Stop</strong>.&nbsp;   Stop playback.</td> 
+      </tr> 
+      <tr>
+	<td align="center"><img src="images/looptrack_track.jpg" ></td>
+        <td><strong>Loop mode</strong>.&nbsp;   Toggle loop mode on or off.</td> 
+      </tr> 
+</table>
+<P>
+
+
+<P>
+<table>
+<tr>
+	<td><B><font size=+2>4.  Change Instruments</font></B>&nbsp;</td>
+</tr>
+</table>
+4.1. Sequitur can edit more than just notes.  Below the piano roll are a series of strip views which allow editing of patch (program change), control change, pitch bend, and channel aftertouch information.  Using the Pencil tool in the patch strip, click and drag to add a new program change.  If you've started dragging without releasing the button, notice how Sequitur changes the patch number as you drag.  Click the Play Track button to hear your notes with different instruments.
+<BR><BR>
+<CENTER><img src="images/strip.jpg"></CENTER>
+<BR><BR>
+<B><font size=+2>5.  Advanced Tool Bar - Adding a Drum Riff</font></B>
+<P>
+5.1.  Now that you've added a few notes, let's add some drums.   Go back to the song window and change the MIDI channel on the output filter for 'Be MIDI Synth - 2'  to 10 by double-clicking the filter and selecting 10 from the Channel menu in the filter settings window.  The Be MIDI Synth filter icon changes to reflect the new channel.  Channel 10 is the General MIDI default for drum kits, which means that all the notes we place down in this track will be sounds on a drum kit.   
+<P>
+5.2 Rename this track to 'Drums' by single-clicking on the text 'Be MIDI Synth - 2' in the song window and entering a new name.  Hit return to accept the change.  Double-click in the phrase area to open up the track window for the Drums track as you did for the first track
+<P>
+5.3 Open the Manage Tools window by selecting <b>Windows->Tools</b>.  The tools in this window are your gateway to accessing  Sequitur's extensive framework for manipulating MIDI events.   Each tool contains a series of instructions which controls how it processes MIDI data.  For our drum riff, we'll use the tool Hot Beat Injection.  Go back to the track window and check <b>Tool bars->Show->ARP Advanced</b> to activate the ARP Advanced tool bar (alternatively, you can drag the Hot Beat Injection tool from the Manage Tools window to the desired location of any tool bar in any track window).  Choose 1/16 notes from the quantize icon, located just to the right of the loop button on the transport control.  You'll notice that the track's grid will update to reflect the new quantize setting.  Assign Hot Beat Injection to the left button of your mouse by clicking the icon in the tool bar.  Notice that the mouse image updates to show that Hot Beat Injection is assigned to your left mouse button.  At the beginning of a measure <b>click and hold</b> the mouse button.  You'll see that a few 1/16 notes have been placed down in the track.  Now drag the mouse around, carving a different riff with every mouse gesture.  Each time you move the mouse, you'll hear a different riff play.  When you're satisfied, let go of the mouse button.  Remember, your primary mouse button is Hot Beat Injection, so you might want to reassign that button to the Pencil tool now.  Though, don't worry if you happen to lay down a series of notes on top of your masterpiece, there's always <b>Edit->Undo</b>! 
+<P>
+<CENTER><img src="images/drums.jpg"></CENTER>
+<P>
+5.4 Click the Play Song button to hear both tracks together (the solid play button).  Notice that the notes for the previous track appear grey, giving you a frame of reference for the new notes in this track.  The Shadow tracks: knob under <B>View->Saturation...</B> can be used to lighten or darken the notes of other tracks.
+
+
+<P>
+<B><font size=+2>6.  Song Manipulation </font></B>
+<P>
+6.1.  Go back to the song window and open the filters window (if it's not already open) from <b>Windows->Filters</b>.  From this window, select the Echo filter and drag it to the first slot of the output pipeline in the 'Be MIDI Synth - 1' track.  At this point, current notes in this track, as well as any new notes you place down, will have the Echo filter automatically applied to them.  Any number of through filters may be placed in the pipeline.  Filters placed in a track's output pipeline will apply only to that track.  Press the Play button to hear the echo applied to the first track.  
+<P>
+Sequitur includes a complex framework for MIDI processing, allowing application of filters to many different composition situations.  In the song window, hover over the Echo filter, click the property menu that appears in the upper left corner, and select bypass.   Sequitur will ignore the Echo filter, and send all events to the next node in the pipeline, which in this case is the output filter.
+<P>
+6.3.  In the song window, click on the M (mute) button to the left of 'Be MIDI Synth - 1' to mute the first track, and hear the Drums alone.
+<P>
+6.4. The song windows is a good place to manipulate the structure of your song because it allows access to groups of MIDI events, called phrases.  You can manipulate phrases in many ways.  Copy them to a new location -- even a different track or song, move them, delete them, even change the color.  With the right mouse button (or middle button on two button mice) click the phrase containing your drum riff.  Remeber, this should be the second Be MIDI Synth track -- the one you labeled 'Drums'.  With the mouse button pressed, drag the phrase a few measures over to the right.  When you let go of the mouse button, a pop-up menu will ask you to 'move' or 'copy' the phrase to the current location; choose copy.  You've now duplicated the drum riff for two more measures.  
+<CENTER><img src="images/song2.jpg"></CENTER>
+<P>
+<table><tr>
+	<td><B><font size=+2>7.  Record a New Phrase</font></B>&nbsp;</td>
+</tr></table>
+<i><center>Before you can record, you need a MIDI device capable of sending MIDI events (such as a keyboard), and you need to know which MIDI in port it's connected to.</center></i>
+<BR>
+<P>
+7.1.  From the filters window, drag the  MIDI input/output filter that will be <i>sending</i> MIDI events to the input pipeline for the track you wish to <i>receive</i> MIDI events.  In this example, track 34, we're using the first port for a Yamaha UX256 MIDI interface (where the keyboard is connected) to send data to a device connected to the second port of the Yamaha UX256 (a tone module).
+<P>
+7.2.  Click on the track number for the desired track.  You'll notice it becomes highlighted yellow, indicating that it's selected. 
+<P>
+7.3.  Prepare the song for recording by pressing the Record button in the song's transport controls.  The highlight color will change to red, indicating the selected track is armed to receive MIDI events.
+<P>
+7.4.  Click and drag the song position indicator in the measure control, placing it where you want recording to begin.  Press the Play Song button to begin recording.  The events will appear as you're playing.  When Record mode is enabled, the song will not automatically stop.  Press the Stop button when you're finished recording.
+<BR><BR>
+<CENTER><img src="images/record.jpg"></CENTER>
+
+
+<P>
+<table><tr>
+	<td><B><font size=+2>8.  Save Your Work</font></B>&nbsp;</td>
+</tr></table>
+8.1. Save your work by selecting <B>File->Save</B>.   
+<P><BR>
+
+<CENTER>
+<H3>You're now equipped with the basics of MIDI composition in Sequitur! </H3>
+<BR><BR>
+Please refer to the <A HREF = "../UsersGuide/index.html">User's Guide</A> for details about the many 
+recording, editing, and processing features not covered in this guide. 
+<HR><BR>
+<font size=-1>
+	Quick Start document v2.1.3<BR>
+	(c) 2000-2001 by <A HREF = "http://www.angryredplanet.com">Angry Red Planet</A><BR>
+	last modified 28 October 2016<BR>
+</font>
+</HTML>

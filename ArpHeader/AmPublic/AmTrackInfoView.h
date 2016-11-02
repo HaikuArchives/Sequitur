@@ -56,7 +56,7 @@ enum {
 	REMOVE_INFO_MSG		= 'remI'
 };
 
-#define AM_INFO_CHANGE_VIEW_STR		"Change View"
+#define AM_INFO_CHANGE_VIEW_STR		"Change view"
 
 // I respond to this message:
 #define S_DRAGGED_TRACK_DATA	'#Dtd'

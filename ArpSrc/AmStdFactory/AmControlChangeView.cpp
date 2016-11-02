@@ -303,7 +303,7 @@ BPopUpMenu* AmControlChangeInfoView::NewPropertiesMenu() const
 
 _AmControlMenu* AmControlChangeInfoView::NewControlMenu() const
 {
-	_AmControlMenu*			menu = new _AmControlMenu( "Control Change",
+	_AmControlMenu*			menu = new _AmControlMenu( "Control change",
 														mSongRef,
 														mTrackWinProps.OrderedTrackAt(0),
 														BMessenger(this),

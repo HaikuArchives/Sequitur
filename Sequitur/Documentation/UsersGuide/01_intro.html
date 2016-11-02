@@ -1,0 +1,52 @@
+<HTML> 
+<TITLE> Introduction </TITLE>
+<BODY bgcolor=b4b4b4>
+<H1>1.  Introduction</H1>
+<HR width = "575"><BR>
+
+<P>
+Sequitur is a native music sequencer that can record, compose, store, and play back music from your computer.  It does this by providing you with tools to manipulate MIDI, a protocol that defines standard musical events, such as playing a note or selecting an instrument.  Any device which implements the MIDI protocol -- sound cards, synthesizers, software synthesizers, effects processors, etc. -- can be accessed by Sequitur.  This section introduces the fundamental concepts of Sequitur, and explains how they fit together.
+<P>
+For more information on MIDI, visit the <A HREF = "http://www.midi.org">MIDI Manufacturer's Association</A>.
+
+<P>
+<B><font size=+2><a name="Section_1">1.1.  Concepts</a></font></B>
+<P>
+<B>Songs</B><BR>
+Songs are the highest level of organization in Sequitur.  They provide an overview of the composition's structure, which can be easily modified and rearranged.  A song can be thought of as a list of tracks.  See <A HREF = "02_song_win.html">The Song Window</A> for information on working with songs.
+
+<P><B>Tracks</B><BR>
+Each track in a song can be thought of as a collection of MIDI events you wish to send somewhere, such as an instrument or even another track.  Performance data -- notes, pitch bend, controller info and more -- are grouped into phrases, which are stored in tracks.  Bundling data within phrases allows you to easily organize your composition by moving or delete a group of notes.  See <A HREF = "04_track_win.html">The Track Window</A> for information on working with tracks.</P>
+
+<P><B>Filters</B><BR>
+Filters are a generic way to process MIDI events. The most important thing you need to know about filters is this: You can never, ever escape them. Even the most basic task, hearing a note from one of your synthesizers, requires a track with a filter that locates the desired synthesizer.  Filters may also manipulate the MIDI events sent to them.  For instance, an Echo filter would contain the instructions to take each note it receives, and output a succession of notes which decrease in velocity.  Filters only live inside pipelines.  See <A HREF = "07_filters.html">Filters</A> for more information on filters.  See <A HREF = "a_filters_generated.html">Appendix A:  The Filters</A> for a description of the available filters.</P>
+
+<P><B>Pipelines</B><BR>
+Pipelines allow you to place a series of fiters for processing MIDI events.  Each track has two pipelines: An input pipeline for receiving MIDI data from a MIDI device, processing it, and placing it in the track; and an output pipeline, which processes a track's data before sending it to a MIDI device for playback.  The first filter in the input pipeline tells Sequitur what MIDI device is generating events for that track, and the last filter in an output pipeline will tell Sequitur what MIDI device should perform the track's events.</P>
+
+<P><B>Tools</B><BR>
+Tools allow you to interact with MIDI data.  Simple examples are standard tools like the Pencil tool, for creating MIDI events, and the Eraser tool, for deleting them.  More complex examples include tools that echo all selected notes, split one track into two based on a key range, impose pitch or velocity information on an existing passage, automatically create new rhythms, and more.  Tools represent a major change from previous versions of Sequitur:  each tool has its own list of pipelines, allowing them to perform complex, interactive processing.  See <A HREF = "06_tools.html">Tools</A> for more information on tools.  See <A HREF = "b_tools_generated.html">Appendix B:  The Tools</A> for a description of the available tools.</P>
+
+<P><B>Devices and the Studio</B><BR>
+A device definition is mostly a convenience for using synthesizer-specific names in Sequitur.  For example, with the proper device definition, patch names that appear in Sequitur are the actual patch names from the MIDI device.  Devices can also supply names for controllers and banks, and an icon that is used for any filter currently assigned to the device.</P>
+
+<P>The studio is a list of all currently available MIDI devices.  It is used to associate Sequitur device definitions with actual MIDI devices.</P>  
+
+<P> See <A HREF = "09_studio.html">The Studio</A> for more information on the studio.   See <A HREF = "10_devices.html">Devices</A> for information on creating and modifying devices.</P>
+
+<P><B>Motions</B><BR>
+A motion defines a change over time.  This very general concept can capture a number of musical ideas.  For example, a rhythm can be thought of us a change in velocity over time; a progression can be thought of us a change in pitch over time.  Motions are intended to introduce dynamics into otherwise static passages.  For example, traditional loop-based composition may have a constant rhythm repeating for the entire song.  With a motion, you can introduce variations, from subtle to complex:  The loop could rhythmically crescendo, or slowly change into a different rhythm, or simply gain an accent in even measures.  See <A HREF = "11_motions.html">Motions</A> for more information on creating and modifying motions.
+<P>
+<B>Multi Filters</B><BR>
+A multi filter is a single filter made up from any number of other filters.  For example, a chorus effect could be described as taking a single note, duplicating it one or more times, and transposing the duplication.  Similarly, a Chorus multi filter can be written by combining several <A HREF = "a_filters_generated.html#Section_A_arp:Copy">Copy</A> and <A HREF = "a_filters_generated.html#Section_A_arp:Transpose">Transpose</A> filters.  Multi filters are a way to develop new types of filters without programming.  See <A HREF = "07_filters.html#Section_7_3">Editing Multi Filters</A> for instructions on creating your own multi filters.
+
+
+
+<P><HR width = "575"><BR>
+<CENTER>
+<A HREF = "index.html"><IMG SRC = "images/top.jpg" BORDER=0></A>
+<A HREF = "02_song_win.html"><IMG SRC = "images/right.jpg" BORDER=0></A>
+</CENTER>
+<BR><BR>
+</BODY>
+</HTML>

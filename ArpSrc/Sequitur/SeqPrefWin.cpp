@@ -53,7 +53,7 @@ static const char*		OPEN_FILE_STR				= "open_file";
 
 static const char*		ON_STR						= "On";
 static const char*		NAME_STR					= "Name";
-static const char*		QUERY_STR					= "Query or Folder";
+static const char*		QUERY_STR					= "Query or folder";
 //static const char*		SKIP_TOP_LEVEL_STR			= "Skip Top Level";
 static const char*		EDIT_STR					= "Edit";
 static const char*		TRACK_STR					= "Track";
@@ -195,7 +195,7 @@ void SeqPrefWin::MessageReceived(BMessage* msg)
 																false);
 			if (mFilePanel->IsShowing() ) break;
 			if (mFilePanel->Window() ) {
-				mFilePanel->Window()->SetTitle("Select File" B_UTF8_ELLIPSIS);
+				mFilePanel->Window()->SetTitle("Select file" B_UTF8_ELLIPSIS);
 			}
 
 			mFilePanel->SetTarget(BMessenger(this));
@@ -482,12 +482,12 @@ BView* SeqPrefWin::NewFileView(BRect bounds, const BMessage& prefs) const
 
 	/* The Open New Songs preferences.
 	 */
-	f.Set(bounds.left + 5, f.bottom + 10, bounds.right - 5, f.bottom + 10 + openH + 10);
+	f.Set(bounds.left + 5, f.bottom + 10, bounds.right - 10, f.bottom + 10 + openH + 10);
 	BBox*		box = new BBox( f,
 								"open_new_songs",
 								B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
 	if( box ) {
-		box->SetLabel( "Open New Songs" );
+		box->SetLabel( "Open new songs" );
 		BRect		boxB = box->Bounds();
 		BRect		sf(boxB.left + 5, boxB.top + 5 + bfh, boxB.right - 5, boxB.top + 5 + bfh + fh);
 		const char*	choice;
@@ -520,10 +520,10 @@ BView* SeqPrefWin::NewFileView(BRect bounds, const BMessage& prefs) const
 	f.bottom = bounds.bottom - 27;
 	box = new BBox( f, "open_from_query", B_FOLLOW_ALL);
 	if( box ) {
-		box->SetLabel("Open From Query");
+		box->SetLabel("Open from query");
 
 		BRect			boxB = box->Bounds();
-		BRect			tableF(boxB.left + 5, boxB.top + 5 + bfh, boxB.right - 5, boxB.bottom - 35);
+		BRect			tableF(boxB.left + 1, boxB.top + 5 + bfh, boxB.right - 1, boxB.bottom - 45);
 		mOwqTable = new _OwqList( tableF, mPreferences );
 		if( mOwqTable ) {
 			mOwqTable->SetLatchWidth( 0 );
@@ -536,7 +536,7 @@ BView* SeqPrefWin::NewFileView(BRect bounds, const BMessage& prefs) const
 //			mOwqTable->SetSortColumn(mOwqTable->ColumnAt(), true, true);
 			mOwqTable->SetSelectionMode( B_SINGLE_SELECTION_LIST );
 
-			BRect		bF(tableF.left, tableF.bottom + 5, tableF.left + 55, tableF.Height() - 10);
+			BRect		bF(tableF.left + 5, tableF.bottom + 5, tableF.left + 65, tableF.Height() - 10);
 			BButton*	add = new BButton( bF, "owq_add", "Add", new BMessage(OWQ_INVOKE_ADD), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM );
 			if( add ) box->AddChild( add );
 			bF.OffsetBy( bF.Width() + 5, 0 );
@@ -738,7 +738,7 @@ class _OwqWindow : public BWindow
 public:
 	_OwqWindow(BMessenger target, const BMessage* prefs = 0)
 			: BWindow(	BRect(100, 100, 300, 300),
-						"Open From Query",
+						"Open from query",
 						B_TITLED_WINDOW_LOOK,
 						B_NORMAL_WINDOW_FEEL,
 						B_NOT_ZOOMABLE | B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE),
@@ -766,7 +766,7 @@ public:
 			}
 			f.OffsetBy( 0, f.Height() + 10 );
 			f.bottom = f.top + button_height( v );
-			mFileButton = new BButton( f, "file_ctrl", "Choose Query", new BMessage( OWQ_CHOOSE_FILE_MSG ) );
+			mFileButton = new BButton( f, "file_ctrl", "Choose query", new BMessage( OWQ_CHOOSE_FILE_MSG ) );
 			if( mFileButton ) v->AddChild( mFileButton );
 
 /* I've turned off skip for now -- I think just having it on
@@ -829,7 +829,7 @@ public:
 																	false);
 					if( mFilePanel->IsShowing() ) break;
 					if( mFilePanel->Window() ) {
-						mFilePanel->Window()->SetTitle("Select File" B_UTF8_ELLIPSIS);
+						mFilePanel->Window()->SetTitle("Select file" B_UTF8_ELLIPSIS);
 					}
 
 					mFilePanel->SetTarget(BMessenger(this));

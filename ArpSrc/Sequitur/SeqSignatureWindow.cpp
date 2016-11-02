@@ -293,7 +293,7 @@ void SeqSignatureWindow::AddViews(bool showLockToSong)
 	
 	/* Build rows for each popup choice in the preferences.
 	 */
-	_LineView*	lv = new _LineView(BRect( b.left, top, b.right, top + fh), "Line", "PopUp Choices");
+	_LineView*	lv = new _LineView(BRect( b.left, top, b.right, top + fh), "Line", "Popup choices");
 	if (lv) mBg->AddChild(lv);
 	top = top + fh + CHOICES_SPACE_Y;
 	mChoicesTop = top - CHOICES_SPACE_Y;

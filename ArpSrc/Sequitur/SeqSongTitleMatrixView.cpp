@@ -421,7 +421,7 @@ void SeqSongTitleMatrixView::ShowMenu(track_id tid)
 	GetMouse(&point, &buttons, false);
 	BPopUpMenu*		menu = new  BPopUpMenu( "", TRUE, TRUE, B_ITEMS_IN_COLUMN );
 	BMenuItem*		item1 = new BMenuItem("Open", new BMessage(OPEN_MSG) );
-	BMenuItem*		item2 = new BMenuItem("Edit Name", new BMessage(EDIT_START_MSG) );
+	BMenuItem*		item2 = new BMenuItem("Edit name", new BMessage(EDIT_START_MSG) );
 	BMenuItem*		item3 = new BMenuItem("Remove", new BMessage(REMOVE_MSG) );
 	if (menu && item1 && item2 && item3) {
 		if (item1->Message() ) item1->Message()->AddPointer(SZ_TRACK_ID, tid);
