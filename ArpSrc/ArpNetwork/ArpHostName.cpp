@@ -18,7 +18,7 @@
 #include <support/Autolock.h>
 #endif
 
-#include <string.h>
+#include <cstring>
 
 ArpMOD();
 
@@ -26,7 +26,7 @@ ArpMOD();
 
 static char** strarraydup(const char** sarray)
 {
-	ArpD(cdb << ADH << "ArpHostName: strarraydup " << sarray << endl);
+	ArpD(cdb << ADH << "ArpHostName: strarraydup " << sarray << std::endl);
 	
 	if( !sarray ) return NULL;
 	
@@ -45,11 +45,11 @@ static char** strarraydup(const char** sarray)
 
 static void freestrarray(char** sarray)
 {
-	ArpD(cdb << ADH << "ArpHostName: freestrarray " << sarray << endl);
+	ArpD(cdb << ADH << "ArpHostName: freestrarray " << sarray << std::endl);
 	
 	if( !sarray ) return;
 	for(char** pos = sarray; *pos; pos++) {
-		ArpD(cdb << ADH << "ArpHostName: free " << *pos << endl);
+		ArpD(cdb << ADH << "ArpHostName: free " << *pos << std::endl);
 		free((void*)*pos);
 	}
 	delete[] sarray;
@@ -69,7 +69,7 @@ static void unlock(void) {
 ArpHostName::ArpHostName(const char* host_in, int port_in)
 	: name(""), ipaddr(0), error(B_BAD_VALUE)
 {
-	ArpD(cdb << ADH << "ArpHostName: constructing " << this << endl);
+	ArpD(cdb << ADH << "ArpHostName: constructing " << this << std::endl);
 	
 	memset(&host,0,sizeof(host));
 	lock();
@@ -77,11 +77,11 @@ ArpHostName::ArpHostName(const char* host_in, int port_in)
 	try {
 		if( host_in ) {
 			ArpD(cdb << ADH << "ArpHostName: looking up "
-								<< host_in << endl);
+								<< host_in << std::endl);
 			struct hostent* he = ::gethostbyname(host_in);
 			if( !he ) {
 				error = h_errno;
-				ArpD(cdb << ADH << "ArpHostName: error #" << h_errno << endl);
+				ArpD(cdb << ADH << "ArpHostName: error #" << h_errno << std::endl);
 				unlock();
 				return;
 			}
@@ -94,7 +94,7 @@ ArpHostName::ArpHostName(const char* host_in, int port_in)
 			ipaddr = 0;
 		}
 			
-		ArpD(cdb << ADH << "ArpHostName: storing socket info" << endl);
+		ArpD(cdb << ADH << "ArpHostName: storing socket info" << std::endl);
 		sockaddr.sin_family = AF_INET;
 		sockaddr.sin_port = htons((int16)port_in);
 		sockaddr.sin_addr.s_addr = htonl(IPAddress());
@@ -109,7 +109,7 @@ ArpHostName::ArpHostName(const char* host_in, int port_in)
 ArpHostName::ArpHostName(ulong addr, int port)
 	: name(""), ipaddr(0), error(B_BAD_VALUE)
 {
-	ArpD(cdb << ADH << "ArpHostName: constructing " << this << endl);
+	ArpD(cdb << ADH << "ArpHostName: constructing " << this << std::endl);
 	
 	memset(&host,0,sizeof(host));
 	lock();
@@ -118,7 +118,7 @@ ArpHostName::ArpHostName(ulong addr, int port)
 		struct hostent* he = gethostbyaddr((char*)&addr,4,AF_INET);
 		if( !he ) {
 			error = h_errno;
-			ArpD(cdb << ADH << "ArpHostName: error #" << h_errno << endl);
+			ArpD(cdb << ADH << "ArpHostName: error #" << h_errno << std::endl);
 			unlock();
 			return;
 		}
@@ -142,7 +142,7 @@ ArpHostName::ArpHostName(ulong addr, int port)
 
 ArpHostName::ArpHostName(const ArpHostName& o)
 {
-	ArpD(cdb << ADH << "ArpHostName: constructing " << this << endl);
+	ArpD(cdb << ADH << "ArpHostName: constructing " << this << std::endl);
 	memset(&host,0,sizeof(host));
 	
 	*this = o;
@@ -150,11 +150,11 @@ ArpHostName::ArpHostName(const ArpHostName& o)
 
 ArpHostName::~ArpHostName()
 {
-	ArpD(cdb << ADH << "ArpHostName: destroying " << this << endl);
+	ArpD(cdb << ADH << "ArpHostName: destroying " << this << std::endl);
 	if( host.h_name ) free(host.h_name);
 	if( host.h_aliases ) freestrarray(host.h_aliases);
 	if( host.h_addr_list ) freestrarray(host.h_addr_list);
-	ArpD(cdb << ADH << "ArpHostName: destroyed " << this << endl);
+	ArpD(cdb << ADH << "ArpHostName: destroyed " << this << std::endl);
 }
 
 ArpHostName& ArpHostName::operator=(const ArpHostName& o)
@@ -182,11 +182,11 @@ const char* ArpHostName::ErrorString() const
 
 void ArpHostName::GrabHostEnt(const struct hostent& he)
 {
-	ArpD(cdb << ADH << "ArpHostName: cleaning old entry" << endl);
+	ArpD(cdb << ADH << "ArpHostName: cleaning old entry" << std::endl);
 	if( host.h_name ) free(host.h_name);
 	if( host.h_aliases ) freestrarray(host.h_aliases);
 	if( host.h_addr_list ) freestrarray(host.h_addr_list);
-	ArpD(cdb << ADH << "ArpHostName: grabbing host entry" << endl);
+	ArpD(cdb << ADH << "ArpHostName: grabbing host entry" << std::endl);
 	memset(&host,0,sizeof(host));
 	if( he.h_name ) host.h_name = strdup(he.h_name);
 	if( he.h_aliases ) host.h_aliases = strarraydup((const char**)he.h_aliases);

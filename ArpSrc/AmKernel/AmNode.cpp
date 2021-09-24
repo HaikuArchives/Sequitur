@@ -2,8 +2,8 @@
 */
 #define _BUILDING_AmKernel 1
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmEvents.h"
 #include "AmKernel/AmNode.h"
@@ -106,12 +106,12 @@ status_t AmNode::AddNode(AmNode* node)
 	AmNode* destPos = this;
 	
 	#if NOISY
-	ArpD(cdb << ADH << "Merging " << node << " into " << destPos << endl);
+	ArpD(cdb << ADH << "Merging " << node << " into " << destPos << std::endl);
 	#endif
 	
 	const AmTime nodeTime = node->StartTime();
 	#if NOISY
-	ArpD(cdb << ADH << "Node time is " << nodeTime << endl);
+	ArpD(cdb << ADH << "Node time is " << nodeTime << std::endl);
 	#endif
 	AmNode* tmp=NULL;
 	bool searched = false;
@@ -121,7 +121,7 @@ status_t AmNode::AddNode(AmNode* node)
 	while( nodeTime >= destPos->StartTime() ) {
 		#if NOISY
 		ArpD(cdb << ADH << "Dest time is " << destPos->StartTime()
-				<< ", going forward." << endl);
+				<< ", going forward." << std::endl);
 		#endif
 		tmp = destPos->next;
 		if( !tmp ) {
@@ -141,7 +141,7 @@ status_t AmNode::AddNode(AmNode* node)
 		// we know this is where to put it.
 		#if NOISY
 		ArpD(cdb << ADH << "Found dest time " << destPos->Time()
-						<< ", inserting here." << endl);
+						<< ", inserting here." << std::endl);
 		#endif
 		destPos->InsertPrev(node);
 		return B_OK;
@@ -152,7 +152,7 @@ status_t AmNode::AddNode(AmNode* node)
 	while( nodeTime < destPos->StartTime() ) {
 		#if NOISY
 		ArpD(cdb << ADH << "Dest time is " << destPos->StartTime()
-						<< ", going backward." << endl);
+						<< ", going backward." << std::endl);
 		#endif
 		tmp = destPos->prev;
 		if( !tmp ) {
@@ -170,7 +170,7 @@ status_t AmNode::AddNode(AmNode* node)
 	// put it.
 	#if NOISY
 	ArpD(cdb << ADH << "Found dest time " << destPos->StartTime()
-					<< ", appending here." << endl);
+					<< ", appending here." << std::endl);
 	#endif
 	destPos->InsertNext(node);
 	return B_OK;

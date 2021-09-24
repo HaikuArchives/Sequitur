@@ -26,9 +26,9 @@
 #include <support/Autolock.h>
 #endif
 
-#include <algobase.h>
+//#include <algobase.h>
 #include <float.h>
-#include <string.h>
+#include <cstring>
 
 ArpMOD();
 
@@ -298,7 +298,7 @@ void ArpRunningBar::ComputeDimens(ArpDimens& cur_dimens)
 				<< " charright=" << PV_InsetRight
 				<< " chartop=" << PV_InsetTop
 				<< " charbot=" << PV_InsetBottom
-				<< " charspace=" << PV_IntraSpace << endl);
+				<< " charspace=" << PV_IntraSpace << std::endl);
 	
 	// Compute inset pixel values based on font metrics.
 	inset_l = ceil(PV_InsetLeft*char_w);
@@ -312,7 +312,7 @@ void ArpRunningBar::ComputeDimens(ArpDimens& cur_dimens)
 				<< " pixright=" << inset_r
 				<< " pixtop=" << inset_t
 				<< " pixbot=" << inset_b
-				<< " pixspace=" << intra_s << endl);
+				<< " pixspace=" << intra_s << std::endl);
 				
 	for( ArpBaseLayout* child = LayoutChildAt(0);
 		 child != 0;
@@ -380,9 +380,9 @@ void ArpRunningBar::ComputeDimens(ArpDimens& cur_dimens)
 			// this child, update the total minimum size needed.
 			if( alignc ) cury.SetMinDimens(dimy);
 			else {
-				min_size = max(min_size, dimy.TotalMin());
-				pref_size = max(pref_size, dimy.TotalPref());
-				max_size = max(max_size, dimy.TotalMax());
+				min_size = std::max(min_size, dimy.TotalMin());
+				pref_size = std::max(pref_size, dimy.TotalPref());
+				max_size = std::max(max_size, dimy.TotalMax());
 			}
 			
 		// For vertical dimension, similar to above...
@@ -404,9 +404,9 @@ void ArpRunningBar::ComputeDimens(ArpDimens& cur_dimens)
 			cury.AddBody(dimy);
 			if( alignc ) curx.SetMinDimens(dimx);
 			else {
-				min_size = max(min_size, dimx.TotalMin());
-				pref_size = max(pref_size, dimx.TotalPref());
-				max_size = max(max_size, dimx.TotalMax());
+				min_size = std::max(min_size, dimx.TotalMin());
+				pref_size = std::max(pref_size, dimx.TotalPref());
+				max_size = std::max(max_size, dimx.TotalMax());
 			}
 		}
 	}
@@ -469,19 +469,19 @@ void ArpRunningBar::LayoutView(void)
 	// the spread direction.
 	float prex=0, postx=0;
 	float prey=0, posty=0;
-	prex = max(curx.PreLabel(), bdy.left-frm.left) - inset_l;
-	postx = max(curx.PostLabel(), frm.right-bdy.right) - inset_r;
-	prey = max(cury.PreLabel(), bdy.top-frm.top) - inset_t;
-	posty = max(cury.PostLabel(), frm.bottom-bdy.bottom) - inset_b;
+	prex = std::max(curx.PreLabel(), bdy.left-frm.left) - inset_l;
+	postx = std::max(curx.PostLabel(), frm.right-bdy.right) - inset_r;
+	prey = std::max(cury.PreLabel(), bdy.top-frm.top) - inset_t;
+	posty = std::max(cury.PostLabel(), frm.bottom-bdy.bottom) - inset_b;
 #if 0
 	if( PV_Orientation == B_HORIZONTAL ) {
-		prex = max(curx.PreLabel(), bdy.left-frm.left);
-		postx = max(curx.PostLabel(), frm.right-bdy.right);
+		prex = std::max(curx.PreLabel(), bdy.left-frm.left);
+		postx = std::max(curx.PostLabel(), frm.right-bdy.right);
 		prey = cury.PreLabel();
 		posty = cury.PostLabel();
 	} else {
-		prey = max(cury.PreLabel(), bdy.top-frm.top);
-		posty = max(cury.PostLabel(), frm.bottom-bdy.bottom);
+		prey = std::max(cury.PreLabel(), bdy.top-frm.top);
+		posty = std::max(cury.PostLabel(), frm.bottom-bdy.bottom);
 		prex = curx.PreLabel();
 		postx = curx.PostLabel();
 	}
@@ -519,10 +519,10 @@ void ArpRunningBar::LayoutView(void)
 	}
 	
 	ArpD(cdb << ADH << "ArpRunningBar::LayoutView() -- " << LayoutName()
-				<< " = " << frm << endl);
+				<< " = " << frm << std::endl);
 	ArpD(cdb << ADH << "  width=" << width << ", height=" << height
 				<< ", extra_spc=" << extra_spc
-				<< ", weight=" << leftwgt << endl);
+				<< ", weight=" << leftwgt << std::endl);
 
 	for( ArpBaseLayout* child = LayoutChildAt(0);
 		 child != 0;
@@ -564,7 +564,7 @@ void ArpRunningBar::LayoutView(void)
 		
 		ArpD(cdb << ADH << "Positioning " << child->LayoutName()
 					<< " left=" << left << ", top=" << top
-					<< ", extra=" << spc << endl);
+					<< ", extra=" << spc << std::endl);
 		
 		// This is the body frame rectangle.
 		BRect cbod;
@@ -625,7 +625,7 @@ void ArpRunningBar::LayoutView(void)
 		}
 		
 		ArpD(cdb << ADH << "Child frame=" << cfrm
-				<< ", body=" << cbod << endl);
+				<< ", body=" << cbod << std::endl);
 				
 		// Compute the final frame of the child, based on its
 		// gravity constraint.  If there is more space assigned to
@@ -637,9 +637,9 @@ void ArpRunningBar::LayoutView(void)
 						 : floor((cbod.right-cbod.left+1)-dimx.MaxBody());
 		if( outw > 0 ) {
 			ArpD(cdb << ADH << "Filling outw=" << outw << ", init frame="
-					<< ffrm << endl);
+					<< ffrm << std::endl);
 			ArpD(cdb << ADH << "Max width=" << dimx.TotalMax()
-						<< ", fill mode=" << thisfill << endl);
+						<< ", fill mode=" << thisfill << std::endl);
 			switch( thisfill&ArpEastWest ) {
 				case ArpCenter: {
 					const float leftw = floor(outw/2);
@@ -660,16 +660,16 @@ void ArpRunningBar::LayoutView(void)
 					break;
 				}
 			}
-			ArpD(cdb << ADH << "Final frame=" << ffrm << endl);
+			ArpD(cdb << ADH << "Final frame=" << ffrm << std::endl);
 		}
 		const float outh = (!thisalign) // || PV_Orientation == B_VERTICAL)
 						 ? floor((ffrm.bottom-ffrm.top+1)-dimy.TotalMax())
 						 : floor((cbod.bottom-cbod.top+1)-dimy.MaxBody());
 		if( outh > 0 ) {
 			ArpD(cdb << ADH << "Filling outh=" << outh << ", init frame="
-					<< ffrm << endl);
+					<< ffrm << std::endl);
 			ArpD(cdb << ADH << "Max height=" << dimy.TotalMax()
-						<< ", fill mode=" << thisfill << endl);
+						<< ", fill mode=" << thisfill << std::endl);
 			switch( thisfill&ArpNorthSouth ) {
 				case ArpCenter: {
 					const float toph = floor(outh/2);
@@ -690,7 +690,7 @@ void ArpRunningBar::LayoutView(void)
 					break;
 				}
 			}
-			ArpD(cdb << ADH << "Final frame=" << ffrm << endl);
+			ArpD(cdb << ADH << "Final frame=" << ffrm << std::endl);
 		}
 		
 		// Finally, actually place the child.

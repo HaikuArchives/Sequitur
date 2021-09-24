@@ -2,13 +2,14 @@
  */
 #define _BUILDING_AmKernel 1
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmPrefsI.h"
 #include "AmKernel/AmPhrase.h"
+#include "AmPublic/AmRange.h"
 #include "AmKernel/AmPhraseEvent.h"
 #include "AmKernel/AmSelections.h"
 
@@ -80,7 +81,7 @@ void AmPhrase::SetStartTime(AmTime newTime)
 	AmNode*				node = HeadNode();
 	AmNode*				next = NULL;
 	AmTime				delta = newTime - oldRange.start;
-	vector<AmEvent*>	mEvents;
+	std::vector<AmEvent*>	mEvents;
 	
 	while (node) {
 		next = node->next;
@@ -520,13 +521,13 @@ void AmPhrase::Invalidate(	AmEvent* changedEvent,
 	}
 	if (!mParent) return;
 	
-	AmRange			or = oldRange, nr = newRange;
+	AmRange	oR = oldRange, nr = newRange;
 	for (uint32 k = 0; k <mLinks.size(); k++) {
 		AmTime		offset = mLinks[k]->StartTime() - StartTime();
-		if (or.IsValid() ) or += AmRange(oldRange.start + offset, oldRange.end + offset);
+		if (oR.IsValid() ) oR += AmRange(oldRange.start + offset, oldRange.end + offset);
 		nr += AmRange(newRange.start + offset, newRange.end + offset);
 	}
-	mParent->Invalidate(changedEvent, or, nr);
+	mParent->Invalidate(changedEvent, oR, nr);
 }
 
 #if 0
@@ -1175,7 +1176,7 @@ static void straighten_out_signatures(AmPhrase& oldSignatures)
 	AmSignature*	prevSig = NULL;
 	currentSig.Set(0, 1, 4, 4);
 	AmTime			sigLength = currentSig.Duration();
-	vector<AmSignature*>	removedSigs;
+	std::vector<AmSignature*>	removedSigs;
 	while (n) {
 		nextN = n->next;
 		AmSignature*	sig = dynamic_cast<AmSignature*>( n->Event() );

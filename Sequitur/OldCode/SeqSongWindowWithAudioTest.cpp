@@ -1,8 +1,8 @@
 /* SeqSongWindow.cpp
  */
-#include <stdio.h>
-#include <assert.h>
-#include <string.h>
+#include <cstdio>
+#include <cassert>
+#include <cstring>
 #include <RecentItems.h>
 #include <Roster.h>
 #include <experimental/BitmapButton.h>
@@ -1499,7 +1499,7 @@ SeqSongSelections* SeqSongWindow::Selections() const
 	return mSelections;
 }
 
-static void add_track(vector<track_id>& vec, track_id tid)
+static void add_track(std::vector<track_id>& vec, track_id tid)
 {
 	for (uint32 k = 0; k < vec.size(); k++)
 		if (vec[k] == tid) return;
@@ -1509,7 +1509,7 @@ static void add_track(vector<track_id>& vec, track_id tid)
 void SeqSongWindow::SetSelections(SeqSongSelections* selections)
 {
 	AmRange				oldRange, newRange;
-	vector<track_id>	tracks;
+	std::vector<track_id>	tracks;
 	if (mSelections) {
 		oldRange = mSelections->TimeRange();
 		newRange = oldRange;
@@ -2282,7 +2282,7 @@ void SeqSongWindow::SetIsRecording(bool isRecording)
 		/* This is the format the views expect the tracks in, sigh, so
 		 * I'll just go with it for now.
 		 */
-		vector<track_id>			tracks;
+		std::vector<track_id>			tracks;
 		uint32						count = mSelections->CountTracks();
 		for (uint32 k = 0; k < count; k++) tracks.push_back(mSelections->TrackAt(k));
 
@@ -2458,8 +2458,8 @@ void SeqSongWindow::SeparateTrackPhrases(AmTrack* track, AmRange range)
 	AmNode*				n = track->Phrases().HeadNode();
 	AmNode*				nNext;
 	AmRange				change = range;
-	vector<AmPhraseEvent*> removes;
-	vector<AmPhraseEvent*> adds;
+	std::vector<AmPhraseEvent*> removes;
+	std::vector<AmPhraseEvent*> adds;
 	BMessage			properties;
 	bool				hasProperties = false;
 	while( n && (n->StartTime() <= range.end) ) {
@@ -2716,7 +2716,7 @@ void SeqSongWindow::NewTrack(const BMessage* device)
 	// END WRITE SONG BLOCK
 }
 
-static void build_ids(const AmSong* song, SeqSongSelections* selections, vector<track_id>& ids)
+static void build_ids(const AmSong* song, SeqSongSelections* selections, std::vector<track_id>& ids)
 {
 	for (uint32 k = 0; k < selections->CountTracks(); k++) {
 		const AmTrack*		track = song->Track( selections->TrackAt(k) );
@@ -2737,7 +2737,7 @@ void SeqSongWindow::DeleteSelectedTracks()
 		 * based on the indexes, but once the selection object is storing by
 		 * id this won't be necessary.
 		 */
-		vector<track_id>	ids;
+		std::vector<track_id>	ids;
 		build_ids(song, mSelections, ids);
 		for (uint32 k = 0; k < ids.size(); k++)
 			song->RemoveTrack( ids[k] );
@@ -3449,7 +3449,7 @@ bool _SongMeasureControl::IsRecording() const
 
 int32 _SongMeasureControl::ScrollThreadEntry(void* arg)
 {
-	DB(DBALL, cerr << "_SongMeasureControl: Enter ScrollThreadEntry." << endl);
+	DB(DBALL, std::cerr << "_SongMeasureControl: Enter ScrollThreadEntry." << std::endl);
 	_SongMeasureControl*	ctrl = (_SongMeasureControl*)arg;
 	if( !ctrl ) return B_ERROR;
 	
@@ -3465,7 +3465,7 @@ int32 _SongMeasureControl::ScrollThreadEntry(void* arg)
 		}
 	}
 
-	DB(DBALL, cerr << "_SongMeasureControl: Exit ScrollThreadEntry." << endl);
+	DB(DBALL, std::cerr << "_SongMeasureControl: Exit ScrollThreadEntry." << std::endl);
 	return B_OK;
 }
 

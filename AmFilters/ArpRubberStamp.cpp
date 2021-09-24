@@ -1,7 +1,7 @@
 #include "ArpRubberStamp.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <interface/CheckBox.h>
 #include <interface/MenuItem.h>
 #include "ArpKernel/ArpDebug.h"
@@ -274,8 +274,8 @@ AmEvent* ArpRubberStampFilter::GenerateMotion(	AmRange range, float amount,
 void ArpRubberStampAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>I transform events into control changes based on my motion.
-	<I>This is a prerelease version of this filter.</I></p>";
+	str << "<p>I transform events into control changes based on my motion."
+	"<I>This is a prerelease version of this filter.</I></p>";
 }
 
 void ArpRubberStampAddOn::GetVersion(int32* major, int32* minor) const

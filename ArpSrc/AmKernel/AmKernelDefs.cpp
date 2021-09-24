@@ -5,8 +5,8 @@
 #include <kernel/image.h>
 #include <app/Application.h>
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "ArpKernel/ArpDebug.h"
 #include "AmKernel/AmFileRosters.h"
 #include "AmKernel/AmFilterRoster.h"

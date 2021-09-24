@@ -1,7 +1,7 @@
 /* AmVelocityView.cpp
  */
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <interface/MenuField.h>
 #include <interface/MenuItem.h>
 #include <interface/PopUpMenu.h>
@@ -404,7 +404,7 @@ void AmVelocityDataView::DrawEvent(	BView* view, const AmPhraseEvent& topPhrase,
 		c = AmPrefs().SelectedColor();
 	c.alpha = 75;
 	view->SetHighColor(c);
-	view->FillPolygon( pts, 4, BRect(on.x, min(on.y, off.y), off.x, mPt2.y) );
+	view->FillPolygon( pts, 4, BRect(on.x, std::min(on.y, off.y), off.x, mPt2.y) );
 	view->SetDrawingMode( mode );
 
 	/* Draw the foreground

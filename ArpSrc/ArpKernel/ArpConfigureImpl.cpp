@@ -90,7 +90,7 @@ ArpConfigureImpl::ArpConfigureImpl(BMessenger configTarget,
 {
 	mAttachments = new ArpPtrVector<BMessage*>;
 	
-	ArpD(cdb << ADH << "Configuring settings: " << mSettings << endl);
+	ArpD(cdb << ADH << "Configuring settings: " << mSettings << std::endl);
 }
 
 ArpConfigureImpl::ArpConfigureImpl(ArpDirectConfigurableI* directTarget,
@@ -103,7 +103,7 @@ ArpConfigureImpl::ArpConfigureImpl(ArpDirectConfigurableI* directTarget,
 {
 	mAttachments = new ArpPtrVector<BMessage*>;
 	
-	ArpD(cdb << ADH << "Configuring settings: " << mSettings << endl);
+	ArpD(cdb << ADH << "Configuring settings: " << mSettings << std::endl);
 }
 
 ArpConfigureImpl::~ArpConfigureImpl()
@@ -148,17 +148,17 @@ void ArpConfigureImpl::DetachedFromWindow()
 void ArpConfigureImpl::RebuildPanel() const
 {
 	if( mConfigPanel.IsValid() ) {
-		ArpD(cdb << ADH << "Asking configuration panel to rebuild." << endl);
+		ArpD(cdb << ADH << "Asking configuration panel to rebuild." << std::endl);
 		BMessage rebuild(ARP_REBUILD_PANEL_MSG);
 		mConfigPanel.SendMessage(&rebuild);
 	} else {
-		ArpD(cdb << ADH << "*** Asked for panel rebuild, but bad messenged." << endl);
+		ArpD(cdb << ADH << "*** Asked for panel rebuild, but bad messenged." << std::endl);
 	}
 }
 
 static status_t check_box_report(const ArpConfigureImpl::view_context& context)
 {
-	ArpD(cdb << ADH << "ArpConfigureImpl: report " << context.param << endl);
+	ArpD(cdb << ADH << "ArpConfigureImpl: report " << context.param << std::endl);
 	BCheckBox* view = dynamic_cast<BCheckBox*>(context.param_view);
 	if( !view ) return B_ERROR;
 	
@@ -168,17 +168,18 @@ static status_t check_box_report(const ArpConfigureImpl::view_context& context)
 		bool state = view->Value() ? true : false;
 		res = settings.AddBool(context.param, state);
 	} else if( context.type == B_INT32_TYPE ) {
-		const int32 mask = (int32)context.data;
+		// HACK to make compile on 64 bits
+		const int32 mask = *((int32*)context.data);
 		int32 flags;
 		if( context.settings->FindInt32(context.param, &flags) != B_OK ) {
 			flags = 0;
 		}
 		flags = (flags&~mask) | (view->Value() ? mask : 0);
 		ArpD(cdb << ADH << "Checkbox report mask=" << mask
-				<< ", new flags=" << flags << endl);
+				<< ", new flags=" << flags << std::endl);
 		res = settings.AddInt32(context.param, flags);
 	} else {
-		ArpD(cdb << ADH << "Unable to handle parameter type: " << context.type << endl);
+		ArpD(cdb << ADH << "Unable to handle parameter type: " << context.type << std::endl);
 		res = B_ERROR;
 	}
 	
@@ -190,7 +191,7 @@ static status_t check_box_report(const ArpConfigureImpl::view_context& context)
 static status_t check_box_update(const ArpConfigureImpl::view_context& context,
 								 const BMessage& update)
 {
-	ArpD(cdb << ADH << "ArpConfigureImpl: update " << context.param << endl);
+	ArpD(cdb << ADH << "ArpConfigureImpl: update " << context.param << std::endl);
 	BCheckBox* view = dynamic_cast<BCheckBox*>(context.param_view);
 	if( !view ) return B_ERROR;
 	
@@ -201,17 +202,18 @@ static status_t check_box_update(const ArpConfigureImpl::view_context& context,
 			view->SetValue(state ? B_CONTROL_ON : B_CONTROL_OFF);
 		}
 	} else if( context.type == B_INT32_TYPE ) {
-		const int32 mask = (int32)context.data;
+		//HACK to make compile on 64bit
+		const int32 mask = *((int32*)context.data);
 		int32 flags;
 		if( (res=update.FindInt32(context.param, &flags)) == B_OK ) {
 			ArpD(cdb << ADH << "Checkbox update mask=" << mask
 					<< ", new flags=" << flags
 					<< ", value=" << (int32)((flags&mask) ? B_CONTROL_ON : B_CONTROL_OFF)
-					<< endl);
+					<< std::endl);
 			view->SetValue((flags&mask) ? B_CONTROL_ON : B_CONTROL_OFF);
 		}
 	} else {
-		ArpD(cdb << ADH << "Unable to handle parameter type: " << context.type << endl);
+		ArpD(cdb << ADH << "Unable to handle parameter type: " << context.type << std::endl);
 		res = B_ERROR;
 	}
 	
@@ -221,13 +223,15 @@ static status_t check_box_update(const ArpConfigureImpl::view_context& context,
 BMessage* ArpConfigureImpl::AttachCheckBox(const char* param,
 										int32 mask, const char* view_name)
 {
+	// HACK to make it compile on 64 bit
+	//int32* mask2 = new int(mask);
 	return AttachView(param, &check_box_report, &check_box_update,
 					  view_name, (void*)mask);
 }
 
 static status_t text_control_report(const ArpConfigureImpl::view_context& context)
 {
-	ArpD(cdb << ADH << "ArpConfigureImpl: report " << context.param << endl);
+	ArpD(cdb << ADH << "ArpConfigureImpl: report " << context.param << std::endl);
 	BTextControl* view = dynamic_cast<BTextControl*>(context.param_view);
 	if( !view ) return B_ERROR;
 	
@@ -262,7 +266,7 @@ static status_t text_control_report(const ArpConfigureImpl::view_context& contex
 			res = settings.AddDouble(context.param, val);
 		}
 	} else {
-		ArpD(cdb << ADH << "Unable to handle parameter type: " << context.type << endl);
+		ArpD(cdb << ADH << "Unable to handle parameter type: " << context.type << std::endl);
 		res = B_ERROR;
 	}
 	
@@ -274,7 +278,7 @@ static status_t text_control_report(const ArpConfigureImpl::view_context& contex
 static status_t text_control_update(const ArpConfigureImpl::view_context& context,
 							   const BMessage& update)
 {
-	ArpD(cdb << ADH << "ArpConfigureImpl: update " << context.param << endl);
+	ArpD(cdb << ADH << "ArpConfigureImpl: update " << context.param << std::endl);
 	BTextControl* view = dynamic_cast<BTextControl*>(context.param_view);
 	if( !view ) return B_ERROR;
 	
@@ -306,7 +310,7 @@ static status_t text_control_update(const ArpConfigureImpl::view_context& contex
 			view->SetText(buf);
 		}
 	} else {
-		ArpD(cdb << ADH << "Unable to handle parameter type: " << context.type << endl);
+		ArpD(cdb << ADH << "Unable to handle parameter type: " << context.type << std::endl);
 		res = B_ERROR;
 	}
 	
@@ -320,7 +324,7 @@ BMessage* ArpConfigureImpl::AttachTextControl(const char* param)
 
 static status_t control_report(const ArpConfigureImpl::view_context& context)
 {
-	ArpD(cdb << ADH << "ArpConfigureImpl: report " << context.param << endl);
+	ArpD(cdb << ADH << "ArpConfigureImpl: report " << context.param << std::endl);
 	BControl* view = dynamic_cast<BControl*>(context.param_view);
 	if( !view ) return B_ERROR;
 	
@@ -334,7 +338,7 @@ static status_t control_report(const ArpConfigureImpl::view_context& context)
 	} else if( context.type == B_FLOAT_TYPE ) {
 		res = settings.AddFloat(context.param, view->Value());
 	} else {
-		ArpD(cdb << ADH << "Unable to handle parameter type: " << context.type << endl);
+		ArpD(cdb << ADH << "Unable to handle parameter type: " << context.type << std::endl);
 		res = B_ERROR;
 	}
 	
@@ -346,7 +350,7 @@ static status_t control_report(const ArpConfigureImpl::view_context& context)
 static status_t control_update(const ArpConfigureImpl::view_context& context,
 								 const BMessage& update)
 {
-	ArpD(cdb << ADH << "ArpConfigureImpl: update " << context.param << endl);
+	ArpD(cdb << ADH << "ArpConfigureImpl: update " << context.param << std::endl);
 	BControl* view = dynamic_cast<BControl*>(context.param_view);
 	if( !view ) return B_ERROR;
 	
@@ -367,7 +371,7 @@ static status_t control_update(const ArpConfigureImpl::view_context& context,
 			view->SetValue((int32)(value+.5));
 		}
 	} else {
-		ArpD(cdb << ADH << "Unable to handle parameter type: " << context.type << endl);
+		ArpD(cdb << ADH << "Unable to handle parameter type: " << context.type << std::endl);
 		res = B_ERROR;
 	}
 	
@@ -407,7 +411,7 @@ BMessage* ArpConfigureImpl::AttachView(const char* param,
 		}
 		if( res != B_OK ) {
 			ArpD(cdb << ADH << "Error creating TextControl msg: "
-					<< res << endl);
+					<< res << std::endl);
 			delete msg;
 			return 0;
 		}
@@ -439,7 +443,7 @@ status_t ArpConfigureImpl::MessageReceived(const BMessage* message)
 	
 	if( message->what == CONFIG_REPORT_MSG ) {
 		ArpD(cdb << ADH << "Reporting configuration change: " << *message
-						<< endl);
+						<< std::endl);
 		view_context context;
 		report_func report;
 		status_t res = GetViewContext(*message, &context, &report, NULL);
@@ -447,17 +451,17 @@ status_t ArpConfigureImpl::MessageReceived(const BMessage* message)
 		return (*report)(context);
 	
 	} else if( message->what == ARP_PUT_CONFIGURATION_MSG ) {
-		ArpD(cdb << ADH << "*** Configuration changed." << endl);
+		ArpD(cdb << ADH << "*** Configuration changed." << std::endl);
 		BMessage settings;
 		status_t res = message->FindMessage("settings", &settings);
 		if( res != B_OK ) return res;
 		ArpUpdateMessage(mSettings, settings);
-		ArpD(cdb << ADH << "New settings: " << mSettings << endl);
+		ArpD(cdb << ADH << "New settings: " << mSettings << std::endl);
 		return RefreshControls(settings);
 	
 	} else if( message->what == ARP_SET_CONFIG_PANEL_MSG ) {
 		ArpD(cdb << ADH << "Setting config panel target: "
-				<< *message << endl);
+				<< *message << std::endl);
 		message->FindMessenger("panel", &mConfigPanel);
 		return B_OK;
 	}
@@ -524,7 +528,7 @@ status_t ArpConfigureImpl::GetViewContext(const BMessage& message,
 	if( res != B_OK ) return res;
 	int32 count;
 	if( mSettings.GetInfo(context->param, &context->type, &count) != B_OK ) {
-		ArpD(cdb << ADH << "Parameter not in settings!" << endl);
+		ArpD(cdb << ADH << "Parameter not in settings!" << std::endl);
 		context->type = 0;
 	}
 	const char* view_name;
@@ -558,7 +562,7 @@ status_t ArpConfigureImpl::SendConfiguration(const BMessage* config,
 		BMessage update(ARP_PUT_CONFIGURATION_MSG);
 		res = update.AddMessage("settings", config);
 		if( res == B_OK ) {
-			ArpD(cdb << ADH << "Sending update message: " << update << endl);
+			ArpD(cdb << ADH << "Sending update message: " << update << std::endl);
 			res = mConfigTarget.SendMessage(&update,
 											(BHandler*)NULL, 0);
 		}

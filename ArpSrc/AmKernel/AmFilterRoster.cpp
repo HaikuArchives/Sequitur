@@ -28,13 +28,13 @@
 #include <MidiConsumer.h>
 #include <MidiProducer.h>
 #include <MidiRoster.h>
-#include <string.h>
+#include <cstring>
 
 const char* SZ_FILTER_ADD_ON = "seqf:add-on";
 
-typedef map<BString, int32> dup_name_map;
-static void get_dup_consumer_names(map<BString, int32>& dups);
-static void get_dup_producer_names(map<BString, int32>& dups);
+typedef std::map<BString, int32> dup_name_map;
+static void get_dup_consumer_names(std::map<BString, int32>& dups);
+static void get_dup_producer_names(std::map<BString, int32>& dups);
 
 /***************************************************************************
  * AM-FILTER-ADD-ON-HANDLE
@@ -880,7 +880,7 @@ BAddOnHandle* AmFilterRoster::InstantiateHandle(const entry_ref* entry,
 /***************************************************************************
  * Miscellaneous functions
  ****************************************************************************/
-static void get_dup_consumer_names(map<BString, int32>& dups)
+static void get_dup_consumer_names(std::map<BString, int32>& dups)
 {
 	int32 id = 0;
 	BMidiConsumer* cons;
@@ -910,7 +910,7 @@ static void get_dup_consumer_names(map<BString, int32>& dups)
 	}
 }		
 
-static void get_dup_producer_names(map<BString, int32>& dups)
+static void get_dup_producer_names(std::map<BString, int32>& dups)
 {
 	int32 id = 0;
 	BMidiProducer* prod;

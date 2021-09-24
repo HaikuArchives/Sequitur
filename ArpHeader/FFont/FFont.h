@@ -58,7 +58,7 @@
 #include <View.h>
 #endif
 
-#include <stdio.h>
+#include <cstdio>
 
 class FFont : public BFont, public BFlattenable
 {

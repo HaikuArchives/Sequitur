@@ -92,7 +92,7 @@ private:
 	GlGlobalsImpl			mGlobalsImpl;
 	GlToolBarRoster			mToolBars;
 	GlSkinCache				mSkinCache;
-	vector<BMessenger>		mMixingWins;
+	std::vector<BMessenger>		mMixingWins;
 	bool					mIsQuitting;
 
 	/* This lock is used whenever the auxiliary windows --

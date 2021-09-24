@@ -47,7 +47,7 @@ public:
 	status_t			SetValue(float v, GlRootRef& ref);
 
 private:
-	vector<_ParamViewMidiEntry*>	mEntries;
+	std::vector<_ParamViewMidiEntry*>	mEntries;
 };
 
 /***************************************************************************

@@ -35,9 +35,9 @@
 #include <support/Autolock.h>
 #endif
 
-#include <algobase.h>
+//#include <algobase.h>
 #include <float.h>
-#include <string.h>
+#include <cstring>
 
 ArpMOD();
 
@@ -191,7 +191,7 @@ void ArpBaseLayout::do_construct(void)
 
 ArpBaseLayout::~ArpBaseLayout()
 {
-	ArpD(cdb << ADH << "Destroying ArpBaseLayout: " << LayoutName() << endl);
+	ArpD(cdb << ADH << "Destroying ArpBaseLayout: " << LayoutName() << std::endl);
 	
 	if( ParamSet() ) ParamSet()->RemoveParameters(parameters);
 	
@@ -284,7 +284,7 @@ ArpBaseLayout* ArpBaseLayout::SetParams(const BMessage& p)
 	return this;
 }
 
-status_t ArpBaseLayout::GetParams(BMessage* p, const char* name=0) const
+status_t ArpBaseLayout::GetParams(BMessage* p, const char* name) const
 {
 	return mParams.GetParams(p, name);
 }
@@ -355,13 +355,13 @@ void ArpBaseLayout::ParametersChanged(const ArpParamSet* params)
 	
 	if( globals&(ARP_INVALIDATE_VIEW|ARP_INVALIDATE_DIMENS) ) {
 		ArpD(cdb << ADH << "Layout " << LayoutName()
-				<< ": Invalidating View." << endl);
+				<< ": Invalidating View." << std::endl);
 		InvalidateView();
 	}
 	
 	if( globals&ARP_INVALIDATE_DIMENS ) {
 		ArpD(cdb << ADH << "Layout " << LayoutName()
-				<< ": Invalidating Dimensions." << endl);
+				<< ": Invalidating Dimensions." << std::endl);
 		InvalidateDimens();
 	}
 }
@@ -373,10 +373,10 @@ void ArpBaseLayout::SetGlobals(ArpGlobalSetI* gl)
 	#if defined(ArpDEBUG)
 	if( gl ) {
 		ArpD(cdb << ADH << "Setting globals for "
-					<< LayoutName() << ": " << *(gl->GlobalValues()) << endl);
+					<< LayoutName() << ": " << *(gl->GlobalValues()) << std::endl);
 	} else {
 		ArpD(cdb << ADH << "Clearing globals for "
-					<< LayoutName() << "." << endl);
+					<< LayoutName() << "." << std::endl);
 	}
 	#endif
 	mParams.SetGlobals(gl);
@@ -407,7 +407,7 @@ ArpBaseLayout* ArpBaseLayout::SetConstraints(const BMessage& c)
 	if( this ) {
 		arp_update_message(constraints, c);
 		ArpD(cdb << ADH << "Set constraints for "
-					<< LayoutName() << ": " << constraints << endl);
+					<< LayoutName() << ": " << constraints << std::endl);
 		InvalidateDimens();
 	}
 	return this;
@@ -432,7 +432,7 @@ void ArpBaseLayout::do_inhibit_layout(bool state)
 ArpBaseLayout* ArpBaseLayout::SetLayoutInhibit(bool state)
 {
 	if( this ) {
-		ArpD(cdb << ADH << "Setting layout inhibit: " << state << endl);
+		ArpD(cdb << ADH << "Setting layout inhibit: " << state << std::endl);
 		inhibit_layout = state;
 		ArpBaseLayout* root = this;
 		while( root->LayoutParent() ) {
@@ -440,7 +440,7 @@ ArpBaseLayout* ArpBaseLayout::SetLayoutInhibit(bool state)
 		}
 		root->do_inhibit_layout(state);
 		if( !state && dimens_changed ) {
-			ArpD(cdb << ADH << "dimens_changed; changing layout." << endl);
+			ArpD(cdb << ADH << "dimens_changed; changing layout." << std::endl);
 			root->LayoutChanged(false);
 		}
 	}
@@ -697,7 +697,7 @@ ArpBaseLayout* ArpBaseLayout::AddLayoutChild(ArpBaseLayout* v,
 		return this;
 	}
 	
-	ArpD(cdb << ADH << "Adding child: " << v->LayoutName() << endl);
+	ArpD(cdb << ADH << "Adding child: " << v->LayoutName() << std::endl);
 	
 	bool old_inhibit = LayoutInhibit();
 	SetLayoutInhibit(true);
@@ -736,13 +736,13 @@ ArpBaseLayout* ArpBaseLayout::AddLayoutChild(ArpBaseLayout* v,
 	BView* beforeView = 0;
 	if( bindex >= 0 ) beforeView = FindClosestView(bindex+1);
 	ArpD(cdb << ADH << "Attaching view: parent=" << in_view
-					<< ", before=" << beforeView << endl);
+					<< ", before=" << beforeView << std::endl);
 	v->AttachView(in_view, beforeView);
 	
 	// Update globals and make sure the dimensions are re-evaluated.
 	if( Globals() != v->Globals() ) v->SetGlobals(Globals());
 	ArpD(cdb << ADH << "Invalidating dimens; changed="
-					<< dimens_changed << endl);
+					<< dimens_changed << std::endl);
 	InvalidateDimens();
 	
 	v->SetLayoutInhibit(old_inhibit);
@@ -770,7 +770,7 @@ bool ArpBaseLayout::RemoveLayoutChild(ArpBaseLayout* child)
 	child->mNextSibling = child->mPrevSibling = child->mParent = 0;
 	
 	ArpD(cdb << ADH << "Removed child " << child->LayoutName()
-					<< " from " << LayoutName() << endl);
+					<< " from " << LayoutName() << std::endl);
 					
 	child->AttachView(0);
 	InvalidateDimens();
@@ -789,7 +789,7 @@ void ArpBaseLayout::AttachView(BView* par_view, BView* before)
 {
 	ArpD(cdb << ADH << "AttachView: par_view=" << par_view
 				<< ", before=" << before << ", owner=" << OwnerView()
-				<< ", in=" << InView() << endl);
+				<< ", in=" << InView() << std::endl);
 				
 	// If this ArpBaseLayout does not have an associated BView,
 	// we need to run through all of its children looking for BViews
@@ -902,7 +902,7 @@ int ArpBaseLayout::LayoutChildSpace() const
 
 void ArpBaseLayout::ComputeDimens(ArpDimens& cur_dimens)
 {
-	ArpD(cdb << ADH << "ArpBaseLayout::ComputeDimens()" << endl);
+	ArpD(cdb << ADH << "ArpBaseLayout::ComputeDimens()" << std::endl);
 	ArpBaseLayout* child = LayoutChildAt(0);
 	if( child ) {
 		cur_dimens = child->LayoutDimens();
@@ -965,7 +965,7 @@ BRect ArpBaseLayout::BodyBounds() const
 void ArpBaseLayout::SetViewLayout(BRect frame, BRect body, bool force)
 {
 	ArpD(cdb << ADH << "ArpBaseLayout::SetViewLayout(" << frame << "): "
-				  << LayoutName() << endl);
+				  << LayoutName() << std::endl);
 	cur_frame = frame;
 	body_frame = body;
 	if( body.IsValid() ) {
@@ -983,7 +983,7 @@ void ArpBaseLayout::SetViewLayout(BRect frame, BRect body, bool force)
 
 void ArpBaseLayout::RequestLayout(bool force)
 {
-	ArpD(cdb << ADH << "ArpBaseLayout::RequestLayout()" << endl);
+	ArpD(cdb << ADH << "ArpBaseLayout::RequestLayout()" << std::endl);
 	LayoutChanged(force);
 }
 
@@ -1017,7 +1017,7 @@ void ArpBaseLayout::InvalidateDimens(void)
 	ArpBaseLayout* last = this;
 	while( root ) {
 		ArpD(cdb << ADH << "Invalidating dimensions for: "
-					<< root->LayoutName() << endl);
+					<< root->LayoutName() << std::endl);
 		root->dimens_changed = true;
 		root->last_frame.left = root->last_frame.top = -1000;
 		root->last_frame.right = root->last_frame.bottom = -2000;
@@ -1082,7 +1082,7 @@ void ArpBaseLayout::ensure_body_frame()
 void ArpBaseLayout::LayoutChanged(bool force)
 {
 	ArpD(cdb << ADH << "ArpBaseLayout::LayoutChanged(" << force
-				<< ")" << ": " << LayoutName() << endl);
+				<< ")" << ": " << LayoutName() << std::endl);
 	//ArpBaseLayout* parent = LayoutParent();
 	BView* view = OwnerView();
 	bool changed = false;
@@ -1112,10 +1112,10 @@ void ArpBaseLayout::LayoutChanged(bool force)
 //	printf("ArpBaseLayout::LayoutChanged() of %s\n",LayoutName());
 	if( force || view_frame.left != last_frame.left
 			  || view_frame.top != last_frame.top ) {
-		ArpD(cdb << ADH << "The frame position has changed..." << endl);
+		ArpD(cdb << ADH << "The frame position has changed..." << std::endl);
 		if( view ) {
 			ArpD(cdb << ADH << "ArpBaseLayout::SetFrame "
-						<< LayoutName() << " -- moving." << endl);
+						<< LayoutName() << " -- moving." << std::endl);
 //			printf("Move %s to (%f,%f)\n",LayoutName(),
 //				cur_frame.left,cur_frame.top);
 			view->MoveTo(view_frame.left, view_frame.top);
@@ -1127,11 +1127,11 @@ void ArpBaseLayout::LayoutChanged(bool force)
 	}
 	if( force || view_frame.Width() != last_frame.Width()
 			  || view_frame.Height() != last_frame.Height() ) {
-		ArpD(cdb << ADH << "The frame size has changed..." << endl);
+		ArpD(cdb << ADH << "The frame size has changed..." << std::endl);
 		changed = true;
 		if( view ) {
 			ArpD(cdb << ADH << "ArpBaseLayout::SetFrame "
-						<< LayoutName() << " -- resizing." << endl);
+						<< LayoutName() << " -- resizing." << std::endl);
 //			printf("Resize %s to (%f,%f)\n",LayoutName(),
 //				cur_frame.Width(),cur_frame.Height());
 			view->ResizeTo(view_frame.Width(), view_frame.Height());
@@ -1148,7 +1148,7 @@ void ArpBaseLayout::LayoutView()
 	BRect frm = LayoutBounds();
 	BRect body = BodyBounds();
 	ArpD(cdb << ADH << "ArpBaseLayout::LayoutView() -- " << LayoutName()
-			<< " " << frm << endl);
+			<< " " << frm << std::endl);
 	ArpBaseLayout* child = LayoutChildAt(0);
 	if( child ) {
 		child->SetViewLayout(frm, body);

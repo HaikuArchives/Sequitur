@@ -5,14 +5,14 @@
 #ifndef AMKERNEL_AMKERNELDEFS_H
 #define AMKERNEL_AMKERNELDEFS_H
 
-#include <vector.h>
+#include <vector>
 #include "AmPublic/AmDefs.h"
 #include "AmPublic/AmFilterI.h"
 #include "AmPublic/AmToolBarRef.h"
 #include "AmPublic/AmToolRef.h"
 
-typedef vector<AmToolBarRef>	toolbarref_vec;
-typedef vector<AmToolRef>		toolref_vec;
+typedef std::vector<AmToolBarRef>	toolbarref_vec;
+typedef std::vector<AmToolRef>		toolref_vec;
 
 typedef void*			file_entry_id;
 

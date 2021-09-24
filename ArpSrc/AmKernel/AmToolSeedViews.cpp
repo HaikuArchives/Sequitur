@@ -1,6 +1,6 @@
 /* AmToolSeedsUI.cpp
  */
-#include <stdio.h>
+#include <cstdio>
 #include <interface/StringView.h>
 #include <interface/Window.h>
 #include "ArpKernel/ArpDebug.h"

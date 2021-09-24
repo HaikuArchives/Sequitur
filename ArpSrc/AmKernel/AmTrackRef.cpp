@@ -2,7 +2,7 @@
  */
 #define _BUILDING_AmKernel 1
 
-#include <stdio.h>
+#include <cstdio>
 #include "AmPublic/AmTrackRef.h"
 #include "AmKernel/AmTrack.h"
 #include "ArpKernel/ArpDebug.h"

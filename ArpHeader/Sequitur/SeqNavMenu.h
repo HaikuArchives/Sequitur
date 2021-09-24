@@ -27,7 +27,7 @@
 #ifndef SEQUITUR_SEQNAVMENU_H
 #define SEQUITUR_SEQNAVMENU_H
 
-#include <vector.h>
+#include <vector>
 #include <app/Messenger.h>
 #include <interface/Menu.h>
 #include <interface/MenuItem.h>
@@ -35,7 +35,7 @@
 #include <storage/Query.h>
 #include <support/String.h>
 
-typedef vector<BMenuItem*>		item_vec;
+typedef std::vector<BMenuItem*>		item_vec;
 
 /*************************************************************************
  * SEQ-NAV-MENU

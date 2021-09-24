@@ -30,7 +30,7 @@
 #ifndef ARPMATH_ARPPOINT3D_H
 #define ARPMATH_ARPPOINT3D_H
 
-#include <math.h>
+#include <cmath>
 #include <app/Message.h>
 
 /***************************************************************************

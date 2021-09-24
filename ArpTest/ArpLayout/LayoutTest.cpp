@@ -97,7 +97,7 @@ TestView::TestView(char *name)
 
 void TestView::AttachedToWindow()
 {
-	ArpD(cdb << ADH << "TestView::AttachedToWindow() " << Name() << endl);
+	ArpD(cdb << ADH << "TestView::AttachedToWindow() " << Name() << std::endl);
 }
 
 void TestView::ComputeDimens(ArpDimens& cur_dimens)
@@ -113,7 +113,7 @@ void TestView::ComputeDimens(ArpDimens& cur_dimens)
 
 void TestView::Draw(BRect /*updateRect*/)
 {
-	ArpD(cdb << ADH << "TestView::Draw() " << Name() << endl);
+	ArpD(cdb << ADH << "TestView::Draw() " << Name() << std::endl);
 	BRect frm = Bounds();
 	StrokeRect(frm);
 	StrokeLine(BPoint(frm.left,frm.top),
@@ -221,7 +221,7 @@ TestWindow::TestWindow(BApplication* myApp)
 		.SetIndirect("BackgroundColor","FillBackColor")
 		.SetIndirect("ForegroundColor","FillTextColor");
 	
-	ArpD(cdb << ADH << "Initial Window Bounds: " << Bounds() << endl);
+	ArpD(cdb << ADH << "Initial Window Bounds: " << Bounds() << std::endl);
 	
 	// Now the layout definition itself: this supplies everything
 	// needed to determine how to position and resize the UI.
@@ -465,10 +465,10 @@ TestWindow::TestWindow(BApplication* myApp)
 	// compute the top-level dimensions.
 	if( root ) {
 		ArpD(cdb << ADH << "Before attach: win=" << Bounds()
-						<< ", root=" << root->Bounds() << endl);
+						<< ", root=" << root->Bounds() << std::endl);
 		this->AddChild(root);
 		ArpD(cdb << ADH << "After attach: win=" << Bounds()
-						<< ", root=" << root->Bounds() << endl);
+						<< ", root=" << root->Bounds() << std::endl);
 		
 		float w=100, h=00;
 		root->GetPreferredSize(&w, &h);
@@ -476,7 +476,7 @@ TestWindow::TestWindow(BApplication* myApp)
 		ResizeTo(w, h);
 		
 		ArpD(cdb << ADH << "After resize: win=" << Bounds()
-						<< ", root=" << root->Bounds() << endl);
+						<< ", root=" << root->Bounds() << std::endl);
 						
 #if 0
 		printf("LAYOUT TREE:\n");
@@ -636,7 +636,7 @@ bool TestWindow::QuitRequested()
 TestApplication::TestApplication()
 	: BApplication("application/x-vnd.ARP.LayoutTest")
 {
-	ArpD(cdb << ADH << "LayoutTest application started, creating window." << endl);
+	ArpD(cdb << ADH << "LayoutTest application started, creating window." << std::endl);
 	TestWindow*	tWindow = new TestWindow(this);
 	if( tWindow ) {
 		tWindow->Show();

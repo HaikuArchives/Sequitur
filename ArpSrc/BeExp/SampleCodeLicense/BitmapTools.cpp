@@ -11,9 +11,9 @@
 #include <ByteOrder.h>
 #include <Debug.h>
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <memory.h>
+#include <cstdlib>
+#include <cstdio>
+#include <memory>
 
 namespace BExperimentalPrivate {
 

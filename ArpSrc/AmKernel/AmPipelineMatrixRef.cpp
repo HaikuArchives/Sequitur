@@ -2,7 +2,7 @@
  */
 #define _BUILDING_AmKernel 1
 
-#include <stdio.h>
+#include <cstdio>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmPipelineMatrixI.h"
 #include "AmPublic/AmPipelineMatrixRef.h"

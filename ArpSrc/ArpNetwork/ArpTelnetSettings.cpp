@@ -75,7 +75,7 @@
 #include "ArpTelnetSettings.h"
 #endif
 
-#include <stdlib.h>
+#include <cstdlib>
 
 ArpMOD();
 
@@ -90,7 +90,7 @@ ArpTelnetSettings::ArpTelnetSettings(
 	  mImpl(telnet, this, mSettings)
 {
 	ArpD(cdb << ADH << "ArpTelnetSettings init vals: " << mSettings
-					<< endl);
+					<< std::endl);
 					
 	try {
 		AddLayoutChild((new ArpRunningBar("TopHBar"))
@@ -156,7 +156,7 @@ void ArpTelnetSettings::DetachedFromWindow()
 #if 0
 void ArpTelnetSettings::ShowCurrentHost(const ArpMessage& settings)
 {
-	ArpD(cdb << ADH << "ArpTelnetSettings::ShowCurrentHost()" << endl);
+	ArpD(cdb << ADH << "ArpTelnetSettings::ShowCurrentHost()" << std::endl);
 	const char* host = 0;
 	if( settings.FindString(ArpTelnet::HostConfigName,
 							&host) == B_OK ) {
@@ -168,7 +168,7 @@ void ArpTelnetSettings::ShowCurrentHost(const ArpMessage& settings)
 
 void ArpTelnetSettings::ChangeCurrentHost(void)
 {
-	ArpD(cdb << ADH << "ArpTelnetSettings::ChangeCurrentHost()" << endl);
+	ArpD(cdb << ADH << "ArpTelnetSettings::ChangeCurrentHost()" << std::endl);
 	const char* host;
 	if( mSettings.FindString(ArpTelnet::HostConfigName,
 							&host) == B_OK ) {
@@ -186,7 +186,7 @@ void ArpTelnetSettings::ChangeCurrentHost(void)
 
 void ArpTelnetSettings::ShowCurrentPort(const ArpMessage& settings)
 {
-	ArpD(cdb << ADH << "ArpTelnetSettings::ShowCurrentPort()" << endl);
+	ArpD(cdb << ADH << "ArpTelnetSettings::ShowCurrentPort()" << std::endl);
 	int32 port = 23;
 	if( settings.FindInt32(ArpTelnet::PortConfigName,
 							&port) == B_OK ) {
@@ -199,7 +199,7 @@ void ArpTelnetSettings::ShowCurrentPort(const ArpMessage& settings)
 
 void ArpTelnetSettings::ChangeCurrentPort(void)
 {
-	ArpD(cdb << ADH << "ArpTelnetSettings::ChangeCurrentPort()" << endl);
+	ArpD(cdb << ADH << "ArpTelnetSettings::ChangeCurrentPort()" << std::endl);
 	int32 port;
 	if( mSettings.FindInt32(ArpTelnet::PortConfigName,
 							&port) == B_OK ) {

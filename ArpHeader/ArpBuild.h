@@ -82,6 +82,8 @@
 
 #endif /* _STATIC_LINKING */
 
+#define _IMPEXP_ARPMIDI
+#define _IMPEXP_ARPLAYOUT
 
 #ifdef __cplusplus
 

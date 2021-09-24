@@ -1,7 +1,7 @@
 #include "ArpVaccine.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <interface/CheckBox.h>
 #include <interface/MenuItem.h>
 #include "ArpKernel/ArpDebug.h"
@@ -388,47 +388,47 @@ void ArpVaccineFilter::InitMotion()
 void ArpVaccineAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>I alter the value of various event properties based on my motion.
-		For each event I receive, I check where it falls on the motion, then alter
-		it accordingly.  The property that is altered depends on the event:</p>
-		<ul><li><i>Control changes</i>: control value</li>
-			<li><i>Pitch bends</i>: pitch value</li>
-			<li><i>Tempo changes</i>: tempo value</li>
-			<li><i>Channel pressure</i>: pressure value</li>
-			<li><i>Notes</i>: the velocity and/or pitch, depending on which box is checked</li>
-		</ul>
-			
-		<h4>Amount</h4>
-			<p>Amount determines how much the current motion value affects the value.
-			When the Amount: value is at 100%, then the final value will exactly
-			match the current motion value.  For example, if a control change being processed
-			occurs at a motion hit that is at 50%, then the CC's value will be increased by
-			a total of 50% of the value range, which is 64.</p>
-			
-			<p>Tools follow Y is only meaningful when this filter is being used from
-			a tool.  It causes the Amount value to be set by how far the mouse has
-			traveled from the original point.  If the mouse travels below the original
-			point, the motion becomes inverted.</p>
-			
-			<p>Tools follow X causes the Amount to taper off towards either end of
-			the selected events.</p>
-			
-			<p>Invert X is only valid if Tools follow X is on.  It inverts the tapering
-			effect, essentially turning it from a cone to a bowl.</p>
-
-		<h4>Frequency</h4>
-			<p>This parameter determines how frequently events will be processed.  When
-			set to 0% (Never) this filter is effectively bypassed.  When set to 100%
-			(Always) every event is processed.</p>
-	
-		<h4>Motion Selection</h4>
-			<p>The Use Motion button presents a list of all the motions currently
-			installed in the system.  Selecting one will copy it into the motion editor
-			at the bottom of the window.</p>
-			
-			<p>If Use motion from track is on, then my motion is ignored.  Instead,
-			I use whatever the current track motion is active for each event being
-			processed.  If no track motion is set, then nothing happens.</p>";
+	str << "<p>I alter the value of various event properties based on my motion."
+		"For each event I receive, I check where it falls on the motion, then alter"
+		"it accordingly.  The property that is altered depends on the event:</p>"
+		"<ul><li><i>Control changes</i>: control value</li>"
+		"	<li><i>Pitch bends</i>: pitch value</li>"
+		"	<li><i>Tempo changes</i>: tempo value</li>"
+		"	<li><i>Channel pressure</i>: pressure value</li>"
+		"	<li><i>Notes</i>: the velocity and/or pitch, depending on which box is checked</li>"
+		"</ul>"
+		"	"
+		"<h4>Amount</h4>"
+		"	<p>Amount determines how much the current motion value affects the value."
+		"	When the Amount: value is at 100%, then the final value will exactly"
+		"	match the current motion value.  For example, if a control change being processed"
+		"	occurs at a motion hit that is at 50%, then the CC's value will be increased by"
+		"	a total of 50% of the value range, which is 64.</p>"
+		"	"
+		"	<p>Tools follow Y is only meaningful when this filter is being used from"
+		"	a tool.  It causes the Amount value to be set by how far the mouse has"
+		"	traveled from the original point.  If the mouse travels below the original"
+		"	point, the motion becomes inverted.</p>"
+		"	"
+		"	<p>Tools follow X causes the Amount to taper off towards either end of"
+		"	the selected events.</p>"
+		"	"
+		"	<p>Invert X is only valid if Tools follow X is on.  It inverts the tapering"
+		"	effect, essentially turning it from a cone to a bowl.</p>"
+""
+		"<h4>Frequency</h4>"
+		"	<p>This parameter determines how frequently events will be processed.  When"
+		"	set to 0% (Never) this filter is effectively bypassed.  When set to 100%"
+		"	(Always) every event is processed.</p>"
+	""
+		"<h4>Motion Selection</h4>"
+		"	<p>The Use Motion button presents a list of all the motions currently"
+		"	installed in the system.  Selecting one will copy it into the motion editor"
+		"	at the bottom of the window.</p>"
+		"	"
+		"	<p>If Use motion from track is on, then my motion is ignored.  Instead,"
+		"	I use whatever the current track motion is active for each event being"
+		"	processed.  If no track motion is set, then nothing happens.</p>";
 }
 
 void ArpVaccineAddOn::GetVersion(int32* major, int32* minor) const

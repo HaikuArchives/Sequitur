@@ -6,7 +6,7 @@
 #include <File.h>
 #include <NodeInfo.h>
 
-#include <stdio.h>
+#include <cstdio>
 
 // The R5 PNG translator sometimes has problem writing alpha correctly,
 // so talk to libpng.so directly.

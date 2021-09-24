@@ -128,7 +128,7 @@ public:
 						const BString16& category);
 
 private:
-	vector<GlToolBar*>	mBars;
+	std::vector<GlToolBar*>	mBars;
 
 	status_t	Install(GlNodeAddOn* addon, const BString16& creator,
 						int32 type, const BString16* lbl);

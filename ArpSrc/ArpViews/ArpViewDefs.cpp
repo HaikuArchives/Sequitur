@@ -1,7 +1,7 @@
 /* ArpIntControlMotions.cpp
  */
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <app/Message.h>
 #include <interface/Menu.h>
 #include <interface/MenuItem.h>

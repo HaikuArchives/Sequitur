@@ -2,8 +2,8 @@
  */
 #define _BUILDING_AmKernel 1
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <interface/InterfaceDefs.h>
 #include "ArpKernel/ArpDebug.h"
 #include "AmKernel/AmEventInspectors.h"

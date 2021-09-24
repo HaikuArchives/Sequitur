@@ -46,7 +46,7 @@
 #include "Main.h"
 #endif
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include <iostream>
 #include <fstream>
@@ -93,18 +93,18 @@ void MainApp::SendQuitMsg(int result)
 void MainApp::ArgvReceived(int32 argc, char** argv)
 {
 	if( argc < 3 ) {
-		cout << "Usage: makearpicons outresfile bitmap namefile" << endl;
+		std::cout << "Usage: makearpicons outresfile bitmap namefile" << std::endl;
 		SendQuitMsg(1);
 		return;
 	}
 	
 	BBitmap* bitmap = 0;
-	vector<ArpString> iconnames;
+	std::vector<ArpString> iconnames;
 	
 	try {
 		BFile resfile(argv[1]);
 		if( resfile.InitCheck() ) {
-			cerr << "*** Unable to open resources file " << argv[1] << "." << endl;
+			std::cerr << "*** Unable to open resources file " << argv[1] << "." << std::endl;
 			SendQuitMsg(1);
 			return;
 		}
@@ -113,7 +113,7 @@ void MainApp::ArgvReceived(int32 argc, char** argv)
 	
 		ifstream readnames(argv[3]);
 		if( !readnames.good() ) {
-			cerr << "*** Unable to open description file " << argv[3] << "." << endl;
+			std::cerr << "*** Unable to open description file " << argv[3] << "." << std::endl;
 			SendQuitMsg(1);
 			return;
 		}
@@ -128,7 +128,7 @@ void MainApp::ArgvReceived(int32 argc, char** argv)
 		
 		bitmap = GetBitmapFile(argv[2]);
 		if( !bitmap ) {
-			cerr << "*** Unable to open bitmap file " << argv[2] << "." << endl;
+			std::cerr << "*** Unable to open bitmap file " << argv[2] << "." << std::endl;
 			SendQuitMsg(1);
 			return;
 		}

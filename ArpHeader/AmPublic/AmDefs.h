@@ -7,7 +7,7 @@
 
 #include <SupportDefs.h>
 #include <support/String.h>
-#include <limits.h>
+#include <climits>
 class BMessage;
 
 // In 4/4 time:

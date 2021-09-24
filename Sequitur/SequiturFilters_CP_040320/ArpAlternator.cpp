@@ -1,7 +1,7 @@
 /* ArpAlternate.cpp
  */
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpAlternator.h"
 

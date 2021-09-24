@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <ArpMath/ArpDefs.h>
 #include <GlPublic/GlAlgo1d.h>
 #include <GlPublic/GlAlgo2d.h>

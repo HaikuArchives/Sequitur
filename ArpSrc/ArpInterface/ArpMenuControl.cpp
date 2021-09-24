@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <interface/Menu.h>
 #include <interface/MenuItem.h>
 #include <ArpCore/StlVector.h>
@@ -13,7 +13,7 @@ const char*			ARP_MENU_ON_STR				= "on";
 class _ArpMenuControlData
 {
 public:
-	vector<int32>		ints;
+	std::vector<int32>		ints;
 	_ArpMenuControlData()			{ }
 };
 

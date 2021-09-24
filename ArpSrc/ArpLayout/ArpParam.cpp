@@ -92,7 +92,7 @@ ArpGlobalParamI::ArpGlobalParamI()
 {
 }
 
-ArpGlobalParamI::ArpGlobalParamI(ArpParamSet* set, const char* name, const char* initGlobal=0)
+ArpGlobalParamI::ArpGlobalParamI(ArpParamSet* set, const char* name, const char* initGlobal)
 {
 	Init(set, name, initGlobal);
 }
@@ -105,7 +105,7 @@ ArpGlobalParamI::~ArpGlobalParamI()
 }
 
 status_t
-ArpGlobalParamI::Init(ArpParamSet* set, const char* name, const char* initGlobal=0)
+ArpGlobalParamI::Init(ArpParamSet* set, const char* name, const char* initGlobal)
 {
 	status_t err = ArpParamI::Init(set, name);
 	mGlobal = initGlobal;
@@ -122,7 +122,7 @@ void
 ArpGlobalParamI::SetGlobalRef(const char* name)
 {
 	ArpD(cdb << ADH << "Setting global of " << this
-			<< " to " << (name ? name : "<NULL>") << endl);
+			<< " to " << (name ? name : "<NULL>") << std::endl);
 	mGlobal = name;
 }
 
@@ -143,7 +143,7 @@ ArpGlobalParamI::ArchiveParam(std_arg& std, BMessage* msg,
 		value = name.String();
 	}
 	ArpD(cdb << ADH << "Archiving " << Name(std)
-			<< ": value name is " << value << endl);
+			<< ": value name is " << value << std::endl);
 	status_t err = GetValue(std, msg, value);
 	
 	if( !err && HasGlobalRef() ) {
@@ -152,7 +152,7 @@ ArpGlobalParamI::ArchiveParam(std_arg& std, BMessage* msg,
 			global = name.String();
 		}
 		ArpD(cdb << ADH << "Storing global " << global
-				<< ": " << GlobalRef(std) << endl);
+				<< ": " << GlobalRef(std) << std::endl);
 		err = msg->AddData(global, ARP_INDIRECT_TYPE,
 						   GlobalRef(std), strlen(GlobalRef(std))+1);
 	}
@@ -172,7 +172,7 @@ ArpGlobalParamI::InstantiateParam(std_arg& std, const BMessage* msg,
 	}
 	status_t err = SetValue(std, msg, value);
 	ArpD(cdb << ADH << "Instantiating " << Name(std)
-			<< ": value name is " << value << endl);
+			<< ": value name is " << value << std::endl);
 			
 	if( !global ) {
 		MakeGlobalName(std, &name);
@@ -185,19 +185,19 @@ ArpGlobalParamI::InstantiateParam(std_arg& std, const BMessage* msg,
 	if( globName ) {
 		SetGlobalRef(globName);
 		ArpD(cdb << ADH << "Retrieving global " << global
-				<< ": " << GlobalRef(std) << endl);
+				<< ": " << GlobalRef(std) << std::endl);
 		err = ApplyGlobal(std);
 	}
 	ArpD(cdb << ADH << "Restored global " << global
 			<< ": " << GlobalRef(std)
-			<< " (err=" << err << ")" << endl);
+			<< " (err=" << err << ")" << std::endl);
 	return err;
 }
 
 status_t
 ArpGlobalParamI::GetParam(std_arg& std, BMessage* msg,
 						  const char* name,
-						  const char* value=0) const
+						  const char* value) const
 {
 	status_t err = B_OK;
 	if( HasGlobalRef() ) {
@@ -220,13 +220,13 @@ ArpGlobalParamI::SetParam(std_arg& std, const BMessage* msg,
 	status_t err = B_NAME_NOT_FOUND;
 	
 	if( msg && name ) {
-		ArpD(cdb << ADH << "Looking for param " << name << endl);
+		ArpD(cdb << ADH << "Looking for param " << name << std::endl);
 		if( msg->HasData(name,Type(std)) ) {
 			err = SetValue(std, msg, name);
 			if( !err ) SetGlobalRef((const char*)0);
 			return err;
 		} else {
-			ArpD(cdb << ADH << "Not found." << endl);
+			ArpD(cdb << ADH << "Not found." << std::endl);
 			const char* globName=0;
 			ssize_t globLen=0;
 			err = msg->FindData(name, ARP_INDIRECT_TYPE,
@@ -235,7 +235,7 @@ ArpGlobalParamI::SetParam(std_arg& std, const BMessage* msg,
 				SetGlobalRef(globName);
 				err = ApplyGlobal(std);
 				ArpD(cdb << ADH << "Found global reference: "
-								<< GlobalRef(std) << endl);
+								<< GlobalRef(std) << std::endl);
 			}
 		}
 		
@@ -253,22 +253,22 @@ ArpGlobalParamI::ApplyGlobal(std_arg& std)
 	
 	if( HasGlobalRef() && std.globals ) {
 		ArpD(cdb << ADH << "Retrieving global " << GlobalRef(std)
-					<< " for " << Name(std) << endl);
+					<< " for " << Name(std) << std::endl);
 		if( std.globals->GlobalValues()->HasData(GlobalRef(std),Type(std)) ) {
 			err = SetValue(std, std.globals->GlobalValues(), GlobalRef(std));
-			ArpD(cdb << ADH << "Result is: " << err << endl);
+			ArpD(cdb << ADH << "Result is: " << err << std::endl);
 			
 		// If the global wasn't found, and we are being updated from the
 		// complete global set, add our current value to the global params.
 		} else if( !std.globals->IsGlobalUpdate() ) {
-			ArpD(cdb << ADH << "Global not found; adding." << endl);
+			ArpD(cdb << ADH << "Global not found; adding." << std::endl);
 			BMessage newGlob;
 			err = GetValue(std, &newGlob, GlobalRef(std));
 			err = std.globals->UpdateGlobals(&newGlob);
 			return err;
 			
 		} else {
-			ArpD(cdb << ADH << "Global value not found." << endl);
+			ArpD(cdb << ADH << "Global value not found." << std::endl);
 		}
 	}
 	return err;

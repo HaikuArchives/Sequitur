@@ -2,10 +2,10 @@
  */
 #include "ArpPinkNoise.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <time.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+#include <ctime>
 
 #ifndef AMKERNEL_AMFILTERCONFIG_H
 #include "AmPublic/AmFilterConfigLayout.h"

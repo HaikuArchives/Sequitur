@@ -360,7 +360,7 @@ void SeqManageRosterWindow::BuildList()
 	if (!listView) return;
 	AmFileRoster*		roster = Roster();
 	if (!roster) return;
-	set<entry_row>		rows;
+	std::set<entry_row>		rows;
 
 	for (int32 k = 0; k < listView->CountRows(); k++) {
 		_EntryRow*		row = dynamic_cast<_EntryRow*>(listView->RowAt(k));
@@ -370,7 +370,7 @@ void SeqManageRosterWindow::BuildList()
 	for (uint32 k = 0; k < roster->CountEntries(); k++) {
 		file_entry_id	id = roster->EntryIdAt(k);
 		if (id) {
-			set<entry_row>::iterator it = rows.find(entry_row(id));
+			std::set<entry_row>::iterator it = rows.find(entry_row(id));
 			if (it == rows.end()) {
 				_EntryRow*	row = NewEntryRow(k, id);
 				if (row) listView->AddRow(row);
@@ -378,7 +378,7 @@ void SeqManageRosterWindow::BuildList()
 		}
 	}
 
-	for (set<entry_row>::iterator it = rows.begin(); it != rows.end(); it++) {
+	for (std::set<entry_row>::iterator it = rows.begin(); it != rows.end(); it++) {
 		if (it->row) {
 			listView->RemoveRow(it->row);
 			delete it->row;

@@ -11,7 +11,7 @@
  * Known Bugs
  * ~~~~~~~~~~
  *
- *	-¢ None!  Ha ha!
+ *	-ï¿½ None!  Ha ha!
  *
  * ----------------------------------------------------------------------
  *
@@ -69,7 +69,7 @@ public:
 private:
 	mutable BLocker				mAccess;
 	_GlKeyTrackerEntry			mCurrent;
-	vector<_GlKeyTrackerEntry>	mEntries;
+	std::vector<_GlKeyTrackerEntry>	mEntries;
 	mutable bool				mDirty;	
 
 	int32						IndexFor(const BString16& creator) const;

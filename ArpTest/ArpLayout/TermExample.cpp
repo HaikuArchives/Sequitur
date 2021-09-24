@@ -89,7 +89,7 @@
 #include "TermExample.h"
 #endif
 
-#include <stdlib.h>
+#include <cstdlib>
 
 // Note: Even indicies are foreground colors, negative are background.
 static char* colorNames[] = {

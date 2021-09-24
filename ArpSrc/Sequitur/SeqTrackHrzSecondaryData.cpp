@@ -1,6 +1,7 @@
 /* SeqTrackHrzSecondaryData.cpp
  */
-#include <stdio.h>
+#include <cstdio>
+#include <cassert>
 #include <interface/MenuItem.h>
 #include <interface/StringView.h>
 #include <interface/Window.h>

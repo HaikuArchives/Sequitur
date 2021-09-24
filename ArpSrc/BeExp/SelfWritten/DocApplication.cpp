@@ -1,7 +1,7 @@
 #include <FilePanel.h>
 #include <String.h>
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <experimental/DocApplication.h>
 #include <experimental/DocWindow.h>

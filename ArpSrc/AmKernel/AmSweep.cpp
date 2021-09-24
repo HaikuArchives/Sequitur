@@ -1,10 +1,10 @@
-#include <stdio.h>
+#include <cstdio>
 #include <typeinfo>
 #include <vector>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmSweep.h"
 
-static vector<int16>		gKeys;
+static std::vector<int16>		gKeys;
 
 /***************************************************************************
  * AM-SWEEP

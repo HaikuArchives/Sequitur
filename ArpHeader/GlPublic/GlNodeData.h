@@ -165,7 +165,7 @@ public:
 
 private:
 	typedef GlNodeData		inherited;
-	vector<GlNodeData*>		m_Data;
+	std::vector<GlNodeData*>		m_Data;
 
 	void*					TypeAt(NodeDataType type, uint32 index);
 

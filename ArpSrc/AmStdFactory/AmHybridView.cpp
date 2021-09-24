@@ -1,7 +1,7 @@
 /* AmHybridView.cpp
  */
-#include <stdio.h>
-#include <math.h>
+#include <cstdio>
+#include <cmath>
 #include <interface/Bitmap.h>
 #include <interface/MenuField.h>
 #include <interface/MenuItem.h>

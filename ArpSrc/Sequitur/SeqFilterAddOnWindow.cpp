@@ -1,7 +1,7 @@
 /* SeqFilterAddOnWindow.cpp
  */
-#include <assert.h>
-#include <stdio.h>
+#include <cassert>
+#include <cstdio>
 #include <private/interface/ColumnListView.h>
 #include <private/interface/ColumnTypes.h>
 #include <InterfaceKit.h>
@@ -318,8 +318,10 @@ SeqFilterAddOnWindow::SeqFilterAddOnWindow(	BRect frame,
 	AddViews();
 	if (!roster) roster = AmFilterRoster::Default();
 	mRoster = roster;
-	AmMultiFilterRoster*	roster = AmMultiFilterRoster::Default();
-	if (roster) roster->AddObserver(this);
+	//HACK to make compile on 64 bit. What the hell s going on here?
+	AmMultiFilterRoster*	mroster = AmMultiFilterRoster::Default();
+	// AmMultiFilterRoster*	roster = AmMultiFilterRoster::Default();
+	if (mroster) mroster->AddObserver(this);
 
 	if (config) SetConfiguration(config);
 }
@@ -594,8 +596,8 @@ void SeqFilterAddOnWindow::UpdateHandleList()
 	BColumnListView*	listView = dynamic_cast<BColumnListView*>( FindView(TABLE_STR) );
 	if (!listView) return;
 
-	set<row_entry>		rows;
-	set<assoc_entry>	assoc;
+	std::set<row_entry>		rows;
+	std::set<assoc_entry>	assoc;
 	int32				i;
 
 	for (i=0; i<listView->CountRows(); i++) {
@@ -610,10 +612,10 @@ void SeqFilterAddOnWindow::UpdateHandleList()
 		BAddOnHandle* h = mRoster->AddOnAt(i);
 		AmFilterAddOnHandle* fh = dynamic_cast<AmFilterAddOnHandle*>(h);
 		if (fh) {
-			set<row_entry>::iterator r = rows.find(row_entry(fh));
+			std::set<row_entry>::iterator r = rows.find(row_entry(fh));
 			assoc_entry ae(fh, true);
 			if (ae.can_associate()) {
-				set<assoc_entry>::iterator a = assoc.find(ae);
+				std::set<assoc_entry>::iterator a = assoc.find(ae);
 				if (a != assoc.end() && a->row && a->row->SetMatching(fh)) {
 					if (r != rows.end()) {
 						rows.erase(r);
@@ -637,7 +639,7 @@ void SeqFilterAddOnWindow::UpdateHandleList()
 		}
 	}
 
-	for (set<row_entry>::iterator j=rows.begin(); j != rows.end(); j++) {
+	for (std::set<row_entry>::iterator j=rows.begin(); j != rows.end(); j++) {
 		if (j->row) {
 			listView->RemoveRow(j->row);
 			delete j->row;
@@ -657,8 +659,8 @@ void SeqFilterAddOnWindow::UpdateMultiList()
 	AmMultiFilterRoster*	roster = AmMultiFilterRoster::Default();
 	if (!roster) return;
 
-	set<multi_row_entry>	rows;
-	set<multi_assoc_entry>	assoc;
+	std::set<multi_row_entry>	rows;
+	std::set<multi_assoc_entry>	assoc;
 	int32					i;
 
 	for (i = 0; i < listView->CountRows(); i++) {
@@ -672,10 +674,10 @@ void SeqFilterAddOnWindow::UpdateMultiList()
 	ArpRef<AmMultiFilterAddOn>	h;
 	for (i = 0; (h = roster->FilterAt(i)) != NULL; i++) {
 		if (h) {
-			set<multi_row_entry>::iterator r = rows.find(multi_row_entry(h));
+			std::set<multi_row_entry>::iterator r = rows.find(multi_row_entry(h));
 			multi_assoc_entry ae(h, true);
 			if (ae.can_associate()) {
-				set<multi_assoc_entry>::iterator a = assoc.find(ae);
+				std::set<multi_assoc_entry>::iterator a = assoc.find(ae);
 				if (a != assoc.end() && a->row && a->row->SetMatching(h)) {
 					if (r != rows.end()) {
 						rows.erase(r);
@@ -699,7 +701,7 @@ void SeqFilterAddOnWindow::UpdateMultiList()
 		}
 	}
 
-	for (set<multi_row_entry>::iterator j=rows.begin(); j != rows.end(); j++) {
+	for (std::set<multi_row_entry>::iterator j=rows.begin(); j != rows.end(); j++) {
 		if (j->row) {
 			listView->RemoveRow(j->row);
 			delete j->row;

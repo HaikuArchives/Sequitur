@@ -2,7 +2,7 @@
  */
 #define _BUILDING_AmKernel 1
 
-#include <stdio.h>
+#include <cstdio>
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmFilterI.h"
 #include "AmPublic/AmGlobalsI.h"

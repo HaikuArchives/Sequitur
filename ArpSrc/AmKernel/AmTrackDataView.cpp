@@ -1,6 +1,6 @@
 /* AmTrackDataView.cpp
  */
-#include <stdio.h>
+#include <cstdio>
 #include <interface/Window.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "ArpKernel/ArpDebug.h"
@@ -338,11 +338,11 @@ void AmTrackDataView::AddBackground(ArpBackground* background)
 	else mHeadBackground = background;
 }
 
-static bool has_finished(vector<AmGraphicEffect*>& graphics)
+static bool has_finished(std::vector<AmGraphicEffect*>& graphics)
 {
 	for (uint32 k = 0; k < graphics.size(); k++) {
 		if (graphics[k]->IsFinished() ) {
-			vector<AmGraphicEffect*>::iterator		i = graphics.begin() + k;
+			std::vector<AmGraphicEffect*>::iterator		i = graphics.begin() + k;
 			delete (*i);
 			graphics.erase(i);
 			return true;

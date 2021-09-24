@@ -10,13 +10,13 @@
  * <URL:http://www.angryredplanet.com/>.
  */
 
-#include <assert.h>
+#include <cassert>
 
 #ifndef ARPCOLLECTIONS_ARPINDEXEDNODE_H
 #include "ArpCollections/ArpIndexedNode.h"
 #endif
 
-#include <stdio.h>
+#include <cstdio>
 
 long	nodeCount = 0;
 

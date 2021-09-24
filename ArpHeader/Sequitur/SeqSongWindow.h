@@ -261,7 +261,7 @@ private:
 	/* Keep track of every track window I open so I can close them
 	 * all down when I'm closed.
 	 */
-	vector<BMessenger>	mTrackWins;
+	std::vector<BMessenger>	mTrackWins;
 	void				CloseTrackWindows();
 };
 

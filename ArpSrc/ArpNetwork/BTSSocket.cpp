@@ -1,18 +1,18 @@
 // =============================================================================
-//    ¥ BTSSocket.cpp
+//    ï¿½ BTSSocket.cpp
 // =============================================================================
 
 #include <ArpNetwork/BTSSocket.h>
 #include <ArpKernel/ArpDebug.h>
-#include <stdio.h>
+#include <cstdio>
 #include <support/Debug.h>
 #include <errno.h>
-#include <string.h>
+#include <cstring>
 
 ArpMOD();
 
 // =============================================================================
-//    ¥ BTSSocket
+//    ï¿½ BTSSocket
 // =============================================================================
 BTSSocket::BTSSocket() : fFamily(AF_INET), fType(SOCK_STREAM), 
 						fProtocol(IPPROTO_TCP)
@@ -28,7 +28,7 @@ BTSSocket::BTSSocket() : fFamily(AF_INET), fType(SOCK_STREAM),
 }
 
 // =============================================================================
-//    ¥ BTSSocket
+//    ï¿½ BTSSocket
 // =============================================================================
 
 BTSSocket::BTSSocket(const int type, const int protocol, const int family) :
@@ -52,7 +52,7 @@ BTSSocket::BTSSocket(const int type, const int protocol, const int family) :
 }
 
 // =============================================================================
-//    ¥ BTSSocket
+//    ï¿½ BTSSocket
 // =============================================================================
 BTSSocket::BTSSocket(const int socketID) : fFamily(-1), fType(-1), fProtocol(-1)
 {
@@ -62,7 +62,7 @@ BTSSocket::BTSSocket(const int socketID) : fFamily(-1), fType(-1), fProtocol(-1)
 }
 
 // =============================================================================
-//    ¥ Init
+//    ï¿½ Init
 // =============================================================================
 void
 BTSSocket::Init()
@@ -77,7 +77,7 @@ BTSSocket::Init()
 }
 
 // =============================================================================
-//    ¥ SetOption
+//    ï¿½ SetOption
 // =============================================================================
 long
 BTSSocket::SetOption(const int level, const int option, char* data, 
@@ -88,7 +88,7 @@ BTSSocket::SetOption(const int level, const int option, char* data,
 	return result < 0 ? errno : result;
 }
 // =============================================================================
-//    ¥ Open
+//    ï¿½ Open
 // =============================================================================
 long
 BTSSocket::Open()
@@ -103,7 +103,7 @@ BTSSocket::Open()
 }
 
 // =============================================================================
-//    ¥ SendLock
+//    ï¿½ SendLock
 // =============================================================================
 long
 BTSSocket::SendLock() const 
@@ -112,7 +112,7 @@ BTSSocket::SendLock() const
 }
 
 // =============================================================================
-//    ¥ SendUnlock
+//    ï¿½ SendUnlock
 // =============================================================================
 long
 BTSSocket::SendUnlock() const 
@@ -121,7 +121,7 @@ BTSSocket::SendUnlock() const
 }
 
 // =============================================================================
-//    ¥ RecvLock
+//    ï¿½ RecvLock
 // =============================================================================
 long
 BTSSocket::RecvLock() const 
@@ -130,7 +130,7 @@ BTSSocket::RecvLock() const
 }
 
 // =============================================================================
-//    ¥ RecvUnlock
+//    ï¿½ RecvUnlock
 // =============================================================================
 long
 BTSSocket::RecvUnlock() const 
@@ -138,7 +138,7 @@ BTSSocket::RecvUnlock() const
 	return ::release_sem(fRecvSem);
 }
 // =============================================================================
-//    ¥ ConnectToAddress
+//    ï¿½ ConnectToAddress
 // =============================================================================
 long
 BTSSocket::ConnectToAddress(const ArpHostName& host)
@@ -148,14 +148,14 @@ BTSSocket::ConnectToAddress(const ArpHostName& host)
 	const sockaddr_in* 	sockAddr = &fHost.SockAddr();
 	ArpD(cdb << ADH << "Connect to: family=" << (sockAddr->sin_family)
 				<< ", port=" << (sockAddr->sin_port)
-				<< ", addr=" << (sockAddr->sin_addr.s_addr) << endl);
+				<< ", addr=" << (sockAddr->sin_addr.s_addr) << std::endl);
 	result = ::connect(fID, (struct sockaddr*)sockAddr, 
 						sizeof(*sockAddr));
 	return result < 0 ? errno : result;
 }
 
 // =============================================================================
-//    ¥ BindTo
+//    ï¿½ BindTo
 // =============================================================================
 long	
 BTSSocket::BindTo(const ArpHostName& host)
@@ -170,7 +170,7 @@ BTSSocket::BindTo(const ArpHostName& host)
 }
 
 // =============================================================================
-//    ¥ Listen
+//    ï¿½ Listen
 // =============================================================================
 long	
 BTSSocket::Listen(const int maxConnections)
@@ -181,7 +181,7 @@ BTSSocket::Listen(const int maxConnections)
 }
 
 // =============================================================================
-//    ¥ Close
+//    ï¿½ Close
 // =============================================================================
 long
 BTSSocket::Close()
@@ -195,7 +195,7 @@ BTSSocket::Close()
 }
 
 // =============================================================================
-//    ¥ Send
+//    ï¿½ Send
 // =============================================================================
 long
 BTSSocket::Send(const char* buf, const long bufSize) const
@@ -227,7 +227,7 @@ BTSSocket::Send(const char* buf, const long bufSize) const
 }
 
 // =============================================================================
-//    ¥ Recv
+//    ï¿½ Recv
 // =============================================================================
 long
 BTSSocket::Recv(const char* buf, const long bufSize, long* recvlen) const
@@ -289,7 +289,7 @@ BTSSocket::Recv(const char* buf, const long bufSize, long* recvlen) const
 }
 
 // =============================================================================
-//    ¥ UpdateSendCount
+//    ï¿½ UpdateSendCount
 // =============================================================================
 void BTSSocket::UpdateSendCount(const long numBytes)
 {
@@ -300,7 +300,7 @@ void BTSSocket::UpdateSendCount(const long numBytes)
 }
 
 // =============================================================================
-//    ¥ UpdateReceiveCount
+//    ï¿½ UpdateReceiveCount
 // =============================================================================
 void BTSSocket::UpdateReceiveCount(const long numBytes)
 {

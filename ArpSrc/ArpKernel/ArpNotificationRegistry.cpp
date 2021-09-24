@@ -17,8 +17,8 @@
 #ifndef _LOOPER_H
 #include <app/Looper.h>
 #endif
-#include <stdio.h>
-#include <assert.h>
+#include <cstdio>
+#include <cassert>
 
 /*
 		void ExpressInterest(BHandler*);

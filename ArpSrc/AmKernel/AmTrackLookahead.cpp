@@ -2,9 +2,9 @@
 */
 #define _BUILDING_AmKernel 1
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 #include "ArpKernel/ArpDebug.h"
 #include "AmKernel/AmTrackLookahead.h"
 #include "AmPublic/AmEvents.h"
@@ -50,7 +50,7 @@ status_t AmTrackLookahead::SetTracks(const AmSong* song)
 	DeleteAll();
 	ArpVALIDATE(song, return B_ERROR);
 	const AmTrack*				t = NULL;
-	vector<const AmTrack*>		unadded;
+	std::vector<const AmTrack*>		unadded;
 	for (uint32 k = 0; (t = song->Track(k)) != NULL; k++) {
 		AmTime		length = t->LookaheadTime();
 		if (length > 0) mEntries.push_back(_LookaheadEntry(t->Id(), t->Groups(), length));

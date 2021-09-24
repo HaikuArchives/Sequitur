@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <private/interface/ColumnListView.h>
 #include <private/interface/ColumnTypes.h>
 #include <interface/Alert.h>

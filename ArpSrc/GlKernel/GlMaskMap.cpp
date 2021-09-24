@@ -61,8 +61,8 @@ public:
 	}
 
 private:
-	vector<uint8*>	mData_u8;
-	vector<float*>	mData_f;
+	std::vector<uint8*>	mData_u8;
+	std::vector<float*>	mData_f;
 };
 
 class _MaskMapData
@@ -168,7 +168,7 @@ public:
 	}
 
 private:
-	vector<_MaskMapEntry*>	mEntries;
+	std::vector<_MaskMapEntry*>	mEntries;
 };
 
 /***************************************************************************

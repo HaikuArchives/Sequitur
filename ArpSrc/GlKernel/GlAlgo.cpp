@@ -4,10 +4,10 @@
 #include <GlPublic/GlAlgo.h>
 #include <GlPublic/GlProcessStatus.h>
 
-static bool			_bundle_paren(vector<GlAlgo*>& vec);
-static GlAlgo*		_parse(vector<GlAlgo*>& vec, uint32 start, uint32 end);
-static status_t		_make_binary(vector<GlAlgo*>& vec, uint32 bin);
-static bool			_sort_prec(vector<GlAlgo*>& vec, vector<uint32> bin);
+static bool			_bundle_paren(std::vector<GlAlgo*>& vec);
+static GlAlgo*		_parse(std::vector<GlAlgo*>& vec, uint32 start, uint32 end);
+static status_t		_make_binary(std::vector<GlAlgo*>& vec, uint32 bin);
+static bool			_sort_prec(std::vector<GlAlgo*>& vec, std::vector<uint32> bin);
 
 /***************************************************************************
  * _GL-ALGO-DATA
@@ -189,7 +189,7 @@ float GlAlgo::Precedence() const
 
 GlAlgo* GlAlgo::Parse()
 {
-	vector<GlAlgo*>			vec;
+	std::vector<GlAlgo*>			vec;
 	GlAlgo*					n = 0;
 	uint32					k;
 	while ( (n = (n) ? (n->ParseNext()) : this) != 0) vec.push_back(n);
@@ -432,7 +432,7 @@ status_t _GlAlgoData::SetChain(GlAlgo* node, uint32 index)
  * contents, than bundle all that up into a single algo and
  * reinsert it into the list.
  */
-static bool _bundle_paren(vector<GlAlgo*>& vec)
+static bool _bundle_paren(std::vector<GlAlgo*>& vec)
 {
 	uint32						left = uint32(vec.size());
 	for (uint32 k = 0; k < vec.size(); k++) {
@@ -455,13 +455,13 @@ static bool _bundle_paren(vector<GlAlgo*>& vec)
  * representing the start of a parse tree.  First bundle up
  * any binaries.  Anyone left over gets thrown into a chain.
  */
-static GlAlgo* _parse(vector<GlAlgo*>& vec, uint32 start, uint32 end)
+static GlAlgo* _parse(std::vector<GlAlgo*>& vec, uint32 start, uint32 end)
 {
 	ArpVALIDATE(vec.size() > 0, return 0);
 	ArpVALIDATE(end < vec.size(), end = uint32(vec.size() - 1));
 	ArpVALIDATE(start <= end, start = end);
 
-	vector<uint32>		binaries;
+	std::vector<uint32>		binaries;
 	uint32				k;
 	for (k = start; k <= end; k++) {
 		if (vec[k]) {
@@ -489,7 +489,7 @@ static GlAlgo* _parse(vector<GlAlgo*>& vec, uint32 start, uint32 end)
 	return h;
 }
 
-static status_t	_make_binary(vector<GlAlgo*>& vec, uint32 bin)
+static status_t	_make_binary(std::vector<GlAlgo*>& vec, uint32 bin)
 {
 	ArpVALIDATE(vec[bin] != 0 && vec[bin]->Token() == GL_BINARY, return B_ERROR);
 	GlAlgo*				a = vec[bin];
@@ -513,7 +513,7 @@ static status_t	_make_binary(vector<GlAlgo*>& vec, uint32 bin)
 	return a->AssignBinary(lh, rh);
 }
 
-static bool _sort_prec(vector<GlAlgo*>& vec, vector<uint32> bin)
+static bool _sort_prec(std::vector<GlAlgo*>& vec, std::vector<uint32> bin)
 {
 	bool			ans = false;
 	for (uint32 k = 1; k < bin.size(); k++) {

@@ -1,6 +1,6 @@
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 #include <InterfaceKit.h>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmEvents.h"

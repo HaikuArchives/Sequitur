@@ -13,9 +13,9 @@
 #include <Debug.h>
 #include <String.h>
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <memory.h>
+#include <cstdlib>
+#include <cstdio>
+#include <memory>
 
 #include <experimental/BitmapTools.h>
 

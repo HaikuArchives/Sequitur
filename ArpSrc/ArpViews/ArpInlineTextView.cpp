@@ -169,8 +169,8 @@ ArpInlineTextView::ArpInlineTextView(const BMessenger& owner,
 				const char *name,
 				const BFont* font,
 				float textleft, float rightmost, float baseline,
-				uint32 resizeMask = B_FOLLOW_NONE,
-				uint32 flags = B_WILL_DRAW)
+				uint32 resizeMask,
+				uint32 flags )
 	: BView(frame_from_font(textleft, rightmost, baseline, font),
 			name, resizeMask, flags),
 	  mOwner(owner), mEditText(0), mStartWithFocus(true)
@@ -287,7 +287,7 @@ void ArpInlineTextView::MessageReceived(BMessage* message)
 	}
 }
 
-void ArpInlineTextView::MakeFocus(bool focusState=true)
+void ArpInlineTextView::MakeFocus(bool focusState)
 {
 	if( Window() && Parent() ) {
 		BMessage msg(focusState ? INLINE_STARTFOCUS_MSG:INLINE_ENDFOCUS_MSG);
@@ -313,7 +313,7 @@ void ArpInlineTextView::SetHighColor(rgb_color col)
 	}
 }
 
-void ArpInlineTextView::SetFont(const BFont *font, uint32 mask = B_FONT_ALL)
+void ArpInlineTextView::SetFont(const BFont *font, uint32 mask)
 {
 	inherited::SetFont(font,mask);
 	if( mEditText ) {

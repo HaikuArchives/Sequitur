@@ -1,8 +1,8 @@
 #include "ArpControllerRange.h"
 
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include <InterfaceKit.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpLayout/ArpViewWrapper.h"
@@ -166,17 +166,17 @@ status_t ArpControllerRangeFilter::Configure(ArpVectorI<BView*>& panels)
 void ArpControllerRangeAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>I am a map of control change ranges.  Every controller can be
-	given a new range.  For example, if the range is 0 9, then the controller is
-	mapped so that it stays within this range.  If the incoming value is 10, it's
-	remapped to 0, 11 to 1, etc.</p>
-	<p>The intended use for this filter is to map button presses from keyboards
-	to a range suitable for the destination control.  For example, if you have
-	a keyboard with a button configured to send values of 0 - 127 on controller
-	12, you can use a Controller Range to map those values into something useful.
-	Say controller 12 controls the filter type on a synthesizer, and their are
-	10 types, so the valid range is 0 - 9.  This filter will step through the range,
-	always keeping the control value valid.</p>";
+	str << "<p>I am a map of control change ranges.  Every controller can be"
+	"given a new range.  For example, if the range is 0 9, then the controller is"
+	"mapped so that it stays within this range.  If the incoming value is 10, it's"
+	"remapped to 0, 11 to 1, etc.</p>"
+	"<p>The intended use for this filter is to map button presses from keyboards"
+	"to a range suitable for the destination control.  For example, if you have"
+	"a keyboard with a button configured to send values of 0 - 127 on controller"
+	"12, you can use a Controller Range to map those values into something useful."
+	"Say controller 12 controls the filter type on a synthesizer, and their are"
+	"10 types, so the valid range is 0 - 9.  This filter will step through the range,"
+	"always keeping the control value valid.</p>";
 }
 
 void ArpControllerRangeAddOn::GetVersion(int32* major, int32* minor) const

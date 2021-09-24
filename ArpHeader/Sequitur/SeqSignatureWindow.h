@@ -61,7 +61,7 @@ public:
 	BStringView*	mSlash;
 	float			mBottom;
 };
-typedef vector<_SeqSigPopUpEntry>		sigpopup_vec;
+typedef std::vector<_SeqSigPopUpEntry>		sigpopup_vec;
 
 /***************************************************************************
  * SEQ-SIGNATURE-WINDOW

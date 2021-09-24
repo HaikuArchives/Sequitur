@@ -390,7 +390,7 @@ private:
 	AmPhrase			mMotions;
 	uint32				mGroups;
 	
-	typedef vector<AmViewProperty*>		viewproperty_vec;
+	typedef std::vector<AmViewProperty*>		viewproperty_vec;
 	/* There are several view property objects which I've just hardcoded,
 	 * then a vector for the secondaries, which might have any number.
 	 */

@@ -1,7 +1,7 @@
 /* AmMultiFilter.cpp
  */
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmEvents.h"
 #include "AmKernel/AmFilterHolder.h"
@@ -43,7 +43,7 @@ void AmMultiFilter::SetDirty(bool dirty) {}
 const BUndoContext* AmMultiFilter::UndoContext() const { return NULL; }
 BUndoContext* AmMultiFilter::UndoContext() { return NULL; }
 
-static inline int32 next_holder_index(AmFilterHolderI* holder, vector<filter_id>& fids)
+static inline int32 next_holder_index(AmFilterHolderI* holder, std::vector<filter_id>& fids)
 {
 	if (!holder || !holder->Filter() ) return -1;
 	for (uint32 k = 0; k < fids.size(); k++) {
@@ -497,7 +497,7 @@ AmEvent* AmMultiFilter::UnifiedHandleEvent(	AmEvent* event, filter_exec_type typ
 	ArpVALIDATE(event != NULL && mHolder != NULL, return event);
 
 	AmFilterHolderI*		holder = NULL;
-	vector<filter_id>		fids;
+	std::vector<filter_id>		fids;
 	BString					outKey(NULL_OUTPUT_KEY);
 	for (uint32 k = 0; k < mPipelines.size(); k++) {
 		AmFilterHolderI*	head = mPipelines[k].Head();

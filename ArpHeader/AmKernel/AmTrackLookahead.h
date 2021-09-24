@@ -25,7 +25,7 @@
 #define AMKERNEL_AMTRACKLOOKAHEAD_H
 
 
-#include <vector.h>
+#include <vector>
 #include "AmPublic/AmDefs.h"
 class AmEvent;
 class AmFilterHolderI;
@@ -77,7 +77,7 @@ public:
 	status_t				MakeChains(const AmTrack* track, const AmTime start);
 
 private:
-	vector<_LookaheadEntry>	mEntries;	
+	std::vector<_LookaheadEntry>	mEntries;	
 
 	_LookaheadEntry*		EntryFor(track_id tid);
 	const _LookaheadEntry*	EntryFor(track_id tid) const;

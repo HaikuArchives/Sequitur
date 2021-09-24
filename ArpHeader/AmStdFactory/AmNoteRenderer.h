@@ -30,7 +30,7 @@
 #ifndef AMSTDFACTORY_AMNOTERENDERER_H
 #define AMSTDFACTORY_AMNOTERENDERER_H
 
-#include <vector.h>
+#include <vector>
 #include <interface/View.h>
 #include "ArpKernel/ArpLineArrayCache.h"
 #include "AmPublic/AmPhraseRendererI.h"
@@ -54,7 +54,7 @@ public:
 	_FloatRange&	operator=(const _FloatRange& r);
 	_FloatRange&	operator+=(const _FloatRange& r);
 };
-typedef vector<_FloatRange>		floatrange_vec;
+typedef std::vector<_FloatRange>		floatrange_vec;
 
 /*************************************************************************
  * AM-NOTE-RENDERER

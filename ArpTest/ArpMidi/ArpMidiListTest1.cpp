@@ -3,7 +3,7 @@
 #define _BUILDING_AmKernel 1
 
 #include <Debug.h>
-#include <assert.h>
+#include <cassert>
 
 #include "ArpMidiListTest1.h"
 

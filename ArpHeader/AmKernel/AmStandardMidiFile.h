@@ -105,10 +105,7 @@ public:
 	status_t SetSignatureTrack(AmPhraseEvent* track);
 	
 	void MakeEmpty();
-	
-private:
-	void Reset();
-	
+
 	struct channel_list {
 		AmNode* head;
 		AmNode* tail;
@@ -118,6 +115,9 @@ private:
 		
 		channel_list() : head(NULL), tail(NULL) { }
 	};
+
+private:
+	void Reset();
 	
 	status_t	ReadTrack(ArpStructuredIO& io);
 	AmEvent*	ReadPhrases(channel_list& list, BMessage& phrases);

@@ -19,7 +19,7 @@
  * ~~~~~~~~~~
  *
  * Originally I was hoping to implement this with a BList, but that
- * hasn't worked so far.  Currently it is using an STL vector<void*>.
+ * hasn't worked so far.  Currently it is using an STL std::vector<void*>.
  *
  * ----------------------------------------------------------------------
  *
@@ -106,7 +106,7 @@ public:
 	virtual void		reserve( size_t n )				{ mVector.reserve(n); }
 
 private:
-	vector<void*> mVector;
+	std::vector<void*> mVector;
 };
 
 #endif

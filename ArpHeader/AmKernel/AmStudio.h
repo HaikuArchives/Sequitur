@@ -24,7 +24,7 @@
 #ifndef AMKERNEL_AMSTUDIO_H
 #define AMKERNEL_AMSTUDIO_H
 
-#include <vector.h>
+#include <vector>
 #include <app/Message.h>
 #include <storage/File.h>
 #include <support/DataIO.h>
@@ -55,7 +55,7 @@ public:
 	BString				mDevMfg;
 	BString				mDevName;
 };
-typedef vector<_AmStudioEntry>		studio_vec;
+typedef std::vector<_AmStudioEntry>		studio_vec;
 
 /***************************************************************************
  * AM-STUDIO

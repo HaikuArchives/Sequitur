@@ -33,7 +33,7 @@
 #endif
 
 #include <float.h>
-#include <algobase.h>
+//#include <algobase.h>
 
 #include <support/Autolock.h>
 
@@ -83,7 +83,7 @@ BMessage& arp_update_message(BMessage& to, const BMessage& msg)
 {
 	char* name;
 	type_code type;
-	long count;
+	int32 count;
 	for( int32 i=0; !msg.GetInfo(B_ANY_TYPE,i,&name,&type,&count);
 		i++ ) {
 		bool all_gone = false;
@@ -104,7 +104,7 @@ BMessage& arp_update_message(BMessage& to, const BMessage& msg)
 						}
 					}
 					if( to.ReplaceData(name,type,j,data,size) ) {
-						long cnt=0;
+						int32 cnt=0;
 						type_code mtype = type;
 						if( !to.GetInfo(name,&mtype,&cnt) ) {
 							for( int32 k=cnt-1; k>=j; k-- ) {
@@ -127,11 +127,11 @@ void get_view_dimens(ArpDimens* dimens, BView* view, bool sizekludge)
 {
 	ArpASSERT(dimens != 0 && view != 0);
 	
-	ArpD(cdb << ADH << "**** arp_get_view_dimens(): " << view->Name() << endl);
+	ArpD(cdb << ADH << "**** arp_get_view_dimens(): " << view->Name() << std::endl);
 	ArpD(cdb << ADH << "orig min_width = " << dimens->X().MinBody()
-				<< ", min_height = " << dimens->Y().MinBody() << endl);
+				<< ", min_height = " << dimens->Y().MinBody() << std::endl);
 	ArpD(cdb << ADH << "orig pref_width = " << dimens->X().PrefBody()
-				<< ", pref_height = " << dimens->Y().PrefBody() << endl);
+				<< ", pref_height = " << dimens->Y().PrefBody() << std::endl);
 	float vw=0;
 	float vh=0;
 	if( view ) {
@@ -140,23 +140,23 @@ void get_view_dimens(ArpDimens* dimens, BView* view, bool sizekludge)
 			// have to do this to get many views to return reasonable
 			// dimensions to us...
 			BRect frm = view->Frame();
-			ArpD(cdb << ADH << "Got current frame: " << frm << endl);
+			ArpD(cdb << ADH << "Got current frame: " << frm << std::endl);
 			view->ResizeTo(1,1);
-			ArpD(cdb << ADH << "Resized to (1,1)" << endl);
+			ArpD(cdb << ADH << "Resized to (1,1)" << std::endl);
 			view->Draw(view->Bounds());
-			ArpD(cdb << ADH << "Called Draw() using bounds dimensions." << endl);
+			ArpD(cdb << ADH << "Called Draw() using bounds dimensions." << std::endl);
 			//view->Invalidate();
 			view->ResizeToPreferred();
-			ArpD(cdb << ADH << "Resized to preferred." << endl);
+			ArpD(cdb << ADH << "Resized to preferred." << std::endl);
 			view->GetPreferredSize(&vw,&vh);
-			ArpD(cdb << ADH << "retrieved preferred size." << endl);
+			ArpD(cdb << ADH << "retrieved preferred size." << std::endl);
 			vw++;
 			vh++;
 			view->ResizeTo(frm.Width(),frm.Height());
-			ArpD(cdb << ADH << "vwidth = " << vw << ", vheight = " << vh << endl);
+			ArpD(cdb << ADH << "vwidth = " << vw << ", vheight = " << vh << std::endl);
 		} else {
 			view->GetPreferredSize(&vw,&vh);
-			ArpD(cdb << ADH << "retrieved preferred size." << endl);
+			ArpD(cdb << ADH << "retrieved preferred size." << std::endl);
 			vw++;
 			vh++;
 		}
@@ -164,7 +164,7 @@ void get_view_dimens(ArpDimens* dimens, BView* view, bool sizekludge)
 	dimens->X().SetTo(0, vw, vw, vw, 0);
 	dimens->Y().SetTo(0, vh, vh, vh, 0);
 	ArpD(cdb << ADH << "min_width = " << dimens->X().MinBody()
-				<< ", min_height = " << dimens->Y().MinBody() << endl);
+				<< ", min_height = " << dimens->Y().MinBody() << std::endl);
 	ArpD(cdb << ADH << "pref_width = " << dimens->X().PrefBody()
-				<< ", pref_height = " << dimens->Y().PrefBody() << endl);
+				<< ", pref_height = " << dimens->Y().PrefBody() << std::endl);
 }

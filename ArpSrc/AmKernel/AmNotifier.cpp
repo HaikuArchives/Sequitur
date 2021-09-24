@@ -4,8 +4,8 @@
 
 #include "AmKernel/AmNotifier.h"
 
-#include <vector.h>
-#include <stdio.h>
+#include <vector>
+#include <cstdio>
 #include <app/Message.h>
 #include <support/Autolock.h>
 #include "AmPublic/AmEvents.h"
@@ -47,7 +47,7 @@ public:
 	
 	BMessenger			mMessenger;
 };
-typedef vector<_AmRangeEntry>	range_vec;
+typedef std::vector<_AmRangeEntry>	range_vec;
 
 /***************************************************************************
  * _AM-OBSERVERS-ENTRY
@@ -340,7 +340,7 @@ _AmObserversEntry* AmNotifier::ObserversEntryFor( uint32 code )
 	_AmObserversEntry*	entry = new _AmObserversEntry();
 	if( !entry ) return 0;
 	
-	pair<observers_map::iterator, bool>	p;
+	std::pair<observers_map::iterator, bool>	p;
 	p = mObserversMap.insert( observers_map::value_type( code, entry ) );
 	
 	return entry;

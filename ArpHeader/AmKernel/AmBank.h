@@ -25,7 +25,7 @@
 #ifndef AMKERNEL_AMBANK_H
 #define AMKERNEL_AMBANK_H
 
-#include <vector.h>
+#include <vector>
 #include "AmPublic/AmBankI.h"
 #include "AmKernel/AmPhraseEvent.h"
 
@@ -73,7 +73,7 @@ protected:
 private:
 	uint32				mBank;
 	BString				mName;
-	vector<BString>		mPatches;
+	std::vector<BString>		mPatches;
 	uint32				mFirstPatchNumber;
 	AmBankChange*		mSelectionEvent;
 };

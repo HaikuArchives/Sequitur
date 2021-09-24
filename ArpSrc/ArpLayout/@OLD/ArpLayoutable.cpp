@@ -31,9 +31,9 @@
 #include <support/Autolock.h>
 #endif
 
-#include <algobase.h>
+//#include <algobase.h>
 #include <float.h>
-#include <string.h>
+#include <cstring>
 
 ArpMOD();
 
@@ -100,7 +100,7 @@ void ArpLayoutable::do_construct(void)
 
 ArpLayoutable::~ArpLayoutable()
 {
-	ArpD(cdb << ADH << "Destroying ArpLayoutable: " << LayoutName() << endl);
+	ArpD(cdb << ADH << "Destroying ArpLayoutable: " << LayoutName() << std::endl);
 	
 	ArpLayoutable* child = 0;
 	int32 index=0;
@@ -219,20 +219,20 @@ status_t ArpLayoutable::ExtractParam(
 {
 	status_t res = B_NAME_NOT_FOUND;
 	if( name && params ) {
-		ArpD(cdb << ADH << "Looking for param " << name << endl);
+		ArpD(cdb << ADH << "Looking for param " << name << std::endl);
 		if( params->HasData(name,type) ) {
 			res = InterpretType(*params,name,type,result);
 			if( gName ) *gName = (const char*)0;
-			ArpD(cdb << ADH << "Result = " << res << endl);
+			ArpD(cdb << ADH << "Result = " << res << std::endl);
 		} else if( gName ) {
-			ArpD(cdb << ADH << "Not found." << endl);
+			ArpD(cdb << ADH << "Not found." << std::endl);
 			const char* extname = NULL;
 			extname = params->GetIndirect(name,NULL);
 			if( extname ) {
 				res = B_NO_ERROR;
 				*gName = *extname ? extname : (const char*)0;
 				ArpD(cdb << ADH << "Found global reference: "
-								<< gName << endl);
+								<< gName << std::endl);
 			}
 		}
 	}
@@ -240,14 +240,14 @@ status_t ArpLayoutable::ExtractParam(
 	if( gName && !gName->IsNull() && globs && (!res || !name || !params) ) {
 		status_t gres = B_NAME_NOT_FOUND;
 		ArpD(cdb << ADH << "Retrieving global " << *gName
-					<< " for " << name << endl);
+					<< " for " << name << std::endl);
 		if( globs->HasData(*gName,type) ) {
 			gres = InterpretType(*globs,*gName,type,result);
 			
 		// If the global wasn't found, and we are being updated from the
 		// complete global set, add our current value to the global params.
 		} else if( globs == Globals() ) {
-			ArpD(cdb << ADH << "Global not found; adding." << endl);
+			ArpD(cdb << ADH << "Global not found; adding." << std::endl);
 			// This is wretched...  but fortunately, it shouldn't
 			// happen very often.
 			ArpMessage msg = Params(name);
@@ -269,7 +269,7 @@ status_t ArpLayoutable::ExtractParam(
 		}
 		if( !gres ) res = B_NO_ERROR;
 		if( !res ) {
-			ArpD(cdb << ADH << "Found global value." << endl);
+			ArpD(cdb << ADH << "Found global value." << std::endl);
 		}
 	}
 	return res;
@@ -294,7 +294,7 @@ ArpLayoutable* ArpLayoutable::SetParams(const ArpMessage& p)
 {
 	if( this ) {
 		ArpD(cdb << ADH << "Setting parameters for "
-					<< LayoutName() << ": " << p << endl);
+					<< LayoutName() << ": " << p << std::endl);
 		DoSetParams(globals,&p);
 	}
 	return this;
@@ -306,7 +306,7 @@ const ArpMessage ArpLayoutable::Params(const char* name)
 		ArpMessage p;
 		DoParams(p,name);
 		ArpD(cdb << ADH << "Retrieved paramters for "
-					<< LayoutName() << ": " << p << endl);
+					<< LayoutName() << ": " << p << std::endl);
 		return p;
 	}
 	return ArpNoParams;
@@ -315,8 +315,8 @@ const ArpMessage ArpLayoutable::Params(const char* name)
 int32 ArpLayoutable::DoSetParams(const ArpMessage* g,
 								const ArpMessage* p)
 {
-	ArpD(cdb << ADH << "Doing set params, globals = " << g << endl);
-	ArpD(if( p ) cdb << ADH << "Params = " << *p << endl);
+	ArpD(cdb << ADH << "Doing set params, globals = " << g << std::endl);
+	ArpD(if( p ) cdb << ADH << "Params = " << *p << std::endl);
 	
 	int32 count=0;
 	
@@ -324,7 +324,7 @@ int32 ArpLayoutable::DoSetParams(const ArpMessage* g,
 	res = ExtractParam(p,BackgroundColor,B_RGB_COLOR_TYPE,
 						g,&PG_BackgroundColor,&PV_BackgroundColor);
 	if( !res ) {
-		ArpD(cdb << ADH << "Invalidating view: view color" << endl);
+		ArpD(cdb << ADH << "Invalidating view: view color" << std::endl);
 		if(OwnerView()) {
 			OwnerView()->SetViewColor(PV_BackgroundColor);
 			OwnerView()->SetLowColor(PV_BackgroundColor);
@@ -336,7 +336,7 @@ int32 ArpLayoutable::DoSetParams(const ArpMessage* g,
 	res = ExtractParam(p,ForegroundColor,B_RGB_COLOR_TYPE,
 						g,&PG_ForegroundColor,&PV_ForegroundColor);
 	if( !res ) {
-		ArpD(cdb << ADH << "Invalidating view: high color" << endl);
+		ArpD(cdb << ADH << "Invalidating view: high color" << std::endl);
 		if(OwnerView()) OwnerView()->SetHighColor(PV_ForegroundColor);
 		InvalidateView();
 		count++;
@@ -345,7 +345,7 @@ int32 ArpLayoutable::DoSetParams(const ArpMessage* g,
 	res = ExtractParam(p,BasicFont,FFont::FONT_TYPE,
 						g,&PG_BasicFont,&PV_BasicFont);
 	if( !res ) {
-		ArpD(cdb << ADH << "Invalidating dimens: font" << endl);
+		ArpD(cdb << ADH << "Invalidating dimens: font" << std::endl);
 		if(OwnerView()) OwnerView()->SetFont(&PV_BasicFont);
 		InvalidateDimens();
 		count++;
@@ -387,10 +387,10 @@ ArpLayoutable* ArpLayoutable::SetGlobals(const ArpMessage* gl)
 		#if defined(ArpDEBUG)
 		if( gl ) {
 			ArpD(cdb << ADH << "Setting globals for "
-						<< LayoutName() << ": " << *globals << endl);
+						<< LayoutName() << ": " << *globals << std::endl);
 		} else {
 			ArpD(cdb << ADH << "Clearing globals for "
-						<< LayoutName() << "." << endl);
+						<< LayoutName() << "." << std::endl);
 		}
 		#endif
 		DoSetParams(globals,NULL);
@@ -409,7 +409,7 @@ bool ArpLayoutable::RefreshGlobals(const ArpMessage* gl)
 	if( this ) {
 		if( !gl ) gl = globals;
 		ArpD(cdb << ADH << "Refreshing globals for "
-					<< LayoutName() << " with: " << *gl << endl);
+					<< LayoutName() << " with: " << *gl << std::endl);
 		DoSetParams(gl,NULL);
 		int32 num = CountLayoutChildren();
 		for( int32 i=0; i<num; i++ ) {
@@ -438,7 +438,7 @@ ArpLayoutable* ArpLayoutable::SetConstraints(const ArpMessage& c)
 	if( this ) {
 		constraints.Update(c);
 		ArpD(cdb << ADH << "Set constraints for "
-					<< LayoutName() << ": " << constraints << endl);
+					<< LayoutName() << ": " << constraints << std::endl);
 		InvalidateDimens();
 	}
 	return this;
@@ -463,7 +463,7 @@ void ArpLayoutable::do_inhibit_layout(bool state)
 ArpLayoutable* ArpLayoutable::SetLayoutInhibit(bool state)
 {
 	if( this ) {
-		ArpD(cdb << ADH << "Setting layout inhibit: " << state << endl);
+		ArpD(cdb << ADH << "Setting layout inhibit: " << state << std::endl);
 		inhibit_layout = state;
 		ArpLayoutable* root = this;
 		while( root->LayoutParent() ) {
@@ -471,7 +471,7 @@ ArpLayoutable* ArpLayoutable::SetLayoutInhibit(bool state)
 		}
 		root->do_inhibit_layout(state);
 		if( !state && dimens_changed ) {
-			ArpD(cdb << ADH << "dimens_changed; changing layout." << endl);
+			ArpD(cdb << ADH << "dimens_changed; changing layout." << std::endl);
 			root->LayoutChanged(false);
 		}
 	}
@@ -758,7 +758,7 @@ ArpLayoutable* ArpLayoutable::AddLayoutChild(ArpLayoutable* v,
 		return this;
 	}
 	
-	ArpD(cdb << ADH << "Adding child: " << v->LayoutName() << endl);
+	ArpD(cdb << ADH << "Adding child: " << v->LayoutName() << std::endl);
 	
 	bool old_inhibit = LayoutInhibit();
 	SetLayoutInhibit(true);
@@ -786,13 +786,13 @@ ArpLayoutable* ArpLayoutable::AddLayoutChild(ArpLayoutable* v,
 	BView* beforeView = 0;
 	if( bindex >= 0 ) beforeView = FindClosestView(bindex+1);
 	ArpD(cdb << ADH << "Attaching view: parent=" << in_view
-					<< ", before=" << beforeView << endl);
+					<< ", before=" << beforeView << std::endl);
 	v->AttachView(in_view, beforeView);
 	
 	// Update globals and make sure the dimensions are re-evaluated.
 	if( globals && globals != v->globals ) v->SetGlobals(globals);
 	ArpD(cdb << ADH << "Invalidating dimens; changed="
-					<< dimens_changed << endl);
+					<< dimens_changed << std::endl);
 	InvalidateDimens();
 	
 	v->SetLayoutInhibit(old_inhibit);
@@ -810,7 +810,7 @@ bool ArpLayoutable::RemoveLayoutChild(ArpLayoutable* child)
 	bool res = children.RemoveItem(child);
 	ArpD(cdb << ADH << "Removed child " << child->LayoutName()
 					<< " from " << LayoutName() << "; result="
-					<< res << endl);
+					<< res << std::endl);
 	if( res ) {
 		child->AttachView(0);
 		child->parent = 0;
@@ -826,7 +826,7 @@ void ArpLayoutable::AttachView(BView* par_view, BView* before)
 {
 	ArpD(cdb << ADH << "AttachView: par_view=" << par_view
 				<< ", before=" << before << ", owner=" << OwnerView()
-				<< ", in=" << InView() << endl);
+				<< ", in=" << InView() << std::endl);
 				
 	// If this ArpLayoutable does not have an associated BView,
 	// we need to run through all of its children looking for BViews
@@ -909,7 +909,7 @@ BRect ArpLayoutable::HintLayoutChild(ArpLayoutable* before) const
 
 void ArpLayoutable::ComputeDimens(void)
 {
-	ArpD(cdb << ADH << "ArpLayoutable::ComputeDimens()" << endl);
+	ArpD(cdb << ADH << "ArpLayoutable::ComputeDimens()" << std::endl);
 	ArpLayoutable* child = (ArpLayoutable*)children.FirstItem();
 	if( child ) {
 		cur_dimens = child->LayoutDimens();
@@ -925,21 +925,21 @@ const ArpLayoutDimens& ArpLayoutable::LayoutDimens(void)
 	if( dimens_changed ) {
 		ComputeDimens();
 		ArpD(cdb << ADH << "Uncorrected dimensions for "
-					<< LayoutName() << endl);
+					<< LayoutName() << std::endl);
 		ArpD(cdb << ADH << "  min  width=" << cur_dimens.min_width
-					<< " height=" << cur_dimens.min_height << endl);
+					<< " height=" << cur_dimens.min_height << std::endl);
 		ArpD(cdb << ADH << "  pref width=" << cur_dimens.pref_width
-					<< " height=" << cur_dimens.pref_height << endl);
+					<< " height=" << cur_dimens.pref_height << std::endl);
 		ArpD(cdb << ADH << "  max  width=" << cur_dimens.max_width
-					<< " height=" << cur_dimens.max_height << endl);
-		cur_dimens.min_width = ceil(max(cur_dimens.min_width,(float)0));
-		cur_dimens.min_height = ceil(max(cur_dimens.min_height,(float)0));
-		cur_dimens.pref_width = ceil(max(cur_dimens.min_width,
+					<< " height=" << cur_dimens.max_height << std::endl);
+		cur_dimens.min_width = ceil(std::max(cur_dimens.min_width,(float)0));
+		cur_dimens.min_height = ceil(std::max(cur_dimens.min_height,(float)0));
+		cur_dimens.pref_width = ceil(std::max(cur_dimens.min_width,
 										cur_dimens.pref_width));
-		cur_dimens.pref_height = ceil(max(cur_dimens.min_height,
+		cur_dimens.pref_height = ceil(std::max(cur_dimens.min_height,
 										cur_dimens.pref_height));
-		cur_dimens.max_width = floor(max(cur_dimens.max_width,(float)0));
-		cur_dimens.max_height = floor(max(cur_dimens.max_height,(float)0));
+		cur_dimens.max_width = floor(std::max(cur_dimens.max_width,(float)0));
+		cur_dimens.max_height = floor(std::max(cur_dimens.max_height,(float)0));
 		dimens_changed = false;
 	}
 	return cur_dimens;
@@ -949,7 +949,7 @@ void ArpLayoutable::ResizeLayout(float width, float height,
 								  bool force)
 {
 	ArpD(cdb << ADH << "ArpLayoutable::LayoutResize(" << width
-				 << "," << height << "): " << LayoutName() << endl);
+				 << "," << height << "): " << LayoutName() << std::endl);
 	cur_frame.right = cur_frame.left + width;
 	cur_frame.bottom = cur_frame.top + height;
 	LayoutChanged(force);
@@ -958,7 +958,7 @@ void ArpLayoutable::ResizeLayout(float width, float height,
 void ArpLayoutable::MoveLayout(float left, float top, bool force)
 {
 	ArpD(cdb << ADH << "ArpLayoutable::LayoutMove(" << left
-				 << "," << top << "): " << LayoutName() << endl);
+				 << "," << top << "): " << LayoutName() << std::endl);
 	cur_frame.OffsetTo(left,top);
 	LayoutChanged(force);
 }
@@ -966,14 +966,14 @@ void ArpLayoutable::MoveLayout(float left, float top, bool force)
 void ArpLayoutable::SetViewLayout(const BRect& frame, bool force)
 {
 	ArpD(cdb << ADH << "ArpLayoutable::SetViewLayout(" << frame << "): "
-				  << LayoutName() << endl);
+				  << LayoutName() << std::endl);
 	cur_frame = frame;
 	LayoutChanged(force);
 }
 
 void ArpLayoutable::RequestLayout(bool force)
 {
-	ArpD(cdb << ADH << "ArpLayoutable::RequestLayout()" << endl);
+	ArpD(cdb << ADH << "ArpLayoutable::RequestLayout()" << std::endl);
 	LayoutChanged(force);
 }
 
@@ -984,7 +984,7 @@ void ArpLayoutable::InvalidateDimens(void)
 	ArpLayoutable* last = this;
 	while( root ) {
 		ArpD(cdb << ADH << "Invalidating dimensions for: "
-					<< root->LayoutName() << endl);
+					<< root->LayoutName() << std::endl);
 		root->dimens_changed = true;
 		root->last_frame.left = root->last_frame.top = -1000;
 		root->last_frame.right = root->last_frame.bottom = -2000;
@@ -1033,7 +1033,7 @@ bool ArpLayoutable::LayoutActivated(void) const
 void ArpLayoutable::LayoutChanged(bool force)
 {
 	ArpD(cdb << ADH << "ArpLayoutable::LayoutChanged(" << force
-				<< ")" << ": " << LayoutName() << endl);
+				<< ")" << ": " << LayoutName() << std::endl);
 	//ArpLayoutable* parent = LayoutParent();
 	BView* view = OwnerView();
 	bool changed = false;
@@ -1066,10 +1066,10 @@ void ArpLayoutable::LayoutChanged(bool force)
 	//printf("ArpLayoutable::LayoutChanged() of %s\n",LayoutName());
 	if( force || cur_frame.left != last_frame.left
 			  || cur_frame.top != last_frame.top ) {
-		ArpD(cdb << ADH << "The frame position has changed..." << endl);
+		ArpD(cdb << ADH << "The frame position has changed..." << std::endl);
 		if( view ) {
 			ArpD(cdb << ADH << "ArpLayoutable::SetFrame "
-						<< LayoutName() << " -- moving." << endl);
+						<< LayoutName() << " -- moving." << std::endl);
 			//printf("Move %s to (%f,%f)\n",LayoutName(),
 			//	cur_frame.left,cur_frame.top);
 			view->MoveTo(cur_frame.left, cur_frame.top);
@@ -1081,11 +1081,11 @@ void ArpLayoutable::LayoutChanged(bool force)
 	}
 	if( force || cur_frame.Width() != last_frame.Width()
 			  || cur_frame.Height() != last_frame.Height() ) {
-		ArpD(cdb << ADH << "The frame size has changed..." << endl);
+		ArpD(cdb << ADH << "The frame size has changed..." << std::endl);
 		changed = true;
 		if( view ) {
 			ArpD(cdb << ADH << "ArpLayoutable::SetFrame "
-						<< LayoutName() << " -- resizing." << endl);
+						<< LayoutName() << " -- resizing." << std::endl);
 			//printf("Resize %s to (%f-%f)\n",LayoutName(),
 			//	cur_frame.Width(),cur_frame.Height());
 			view->ResizeTo(cur_frame.Width(), cur_frame.Height());
@@ -1101,7 +1101,7 @@ void ArpLayoutable::LayoutView()
 {
 	BRect frm = LayoutBounds();
 	ArpD(cdb << ADH << "ArpLayoutable::LayoutView() -- " << LayoutName()
-			<< " " << frm << endl);
+			<< " " << frm << std::endl);
 	ArpLayoutable* child = (ArpLayoutable*)children.FirstItem();
 	if( child ) {
 		child->SetViewLayout(frm);

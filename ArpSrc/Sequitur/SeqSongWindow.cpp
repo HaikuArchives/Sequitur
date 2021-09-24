@@ -1,8 +1,8 @@
 /* SeqSongWindow.cpp
  */
-#include <stdio.h>
-#include <assert.h>
-#include <string.h>
+#include <cstdio>
+#include <cassert>
+#include <cstring>
 #include <RecentItems.h>
 #include <Roster.h>
 #include <experimental/BitmapButton.h>
@@ -1436,7 +1436,7 @@ SeqSongSelections* SeqSongWindow::Selections() const
 	return mSelections;
 }
 
-static void add_track(vector<track_id>& vec, track_id tid)
+static void add_track(std::vector<track_id>& vec, track_id tid)
 {
 	for (uint32 k = 0; k < vec.size(); k++)
 		if (vec[k] == tid) return;
@@ -1446,7 +1446,7 @@ static void add_track(vector<track_id>& vec, track_id tid)
 void SeqSongWindow::SetSelections(SeqSongSelections* selections)
 {
 	AmRange				oldRange, newRange;
-	vector<track_id>	tracks;
+	std::vector<track_id>	tracks;
 	if (mSelections) {
 		oldRange = mSelections->TimeRange();
 		newRange = oldRange;
@@ -2324,7 +2324,7 @@ status_t SeqSongWindow::SetIsRecording(bool isRecording)
 		/* This is the format the views expect the tracks in, sigh, so
 		 * I'll just go with it for now.
 		 */
-		vector<track_id>			tracks;
+		std::vector<track_id>			tracks;
 		uint32						count = mSelections->CountTracks();
 		for (uint32 k = 0; k < count; k++) tracks.push_back(mSelections->TrackAt(k));
 
@@ -2432,7 +2432,7 @@ void SeqSongWindow::MergePhrases()
 }
 
 static void merge(	AmTrack* track, AmPhraseEvent* srcPhraseEvent, AmPhrase* destPhrase,
-					vector<AmPhraseEvent*>& removes)
+					std::vector<AmPhraseEvent*>& removes)
 {
 	AmPhrase*	srcPhrase = srcPhraseEvent->Phrase();
 	if (!srcPhrase) return;
@@ -2456,7 +2456,7 @@ void SeqSongWindow::MergeTrackPhrases(AmTrack* track, AmRange range)
 {
 	AmPhraseEvent*			firstPe = NULL;
 	AmNode*					n = track->Phrases().HeadNode();
-	vector<AmPhraseEvent*>	removes;
+	std::vector<AmPhraseEvent*>	removes;
 	while (n && (n->StartTime() <= range.end) ) {
 		AmNode*				nextN = n->next;
 		if (n->Event()
@@ -2508,8 +2508,8 @@ void SeqSongWindow::SeparateTrackPhrases(AmTrack* track, AmRange range)
 	AmNode*				n = track->Phrases().HeadNode();
 	AmNode*				nNext;
 	AmRange				change = range;
-	vector<AmPhraseEvent*> removes;
-	vector<AmPhraseEvent*> adds;
+	std::vector<AmPhraseEvent*> removes;
+	std::vector<AmPhraseEvent*> adds;
 	BMessage			properties;
 	bool				hasProperties = false;
 	while( n && (n->StartTime() <= range.end) ) {
@@ -2885,7 +2885,7 @@ void SeqSongWindow::NewTrack(const BMessage* device)
 	// END WRITE SONG BLOCK
 }
 
-static void build_ids(const AmSong* song, SeqSongSelections* selections, vector<track_id>& ids)
+static void build_ids(const AmSong* song, SeqSongSelections* selections, std::vector<track_id>& ids)
 {
 	for (uint32 k = 0; k < selections->CountTracks(); k++) {
 		const AmTrack*		track = song->Track(selections->TrackAt(k) );
@@ -2906,7 +2906,7 @@ void SeqSongWindow::DeleteSelectedTracks()
 		 * based on the indexes, but once the selection object is storing by
 		 * id this won't be necessary.
 		 */
-		vector<track_id>	ids;
+		std::vector<track_id>	ids;
 		build_ids(song, mSelections, ids);
 		for (uint32 k = 0; k < ids.size(); k++)
 			song->RemoveTrack(ids[k] );
@@ -2931,7 +2931,7 @@ static void move_tracks_by(SeqSongSelections* selections, AmSong* song, int32 de
 	 */
 	uint32					selCount = selections->CountTracks();
 	uint32					songCount = song->CountTracks();
-	map<uint32, track_id> 	tracks;
+	std::map<uint32, track_id> 	tracks;
 	for (uint32 k = 0; k < selCount; k++) {
 		AmTrack*	track = song->Track(selections->TrackAt(k));
 		if (track) {
@@ -2942,13 +2942,13 @@ static void move_tracks_by(SeqSongSelections* selections, AmSong* song, int32 de
 	}
 
 	if (delta > 0) {
-		map<uint32, track_id>::iterator i = tracks.end();
+		std::map<uint32, track_id>::iterator i = tracks.end();
 		do {
 			--i;
 			song->MoveTrackBy(i->second, delta);
 		} while (i != tracks.begin());
 	} else {
-		for (map<uint32, track_id>::iterator i = tracks.begin(); i != tracks.end(); ++i) {
+		for (std::map<uint32, track_id>::iterator i = tracks.begin(); i != tracks.end(); ++i) {
 			song->MoveTrackBy(i->second, delta);
 		}
 	}
@@ -3207,7 +3207,7 @@ void SeqSongWindow::HandleContextMenuFor(AmTrack *track, AmTime time)
 	BPopUpMenu	*m = BuildContextMenuFor(track);
 	if (m == 0) return;
 	
-	ulong		buttons;
+	uint32		buttons;
 	BPoint		where;
 	backgroundView->GetMouse(&where, &buttons, false);
 	BMenuItem	*item;	
@@ -3521,7 +3521,7 @@ void _SongMeasureControl::MouseDown(BPoint pt)
 	 * button, so I shouldn't handle that.
 	 */
 	BPoint		where;
-	ulong		buttons;
+	uint32		buttons;
 	GetMouse(&where, &buttons, false);
 	if (buttons&B_SECONDARY_MOUSE_BUTTON) return;
 	/* User's can't change the selection if they start outside of the
@@ -3815,7 +3815,7 @@ bool _SongMeasureControl::IsRecording() const
 
 int32 _SongMeasureControl::ScrollThreadEntry(void* arg)
 {
-	DB(DBALL, cerr << "_SongMeasureControl: Enter ScrollThreadEntry." << endl);
+	DB(DBALL, std::cerr << "_SongMeasureControl: Enter ScrollThreadEntry." << std::endl);
 	_SongMeasureControl*	ctrl = (_SongMeasureControl*)arg;
 	if( !ctrl ) return B_ERROR;
 	
@@ -3831,7 +3831,7 @@ int32 _SongMeasureControl::ScrollThreadEntry(void* arg)
 		}
 	}
 
-	DB(DBALL, cerr << "_SongMeasureControl: Exit ScrollThreadEntry." << endl);
+	DB(DBALL, std::cerr << "_SongMeasureControl: Exit ScrollThreadEntry." << std::endl);
 	return B_OK;
 }
 

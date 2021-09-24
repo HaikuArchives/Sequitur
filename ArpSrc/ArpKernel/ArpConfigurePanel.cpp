@@ -43,7 +43,7 @@
 #include <storage/Path.h>
 #endif
 
-#include <stdlib.h>
+#include <cstdlib>
 
 ArpMOD();
 
@@ -112,7 +112,7 @@ void ArpConfigurePanel::RebuildPanes()
 		size_t i;
 		
 		ArpD(cdb << ADH << "Allocating vectors for " << configs.size()
-					<< " configurable objects." << endl);
+					<< " configurable objects." << std::endl);
 		
 		// Initialize lists of configurable objects.
 		mInitSettings = new ArpPtrVector<BMessage*>;
@@ -127,9 +127,9 @@ void ArpConfigurePanel::RebuildPanes()
 			configs[i]->GetConfiguration(mInitSettings->at(i));
 			getViews.resize(0);
 			ArpD(cdb << ADH << "Getting views for config #" << i
-							<< " (" << configs[i] << ")" << endl);
+							<< " (" << configs[i] << ")" << std::endl);
 			if( configs[i] && configs[i]->Configure(getViews) == B_OK ) {
-				ArpD(cdb << ADH << "Found " << getViews.size() << endl);
+				ArpD(cdb << ADH << "Found " << getViews.size() << std::endl);
 				for( size_t j=0; j<getViews.size(); j++ ) {
 					if( getViews[j] != 0 ) {
 						mConfigViews->push_back(getViews[j]);
@@ -146,23 +146,23 @@ void ArpConfigurePanel::RebuildPanes()
 		mTabHeight = ceil(spaceh*4 + (tabBound.Height()-tabFrame.Height())
 							+ TabHeight());
 		ArpD(cdb << ADH << "Tab bounds=" << tabBound
-						<< ", frame=" << tabFrame << endl);
+						<< ", frame=" << tabFrame << std::endl);
 		ArpD(cdb << ADH << "mTabWidth=" << mTabWidth
-						<< ", mTabHeight=" << mTabHeight << endl);
+						<< ", mTabHeight=" << mTabHeight << std::endl);
 						
 		// Add configuration panels to the tab view.
 		for( i=0; i<mConfigViews->size(); i++ ) {
 			if( mConfigViews->at(i) ) {
 				ArpD(cdb << ADH << "Adding tab #" << i
 								<< ", name="
-								<< mConfigViews->at(i)->Name() << endl);
+								<< mConfigViews->at(i)->Name() << std::endl);
 				AddTab(mConfigViews->at(i));
 				mConfigViews->at(i)->MoveTo(tabBound.left+spacew*2,
 											tabBound.top+spaceh*2);
 				mConfigViews->at(i)->ResizeTo(tabFrame.Width()-mTabWidth,
 											  tabFrame.Height()-mTabHeight);
 				ArpD(cdb << ADH << "This panel's frame = "
-								<< mConfigViews->at(i)->Frame() << endl);
+								<< mConfigViews->at(i)->Frame() << std::endl);
 			}
 		}
 		
@@ -193,7 +193,7 @@ void ArpConfigurePanel::GetPreferredSize(float* width, float* height)
 		if( (view=mConfigViews->at(i)) != 0 ) {
 			ArpD(cdb << ADH << "Processing dimens for view #" << i
 							<< ", name="
-							<< view->Name() << endl);
+							<< view->Name() << std::endl);
 			float vwidth=0, vheight=0;
 			// If this view is not attached to the window (i.e., it
 			// is not currently displayed by the tab view), then it
@@ -201,7 +201,7 @@ void ArpConfigurePanel::GetPreferredSize(float* width, float* height)
 			// this, we temporarily add it to your view.
 			if( !view->Window() ) {
 				ArpD(cdb << ADH << "Temporarily attaching view to window."
-							<< endl);
+							<< std::endl);
 				bool hidden = view->IsHidden();
 				view->Hide();
 				AddChild(view);
@@ -212,14 +212,14 @@ void ArpConfigurePanel::GetPreferredSize(float* width, float* height)
 				view->GetPreferredSize(&vwidth, &vheight);
 			}
 			ArpD(cdb << ADH << "Preferred width=" << vwidth
-							<< ", height=" << vheight << endl);
+							<< ", height=" << vheight << std::endl);
 			if( vwidth > maxw ) maxw = vwidth;
 			if( vheight > maxh ) maxh = vheight;
 		}
 	}
 	
 	ArpD(cdb << ADH << "Final size=(" << (maxw+mTabWidth)
-				<< ", " << (maxh+mTabHeight) << ")" << endl);
+				<< ", " << (maxh+mTabHeight) << ")" << std::endl);
 				
 	if( width ) *width = maxw + mTabWidth + 2;
 	if( height ) *height = maxh + mTabHeight + 2;
@@ -227,7 +227,7 @@ void ArpConfigurePanel::GetPreferredSize(float* width, float* height)
 
 void ArpConfigurePanel::AttachedToWindow()
 {
-	ArpD(cdb << ADH << "ArpConfigurePanel: Attached to window." << endl);
+	ArpD(cdb << ADH << "ArpConfigurePanel: Attached to window." << std::endl);
 	inherited::AttachedToWindow();
 	BView* par = Parent();
 	if( par ) SetViewColor(par->ViewColor());
@@ -236,9 +236,9 @@ void ArpConfigurePanel::AttachedToWindow()
 
 void ArpConfigurePanel::AllAttached()
 {
-	ArpD(cdb << ADH << "ArpConfigurePanel: All attached." << endl);
+	ArpD(cdb << ADH << "ArpConfigurePanel: All attached." << std::endl);
 	inherited::AllAttached();
-	ArpD(cdb << ADH << "Selecting the first tab..." << endl);
+	ArpD(cdb << ADH << "Selecting the first tab..." << std::endl);
 	SendSetPanel(FocusTab());
 }
 
@@ -268,10 +268,10 @@ void ArpConfigurePanel::SendSetPanel(int32 tab)
 				setPanel.AddMessenger("panel", BMessenger(this));
 				target.SendMessage(&setPanel);
 				ArpD(cdb << ADH << "Sent config panel msg: "
-						<< setPanel << endl);
+						<< setPanel << std::endl);
 			} else {
 				ArpD(cdb << ADH << "Invalid messenger for view, "
-						<< "couldn't send panel message!" << endl);
+						<< "couldn't send panel message!" << std::endl);
 			}
 		}
 	}
@@ -412,7 +412,7 @@ void ArpConfigureView::GetPreferredSize(float* width, float* height)
 
 void ArpConfigureView::AttachedToWindow()
 {
-	ArpD(cdb << ADH << "ArpConfigureView: Attached to window." << endl);
+	ArpD(cdb << ADH << "ArpConfigureView: Attached to window." << std::endl);
 	inherited::AttachedToWindow();
 	BView* par = Parent();
 	if( par ) SetViewColor(par->ViewColor());

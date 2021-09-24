@@ -67,7 +67,7 @@
 #endif
 
 #include <SupportDefs.h>
-#include <string.h>
+#include <cstring>
 
 // This type is leftover dredge from the WebTerm days.
 // (Or more accurately, the pre-DR9 days when I thought
@@ -166,7 +166,7 @@ public:
 	ArpString operator + (const ArpString & add) const;
 	ArpString operator + (const ichar * add) const;
 	ArpString operator + (ichar add) const;
-	ArpString operator + (long add) const;
+	ArpString operator + (int32 add) const;
 	
 	ArpString& operator = (const ArpString & clone);
 	ArpString& operator = (const ichar * clone);

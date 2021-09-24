@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <support/Autolock.h>
 #include <ArpMath/ArpDefs.h>
 #include <ArpInterface/ArpBitmap.h>

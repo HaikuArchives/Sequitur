@@ -4,9 +4,9 @@
 
 #include "Sequitur/SeqSongToolTarget.h"
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 #include <interface/Window.h>
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmGlobalsI.h"

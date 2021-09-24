@@ -52,7 +52,7 @@ class _GlMainNodesCache
 public:
 	uint32						io;
 	gl_chain_id					id;
-	vector<_GlMainNodesBar*>	bars;
+	std::vector<_GlMainNodesBar*>	bars;
 
 	_GlMainNodesCache(const GlChain* chain);
 	~_GlMainNodesCache();
@@ -90,7 +90,7 @@ public:
 								const BView* v);
 
 private:
-	vector<_GlMainNodesCache*>	mCaches;
+	std::vector<_GlMainNodesCache*>	mCaches;
 };
 
 /********************************************************

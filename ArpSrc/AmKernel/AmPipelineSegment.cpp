@@ -2,7 +2,7 @@
  */
 #define _BUILDING_AmKernel 1
 
-#include <stdio.h>
+#include <cstdio>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpKernel/ArpMessage.h"
 #include "AmPublic/AmPipelineMatrixI.h"
@@ -308,7 +308,7 @@ status_t AmPipelineSegment::InsertFilter(AmFilterAddOn* addon, int32 beforeIndex
 	return B_OK;
 }
 
-static void dec_filter_refs(vector<AmFilterHolder*>& holders)
+static void dec_filter_refs(std::vector<AmFilterHolder*>& holders)
 {
 	for (uint32 k = 0; k < holders.size(); k++)
 		holders[k]->DecRefs();
@@ -336,7 +336,7 @@ status_t AmPipelineSegment::ReplaceFilter(	AmFilterAddOn* addon,
 	BMessage		tmpMsg;
 	const BMessage*	finalConfig = compute_replace_config(which, config, &tmpMsg);
 
-	vector<AmFilterHolder*>		preds;
+	std::vector<AmFilterHolder*>		preds;
 	AmFilterHolder*				pred;
 	for (int32 k = 0; (pred = which->PredecessorAt(k)) != NULL; k++) {
 		if (pred->PipelineId() != which->PipelineId() ) {

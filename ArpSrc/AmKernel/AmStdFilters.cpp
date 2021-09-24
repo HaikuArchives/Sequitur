@@ -38,9 +38,10 @@
 #include <ArpKernel/ArpBitmapTools.h>
 #endif
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
+#include <memory>
 
 ArpMOD();
 
@@ -913,24 +914,24 @@ BString AmProducerFilterAddOn::ShortDescription() const
 void AmProducerFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	name << "MIDI In";
-	str << "<p>I correspond to a single BeOS MIDI producer.  The most common type of MIDI
-		producer is a hardware MIDI port installed on your system, although any application
-		that generates MIDI data can publish a MIDI producer.  Any MIDI In filter that is
-		a result of an application will appear and disappear as the application is opened
-		and closed.  A BeOS MIDI producer can supply its own icon (software synthesizers
-		frequently do), although any that don\'t will receive the standard icon with a
-		unique colour.</p>
-
-		<P>These filters can only be placed in the first slot of the input pipeline.  Once
-		the filter is in the pipeline, you can change its MIDI channel by clicking anywhere
-		on the icon and selecting a new channel from the popup menu.  Alternatively, you can
-		open the properties window for the filter and change the channel there.  The properties
-		window also allows you to turn off MIDI event types, which prevents them from appearing
-		in a track.</p>
-		
-		<p>There are a variety of ways to add MIDI ports to your system:  Some soundcards
-		have supported MIDI ports, or drivers have been published for several popular USB-based
-		MIDI interfaces (such as the Yamaha UX256).</p>";
+	str << "<p>I correspond to a single BeOS MIDI producer.  The most common type of MIDI"
+		"producer is a hardware MIDI port installed on your system, although any application"
+		"that generates MIDI data can publish a MIDI producer.  Any MIDI In filter that is"
+		"a result of an application will appear and disappear as the application is opened"
+		"and closed.  A BeOS MIDI producer can supply its own icon (software synthesizers"
+		"frequently do), although any that don\'t will receive the standard icon with a"
+		"unique colour.</p>"
+""
+		"<P>These filters can only be placed in the first slot of the input pipeline.  Once"
+		"the filter is in the pipeline, you can change its MIDI channel by clicking anywhere"
+		"on the icon and selecting a new channel from the popup menu.  Alternatively, you can"
+		"open the properties window for the filter and change the channel there.  The properties"
+		"window also allows you to turn off MIDI event types, which prevents them from appearing"
+		"in a track.</p>"
+		""
+		"<p>There are a variety of ways to add MIDI ports to your system:  Some soundcards"
+		"have supported MIDI ports, or drivers have been published for several popular USB-based"
+		"MIDI interfaces (such as the Yamaha UX256).</p>";
 }
 
 BString AmProducerFilterAddOn::Author() const
@@ -1519,7 +1520,7 @@ AmEvent* AmConsumerFilter::HandleEvent(AmEvent* event, const am_filter_params* p
 			AmNoteOn* noteon = dynamic_cast<AmNoteOn*>(event);
 			if( noteon && (mTypeMask&NOTE_TYPE) != 0 ) {
 				ArpD(cdb << ADH << "Note=" << noteon->Note()
-						<< ", Velocity=" << noteon->Velocity() << endl);
+						<< ", Velocity=" << noteon->Velocity() << std::endl);
 				mProducer->SprayNoteOn(mChannel, noteon->Note(), noteon->Velocity(), time);
 				mNoteOns[noteon->Note()] = 1;
 				if (noteon->Duration() > 0) {
@@ -1533,7 +1534,7 @@ AmEvent* AmConsumerFilter::HandleEvent(AmEvent* event, const am_filter_params* p
 							event->AppendEvent(offev);
 							offev->SetNextFilter(mHolder);
 						}
-					} catch (bad_alloc& e) {
+					} catch (std::bad_alloc& e) {
 					}
 				}
 			}
@@ -1720,42 +1721,42 @@ void AmConsumerFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	if (strcmp( Name().String(), BE_MIDI_SYNTH_STR ) == 0) {
 		name << "Be MIDI Synth";
-		str << "<p>I am a filter for the standard Be-supplied software General MIDI synthesizer.
-			I will only appear if you have a BeOS-compatible soundcard. Once the I have
-			been placed in the output pipeline, you can select from amongst the sixteen MIDI
-			channels by accessing the properties. As a convenience, two- and three- button
-			mice can access the channels through a special right-click popup menu.</p>
-			
-			<P>This filter uses the factory supplied Be MIDI Synth device.  If you wish
-			to change any device properties (such as patch or controller names) for tracks
-			that use the Be MIDI Synth, change that device.&nbsp;";
+		str << "<p>I am a filter for the standard Be-supplied software General MIDI synthesizer."
+			"I will only appear if you have a BeOS-compatible soundcard. Once the I have"
+			"been placed in the output pipeline, you can select from amongst the sixteen MIDI"
+			"channels by accessing the properties. As a convenience, two- and three- button"
+			"mice can access the channels through a special right-click popup menu.</p>"
+			""
+			"<P>This filter uses the factory supplied Be MIDI Synth device.  If you wish"
+			"to change any device properties (such as patch or controller names) for tracks"
+			"that use the Be MIDI Synth, change that device.&nbsp;";
 
 	} else {
 		name << "MIDI Out";
-		str << "<p>I correspond to a single BeOS MIDI consumer.  The most common type of MIDI
-			consumer is a hardware MIDI port installed on your system, although any application
-			that receives MIDI data can publish a MIDI consumer.  Any MIDI Out filter that is
-			a result of an application will appear and disappear as the application is opened
-			and closed.  A BeOS MIDI consumer can supply its own icon (software synthesizers
-			frequently do), although any that don\'t will receive the standard icon with a
-			unique colour.</p>
-
-			<p>These filters can only be placed in the last slot of the output pipeline.  Once
-			the filter is in the pipeline, you can change its MIDI channel by clicking anywhere
-			on the icon and selecting a new channel from the popup menu.  Alternatively, you can
-			open the properties window for the filter and change the channel there.</p>
-		
-			<p>The properties window allows you to turn off MIDI event types, which prevents
-			them from being performed.  Additionally, the Send MIDI Clock checkbox, when
-			on, will send MIDI clock signals to the MIDI consumer.  This can be used for
-			any MIDI device which syncs to MIDI clock.  For example, many devices with an
-			arpeggiator can sync to MIDI clock so the sequencer\'s tempo controllers the
-			tempo of the arpeggiation.  <i>Note that you only need to turn this option on
-			for a single channel of a single MIDI consumer.</i></p>
-		
-			<p>There are a variety of ways to add MIDI ports to your system:  Some soundcards
-			have supported MIDI ports, or drivers have been published for several popular USB-based
-			MIDI interfaces (such as the Yamaha UX256).</p>";
+		str << "<p>I correspond to a single BeOS MIDI consumer.  The most common type of MIDI"
+			"consumer is a hardware MIDI port installed on your system, although any application"
+			"that receives MIDI data can publish a MIDI consumer.  Any MIDI Out filter that is"
+			"a result of an application will appear and disappear as the application is opened"
+			"and closed.  A BeOS MIDI consumer can supply its own icon (software synthesizers"
+			"frequently do), although any that don\'t will receive the standard icon with a"
+			"unique colour.</p>"
+""
+			"<p>These filters can only be placed in the last slot of the output pipeline.  Once"
+			"the filter is in the pipeline, you can change its MIDI channel by clicking anywhere"
+			"on the icon and selecting a new channel from the popup menu.  Alternatively, you can"
+			"open the properties window for the filter and change the channel there.</p>"
+		""
+			"<p>The properties window allows you to turn off MIDI event types, which prevents"
+			"them from being performed.  Additionally, the Send MIDI Clock checkbox, when"
+			"on, will send MIDI clock signals to the MIDI consumer.  This can be used for"
+			"any MIDI device which syncs to MIDI clock.  For example, many devices with an"
+			"arpeggiator can sync to MIDI clock so the sequencer\'s tempo controllers the"
+			"tempo of the arpeggiation.  <i>Note that you only need to turn this option on"
+			"for a single channel of a single MIDI consumer.</i></p>"
+		""
+			"<p>There are a variety of ways to add MIDI ports to your system:  Some soundcards"
+			"have supported MIDI ports, or drivers have been published for several popular USB-based"
+			"MIDI interfaces (such as the Yamaha UX256).</p>";
 	}
 }
 
@@ -2032,18 +2033,18 @@ BString	AmNullInputAddOn::ShortDescription() const
 void AmNullInputAddOn::LongDescription(BString& name, BString& str) const
 {
 	name << "Tool Input";
-	str << "<p>A source for the pipeline page of the Edit Tool and Edit
-		Multi Filter windows.</p>
-		
-		<p>The Edit Tool window can have any number of Tool Input filters
-		(although only one per pipeline).  Each filter corresponds to one
-		of the active tracks.  For example, the first Tool Input filter
-		in the tool corresponds to the primary track, the second corresponds
-		to the second ordered track (if any), etc.</p>
-		
-		<p>The Edit Multi Filter window can only have a single Tool Input
-		filter.  All previous filters in the pipeline with the multi filter
-		send their output to this Tool Input filter.</p>";
+	str << "<p>A source for the pipeline page of the Edit Tool and Edit"
+		"Multi Filter windows.</p>"
+		""
+		"<p>The Edit Tool window can have any number of Tool Input filters"
+		"(although only one per pipeline).  Each filter corresponds to one"
+		"of the active tracks.  For example, the first Tool Input filter"
+		"in the tool corresponds to the primary track, the second corresponds"
+		"to the second ordered track (if any), etc.</p>"
+		""
+		"<p>The Edit Multi Filter window can only have a single Tool Input"
+		"filter.  All previous filters in the pipeline with the multi filter"
+		"send their output to this Tool Input filter.</p>";
 }
 
 BString AmNullInputAddOn::Author() const
@@ -2138,20 +2139,20 @@ BString	AmNullOutputAddOn::ShortDescription() const
 void AmNullOutputAddOn::LongDescription(BString& name, BString& str) const
 {
 	name << "Tool Output";
-	str << "<p>A target for the pipeline page of the Edit Tool and Edit
-		Multi Filter windows.</p>
-		
-		<p>The Edit Tool window can have any number of Tool Output filters
-		(although only one per pipeline).  Each filter corresponds to one
-		of the active tracks.  For example, the first Tool Output filter
-		in the tool corresponds to the primary track, the second corresponds
-		to the second ordered track (if any), etc.</p>
-		
-		<p>The Edit Multi Filter window can also have any number of Tool
-		Output filters, again at most one per pipeline.  The number of
-		Tool Output filters determines the maximum connections the multi
-		filter can have, and each Tool Output filter corresponds with any
-		connection filters, in order.</p>";
+	str << "<p>A target for the pipeline page of the Edit Tool and Edit"
+		"Multi Filter windows.</p>"
+		""
+		"<p>The Edit Tool window can have any number of Tool Output filters"
+		"(although only one per pipeline).  Each filter corresponds to one"
+		"of the active tracks.  For example, the first Tool Output filter"
+		"in the tool corresponds to the primary track, the second corresponds"
+		"to the second ordered track (if any), etc.</p>"
+		""
+		"<p>The Edit Multi Filter window can also have any number of Tool"
+		"Output filters, again at most one per pipeline.  The number of"
+		"Tool Output filters determines the maximum connections the multi"
+		"filter can have, and each Tool Output filter corresponds with any"
+		"connection filters, in order.</p>";
 }
 
 BString AmNullOutputAddOn::Author() const

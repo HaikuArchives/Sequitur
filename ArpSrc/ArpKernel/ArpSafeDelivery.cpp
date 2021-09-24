@@ -34,28 +34,30 @@ public:
 	{
 		BAutolock l(this);
 		if (mWaiting.empty()) StartPulse();
-		list<target_entry>::iterator i = mWaiting.begin();
+		std::list<target_entry>::iterator i = mWaiting.begin();
 		while (i != mWaiting.end()) {
 			if (i->target == target) break;
 			i++;
 		}
 		if (i == mWaiting.end()) {
-			mWaiting.push_back();
+			target_entry entry;
+			entry.target = target;
+			mWaiting.push_back(entry);
 			i = mWaiting.end();
 			i--;
 			i->target = target;
 		}
-		i->messages.push_back();
 		message_entry& me = i->messages.back();
 		me.message = *msg;
+		i->messages.push_back(me);
 	}
 	
 	virtual void MessageReceived(BMessage *msg)
 	{
 		if (msg->what == 'puls') {
-			list<target_entry>::iterator i = mWaiting.begin();
+			std::list<target_entry>::iterator i = mWaiting.begin();
 			while (i != mWaiting.end()) {
-				list<message_entry>::iterator j = i->messages.begin();
+				std::list<message_entry>::iterator j = i->messages.begin();
 				while (j != i->messages.end()) {
 					status_t err = i->target.SendMessage(&(j->message), (BHandler*)NULL, 1);
 					if (err != B_WOULD_BLOCK && err != B_TIMED_OUT && err != B_INTERRUPTED) {
@@ -87,7 +89,7 @@ private:
 	};
 	struct target_entry {
 		BMessenger				target;
-		list<message_entry>		messages;
+		std::list<message_entry>		messages;
 	};
 	
 	void StartPulse()
@@ -102,7 +104,7 @@ private:
 	
 	ArpSafeDelivery* mOwner;
 	BMessageRunner* mPulse;
-	list<target_entry> mWaiting;
+	std::list<target_entry> mWaiting;
 };
 
 ArpSafeDelivery::ArpSafeDelivery()

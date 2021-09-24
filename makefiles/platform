@@ -80,10 +80,14 @@
 #	determine the CPU if not specified on the command line
 ifndef CPU
 	MACHINE =$(shell uname -m)
+ifeq ($(MACHINE), x86_64)
+	CPU = x86
+else
 ifeq ($(MACHINE), BePC)
 	CPU = x86
 else
 	CPU = ppc
+endif
 endif
 endif
 
@@ -163,15 +167,15 @@ else
 endif
 
 #		specify the path to the headers
-		BEHEADERS		= /boot/develop/headers
+		BEHEADERS		= /boot/system/develop/headers
 
 #		set the initial compiler flags
 ifndef RELEASE_BUILD
-		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline
-#		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -fno-implement-inlines
-#		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -fno-implement-inlines -fcheck-memory-usage -D_KERNEL_MODE
+		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -std=c++98
+#		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -fno-implement-inlines -std=c++98
+#		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -fno-implement-inlines -fcheck-memory-usage -D_KERNEL_MODE -std=c++98
 else
-		CPLATFLAGS		=
+		CPLATFLAGS		= -std=c++98
 endif
 
 #		specify the basic linker flags
@@ -218,17 +222,17 @@ endif
 #		specify additional linker flags
 ifdef RELEASE_BUILD
 #		LDPLATFLAGS		+= -Xlinker --strip-all --strip-debug
-		LDPLATFLAGS		+= --strip-debug
+#		LDPLATFLAGS		+= --strip-debug
 endif
 
 		ifeq ($(IMG_TYPE), APP)
 			LDPLATFLAGS += -Xlinker -soname=_APP_
 		else
 		ifeq ($(IMG_TYPE), SHARED)
-			LDPLATFLAGS += -nostart -Xlinker -soname=lib$(IMG_NAME).so
+			LDPLATFLAGS +=   -shared -Xlinker -soname=lib$(IMG_NAME).so
 		else
 		ifeq ($(IMG_TYPE), ADD-ON)
-			LDPLATFLAGS += -nostart -Xlinker -soname=$(IMG_NAME)
+			LDPLATFLAGS +=  -shared -Xlinker -soname=$(IMG_NAME) 
 		else
 		ifeq ($(IMG_TYPE), STATIC)
 
@@ -252,7 +256,8 @@ endif
 		endif
 
 #		specify the Standard C++ link library
-		CPPLIB			= stdc++.r4
+		CPPLIB			= stdc++
+
 
 else
 

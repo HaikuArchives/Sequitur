@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <ArpMath/ArpDefs.h>
 #include <GlPublic/GlCache2d.h>
 #include <GlPublic/GlChain.h>

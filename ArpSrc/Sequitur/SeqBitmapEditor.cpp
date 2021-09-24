@@ -1,6 +1,6 @@
 /* SeqBitmapEditor.cpp
  */
-#include <stdio.h>
+#include <cstdio>
 #include <experimental/BitmapTools.h>
 #include <app/Clipboard.h>
 #include <interface/ColorControl.h>

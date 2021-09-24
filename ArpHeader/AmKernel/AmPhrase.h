@@ -42,7 +42,7 @@
 #ifndef AMKERNEL_AMPHRASE_H
 #define AMKERNEL_AMPHRASE_H
 
-#include <vector.h>
+#include <vector>
 #include <support/SupportDefs.h>
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmRange.h"
@@ -197,8 +197,8 @@ private:
 	 */
 	bool		CheckIncludesSpan(AmEvent* event) const;
 };
-typedef vector<_AmChain>		chain_vec;
-typedef vector<AmLinkEvent*>	link_vec;
+typedef std::vector<_AmChain>		chain_vec;
+typedef std::vector<AmLinkEvent*>	link_vec;
 
 /***************************************************************************
  * AM-PHRASE

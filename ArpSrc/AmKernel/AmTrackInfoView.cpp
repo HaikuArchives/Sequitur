@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <interface/Bitmap.h>
 #include <interface/MenuItem.h>
 #include <interface/PopUpMenu.h>

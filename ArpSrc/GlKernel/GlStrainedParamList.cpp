@@ -53,7 +53,7 @@ private:
 class _StrainedParamListData
 {
 public:
-	vector<_StrainedParamListEntry*>	entries;
+	std::vector<_StrainedParamListEntry*>	entries;
 	
 	_StrainedParamListData()		{ }
 	_StrainedParamListData(const _StrainedParamListData& o)

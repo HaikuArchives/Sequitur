@@ -2,8 +2,8 @@
  */
 #include "ArpQuantize.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <interface/CheckBox.h>
 #include <interface/MenuField.h>
 #include <interface/MenuItem.h>
@@ -450,14 +450,14 @@ void ArpQuantizeFilter::DoQuantize(AmEvent* event, AmTime fullTime, const int64 
 void ArpQuantizeFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>I snap event times to a grid.  If the <B>Tools use grid</B> option is
-	active, then I will use the grid from the current track window (this option is
-	only valid if I am being run from a tool).  Otherwise, I snap events to the
-	grid specified by my duration control.</p>
-
-	<P>If <B>Quantize start time</B> is checked, then I align the start of all events
-	to the grid.  If <B>Quantize end time</B> is active, then I align the end of
-	all events to the grid.</p>";
+	str << "<p>I snap event times to a grid.  If the <B>Tools use grid</B> option is"
+	"active, then I will use the grid from the current track window (this option is"
+	"only valid if I am being run from a tool).  Otherwise, I snap events to the"
+	"grid specified by my duration control.</p>"
+""
+	"<P>If <B>Quantize start time</B> is checked, then I align the start of all events"
+	"to the grid.  If <B>Quantize end time</B> is active, then I align the end of"
+	"all events to the grid.</p>";
 }
 
 void ArpQuantizeFilterAddOn::GetVersion(int32* major, int32* minor) const

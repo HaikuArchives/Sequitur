@@ -32,8 +32,8 @@
 #include "Main.h"
 #endif
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <getopt.h>
 
 const char* AppSig = "application/x-vnd.Be.ToolTIp";

@@ -1,8 +1,8 @@
 /* SeqNavMenu.cpp
  */
-#include <algo.h>
-#include <stdio.h>
-#include <string.h>
+#include <algorithm>
+#include <cstdio>
+#include <cstring>
 #include <interface/Bitmap.h>
 #include <interface/Window.h>
 #include <storage/Node.h>

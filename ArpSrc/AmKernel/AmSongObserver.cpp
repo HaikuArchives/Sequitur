@@ -4,8 +4,8 @@
 
 #include "AmPublic/AmSongObserver.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmGlobalsI.h"
 #include "AmKernel/AmSong.h"

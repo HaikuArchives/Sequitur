@@ -1,7 +1,7 @@
 /* AmToolBar.cpp
  */
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include "ArpKernel/ArpDebug.h"
 #include "AmKernel/AmFileRosters.h"
 #include "AmKernel/AmToolBar.h"
@@ -198,7 +198,7 @@ status_t AmToolBar::ToolChange(const BString& toolKey)
 	return B_BAD_INDEX;
 }
 
-static bool scrub_one(vector<BString>& keys, AmToolRoster* roster)
+static bool scrub_one(std::vector<BString>& keys, AmToolRoster* roster)
 {
 	for (uint32 k = 0; k < keys.size(); k++) {
 		if (roster->KeyExists(keys[k].String()) == false) {

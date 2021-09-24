@@ -1,9 +1,9 @@
 /* MPlanet.cpp
  */
-#include <assert.h>
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
+#include <cassert>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
 #include "MDust/MPlanet.h"
 #include "MDustPublic/MSpaceI.h"
 

@@ -117,7 +117,7 @@ void AmInputQueue::PerformEvents(track_id track, AmEvent* events)
 
 int32 AmInputQueue::PerformThreadEntry(void* arg)
 {
-	ArpD(cdb << ADH << "Enter the performer." << endl);
+	ArpD(cdb << ADH << "Enter the performer." << std::endl);
 	AmInputQueue *obj = (AmInputQueue *)arg;
 
 	int32 ret = obj->PerformLoop();
@@ -129,7 +129,7 @@ int32 AmInputQueue::PerformThreadEntry(void* arg)
 	obj->mPerformThread = B_BAD_THREAD_ID;
 	obj->mPerformLock.Unlock();
 	
-	ArpD(cdb << ADH << "Exit the recorder." << endl);
+	ArpD(cdb << ADH << "Exit the recorder." << std::endl);
 	return ret;
 }
 
@@ -350,7 +350,7 @@ void AmInputQueue::RecordEvents(track_id track, AmEvent* events)
 
 int32 AmInputQueue::RecordThreadEntry(void* arg)
 {
-	ArpD(cdb << ADH << "Enter the recorder." << endl);
+	ArpD(cdb << ADH << "Enter the recorder." << std::endl);
 	AmInputQueue *obj = (AmInputQueue *)arg;
 	
 	int32 ret = obj->RecordLoop();
@@ -362,7 +362,7 @@ int32 AmInputQueue::RecordThreadEntry(void* arg)
 	obj->mRecordThread = B_BAD_THREAD_ID;
 	obj->mRecordLock.Unlock();
 	
-	ArpD(cdb << ADH << "Exit the recorder." << endl);
+	ArpD(cdb << ADH << "Exit the recorder." << std::endl);
 	return ret;
 }
 

@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <ArpCore/StlVector.h>
 #include <GlPublic/GlNode.h>
 #include <GlPublic/GlParamStrainer.h>
@@ -39,7 +39,7 @@ class _ParamStrainerNodeEntry
 {
 public:
 	gl_node_id							nid;
-	vector<_ParamStrainerTypeEntry*>	entries;
+	std::vector<_ParamStrainerTypeEntry*>	entries;
 	_ParamStrainerNodeEntry(gl_node_id inNid) : nid(inNid)		{ }
 	~_ParamStrainerNodeEntry();
 
@@ -54,7 +54,7 @@ public:
 class _ParamStrainerData
 {
 public:
-	vector<_ParamStrainerNodeEntry*>	entries;
+	std::vector<_ParamStrainerNodeEntry*>	entries;
 
 	_ParamStrainerData()			{ }
 	~_ParamStrainerData();

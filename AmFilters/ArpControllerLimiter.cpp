@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <InterfaceKit.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpLayout/ArpViewWrapper.h"
@@ -178,30 +178,30 @@ ArpControllerLimiterAddOn::ArpControllerLimiterAddOn(const void* cookie)
 void ArpControllerLimiterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>I transform each note I receives into a series of control changes
-		based on my current motion.</P>
-	<h4>Amount</h4>
-		Amount determines the level of the controls generated.
-		<UL>
-			<LI><I>From velocity</I> uses each note's velocity to determine the amount.
-					For example, if a note has a velocity of 64, then the final generated
-					control changes will range from 0 to 64.  If a note has a velocity of
-					100, then the resulting control changes will range from 0 to 100.</LI>
-			<LI><I>From value</I> uses the value of the knob (immediately below the From
-					value radio button) to determine the final control change values.  If
-					the knob is at 100, then motion values of 100 translate to the maximum
-					possible control change value - 127.  If the knob has a negative value,
-					then the motion is inverted.</LI>
-			<LI><I>Follow mouse</I> uses the mouse's Y position to determine the level.</LI>
-		</UL>
-	
-	<h4>Motion</h4>
-		The Motion menu button presents a list of all available motions.  Selecting one
-		will copy that motion into the filter, making it the current motion.  Below this
-		button is a motion editor, which operates the same as the Edit Motion window.
-
-	<h4>Control Number</h4>
-		This list box allows you to select the type of control change that will be created.";
+	str << "<P>I transform each note I receives into a series of control changes"
+		"based on my current motion.</P>"
+	"<h4>Amount</h4>"
+	"	Amount determines the level of the controls generated."
+	"	<UL>"
+	"		<LI><I>From velocity</I> uses each note's velocity to determine the amount."
+	"				For example, if a note has a velocity of 64, then the final generated"
+	"				control changes will range from 0 to 64.  If a note has a velocity of"
+	"				100, then the resulting control changes will range from 0 to 100.</LI>"
+	"		<LI><I>From value</I> uses the value of the knob (immediately below the From"
+	"				value radio button) to determine the final control change values.  If"
+	"				the knob is at 100, then motion values of 100 translate to the maximum"
+	"				possible control change value - 127.  If the knob has a negative value,"
+	"				then the motion is inverted.</LI>"
+	"		<LI><I>Follow mouse</I> uses the mouse's Y position to determine the level.</LI>"
+	"	</UL>"
+	""
+	"<h4>Motion</h4>"
+	"	The Motion menu button presents a list of all available motions.  Selecting one"
+	"	will copy that motion into the filter, making it the current motion.  Below this"
+	"	button is a motion editor, which operates the same as the Edit Motion window."
+	""
+	"<h4>Control Number</h4>"
+	"	This list box allows you to select the type of control change that will be created.";
 }
 
 void ArpControllerLimiterAddOn::GetVersion(int32* major, int32* minor) const

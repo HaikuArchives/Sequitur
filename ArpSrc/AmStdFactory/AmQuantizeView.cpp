@@ -1,8 +1,8 @@
 /* AmQuantizeView.cpp
  */
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
 #include "ArpKernel/ArpDebug.h"
 
 #include "AmPublic/AmEvents.h"

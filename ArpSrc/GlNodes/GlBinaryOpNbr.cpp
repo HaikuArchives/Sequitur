@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <ArpMath/ArpDefs.h>
 #include <ArpInterface/ArpMenuControl.h>
 #include <GlPublic/GlAlgoNbr.h>

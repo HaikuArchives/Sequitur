@@ -2,9 +2,9 @@
  */
 #define _BUILDING_AmKernel 1
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
 #include "AmPublic/AmTimeConverter.h"
 
 static const float		UNDEFINED_CONVERSION	= 0.0000001;

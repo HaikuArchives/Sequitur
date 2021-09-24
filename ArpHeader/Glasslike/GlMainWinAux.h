@@ -171,7 +171,7 @@ public:
 private:
 	BMessenger					mWindow;
 	GlProjectList*				mPath;
-	vector<GlControlTarget*>	mTargets;
+	std::vector<GlControlTarget*>	mTargets;
 
 	status_t					CreateRoot(GlMidiBinding* b, float v);
 	status_t					SetParamValue(float v, int32 paramIndex, GlNode* n) const;

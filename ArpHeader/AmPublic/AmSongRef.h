@@ -22,7 +22,7 @@
 #ifndef AMPUBLIC_AMSONGREF_H
 #define AMPUBLIC_AMSONGREF_H
 
-#include <vector.h>
+#include <vector>
 #include <support/SupportDefs.h>
 #include <app/Messenger.h>
 #include "AmPublic/AmRange.h"
@@ -118,6 +118,6 @@ private:
 	AmSong*			mSong;
 };
 
-typedef vector<AmSongRef>		songref_vec;
+typedef std::vector<AmSongRef>		songref_vec;
 
 #endif 

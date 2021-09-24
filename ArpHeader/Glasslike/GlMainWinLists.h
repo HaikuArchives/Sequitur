@@ -49,7 +49,7 @@ public:
 class GlMainLabels
 {
 public:
-	vector<GlMainLabelEntry*>	e;
+	std::vector<GlMainLabelEntry*>	e;
 		
 	GlMainLabels();
 	~GlMainLabels();
@@ -88,7 +88,7 @@ public:
 class GlMainImages
 {
 public:
-	vector<GlMainImageEntry*>	e;
+	std::vector<GlMainImageEntry*>	e;
 
 	GlMainImages();
 	~GlMainImages();

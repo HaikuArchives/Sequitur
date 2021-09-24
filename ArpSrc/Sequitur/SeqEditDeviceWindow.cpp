@@ -1,4 +1,4 @@
-#include <algo.h>
+#include <algorithm>
 #include <app/Clipboard.h>
 #include <private/interface/ColumnListView.h>
 #include <private/interface/ColumnTypes.h>
@@ -396,7 +396,7 @@ void SeqEditDeviceWindow::MenusBeginning()
 		item->Submenu()->RemoveItems(0, item->Submenu()->CountItems(), true);
 		AmDeviceRoster*				roster = AmDeviceRoster::Default();
 		if (roster) {
-			vector<BMenuItem*>		items;
+			std::vector<BMenuItem*>		items;
 			BString					mfg, name, key;
 			bool					isValid;
 			for (uint32 k = 0; roster->GetDeviceInfo(k, mfg, name, key, NULL, &isValid) == B_OK; k++) {
@@ -816,7 +816,7 @@ status_t SeqEditDeviceWindow::PastePatchList(_AbstractBankRow* parent, uint32 fi
 
 	uint32				patches = bank->CountPatches();
 	const char*			text = NULL;
-	int32				len;
+	ssize_t len;				len;
 	if (clip->FindData("text/plain", B_MIME_TYPE, (const void **)&text, &len) == B_OK) {
 		int32			pos = 0;
 		int32			length = -1;
@@ -1133,7 +1133,7 @@ static BMenu* new_filter_menu(	AmPipelineType pipelineType,
 	AmFilterRoster*				roster = AmFilterRoster::Default();
 	BMenu*						menu = new BMenu("Filters");
 	if (!menu) return 0;
-	vector<BMenuItem*>			items;
+	std::vector<BMenuItem*>			items;
 	BMenuItem*					item;
 
 	roster->Locker()->Lock();

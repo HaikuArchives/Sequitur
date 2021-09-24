@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <ArpMath/ArpDefs.h>
 #include <GlPublic/GlMask.h>
 #include <GlPublic/GlParamType.h>

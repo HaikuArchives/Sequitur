@@ -41,9 +41,9 @@ ArpString ArpDebugHeader(const char* mod, int line)
 
 #include <map>
 
-ostream& ArpDBStream(void)
+std::ostream& ArpDBStream(void)
 {
-	return cerr;
+	return std::cerr;
 }
 
 static BLocker gDebugLock;
@@ -63,14 +63,14 @@ void ArpUnlockDebugOut()
 // because that would introduce dependencies in the link order of
 // files.  By doing it this way, the object is created as soon as
 // any instrumented code is executed.
-static map<ArpString,int>* modlevel = NULL;
+static std::map<ArpString,int>* modlevel = NULL;
 static int corelevel = 0;
 static bool terminated = false;
 
 class ArpDebugCleanup {
 public:
 	~ArpDebugCleanup() {
-		ArpDL("core", 1, cdb << ADH << "Cleaning up debug statics." << endl);
+		ArpDL("core", 1, cdb << ADH << "Cleaning up debug statics." << std::endl);
 		delete modlevel;
 		modlevel = 0;
 		terminated = true;
@@ -79,24 +79,24 @@ public:
 
 static ArpDebugCleanup debugcleanup;
 
-static inline map<ArpString,int>* level_map(void)
+static inline std::map<ArpString,int>* level_map(void)
 {
 	if( terminated ) return 0;
 	if( !modlevel ) {
-		modlevel = new map<ArpString,int>();
+		modlevel = new std::map<ArpString,int>();
 		#if 0
 		ArpString one("One"), two("Two");
-		cdb << "strcmp(one,two) == " << strcmp(one, two) << endl;
-		cdb << "one.Compare(two) == " << one.Compare(two) << endl;
-		cdb << "one < two == " << (one < two ? "true" : "false") << endl;
+		cdb << "strcmp(one,two) == " << strcmp(one, two) << std::endl;
+		cdb << "one.Compare(two) == " << one.Compare(two) << std::endl;
+		cdb << "one < two == " << (one < two ? "true" : "false") << std::endl;
 		#endif
 	}
 	return modlevel;
 }
 
-const map<ArpString,int>& ArpDebugLevel(void)
+const std::map<ArpString,int>& ArpDebugLevel(void)
 {
-	map<ArpString,int>* level = level_map();
+	std::map<ArpString,int>* level = level_map();
 	ArpASSERT(level != NULL);
 	(*level)["core"] = corelevel;
 	return *level;
@@ -138,21 +138,21 @@ int ArpDebugLevel(const char* module)
 	if( module == 0 ) return 0;
 
 	if( strcmp(module,"core") == 0 ) return corelevel;
-	map<ArpString,int>* level = level_map();
+	std::map<ArpString,int>* level = level_map();
 	if( level == 0 ) return 0;
 	
 	const ArpString modName(ArpDebugName(module));
 	if( corelevel > 4 ) {
 		cdb << ADH << "Name to get module '" << module
 			<< "' is '" << modName << "'"
-			<< endl;
+			<< std::endl;
 	}
 	
-	map<ArpString, int>::iterator item = level->find(modName);
+	std::map<ArpString, int>::iterator item = level->find(modName);
 	if( item == level->end() ) {
 		if( corelevel >= 1 ) {
 			cdb << ADH << "First access of module " << modName
-				<< "; setting to level 0" << endl;
+				<< "; setting to level 0" << std::endl;
 		}
 		(*level)[modName] = 0;
 	}
@@ -168,14 +168,14 @@ void ArpDebugLevel(const char* module, int level)
 	if( strcmp(module,"core") == 0 ) {
 		if( corelevel >= 1 ) {
 			cdb << ADH << "Setting module " << module
-				<< " to level " << level << endl;
+				<< " to level " << level << std::endl;
 		}
 		corelevel = level;
 		return;
 	}
-	map<ArpString,int>* levelmap = level_map();
+	std::map<ArpString,int>* levelmap = level_map();
 	if( levelmap == 0 ) {
-		cdb << ADH << "ArpDebugLevel: Unable to retrieve level map!" << endl;
+		cdb << ADH << "ArpDebugLevel: Unable to retrieve level map!" << std::endl;
 		return;
 	}
 	
@@ -183,12 +183,12 @@ void ArpDebugLevel(const char* module, int level)
 	if( corelevel > 4 ) {
 		cdb << ADH << "Name to set module '" << module
 			  << "' is '" << modName << "'"
-			  << endl;
+			  << std::endl;
 	}
 	
 	if( corelevel >= 1 ) {
 		cdb << ADH << "Setting module " << modName
-			<< " to level " << level << endl;
+			<< " to level " << level << std::endl;
 	}
 	
 	(*levelmap)[modName] = level;
@@ -204,13 +204,13 @@ void ArpDebugDeclare(const char* module, int level)
 	if( strcmp(module,"core") == 0 ) {
 		if( corelevel >= 1 ) {
 			cdb << ADH << "Initializing module " << module
-				<< " to level " << level << endl;
+				<< " to level " << level << std::endl;
 		}
 		return;
 	}
-	map<ArpString,int>* levelmap = level_map();
+	std::map<ArpString,int>* levelmap = level_map();
 	if( levelmap == 0 ) {
-		cdb << ADH << "ArpDebugDeclare: Unable to retrieve level map!" << endl;
+		cdb << ADH << "ArpDebugDeclare: Unable to retrieve level map!" << std::endl;
 		return;
 	}
 	
@@ -218,21 +218,21 @@ void ArpDebugDeclare(const char* module, int level)
 	if( corelevel > 4 ) {
 		cdb << ADH << "Name to declare module '" << module
 			  << "' is '" << modName << "'"
-			  << endl;
+			  << std::endl;
 	}
 	
-	map<ArpString, int>::iterator item = levelmap->find(modName);
+	std::map<ArpString, int>::iterator item = levelmap->find(modName);
 	if( item == levelmap->end() ) {
 		if( corelevel >= 1 ) {
 			cdb << ADH << "Initializing module " << modName
-				<< " to level " << level << endl;
+				<< " to level " << level << std::endl;
 		}
 		(*levelmap)[modName] = level;
 	} else {
 		if( corelevel >= 1 ) {
 			cdb << ADH << "Can't initialize module " << modName
 				<< " to level " << level << ": already at level "
-				<< (*levelmap)[modName] << endl;
+				<< (*levelmap)[modName] << std::endl;
 		}
 	}
 #endif
@@ -240,10 +240,10 @@ void ArpDebugDeclare(const char* module, int level)
 
 void ArpAllDebugLevels(int level)
 {
-	map<ArpString,int>* levelmap = level_map();
+	std::map<ArpString,int>* levelmap = level_map();
 	if( levelmap == 0 ) return;
 	
-	map<ArpString,int>::iterator i;
+	std::map<ArpString,int>::iterator i;
 	for( i=levelmap->begin(); i!=levelmap->end(); i++ ) {
 		ArpDebugLevel(i->first, level);
 	}
@@ -252,7 +252,7 @@ void ArpAllDebugLevels(int level)
 
 void ArpParseDBOpts(int32& argc, char** argv)
 {
-	ArpDL("core", 1, cdb << "Parsing " << argc << " debug arguments..." << endl);
+	ArpDL("core", 1, cdb << "Parsing " << argc << " debug arguments..." << std::endl);
 	
 	if( argv == 0 ) return;
 	
@@ -260,17 +260,17 @@ void ArpParseDBOpts(int32& argc, char** argv)
 	while( i < argc ) {
 		ArpDL("core", 1, cdb << "Parse: i=" << i << ", j=" << j
 							<< ", argc=" << argc << ", argv[i]="
-							<< (argv[i] ? argv[i] : "<NULL>") << endl);
+							<< (argv[i] ? argv[i] : "<NULL>") << std::endl);
 		if( argv[i] && strcmp(argv[i],"--debug") == 0 ) {
-			ArpDL("core", 1, cdb << "Found option: " << argv[i] << endl);
+			ArpDL("core", 1, cdb << "Found option: " << argv[i] << std::endl);
 			ArpAllDebugLevels(1);
 			i++;
 		} else if( argv[i] && strncmp(argv[i],"--debug=",8) == 0 ) {
-			ArpDL("core", 1, cdb << "Parsing option: " << argv[i] << endl);
+			ArpDL("core", 1, cdb << "Parsing option: " << argv[i] << std::endl);
 			char* str = argv[i] + 8;
 			const char* module = 0;
 			while( *str ) {
-				ArpDL("core", 1, cdb << "Next parse: " << str << endl);
+				ArpDL("core", 1, cdb << "Next parse: " << str << std::endl);
 				const char* base = str;
 				while( *str >= '0' && *str <= '9' ) str++;
 				if( *str == 0 || *str == ':' || *str == ',' ) {
@@ -280,11 +280,11 @@ void ArpParseDBOpts(int32& argc, char** argv)
 					}
 					if( module ) {
 						ArpDL("core", 1, cdb << "Setting module " << module
-											<< " to level " << base << endl);
+											<< " to level " << base << std::endl);
 						ArpDebugLevel(module, atoi(base));
 					} else {
 						ArpDL("core", 1, cdb << "Setting everything"
-											<< " to level " << base << endl);
+											<< " to level " << base << std::endl);
 						ArpAllDebugLevels(atoi(base));
 					}
 					module = 0;
@@ -296,10 +296,10 @@ void ArpParseDBOpts(int32& argc, char** argv)
 						*str = 0;
 						str++;
 					}
-					ArpDL("core", 1, cdb << "Found module: " << module << endl);
+					ArpDL("core", 1, cdb << "Found module: " << module << std::endl);
 					if( term != ':' ) {
 						ArpDL("core", 1, cdb << "Defaulting module to level 1"
-											<< endl);
+											<< std::endl);
 						ArpDebugLevel(module, 1);
 						module = 0;
 					}
@@ -307,15 +307,15 @@ void ArpParseDBOpts(int32& argc, char** argv)
 			}
 			i++;
 		} else if( argv[i] && strcmp(argv[i],"--list-modules") == 0 ) {
-			ArpDL("core", 1, cdb << "Found option: " << argv[i] << endl);
-			map<ArpString,int>* levelmap = level_map();
+			ArpDL("core", 1, cdb << "Found option: " << argv[i] << std::endl);
+			std::map<ArpString,int>* levelmap = level_map();
 			if( levelmap != 0 ) {
-				map<ArpString,int>::iterator i;
+				std::map<ArpString,int>::iterator i;
 				for( i=levelmap->begin(); i!=levelmap->end(); i++ ) {
 					cdb << "Module '" << i->first
-						<< "' is at debug level " << i->second << endl;
+						<< "' is at debug level " << i->second << std::endl;
 				}
-				cdb << "Module 'core' is at debug level " << corelevel << endl;
+				cdb << "Module 'core' is at debug level " << corelevel << std::endl;
 			}
 			i++;
 		} else if( argv[i] &&
@@ -323,12 +323,12 @@ void ArpParseDBOpts(int32& argc, char** argv)
 					  strcmp(argv[i],"-h") == 0 ||
 					  strcmp(argv[i],"-?") == 0 ) ) {
 			cdb << "Debug Options: --debug=[module][:level][...] --list-modules"
-				<< endl;
+				<< std::endl;
 			i++;
 			j++;
 		} else {
 			ArpDL("core", 1, cdb << "Skipping argument: "
-								<< (argv[i] ? argv[i]:"<NULL>") << endl);
+								<< (argv[i] ? argv[i]:"<NULL>") << std::endl);
 			if( j < i ) argv[j] = argv[i];
 			i++;
 			j++;
@@ -421,27 +421,27 @@ enum {
 #endif
 #endif
 
-#include <iostream.h>
+#include <iostream>
 
-ostream& operator << (ostream& os, const BPoint & bp)
+std::ostream& operator << (std::ostream& os, const BPoint & bp)
 {
 	os << "BPoint(" << bp.x << "," << bp.y << ")"; return os;
 }
 
-ostream& operator << (ostream& os, const BRect & br)
+std::ostream& operator << (std::ostream& os, const BRect & br)
 {
 	os << "BRect(" << br.left << "," << br.top
      << ")-(" << br.right << "," << br.bottom << ")";
 	return os;
 }
 
-ostream& operator << (ostream& os, const BFont & fn)
+std::ostream& operator << (std::ostream& os, const BFont & fn)
 {
-	ios::fmtflags fl = os.flags();
+	std::ios::fmtflags fl = os.flags();
 	font_family family;
 	font_style style;
 	fn.GetFamilyAndStyle(&family,&style);
-	os << "BFont(id=" << hex << fn.FamilyAndStyle() << dec
+	os << "BFont(id=" << std::hex << fn.FamilyAndStyle() << std::dec
 		<< ",fam=" << &family[0] << ",sty=" << &style[0]
 		<< ",sz=" << fn.Size() << ",shr=" << fn.Shear()
 		<< ",rot=" << fn.Rotation() << ",enc=" << fn.Encoding()
@@ -452,50 +452,50 @@ ostream& operator << (ostream& os, const BFont & fn)
 	return os;
 }
 
-ostream& operator << (ostream& os, const BMessenger & o)
+std::ostream& operator << (std::ostream& os, const BMessenger & o)
 {
-	ios::fmtflags fl = os.flags();
+	std::ios::fmtflags fl = os.flags();
 	BHandler* hnd = NULL;
 	BLooper* loop = NULL;
 	hnd = o.Target(&loop);
 	os << "BMessenger(valid=" << o.IsValid()
-		<< hex << ",team=" << o.Team()
+		<< std::hex << ",team=" << o.Team()
 		<< ",hnd=" << hnd << ",lp=" << loop
-		<< dec << ",local=" << o.IsTargetLocal() << ")";
+		<< std::dec << ",local=" << o.IsTargetLocal() << ")";
 	os.flags(fl);
 	return os;
 }
 		
-ostream& operator << (ostream& os, const BPath & o)
+std::ostream& operator << (std::ostream& os, const BPath & o)
 { os << "BPath(" << (o.Path() ? o.Path() : "<null>") << ")"; return os; }
 
-ostream& operator << (ostream& os, const entry_ref & o)
+std::ostream& operator << (std::ostream& os, const entry_ref & o)
 {
-	ios::fmtflags fl = os.flags();
+	std::ios::fmtflags fl = os.flags();
 	os << "entry_ref(dev=" << o.device
-		<< ",dir=" << hex << (int32)(o.directory>>32)
-		<< (int32)(o.directory) << dec
+		<< ",dir=" << std::hex << (int32)(o.directory>>32)
+		<< (int32)(o.directory) << std::dec
 		<< ",name=" << o.name << ")";
 	os.flags(fl);
 	return os;
 }
 
-ostream& operator << (ostream& os, const rgb_color & o)
+std::ostream& operator << (std::ostream& os, const rgb_color & o)
 {
 	os << "rgb_color(r=" << (int)o.red << ",g=" << (int)o.green
 		<< ",b=" << (int)o.blue << ",a=" << (int)o.alpha << ")";
 	return os;
 }
 
-ostream& operator << (ostream& os, const pattern & o)
+std::ostream& operator << (std::ostream& os, const pattern & o)
 { os << "pattern(0x" << (void*)&o << ")"; return os; }
 
-ostream& operator << (ostream& os, const BMessage & msg)
+std::ostream& operator << (std::ostream& os, const BMessage & msg)
 {
 	return ArpToStream(os, msg);
 }
 
-static ostream& print_code(ostream& os, uint32 code)
+static std::ostream& print_code(std::ostream& os, uint32 code)
 {
 	const char c1 = (char)((code>>24)&0xFF);
 	const char c2 = (char)((code>>16)&0xFF);
@@ -505,15 +505,15 @@ static ostream& print_code(ostream& os, uint32 code)
 		&& c3 >= ' ' && c3 < 127 && c4 >= ' ' && c4 < 127 ) {
 		os << "'" << c1 << c2 << c3 << c4 << "'";
 	} else {
-		os << "0x" << hex << code << dec;
+		os << "0x" << std::hex << code << std::dec;
 	}
 	
 	return os;
 }
 
-ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
+std::ostream& ArpToStream(std::ostream& os, const BMessage & msg, const char* basePrefix)
 {
-	ios::fmtflags fl = os.flags();
+	std::ios::fmtflags fl = os.flags();
 	
 	BString newPrefix(basePrefix);
 	newPrefix += "  ";
@@ -532,15 +532,15 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 		&& c3 >= ' ' && c3 < 127 && c4 >= ' ' && c4 < 127 ) {
 		os << "BMessage('" << c1 << c2 << c3 << c4 << "'";
 	} else {
-		os << "BMessage(0x" << hex << msg.what << dec;
+		os << "BMessage(0x" << std::hex << msg.what << std::dec;
 	}
 #endif
 	
-	os << ") {" << endl;
+	os << ") {" << std::endl;
 	
 	char* name;
 	type_code type;
-	long count;
+	int32 count;
 	for( int32 i=0; !msg.GetInfo(B_ANY_TYPE,i,&name,&type,&count);
 			i++ ) {
 		for( int32 j=0; j<count; j++ ) {
@@ -558,7 +558,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_INT8_TYPE: {
 				const int8* getit=NULL;
@@ -569,7 +569,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_INT16_TYPE: {
 				const int16* getit=NULL;
@@ -580,7 +580,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_INT32_TYPE: {
 				const int32* getit=NULL;
@@ -591,7 +591,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_INT64_TYPE: {
 				const int64* getit=NULL;
@@ -602,51 +602,51 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_UINT8_TYPE: {
 				const uint8* getit=NULL;
 				ssize_t rsize=0;
 				os << "uint8(";
 				if( !msg.FindData(name,type,j,(const void**)&getit,&rsize) ) {
-					os << hex << "0x" << (*getit) << dec;
+					os << std::hex << "0x" << (*getit) << std::dec;
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_UINT16_TYPE: {
 				const uint16* getit=NULL;
 				ssize_t rsize=0;
 				os << "uint16(";
 				if( !msg.FindData(name,type,j,(const void**)&getit,&rsize) ) {
-					os << hex << "0x" << (*getit) << dec;
+					os << std::hex << "0x" << (*getit) << std::dec;
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_UINT32_TYPE: {
 				const uint32* getit=NULL;
 				ssize_t rsize=0;
 				os << "uint32(";
 				if( !msg.FindData(name,type,j,(const void**)&getit,&rsize) ) {
-					os << hex << "0x" << (*getit) << dec;
+					os << std::hex << "0x" << (*getit) << std::dec;
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_UINT64_TYPE: {
 				const uint64* getit=NULL;
 				ssize_t rsize=0;
 				os << "uint64(";
 				if( !msg.FindData(name,type,j,(const void**)&getit,&rsize) ) {
-					os << hex << "0x" << (*getit) << dec;
+					os << std::hex << "0x" << (*getit) << std::dec;
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_FLOAT_TYPE: {
 				const float* getit=NULL;
@@ -657,7 +657,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_DOUBLE_TYPE: {
 				const double* getit=NULL;
@@ -668,7 +668,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_BOOL_TYPE: {
 				const bool* getit=NULL;
@@ -679,7 +679,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_OFF_T_TYPE: {
 				const off_t* getit=NULL;
@@ -690,7 +690,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_SIZE_T_TYPE: {
 				const size_t* getit=NULL;
@@ -701,111 +701,111 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_SSIZE_T_TYPE: {
 				const ssize_t* getit=NULL;
 				ssize_t rsize=0;
 				os << "ssize_t(";
 				if( !msg.FindData(name,type,j,(const void**)&getit,&rsize) ) {
-					os << hex << "0x" << (*getit) << dec;
+					os << std::hex << "0x" << (*getit) << std::dec;
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_POINTER_TYPE: {
 				const void* getit=NULL;
 				ssize_t rsize=0;
 				os << "pointer(";
 				if( !msg.FindData(name,type,j,&getit,&rsize) ) {
-					os << hex << "0x" << (void*)getit << dec;
+					os << std::hex << "0x" << (void*)getit << std::dec;
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_OBJECT_TYPE: {
 				const void* getit=NULL;
 				ssize_t rsize=0;
 				os << "object(";
 				if( !msg.FindData(name,type,j,&getit,&rsize) ) {
-					os << hex << "0x" << (void*)getit << dec;
+					os << std::hex << "0x" << (void*)getit << std::dec;
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_MESSAGE_TYPE: {
 				BMessage getit;
 				if( !msg.FindMessage(name,j,&getit) ) {
 					ArpToStream(os, getit, prefix);
-					os << endl;
+					os << std::endl;
 				} else {
-					os << "BMessage(<not found>)" << endl;
+					os << "BMessage(<not found>)" << std::endl;
 				}
 			} break;
 			case B_MESSENGER_TYPE: {
 				const BMessenger* getit=NULL;
 				ssize_t rsize=0;
 				if( !msg.FindData(name,type,j,(const void**)&getit,&rsize) ) {
-					os << (*getit) << endl;
+					os << (*getit) << std::endl;
 				} else {
-					os << "BMessenger(<not found>)" << endl;
+					os << "BMessenger(<not found>)" << std::endl;
 				}
 			} break;
 			case B_POINT_TYPE: {
 				BPoint getit;
 				if( !msg.FindPoint(name,j,&getit) ) {
-					os << getit << endl;
+					os << getit << std::endl;
 				} else {
-					os << "BPoint(<not found>)" << endl;
+					os << "BPoint(<not found>)" << std::endl;
 				}
 			} break;
 			case B_RECT_TYPE: {
 				BRect getit;
 				if( !msg.FindRect(name,j,&getit) ) {
-					os << getit << endl;
+					os << getit << std::endl;
 				} else {
-					os << "BPoint(<not found>)" << endl;
+					os << "BPoint(<not found>)" << std::endl;
 				}
 			} break;
 			case B_REF_TYPE: {
 				entry_ref getit;
 				if( !msg.FindRef(name,j,&getit) ) {
-					os << (getit) << endl;
+					os << (getit) << std::endl;
 				} else {
-					os << "entry_ref(<not found>)" << endl;
+					os << "entry_ref(<not found>)" << std::endl;
 				}
 			} break;
 			case B_RGB_COLOR_TYPE: {
 				const rgb_color* getit=NULL;
 				ssize_t rsize=0;
 				if( !msg.FindData(name,type,j,(const void**)&getit,&rsize) ) {
-					os << (*getit) << endl;
+					os << (*getit) << std::endl;
 				} else {
-					os << "rgb_color(<not found>)" << endl;
+					os << "rgb_color(<not found>)" << std::endl;
 				}
 			} break;
 			case FFont::FONT_TYPE: {
 				if( be_app ) {
 					FFont getit;
 					if( !msg.FindFlat(name,j,&getit) ) {
-						os << getit << endl;
+						os << getit << std::endl;
 					} else {
-						os << "BFont(<not found>)" << endl;
+						os << "BFont(<not found>)" << std::endl;
 					}
 				} else {
-					os << "BFont(<no application>)" << endl;
+					os << "BFont(<no application>)" << std::endl;
 				}
 			} break;
 			case B_PATTERN_TYPE: {
 				const pattern* getit=NULL;
 				ssize_t rsize=0;
 				if( !msg.FindData(name,type,j,(const void**)&getit,&rsize) ) {
-					os << (*getit) << endl;
+					os << (*getit) << std::endl;
 				} else {
-					os << "pattern(<not found>)" << endl;
+					os << "pattern(<not found>)" << std::endl;
 				}
 			} break;
 			case B_ASCII_TYPE: {
@@ -817,7 +817,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_STRING_TYPE: {
 				const char* getit=NULL;
@@ -828,7 +828,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case ARP_INDIRECT_TYPE: {
 				const char* getit=NULL;
@@ -839,7 +839,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_MONOCHROME_1_BIT_TYPE: {
 				const void* getit=NULL;
@@ -850,7 +850,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_GRAYSCALE_8_BIT_TYPE: {
 				const void* getit=NULL;
@@ -861,7 +861,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_COLOR_8_BIT_TYPE: {
 				const void* getit=NULL;
@@ -872,7 +872,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_RGB_32_BIT_TYPE: {
 				const void* getit=NULL;
@@ -883,7 +883,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_TIME_TYPE: {
 				const void* getit=NULL;
@@ -894,7 +894,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_RAW_TYPE: {
 				const void* getit=NULL;
@@ -905,7 +905,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			case B_MIME_TYPE: {
 				const char* getit=NULL;
@@ -920,7 +920,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 							= BTextView::UnflattenRunArray((const void*)getit,&mysize);
 						if( array ) {
 							os << "count=" << array->count << ") {"
-								<< endl;
+								<< std::endl;
 							for( i=0; i<array->count; i++ ) {
 								os << prefix << "  offset="
 									<< array->runs[i].offset
@@ -928,10 +928,10 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 									<< array->runs[i].color
 									<< " font="
 									<< array->runs[i].font
-									<< endl;
+									<< std::endl;
 							}
 							free(array);
-							os << prefix << "}" << endl;
+							os << prefix << "}" << std::endl;
 						} else {
 							os << "can't unflatten / ptr=" << (void*)getit << ")";
 						}
@@ -941,7 +941,7 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>)";
 				}
-				os << endl;
+				os << std::endl;
 			} break;
 			case B_ANY_TYPE: {
 				const void* getit=NULL;
@@ -952,16 +952,16 @@ ostream& ArpToStream(ostream& os, const BMessage & msg, const char* basePrefix)
 				} else {
 					os << "<not found>";
 				}
-				os << ")" << endl;
+				os << ")" << std::endl;
 			} break;
 			default: {
 				BPath getit;
 				if( !msg.FindFlat(name,j,&getit) ) {
-					os << (getit) << endl;
+					os << (getit) << std::endl;
 				} else {
 					os << "unknown(type=";
 					print_code(os, type);
-					os << ")" << endl;
+					os << ")" << std::endl;
 				}
 			}
 			}

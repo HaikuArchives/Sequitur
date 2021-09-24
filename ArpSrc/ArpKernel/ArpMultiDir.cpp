@@ -31,8 +31,8 @@
 #include <app/Roster.h>
 #endif
 
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 
 ArpMOD();
 
@@ -54,11 +54,11 @@ status_t ArpMultiDir::AddDirectory(const char* dir, const char* leaf)
 	BPath* path =  new BPath(dir,leaf,true);
 	if( path ) {
 		if( path->InitCheck() != B_OK ) return path->InitCheck();
-		ArpD(cdb << ADH << "Adding directory: " << path->Path() << endl);
+		ArpD(cdb << ADH << "Adding directory: " << path->Path() << std::endl);
 		for( int32 i=0; i<dirs.CountItems(); i++ ) {
 			BPath* existing = (BPath*)(dirs.ItemAt(i));
 			if( existing && (*existing) == (*path) ) {
-				ArpD(cdb << ADH << "Already have it!" << endl);
+				ArpD(cdb << ADH << "Already have it!" << std::endl);
 				delete path;
 				return B_OK;
 			}
@@ -111,7 +111,7 @@ static int32 expand_dir(char* buffer, const char* dir)
 						if( path.GetParent(&path) == B_NO_ERROR ) {
 							const char* dir = path.Path();
 							if( dir ) {
-								ArpD(cdb << ADH << "App dir = " << dir << endl);
+								ArpD(cdb << ADH << "App dir = " << dir << std::endl);
 								int len = strlen(dir);
 								size += len;
 								if( buffer ) {
@@ -190,9 +190,9 @@ status_t ArpMultiDir::AddEnvVar(const char* name, const char* leaf)
 	int nlen = strlen(name);
 	char** e = environ;
 	while( e && *e ) {
-		ArpD(cdb << ADH << "Looking at var: " << *e << endl);
+		ArpD(cdb << ADH << "Looking at var: " << *e << std::endl);
 		if( strncmp(*e,name,nlen) == 0 && (*e)[nlen] == '=' ) {
-			ArpD(cdb << ADH << "Found env var: " << *e << endl);
+			ArpD(cdb << ADH << "Found env var: " << *e << std::endl);
 			return AddSearchPath(&((*e)[nlen+1]), leaf);
 		}
 		e++;
@@ -203,27 +203,27 @@ status_t ArpMultiDir::AddEnvVar(const char* name, const char* leaf)
 status_t ArpMultiDir::next_dir(void)
 {
 	cur_dirs_index++;
-	ArpD(cdb << ADH << "Moving to next dir #" << cur_dirs_index << endl);
+	ArpD(cdb << ADH << "Moving to next dir #" << cur_dirs_index << std::endl);
 	if( cur_dirs_index >= dirs.CountItems() ) {
-		ArpD(cdb << ADH << "At end of this directory!" << endl);
+		ArpD(cdb << ADH << "At end of this directory!" << std::endl);
 		inherited::Unset();
 		return ENOENT;
 	}
 	
 	BPath* path = (BPath*)(dirs.ItemAt(cur_dirs_index));
 	if( path == NULL ) {
-		ArpD(cdb << ADH << "Reached last path, it's all over." << endl);
+		ArpD(cdb << ADH << "Reached last path, it's all over." << std::endl);
 		inherited::Unset();
 		return ENOENT;
 	}
 	
-	ArpD(cdb << ADH << "Moving to new path " << path << endl);
+	ArpD(cdb << ADH << "Moving to new path " << path << std::endl);
 	return inherited::SetTo(path->Path());
 }
 
 status_t ArpMultiDir::Rewind()
 {
-	ArpD(cdb << ADH << "Rewinding ArpMultiDir." << endl);
+	ArpD(cdb << ADH << "Rewinding ArpMultiDir." << std::endl);
 	cur_dirs_index = -1;
 	inherited::Unset();
 	return B_OK;

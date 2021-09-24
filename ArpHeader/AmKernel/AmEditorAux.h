@@ -27,7 +27,7 @@
 #ifndef AMKERNEL_AMEDITORWAUX_H
 #define AMKERNEL_AMEDITORWAUX_H
 
-#include <vector.h>
+#include <vector>
 #include <InterfaceKit.h>
 #include "BeExp/ToolTip.h"
 
@@ -132,7 +132,7 @@ protected:
 
 private:
 	typedef BView			inherited;
-	vector<AmEditorTool*>	mTools;
+	std::vector<AmEditorTool*>	mTools;
 	AmEditorTool*			mMouseDownTool;	// Set to whatever tool the user clicks on
 											// in the MouseDown()
 	uint32					mMouseDownButton;

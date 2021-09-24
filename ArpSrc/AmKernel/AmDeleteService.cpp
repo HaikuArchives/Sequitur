@@ -1,6 +1,6 @@
 /* AmDeleteService.cpp
  */
-#include <stdio.h>
+#include <cstdio>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmEvents.h"
 #include "AmKernel/AmDeleteService.h"

@@ -23,7 +23,7 @@
 #endif
 
 #include <float.h>
-#include <algobase.h>
+//#include <algobase.h>
 
 #include <support/Autolock.h>
 

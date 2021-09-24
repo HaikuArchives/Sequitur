@@ -1,7 +1,7 @@
 #include "ArpShortShift.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <interface/CheckBox.h>
 #include <interface/MenuItem.h>
 #include "ArpKernel/ArpDebug.h"
@@ -178,15 +178,15 @@ status_t ArpShortShiftFilter::Configure(ArpVectorI<BView*>& panels)
 void ArpShortShiftAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>I offset the start and end times of each event I receive.
-	The Start shift parameter increases the start time by the given value.  If
-	the Negative box is checked, the start time decreases.  If the Use tool grid
-	box is checked, then the Shift: time specified is ignored, and the current
-	grid is used.</p>
-	
-	<p>The End parameters work the same, but affect the end time of each
-	event.  To retain the same note duration, the End shift and End negative
-	values should be identical to the Start shift and Start negative values.</p>";
+	str << "<p>I offset the start and end times of each event I receive."
+	"The Start shift parameter increases the start time by the given value.  If"
+	"the Negative box is checked, the start time decreases.  If the Use tool grid"
+	"box is checked, then the Shift: time specified is ignored, and the current"
+	"grid is used.</p>"
+	""
+	"<p>The End parameters work the same, but affect the end time of each"
+	"event.  To retain the same note duration, the End shift and End negative"
+	"values should be identical to the Start shift and Start negative values.</p>";
 }
 
 void ArpShortShiftAddOn::GetVersion(int32* major, int32* minor) const

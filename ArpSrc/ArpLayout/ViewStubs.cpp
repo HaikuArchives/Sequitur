@@ -35,9 +35,9 @@
 #endif
 
 #include <float.h>
-#include <algobase.h>
-#include <string.h>
-#include <stdio.h>
+//#include <algobase.h>
+#include <cstring>
+#include <cstdio>
 
 ArpMOD();
 
@@ -235,7 +235,7 @@ void ArpBox::LayoutView(void)
 	ArpBaseLayout* child = LayoutChildAt(0);
 	if( child ) {
 		ArpD(cdb << ADH << "Box moving child to Lab:" << frm
-				<< " / Bod:" << bdy << endl);
+				<< " / Bod:" << bdy << std::endl);
 		child->SetViewLayout(frm, bdy);
 	}	
 }
@@ -325,8 +325,8 @@ void ArpListView::ComputeDimens(ArpDimens& cur_dimens)
 			item->Update(this,BasicFont());
 			float w = item->Width();
 			float h = item->Height();
-			min_h = max(min_h,h);
-			pref_w = max(pref_w,w);
+			min_h = std::max(min_h,h);
+			pref_w = std::max(pref_w,w);
 			if( max_num > 0 ) pref_h += h;
 			max_num--;
 		}
@@ -336,10 +336,10 @@ void ArpListView::ComputeDimens(ArpDimens& cur_dimens)
 	font_height fhs;
 	BasicFont()->GetHeight(&fhs);
 	float fh = fhs.ascent+fhs.descent+fhs.leading;
-	min_w = max(min_w,fw);
-	min_h = max(min_h,fh);
-	pref_w = max(pref_w,min_w);
-	pref_h = max(pref_h,min_h);
+	min_w = std::max(min_w,fw);
+	min_h = std::max(min_h,fh);
+	pref_w = std::max(pref_w,min_w);
+	pref_h = std::max(pref_h,min_h);
 	
 	cur_dimens.X().SetTo(0, min_w, pref_w, ArpAnySize, 0);
 	cur_dimens.Y().SetTo(0, min_h, pref_h, ArpAnySize, 0);
@@ -392,8 +392,8 @@ void ArpOutlineListView::ComputeDimens(ArpDimens& cur_dimens)
 			item->Update(this,BasicFont());
 			float w = item->Width();
 			float h = item->Height();
-			min_h = max(min_h,h);
-			pref_w = max(pref_w,w);
+			min_h = std::max(min_h,h);
+			pref_w = std::max(pref_w,w);
 			if( max_num > 0 ) pref_h += h;
 			max_num--;
 		}
@@ -403,10 +403,10 @@ void ArpOutlineListView::ComputeDimens(ArpDimens& cur_dimens)
 	font_height fhs;
 	BasicFont()->GetHeight(&fhs);
 	float fh = fhs.ascent+fhs.descent+fhs.leading;
-	min_w = max(min_w,fw);
-	min_h = max(min_h,fh);
-	pref_w = max(pref_w,min_w);
-	pref_h = max(pref_h,min_h);
+	min_w = std::max(min_w,fw);
+	min_h = std::max(min_h,fh);
+	pref_w = std::max(pref_w,min_w);
+	pref_h = std::max(pref_h,min_h);
 	
 	cur_dimens.X().SetTo(0, min_w, pref_w, ArpAnySize, 0);
 	cur_dimens.Y().SetTo(0, min_h, pref_h, ArpAnySize, 0);
@@ -453,7 +453,7 @@ void ArpMenuBar::FrameResized(float new_width, float new_height)
 	const BRect bounds(Bounds());
 	if( Window() ) {
 		ArpD(cdb << ADH << "Bounds new: " << bounds
-				<< ", old: " << mLastBounds << endl);
+				<< ", old: " << mLastBounds << std::endl);
 		if( bounds.Width() < mLastBounds.Width() ) {
 			Invalidate(BRect(bounds.right-1, bounds.top,
 							 bounds.right, bounds.bottom));
@@ -674,7 +674,7 @@ void ArpMenuField::ComputeDimens(ArpDimens& cur_dimens)
 			if( item ) {
 				const float w=BasicFont()->StringWidth(item->Label());
 				ArpD(cdb << ADH << "Dimensions for popup label "
-							<< item->Label() << ": " << w << endl);
+							<< item->Label() << ": " << w << std::endl);
 				if( w > pref_w ) pref_w = w;
 			}
 		}
@@ -881,12 +881,12 @@ void ArpTextControl::ParametersChanged(const ArpParamSet* params)
 void ArpTextControl::FrameResized(float new_width, float new_height)
 {
 	ArpD(cdb << ADH << "ArpTextControl: FrameResized(" << new_width
-			<< ", " << new_height << ")" << endl);
+			<< ", " << new_height << ")" << std::endl);
 	BTextView* text = dynamic_cast<BTextView*>(ChildAt(0));
-	if( !text ) ArpD(cdb << ADH << "!!! No BTextView !!!" << endl);
+	if( !text ) ArpD(cdb << ADH << "!!! No BTextView !!!" << std::endl);
 	if( text ) {
 		ArpD(cdb << ADH << "BTextView: Initial Bounds=" << text->Bounds()
-			<< ", TextRect=" << text->TextRect() << endl);
+			<< ", TextRect=" << text->TextRect() << std::endl);
 	}
 	BTextControl::FrameResized(new_width, new_height);
 	BRect textBounds(text->Bounds());
@@ -898,7 +898,7 @@ void ArpTextControl::FrameResized(float new_width, float new_height)
 	text->SetTextRect(textRect);
 	if( text ) {
 		ArpD(cdb << ADH << "BTextView: Finish Bounds=" << text->Bounds()
-			<< ", TextRect=" << text->TextRect() << endl);
+			<< ", TextRect=" << text->TextRect() << std::endl);
 	}
 }
 

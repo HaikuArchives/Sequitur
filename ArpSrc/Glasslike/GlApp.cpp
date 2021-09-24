@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <assert.h>
+#include <cstdio>
+#include <cassert>
 #include <malloc.h>
 #include "GlPublic/GlPlanes.h"
 #include "Glasslike/GlApp.h"

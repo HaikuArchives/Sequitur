@@ -10,9 +10,9 @@
 #include <ArpKernel/ArpDebug.h>
 #endif
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 
 static AmStaticResources gRes;
 

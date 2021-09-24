@@ -1,6 +1,6 @@
 /* SeqTrackWindowAux.cpp
  */
-#include <stdio.h>
+#include <cstdio>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpIntFormatterI.h"
@@ -46,7 +46,7 @@ private:
 	AmTrackWinPropertiesI& mTrackWinProps;
 	BMessenger			mTarget;
 	bool				mMenuBuilt;
-	vector<BMenuItem*>	mItems;
+	std::vector<BMenuItem*>	mItems;
 	uint32				mCurrIndex;
 	
 	bool	StartBuildingItemList();

@@ -3,7 +3,7 @@
 #include <experimental/BitmapTools.h>
 #include <Bitmap.h>
 
-#include <stdio.h>
+#include <cstdio>
 
 static inline void overlay_color_func(rgb_color* target, const rgb_color other, uint8 amount)
 {

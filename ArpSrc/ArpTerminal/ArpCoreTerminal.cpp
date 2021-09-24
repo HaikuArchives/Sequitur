@@ -43,7 +43,7 @@
 #include <support/UTF8.h>
 #endif
 
-#include <string.h>
+#include <cstring>
 
 ArpMOD();
 
@@ -77,7 +77,7 @@ void ArpCoreTerminal::RowInfo::SetColumns(int32 num)
 	ichar * newtext = NULL;
 	style_t * newstyle = NULL;
 	ArpD(cdb << ADH << "RowInfo " << this << ": SetColums("
-			<< num << ")" << endl);
+			<< num << ")" << std::endl);
 	if( num > 0 ) {
 		newtext = new ichar[num];
 		newstyle = new style_t[num];
@@ -291,7 +291,7 @@ ArpCoreTerminal::ArpCoreTerminal(BRect frame, const char* name, ulong resizeMode
 	  cur_font_style(TERM_STYLEPLAIN),
 	  hShown(false), encodingConv(-1)
 {
-	ArpD(cdb << ADH << "ArpCoreTerminal: Constructor." << endl);
+	ArpD(cdb << ADH << "ArpCoreTerminal: Constructor." << std::endl);
 	
 	for( int32 i=0; i<0x100; i++ ) defaultTranslation[i] = (ichar)i;
 	//for( int32 i=0x80; i<0x100; i++ ) defaultTranslation[i] = '?';
@@ -300,10 +300,10 @@ ArpCoreTerminal::ArpCoreTerminal(BRect frame, const char* name, ulong resizeMode
 	//for( int32 i=0x7f; i<0xa0; i++ ) defaultTranslation[i] = '?';
 	//defaultTranslation[0xff] = '?';
 	TermSetTranslation(NULL);
-	ArpD(cdb << ADH << "ArpCoreTerminal: Initializing colors." << endl);
+	ArpD(cdb << ADH << "ArpCoreTerminal: Initializing colors." << std::endl);
 	SetTintForeground(1.65);
 	SetTintBackground(.35);
-	ArpD(cdb << ADH << "ArpCoreTerminal: Initializing history." << endl);
+	ArpD(cdb << ADH << "ArpCoreTerminal: Initializing history." << std::endl);
 	SetViewColor(ArpColor::Transparent);
 	SetFont(be_fixed_font);
 	TermSetEncoding(B_ISO1_CONVERSION);
@@ -415,7 +415,7 @@ void ArpCoreTerminal::AutoScrollTo(int32* row, int32* col)
 	ArpD(cdb << ADH << "ScrollTo: row="
 			<< (row ? *row : -10000) << ", col="
 			<< (col ? *col : -10000) << ", y=" << ypos
-			<< ", x=" << xpos << endl);
+			<< ", x=" << xpos << std::endl);
 	if( row ) {
 		ypos = RowToY(*row);
 		if( ypos + bnd.Height() > (DataHeight()*CharHeight()) ) {
@@ -432,7 +432,7 @@ void ArpCoreTerminal::AutoScrollTo(int32* row, int32* col)
 	}
 	
 	ArpD(cdb << ADH << "ScrollTo final: y=" << ypos
-			<< ", x=" << xpos << endl);
+			<< ", x=" << xpos << std::endl);
 
 	#if 0
 	BScrollBar* bar = ScrollBar(B_VERTICAL);
@@ -453,7 +453,7 @@ void ArpCoreTerminal::MakePosVisible(int32 row, int32 col)
 	TermGetViewSize(&visrows,&viscols);
 	
 	ArpD(cdb << ADH << "MakeVis: row=" << row << ", col=" << col
-			<< ", visrows=" << visrows << ", viscols=" << viscols << endl);
+			<< ", visrows=" << visrows << ", viscols=" << viscols << std::endl);
 			
 	if( row <= (TopVisibleRow()+1) ) {
 		row-=(visrows/4)+1;
@@ -497,18 +497,18 @@ void ArpCoreTerminal::MakePosVisible(int32 row, int32 col)
 #endif
 	
 	ArpD(cdb << ADH << "VisTo: dorow=" << dorow << ", docol=" << docol
-			<< ", row=" << row << ", col=" << col << endl);
+			<< ", row=" << row << ", col=" << col << std::endl);
 	ArpD(cdb << ADH << "VisTo: top=" << TopVisibleRow()
 			<< ", bottom=" << BottomVisibleRow()
 			<< ", left=" << LeftVisibleCol()
-			<< ", right=" << RightVisibleCol() << endl);
+			<< ", right=" << RightVisibleCol() << std::endl);
 	
 	if( dorow || docol ) AutoScrollTo(dorow,docol);
 }
 
 void ArpCoreTerminal::InitTerminal()
 {
-	ArpD(cdb << ADH << "ArpCoreTerminal: Initializing screen..." << endl);
+	ArpD(cdb << ADH << "ArpCoreTerminal: Initializing screen..." << std::endl);
 
 	charWidth = fontPlain.StringWidth("M");
 	font_height height;
@@ -529,8 +529,8 @@ bool ArpCoreTerminal::ResizeTerminal(int32 rows, int32 cols)
 	numRows = rows;
 	numCols = cols;
 	
-	ArpD(cdb << ADH << "Frame=" << Frame() << endl);
-	ArpD(cdb << ADH << "Columns = " << cols << ", Rows = " << rows << endl);
+	ArpD(cdb << ADH << "Frame=" << Frame() << std::endl);
+	ArpD(cdb << ADH << "Columns = " << cols << ", Rows = " << rows << std::endl);
 
 	if( lastNumRows == rows && lastNumCols == cols ) return false;
 
@@ -576,7 +576,7 @@ bool ArpCoreTerminal::ResizeTerminal(int32 rows, int32 cols)
 		page.SetSize(numRows+1);
 	}
 
-	ArpD(cdb << ADH << "ArpCoreTerminal: Allocating rows" << endl);
+	ArpD(cdb << ADH << "ArpCoreTerminal: Allocating rows" << std::endl);
 	for( int32 r = 0; r < numRows; r++ ) {
 		RowInfo* ri = page.GetElem(r);
 		// We make this one column bigger than needed, to make it easy to
@@ -588,7 +588,7 @@ bool ArpCoreTerminal::ResizeTerminal(int32 rows, int32 cols)
 		}
 	}
 
-	ArpD(cdb << ADH << "ArpCoreTerminal: Initializing history" << endl);
+	ArpD(cdb << ADH << "ArpCoreTerminal: Initializing history" << std::endl);
 	if( history_len < numRows ) history_len = numRows;
 	
 	if( !updating ) {
@@ -610,7 +610,7 @@ bool ArpCoreTerminal::ResizeTerminal(int32 rows, int32 cols)
 
 void ArpCoreTerminal::TermReset(bool hard)
 {
-	ArpD(cdb << ADH << "Doing reset of terminal." << endl);
+	ArpD(cdb << ADH << "Doing reset of terminal." << std::endl);
 	curStyle = TERM_STYLEPLAIN;
 	TermSetTranslation(NULL);
 	if( hard ) {
@@ -733,7 +733,7 @@ void ArpCoreTerminal::TermSetRegion(int32 top, int32 bottom, int32 left, int32 r
 		else right = numCols-1;
 	}
 	//if( !(bottom != 1 || bottom > regionBottom) ) {
-	//	cdb << "Uh oh!" << endl;
+	//	cdb << "Uh oh!" << std::endl;
 	//}
 	regionTop = top;
 	regionBottom = bottom;
@@ -741,7 +741,7 @@ void ArpCoreTerminal::TermSetRegion(int32 top, int32 bottom, int32 left, int32 r
 	regionRight = right;
 	ArpD(cdb << ADH << "Region set to: top=" << regionTop
 			<< ", bottom=" << regionBottom
-			<< ", left=" << regionLeft << ", right=" << regionRight << endl);
+			<< ", left=" << regionLeft << ", right=" << regionRight << std::endl);
 }
 
 void ArpCoreTerminal::TermGetRegion(int32* top, int32* bottom,
@@ -910,7 +910,7 @@ void ArpCoreTerminal::TermGetTextRange(int32 row1, int32 col1,
 		col2 ^= col1;
 		col1 ^= col2;
 	}
-	ArpD(cdb << ADH << "." << endl);
+	ArpD(cdb << ADH << "." << std::endl);
 	if( row1 < 0 ) row1 = 0;
 	if( row1 >= history_len ) row1 = history_len-1;
 	if( row2 < 0 ) row2 = 0;
@@ -930,7 +930,7 @@ void ArpCoreTerminal::TermGetTextRange(int32 row1, int32 col1,
 		if( row1 == row2 ) rightlimit = col2;
 		ArpD(cdb << ADH << "Region row " << row1
 					<< ": left=" << leftlimit
-					<< ", right=" << rightlimit << endl);
+					<< ", right=" << rightlimit << std::endl);
 		const RowInfo* ri = page[row1];
 		if( ri && leftlimit <= ri->UsedCols() && rightlimit >= 0 ) {
 			int32 left = leftlimit;
@@ -941,11 +941,11 @@ void ArpCoreTerminal::TermGetTextRange(int32 row1, int32 col1,
 				amount = ri->UsedCols()-left;
 			}
 			ArpD(cdb << ADH << amount << " chars selected with conn="
-						<< ri->Connected() << endl);
+						<< ri->Connected() << std::endl);
 			if( amount > 0 ) {
 				if( left < ri->UsedCols() ) {
 					size_t can_use = (int32)avail < amount ? avail:amount;
-					ArpD(cdb << ADH << ", can use " << can_use << endl);
+					ArpD(cdb << ADH << ", can use " << can_use << std::endl);
 					if( text && can_use > 0 ) {
 						memcpy(text,&(ri->Text()[left]),sizeof(ichar)*can_use);
 						text += can_use;
@@ -970,7 +970,7 @@ void ArpCoreTerminal::TermGetTextRange(int32 row1, int32 col1,
 					avail--;
 				}
 			}
-			ArpD(cdb << ADH << "." << endl);
+			ArpD(cdb << ADH << "." << std::endl);
 		}
 		leftlimit = 0;
 		row1--;
@@ -1279,7 +1279,7 @@ int32 ArpCoreTerminal::ScrollRow(int32 row, int32 amount,
 void ArpCoreTerminal::TermScrollRegion(int32 top, int32 bottom, int32 amount)
 {
 	ArpD(cdb << ADH << "ArpCoreTerminal: TermScrollRegion("
-			<< top << "," << bottom << "," << amount << ")" << endl);
+			<< top << "," << bottom << "," << amount << ")" << std::endl);
 	if( top >= bottom ) return;
 	if( bottom >= numRows ) bottom = numRows-1;
 	if( bottom < 0 ) bottom = 0;
@@ -1661,7 +1661,7 @@ void ArpCoreTerminal::TermClear(ichar fillc, style_t fillstyle)
 void ArpCoreTerminal::TermRedraw(int32 top, int32 bot, bool full)
 {
 	ArpD(cdb << ADH << "ArpCoreTerminal: Redrawing screen: "
-			<< top << " to " << bot << ", full=" << full << endl);
+			<< top << " to " << bot << ", full=" << full << std::endl);
 			
 	// convert into page coordinates
 	top = RowToPage(top);
@@ -1670,7 +1670,7 @@ void ArpCoreTerminal::TermRedraw(int32 top, int32 bot, bool full)
 	ArpD(cdb << ADH << "ArpCoreTerminal: cTop=" << clipTop
 			<< ", cBot=" << clipBottom << ", dTop="
 			<< RowToPage(dirtyTop) << ", dBot="
-			<< RowToPage(dirtyBottom) << endl);
+			<< RowToPage(dirtyBottom) << std::endl);
 			
 	if( top > clipTop ) top = clipTop;
 	if( bot < clipBottom ) bot = clipBottom;
@@ -1681,7 +1681,7 @@ void ArpCoreTerminal::TermRedraw(int32 top, int32 bot, bool full)
 	}
 	
 	ArpD(cdb << ADH << "ArpCoreTerminal: Redraw clipped page rows: "
-				<< top << " to " << bot << endl);
+				<< top << " to " << bot << std::endl);
 			
 	if( bot > top ) return;
 	
@@ -1720,11 +1720,11 @@ void ArpCoreTerminal::TermRedraw(void)
 void ArpCoreTerminal::TermClean(void)
 {
 	ArpD(cdb << ADH << "ArpCoreTerminal: Cleaning screen: "
-			<< dirtyTop << " to " << dirtyBottom << endl);
+			<< dirtyTop << " to " << dirtyBottom << std::endl);
 	if( UpdateBounds() ) {
 		if( has_output ) {
 			ArpD(cdb << ADH << "Scroll after update: mode="
-					<< int(AutoScrollMode()) << endl);
+					<< int(AutoScrollMode()) << std::endl);
 			has_output = false;
 			if( (((int)AutoScrollMode())&AUTOSCROLL_OUTPUT) != 0 ) {
 				int32 row=0, col=0;
@@ -1739,15 +1739,15 @@ void ArpCoreTerminal::TermClean(void)
 			SetDirty(lastRow,lastRow,lastCol,lastCol);
 			SetDirty(curRow,curRow,curCol,curCol);
 		}
-		ArpD(cdb << ADH << "ArpCoreTerminal::TermClean() drawing dirty rows" << endl);
+		ArpD(cdb << ADH << "ArpCoreTerminal::TermClean() drawing dirty rows" << std::endl);
 		//printf("Cleaning: %ld to %ld\n",dirtyTop,dirtyBottom);
 		TermRedraw(dirtyTop,dirtyBottom,false);
 	} else if( lastRow != curRow || lastCol != curCol ) {
 		ArpD(cdb << ADH << "ArpCoreTerminal::TermClean() drawing row=" << lastRow
-						<< " col=" << lastCol << endl);
+						<< " col=" << lastCol << std::endl);
 		drawRowCol(RowToPage(lastRow),lastCol);
 		ArpD(cdb << ADH << "ArpCoreTerminal::TermClean() drawing row=" << curRow
-						<< " col=" << curCol << endl);
+						<< " col=" << curCol << std::endl);
 		drawRowCol(RowToPage(curRow),curCol);
 	}
 	lastRow = curRow;
@@ -1756,7 +1756,7 @@ void ArpCoreTerminal::TermClean(void)
 	if( has_output ) {
 		has_output = false;
 		ArpD(cdb << ADH << "Scroll after clean: mode="
-				<< int(AutoScrollMode()) << endl);
+				<< int(AutoScrollMode()) << std::endl);
 		if( (((int)AutoScrollMode())&AUTOSCROLL_OUTPUT) != 0 ) {
 			int32 row=0, col=0;
 			TermGetCursorPos(&row,&col);
@@ -1772,7 +1772,7 @@ void ArpCoreTerminal::TermClean(void)
 void ArpCoreTerminal::TermSendTTY(const ichar * d, size_t len, uint32 flags)
 {
 	ArpD(if( outputecho ) cdb << ADH << "ArpCoreTerminal: Write: "
-									<< ArpString(d,len) << endl);
+									<< ArpString(d,len) << std::endl);
 	if( len ) has_output = true;
 	if( len == 1 ) {
 		if( (flags&TERM_OUTRAW) != 0 ) PutChar(*d);
@@ -1806,27 +1806,27 @@ void ArpCoreTerminal::ConvertInput(const ichar* d, size_t len)
 		return;
 	}
 	
-	ArpD(cdb << ADH << "Convert input: str=" << (void*)d << ", len=" << len << endl);
+	ArpD(cdb << ADH << "Convert input: str=" << (void*)d << ", len=" << len << std::endl);
 	while( len > 0 ) {
 		ArpD(cdb << ADH << "Converting: ptr=" << (void*)d << ", " << len
-					<< " characters left." << endl);
+					<< " characters left." << std::endl);
 		int32 srclen = len;
 		int32 destlen = sizeof(convBuffer);
 		if( convert_from_utf8(GetEncodingConv(),(const char*)d,&srclen,
 								&convBuffer[0],&destlen,NULL) != B_OK ) {
 			ArpD(cdb << ADH << "Error converting!  char=" << (char)(*d)
-							<< " (" << (int)(*d) << ")" << endl);
+							<< " (" << (int)(*d) << ")" << std::endl);
 			destlen = 0;
 			srclen = 0;
 			while( (d[srclen]&0x80) != 0 && srclen < (int32)len ) srclen++;
 			if( srclen < (int32)len ) srclen++;
 		}
 		if( srclen <= 0 ) {
-			ArpD(cdb << ADH << "Huh?!?  Couldn't convert any characters!" << endl);
+			ArpD(cdb << ADH << "Huh?!?  Couldn't convert any characters!" << std::endl);
 			return;
 		}
 		ArpD(cdb << ADH << "Eating " << srclen << " chars, writing "
-						<< destlen << " chars." << endl);
+						<< destlen << " chars." << std::endl);
 		EmulateToRemote((ichar*)&convBuffer[0],destlen);
 		if( srclen >= (int32)len ) return;
 		len -= srclen;
@@ -1888,7 +1888,7 @@ void ArpCoreTerminal::TermSizeChanged(int32 /*rows*/, int32 /*cols*/)
 
 void ArpCoreTerminal::AttachedToWindow(void)
 {
-	ArpD(cdb << ADH << "ArpCoreTerminal: AttachedToWindow()." << endl);
+	ArpD(cdb << ADH << "ArpCoreTerminal: AttachedToWindow()." << std::endl);
 	BView::AttachedToWindow();
 	InitTerminal();
 	Draw(Frame());
@@ -1898,11 +1898,11 @@ void ArpCoreTerminal::AttachedToWindow(void)
 void ArpCoreTerminal::FrameResized(float width, float height)
 {
 	ArpD(cdb << ADH << "FrameResized: " << width
-				<< " x " << height << endl);
+				<< " x " << height << std::endl);
 	BView::FrameResized(width,height);
 	if( last_bounds != Bounds() ) {
 		ArpD(cdb << ADH << "Frame resizing to: " << width
-				<< " x " << height << endl);
+				<< " x " << height << std::endl);
 		if( UpdateBounds() ) ClearDirty();
 		else TermClean();
 	}
@@ -1910,7 +1910,7 @@ void ArpCoreTerminal::FrameResized(float width, float height)
 
 void ArpCoreTerminal::ScrollTo(BPoint where)
 {
-	ArpD(cdb << ADH << "ScrollTo: " << where << endl);
+	ArpD(cdb << ADH << "ScrollTo: " << where << std::endl);
 #if 0
 	int32 lastMode = curMode;
 	curMode |= TERM_MODEHIDECURSOR;
@@ -1966,7 +1966,7 @@ void ArpCoreTerminal::Draw(BRect rect)
 	// needed.
 	BRect bnd = Bounds();
 	if( last_bounds != bnd ) {
-		ArpD(cdb << ADH << "Draw resizing to: " << bnd << endl);
+		ArpD(cdb << ADH << "Draw resizing to: " << bnd << std::endl);
 		if( UpdateBounds() ) {
 			ClearDirty();
 			return;
@@ -1976,11 +1976,11 @@ void ArpCoreTerminal::Draw(BRect rect)
 	SetDrawingMode(B_OP_COPY);	
 	ArpD(cdb << ADH << "Screen pos=" << RawYToRow(rect.top)
 			<< ", hist pos=" << RawYToRow(last_bounds.top)
-			<< ", hist len=" << history_len << endl);
+			<< ", hist len=" << history_len << std::endl);
 	SetClipRegion(rect);
 	ArpD(cdb << ADH << "Term draw region: (" << clipLeft
 			<< "," << clipTop << ")-(" << clipRight
-			<< "," << clipBottom << ")" << endl);
+			<< "," << clipBottom << ")" << std::endl);
 	TermRedraw();
 	SetClipRegion(Bounds());
 }
@@ -2021,7 +2021,7 @@ void ArpCoreTerminal::PutChar(ichar c)
 		ri->Style()[curCol] = curStyle;
 		curCol = regionRight;
 		overChar = true;
-		ArpD(cdb << ADH << "ArpCoreTerminal: Hit margin, overChar=" << overChar <<endl);
+		ArpD(cdb << ADH << "ArpCoreTerminal: Hit margin, overChar=" << overChar <<std::endl);
 	} else if (curCol >= regionRight && overChar) {
 		if( (curMode&TERM_MODENOWRAP) == 0 ) {
 			overChar = false;
@@ -2037,7 +2037,7 @@ void ArpCoreTerminal::PutChar(ichar c)
 			ri->Style()[curCol] = curStyle;
 			curCol++;
 			ArpD(cdb << ADH << "ArpCoreTerminal: Past margin, overChar="
-							<< overChar <<endl);
+							<< overChar <<std::endl);
 		} else {
 			RowInfo * ri = GetRowInfo(curRow);
 			assert(ri != NULL);
@@ -2045,7 +2045,7 @@ void ArpCoreTerminal::PutChar(ichar c)
 			ri->Text()[curCol] = c;
 			ri->Style()[curCol] = curStyle;
 			ArpD(cdb << ADH << "ArpCoreTerminal: Stay margin, overChar="
-							<< overChar << endl);
+							<< overChar << std::endl);
 		}
 	} else {
 		RowInfo * ri = GetRowInfo(curRow);
@@ -2155,7 +2155,7 @@ void ArpCoreTerminal::EndSession()
 		
 		if( curRow < regionTop
 				|| (ri->UsedCols() > 0 && !ri->Divider()) ) {
-			ArpD(cdb << ADH << "Inserting divider at " << curRow << endl);
+			ArpD(cdb << ADH << "Inserting divider at " << curRow << std::endl);
 			if( curRow >= regionTop ) {
 				PutStdChar(ANSI_LF);
 				PutStdChar(ANSI_CR);
@@ -2170,13 +2170,13 @@ void ArpCoreTerminal::EndSession()
 		}
 		
 		if( ri->Divider() ) {
-			ArpD(cdb << ADH << "Done -- found divider at " << curRow << endl);
+			ArpD(cdb << ADH << "Done -- found divider at " << curRow << std::endl);
 			PutStdChar(ANSI_LF);
 			PutStdChar(ANSI_CR);
 			return;
 		}
 		
-		ArpD(cdb << ADH << "Empty line at " << curRow << endl);
+		ArpD(cdb << ADH << "Empty line at " << curRow << std::endl);
 	}
 	
 	if( curRow < 0 ) curRow = 0;
@@ -2185,7 +2185,7 @@ void ArpCoreTerminal::EndSession()
 void ArpCoreTerminal::SetDirty(int32 top, int32 bottom, int32 left, int32 right, RowInfo* inri)
 {
 	ArpD(cdb << ADH << "ArpCoreTerminal::SetDirty(" << top << ", " << bottom
-				<< ", " << left << ", " << right << ", " << inri << ")" << endl);
+				<< ", " << left << ", " << right << ", " << inri << ")" << std::endl);
 	if( dirtyTop > dirtyBottom ) {
 		dirtyTop = top;
 		dirtyBottom = bottom;
@@ -2232,7 +2232,7 @@ bool ArpCoreTerminal::UpdateBounds(void)
 	float force_vbar = -1;
 	float max_vval = -1;
 	
-	ArpD(cdb << ADH << "ArpCoreTerminal: Updating boundaries." << endl);
+	ArpD(cdb << ADH << "ArpCoreTerminal: Updating boundaries." << std::endl);
 	BRect bounds = Bounds();
 	bool changed = false;
 	if( history_last_len != history_len
@@ -2253,16 +2253,16 @@ bool ArpCoreTerminal::UpdateBounds(void)
 			last_max = floor(last_max+.5);
 			ArpD(cdb << ADH << "dsize = " << dsize
 					<< ", winheight = " << winheight
-					<< ", hview = " << bounds.top << endl);
+					<< ", hview = " << bounds.top << std::endl);
 			ArpD(cdb << ADH << "Set range: from " << 0
 					<< " to " << maxval << ", bad="
-					<< (int)((dsize-winheight-1)<0) << endl);
+					<< (int)((dsize-winheight-1)<0) << std::endl);
 			max_vval = maxval;
 			//vbar->SetRange(0,maxval);
-			ArpD(cdb << ADH << "Set proportion: " << winheight/dsize << endl);
+			ArpD(cdb << ADH << "Set proportion: " << winheight/dsize << std::endl);
 			vbar->SetProportion(winheight/dsize);
 			ArpD(cdb << ADH << "Set steps: " << floor(charHeight)
-					<< " and " << floor((winRows-2)*charHeight) << endl);
+					<< " and " << floor((winRows-2)*charHeight) << std::endl);
 			vbar->SetSteps(floor(charHeight),
 							floor((winRows-2)*charHeight));
 			if( last_value == last_max ) {
@@ -2300,7 +2300,7 @@ bool ArpCoreTerminal::UpdateBounds(void)
 			if( maxval < 0 ) maxval = 0;
 			ArpD(cdb << ADH << "dsize = " << dsize
 					<< ", winwidth = " << winwidth
-					<< ", hpos = " << bounds.left << endl);
+					<< ", hpos = " << bounds.left << std::endl);
 			hbar->SetRange(0,maxval);
 			hbar->SetProportion(winwidth/dsize);
 			hbar->SetSteps(ceil(charWidth),
@@ -2538,7 +2538,7 @@ void ArpCoreTerminal::drawRow(int32 row, int32 force)
 		if( !(curMode&TERM_MODEHIDECURSOR)
 				&& row == RowToPage(curRow) ) {
 			ArpD(cdb << ADH << "ArpCoreTerminal: Drawing cursor: row=" << curRow
-						<< ", col=" << curCol << endl);
+						<< ", col=" << curCol << std::endl);
 			drawRowCol(RowToPage(curRow),curCol);
 		}
 		if(ri) ri->Dirty(false);	
@@ -2598,11 +2598,11 @@ void ArpCoreTerminal::drawRow(int32 row, int32 force)
 	style_t* style = &(ri->Style()[col]);
 	
 	ArpD(cdb << ADH << "ArpCoreTerminal: Drawing row: " << row
-				<< ", from " << col << " to " << last_col << endl);
+				<< ", from " << col << " to " << last_col << std::endl);
 #if 0
-	cerr << "ArpCoreTerminal: Drawing row: " << row
+	std::cerr << "ArpCoreTerminal: Drawing row: " << row
 				<< ", from " << col << " to " << last_col
-				<< ", numRows=" << numRows << ", Cols()=" << ri->Cols() << endl;
+				<< ", numRows=" << numRows << ", Cols()=" << ri->Cols() << std::endl;
 #endif
 
 	while( col <= last_col ) {
@@ -2637,7 +2637,7 @@ void ArpCoreTerminal::drawRow(int32 row, int32 force)
 		
 #if 0
 		ArpD(cdb << ADH << "Font=" << font.Name()
-					<< ", Size=" << font.Size() << endl);
+					<< ", Size=" << font.Size() << std::endl);
 #endif
 
 		SetHighColor(lowcol);
@@ -2654,7 +2654,7 @@ void ArpCoreTerminal::drawRow(int32 row, int32 force)
 	if( !(curMode&TERM_MODEHIDECURSOR)
 			&& row == RowToPage(curRow) ) {
 		ArpD(cdb << ADH << "ArpCoreTerminal: Drawing cursor: row=" << curRow
-					<< ", col=" << curCol << endl);
+					<< ", col=" << curCol << std::endl);
 		drawRowCol(RowToPage(curRow),curCol);
 	}
 	

@@ -1,8 +1,8 @@
 #include "ArpConsole.h"
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 #include <interface/CheckBox.h>
 #include <ArpLayout/ArpViewWrapper.h>
 #include "ArpKernel/ArpDebug.h"
@@ -97,17 +97,17 @@ AmEvent* ArpConsoleFilter::HandleEvent(AmEvent* e, const am_filter_params* param
 	str << Label().String() << ": ";
 	int32				count = 0;
 	switch (e->Type()) {
-		case e->NOTEOFF_TYPE:
-		case e->NOTEON_TYPE:			count += _print(mTypeMask, _NOTES, e, str);				break;
-		case e->CHANNELPRESSURE_TYPE:	count += _print(mTypeMask, _CHANNELPRESSURE, e, str);	break;
-		case e->CONTROLCHANGE_TYPE:		count += _print(mTypeMask, _CONTROLCHANGE, e, str);		break;
-		case e->KEYPRESSURE_TYPE:		count += _print(mTypeMask, _KEYPRESSURE, e, str);		break;
-		case e->PITCHBEND_TYPE:			count += _print(mTypeMask, _PITCHBEND, e, str);			break;
-		case e->PROGRAMCHANGE_TYPE:		count += _print(mTypeMask, _PROGRAMCHANGE, e, str);		break;
-		case e->SYSTEMCOMMON_TYPE:		count += _print(mTypeMask, _SYSTEMCOMMON, e, str);		break;
-		case e->SYSTEMEXCLUSIVE_TYPE:	count += _print(mTypeMask, _SYSTEMEXCLUSIVE, e, str);	break;
-		case e->SYSTEMREALTIME_TYPE:	count += _print(mTypeMask, _SYSTEMREALTIME, e, str);	break;
-		case e->TEMPOCHANGE_TYPE:		count += _print(mTypeMask, _TEMPO, e, str);				break;
+		case AmEvent::NOTEOFF_TYPE:
+		case AmEvent::NOTEON_TYPE:			count += _print(mTypeMask, _NOTES, e, str);				break;
+		case AmEvent::CHANNELPRESSURE_TYPE:	count += _print(mTypeMask, _CHANNELPRESSURE, e, str);	break;
+		case AmEvent::CONTROLCHANGE_TYPE:		count += _print(mTypeMask, _CONTROLCHANGE, e, str);		break;
+		case AmEvent::KEYPRESSURE_TYPE:		count += _print(mTypeMask, _KEYPRESSURE, e, str);		break;
+		case AmEvent::PITCHBEND_TYPE:			count += _print(mTypeMask, _PITCHBEND, e, str);			break;
+		case AmEvent::PROGRAMCHANGE_TYPE:		count += _print(mTypeMask, _PROGRAMCHANGE, e, str);		break;
+		case AmEvent::SYSTEMCOMMON_TYPE:		count += _print(mTypeMask, _SYSTEMCOMMON, e, str);		break;
+		case AmEvent::SYSTEMEXCLUSIVE_TYPE:	count += _print(mTypeMask, _SYSTEMEXCLUSIVE, e, str);	break;
+		case AmEvent::SYSTEMREALTIME_TYPE:	count += _print(mTypeMask, _SYSTEMREALTIME, e, str);	break;
+		case AmEvent::TEMPOCHANGE_TYPE:		count += _print(mTypeMask, _TEMPO, e, str);				break;
 		default:						count += _print(mTypeMask, _OTHERS, e, str);			break;
 	}
 	if (mTypeMask&_PARAMS) {
@@ -400,10 +400,10 @@ status_t ArpConsoleFilter::Configure(ArpVectorI<BView*>& panels)
 void ArpConsoleFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>I print in the terminal every MIDI event I receive. I am useful
-	for debugging any filters you've written, so you can see the output
-	they are providing.  In order for this filter to work, Sequitur must be
-	launched from a command line.</P>";
+	str << "<P>I print in the terminal every MIDI event I receive. I am useful"
+	"for debugging any filters you've written, so you can see the output"
+	"they are providing.  In order for this filter to work, Sequitur must be"
+	"launched from a command line.</P>";
 }
 
 void ArpConsoleFilterAddOn::GetVersion(int32* major, int32* minor) const

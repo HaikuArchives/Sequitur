@@ -1,8 +1,8 @@
 #include <ArpCore/ArpCoreDefs.h>
 
 #ifndef MAC_OS_X
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <malloc.h>
 #endif
 

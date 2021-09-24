@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <midi2/MidiProducer.h>
 #include <midi2/MidiRoster.h>
 #include <ArpKernel/ArpDebug.h>

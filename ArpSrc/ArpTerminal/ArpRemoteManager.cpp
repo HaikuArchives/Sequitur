@@ -35,7 +35,7 @@
 #include <interface/MenuItem.h>
 #endif
 
-#include <string.h>
+#include <cstring>
 
 ArpMOD();
 
@@ -43,10 +43,10 @@ ArpRemoteManager::RemoteAddon::RemoteAddon(BEntry* entry)
 	: BasicAddon(entry), interface(NULL)
 {
 	if( inherited::InitCheck() == B_NO_ERROR ) {
-		ArpD(cdb << ADH << "Opening: " << Path().Path() << endl);
+		ArpD(cdb << ADH << "Opening: " << Path().Path() << std::endl);
 		image_id image = Open();
 		if( image >= 0 ) {
-			ArpD(cdb << ADH << "Image = " << image << endl);
+			ArpD(cdb << ADH << "Image = " << image << std::endl);
 			ArpRemoteAddonFunc* func;
 #ifdef DEBUG
 			char name[1024];
@@ -55,20 +55,20 @@ ArpRemoteManager::RemoteAddon::RemoteAddon(BEntry* entry)
 			for( int32 i=0; get_nth_image_symbol(image,i,&name[0],
 								&len,&type,(void**)&func) == B_NO_ERROR; i++ ) {
 				ArpD(cdb << ADH << "Sym " << i << ": name=" << &name[0]
-								<< ", type=" << type << ", func=" << (void*)func << endl);
+								<< ", type=" << type << ", func=" << (void*)func << std::endl);
 				len = sizeof(name);
 			}
 #endif
 			if( get_image_symbol(image,"GetRemoteAddon",
 								B_SYMBOL_TYPE_TEXT,(void**)&func) == B_NO_ERROR ) {
-				ArpD(cdb << ADH << "Function = " << (void*)func << endl);
+				ArpD(cdb << ADH << "Function = " << (void*)func << std::endl);
 				interface = (*func)();
 			}
 			if( interface == NULL ) Close();
 		}
 	}
 	ArpD(cdb << ADH << "Addon " << Path().Path() << ": interface="
-				<< (void*)interface << endl);
+				<< (void*)interface << std::endl);
 }
 
 ArpRemoteManager::RemoteAddon::RemoteAddon(const ArpRemoteAddon* remote)
@@ -151,7 +151,7 @@ const ArpRemoteAddon* ArpRemoteManager::RemoteAddonForURL(
 {
 	if( !name ) return 0;
 	
-	ArpD(cdb << ADH << "Finding addon for remote " << name << endl);
+	ArpD(cdb << ADH << "Finding addon for remote " << name << std::endl);
 	
 	BAutolock(Lock());
 	for( int i=0; i<CountAddons(); i++ ) {

@@ -11,7 +11,7 @@
  * Known Bugs
  * ~~~~~~~~~~
  *
- *	-¢ None!  Ha ha!
+ *	-ï¿½ None!  Ha ha!
  *
  * ----------------------------------------------------------------------
  *
@@ -46,7 +46,7 @@ public:
 	const GlImage*				Source(gl_image_id id);
 
 private:
-	vector<GlImagePoolEntry*>	mEntries;
+	std::vector<GlImagePoolEntry*>	mEntries;
 	
 	mutable BLocker				mAccess;
 

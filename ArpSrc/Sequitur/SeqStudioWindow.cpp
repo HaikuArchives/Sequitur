@@ -1,6 +1,6 @@
 /* SeqStudioWindow.cpp
  */
-#include <algo.h>
+#include <algorithm>
 #include <private/interface/ColumnListView.h>
 #include <private/interface/ColumnTypes.h>
 #include <interface/Button.h>
@@ -124,7 +124,7 @@ private:
  * SEQ-STUDIO-WINDOW
  *************************************************************************/
 SeqStudioWindow::SeqStudioWindow(	BRect frame,
-									const BMessage* config = NULL)
+									const BMessage* config)
 		: inherited(frame,
 					"Studio",
 					B_DOCUMENT_WINDOW_LOOK,
@@ -180,7 +180,7 @@ static void add_device_menu_items(BMenu* menu)
 
 	AmDeviceRoster*				roster = AmDeviceRoster::Default();
 	if (roster) {
-		vector<BMenuItem*>		items;
+		std::vector<BMenuItem*>		items;
 		BString					mfg, name, key;
 		bool					isValid;
 		for (uint32 k = 0; roster->GetDeviceInfo(k, mfg, name, key, NULL, &isValid) == B_OK; k++) {

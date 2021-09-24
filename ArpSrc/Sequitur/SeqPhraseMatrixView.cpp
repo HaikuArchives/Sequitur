@@ -301,7 +301,7 @@ void SeqPhraseMatrixView::SetupScrollBars(bool horizontal, bool vertical)
 	}
 }
 
-void SeqPhraseMatrixView::InvalidateSelections(AmRange range, vector<track_id>& tracks)
+void SeqPhraseMatrixView::InvalidateSelections(AmRange range, std::vector<track_id>& tracks)
 {
 	BRect		invalid(Bounds() );
 	invalid.top = invalid.bottom = -1;

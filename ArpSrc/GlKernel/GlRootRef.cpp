@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <GlPublic/GlRootRef.h>
 #include <GlPublic/GlChain.h>
 #include <GlPublic/GlNode.h>

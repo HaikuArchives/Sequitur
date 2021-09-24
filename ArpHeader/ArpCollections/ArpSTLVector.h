@@ -57,38 +57,38 @@
  *
  *****************************************************************************/
 
-template<class T> class ArpSTLVector : public vector<T>, public ArpVectorI<T> {
+template<class T> class ArpSTLVector : public std::vector<T>, public ArpVectorI<T> {
 public:
 	inline explicit ArpSTLVector()						{ }
 
 	inline explicit
-    ArpSTLVector(size_t n, const T& value = T ())		: vector<T>(n, value) { }
+    ArpSTLVector(size_t n, const T& value = T ())		: std::vector<T>(n, value) { }
 	
-	inline ArpSTLVector(const ArpSTLVector<T>& x)		: vector<T>(x) { }
+	inline ArpSTLVector(const ArpSTLVector<T>& x)		: std::vector<T>(x) { }
 
 	virtual ~ArpSTLVector()								{ }
 
 	// element access
-	virtual T&			operator[]( size_t n )			{ return vector<T>::operator[](n); }
-	virtual const T&	operator[]( size_t n ) const	{ return vector<T>::operator[](n); }
-	virtual T&			at( size_t n )					{ return vector<T>::operator[](n); }
-	virtual const T&	at( size_t n ) const			{ return vector<T>::operator[](n); }
+	virtual T&			operator[]( size_t n )			{ return std::vector<T>::operator[](n); }
+	virtual const T&	operator[]( size_t n ) const	{ return std::vector<T>::operator[](n); }
+	virtual T&			at( size_t n )					{ return std::vector<T>::operator[](n); }
+	virtual const T&	at( size_t n ) const			{ return std::vector<T>::operator[](n); }
 	
-	virtual T&			front( )						{ return vector<T>::front(); }
-	virtual const T&	front( ) const					{ return vector<T>::front(); }
-	virtual T&			back( )							{ return vector<T>::back(); }
-	virtual const T&	back( ) const					{ return vector<T>::back(); }
+	virtual T&			front( )						{ return std::vector<T>::front(); }
+	virtual const T&	front( ) const					{ return std::vector<T>::front(); }
+	virtual T&			back( )							{ return std::vector<T>::back(); }
+	virtual const T&	back( ) const					{ return std::vector<T>::back(); }
 	
 	// modification
-	virtual ArpVectorI<T>& push_back( const T& e )		{ vector<T>::push_back(e); return *this; }
+	virtual ArpVectorI<T>& push_back( const T& e )		{ std::vector<T>::push_back(e); return *this; }
 
 	// number of items in array
-	virtual size_t		size() const					{ return vector<T>::size(); }
-	virtual void		resize(size_t sz, const T& v=T()) { vector<T>::resize(sz, v); }
+	virtual size_t		size() const					{ return std::vector<T>::size(); }
+	virtual void		resize(size_t sz, const T& v=T()) { std::vector<T>::resize(sz, v); }
 
 	// number of items space has been allocated for
-	virtual size_t		capacity() const				{ return vector<T>::capacity(); }
-	virtual void		reserve( size_t n )				{ vector<T>::reserve(n); }
+	virtual size_t		capacity() const				{ return std::vector<T>::capacity(); }
+	virtual void		reserve( size_t n )				{ std::vector<T>::reserve(n); }
 };
 
 #endif

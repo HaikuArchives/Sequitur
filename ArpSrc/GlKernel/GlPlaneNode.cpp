@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <GlPublic/GlChain.h>
 #include <GlPublic/GlImage.h>
 #include <GlPublic/GlMask.h>

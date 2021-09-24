@@ -57,7 +57,7 @@
 #include <ArpKernel/ArpDebug.h>
 #endif
 
-#include <stdio.h>
+#include <cstdio>
 
 ArpMOD();
 
@@ -83,7 +83,7 @@ ArpAboutView::ArpAboutView(BRect rect, const char *name, const char *text,
 		while( ! (curStr=tok.Next()).IsNull() ) {
 			mText->push_back(curStr);
 			const char* c = mText->at(mText->size()-1).String();
-			ArpD(cdb << ADH << "Got line: " << c << endl);
+			ArpD(cdb << ADH << "Got line: " << c << std::endl);
 			while( *c ) {
 				while( ((*c)&0x80) != 0 ) c++;
 				if( *c ) {
@@ -300,14 +300,14 @@ void ArpAboutView::ComputeDimens()
 			) - (mFlatPixel/2);
 	if( mYRot < mFlatPixel*4 ) mYRot = mFlatPixel*4;
 	
-	ArpD(cdb << ADH << "ComputeDimens():" << endl
+	ArpD(cdb << ADH << "ComputeDimens():" << std::endl
 					<< "  mBaseSize=" << mBaseSize
 					<< ", mFlatPart=" << mFlatPart
-					<< ", mRotPart=" << mRotPart << endl
+					<< ", mRotPart=" << mRotPart << std::endl
 					<< "  mFlatPos=" << mFlatPos
-					<< ", mFlatPixel=" << mFlatPixel << endl
+					<< ", mFlatPixel=" << mFlatPixel << std::endl
 					<< "  mTextCenter=" << mTextCenter
-					<< ", mYRot=" << mYRot << endl);
+					<< ", mYRot=" << mYRot << std::endl);
 }
 
 void ArpAboutView::FrameResized(float new_width, float new_height)
@@ -469,7 +469,7 @@ void ArpAboutView::DrawLine(const char* text, float pos, float center, BFont& fo
 		ArpDL(__FILE__, 2,
 			 cdb << ADH << "Pos " << pos << ": Rotation=" << font.Rotation()
 						<< ", Size=" << font.Size()
-						<< ", Pnt=" << point << endl);
+						<< ", Pnt=" << point << std::endl);
 	}
 }
 #endif

@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 #include "GlPublic/GlDefs.h"
 #include "GlPublic/GlPixel.h"
 #include "GlPublic/GlPlanes.h"

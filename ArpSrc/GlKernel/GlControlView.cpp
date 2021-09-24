@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <interface/StringView.h>
 #include <support/Errors.h>
 #include <ArpKernel/ArpDebug.h>
@@ -61,10 +61,10 @@ private:
 	/* The mViews, mControlsI / mControls, and mMenuFields all contain unique objects
 	 * not found in the other vecs.  Between the three of them, they contain every object.
 	 */
-	vector<BView*>		mViews;
-	vector<BInvoker*>	mControlsI;		// Two different views on
-	vector<BView*>		mControlsV;		// the same objects.
-	vector<ArpMenuControl*>	mMenuFields;
+	std::vector<BView*>		mViews;
+	std::vector<BInvoker*>	mControlsI;		// Two different views on
+	std::vector<BView*>		mControlsV;		// the same objects.
+	std::vector<ArpMenuControl*>	mMenuFields;
 };
 
 /***************************************************************************

@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <unistd.h>
 #include "MDust/AttView.h"
 #include "MDust/ExBitmapCache.h"

@@ -248,7 +248,7 @@ void SeqSongIndexMatrixView::MouseUp(BPoint where)
 	}
 }
 
-void SeqSongIndexMatrixView::InvalidateTracks(vector<track_id>& tracks)
+void SeqSongIndexMatrixView::InvalidateTracks(std::vector<track_id>& tracks)
 {
 	BRect		invalid = arp_invalid_rect();
 	for (uint32 k = 0; k < tracks.size(); k++) {
@@ -327,8 +327,8 @@ void SeqSongIndexMatrixView::FillMetrics(const AmSong* song)
 bool SeqSongIndexMatrixView::SelectBetween(	SeqSongSelections* selections,
 											uint32 index1, uint32 index2) const
 {
-	uint32		low = min(index1, index2);
-	uint32		high = max(index1, index2);
+	uint32		low = std::min(index1, index2);
+	uint32		high = std::max(index1, index2);
 	bool		changes = false;
 	for (uint32 k = low; k <= high; k++) {
 		if (k >= mMetrics.size() ) return changes;
@@ -343,8 +343,8 @@ bool SeqSongIndexMatrixView::SelectBetween(	SeqSongSelections* selections,
 bool SeqSongIndexMatrixView::DeselectBetween(	SeqSongSelections* selections,
 												uint32 index1, uint32 index2) const
 {
-	uint32		low = min(index1, index2);
-	uint32		high = max(index1, index2);
+	uint32		low = std::min(index1, index2);
+	uint32		high = std::max(index1, index2);
 	bool		changes = false;
 	for (uint32 k = low; k <= high; k++) {
 		if (k >= mMetrics.size() ) return changes;

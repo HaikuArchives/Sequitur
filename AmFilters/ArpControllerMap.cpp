@@ -1,8 +1,8 @@
 #include "ArpControllerMap.h"
 
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include <InterfaceKit.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpLayout/ArpViewWrapper.h"
@@ -162,8 +162,8 @@ status_t ArpControllerMapFilter::Configure(ArpVectorI<BView*>& panels)
 void ArpControllerMapAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>I am a map of control changes.  Every controller can be
-	mapped to a new control value.</p>";
+	str << "<p>I am a map of control changes.  Every controller can be"
+	"mapped to a new control value.</p>";
 }
 
 void ArpControllerMapAddOn::GetVersion(int32* major, int32* minor) const

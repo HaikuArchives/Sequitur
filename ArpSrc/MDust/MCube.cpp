@@ -1,8 +1,8 @@
 /* MCube.cpp
  */
-#include <stdio.h>
-#include <assert.h>
-#include <string.h>
+#include <cstdio>
+#include <cassert>
+#include <cstring>
 #include "MDust/MCube.h"
 
 /***************************************************************************

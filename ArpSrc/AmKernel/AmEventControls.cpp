@@ -2,10 +2,10 @@
  */
 #include "AmKernel/AmEventControls.h"
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <interface/MenuItem.h>
 #include <interface/StringView.h>
 #include "ArpKernel/ArpDebug.h"

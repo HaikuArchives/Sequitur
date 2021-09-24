@@ -22,7 +22,7 @@
 #ifndef AMPUBLIC_AMTOOLTARGET_H
 #define AMPUBLIC_AMTOOLTARGET_H
 
-#include <vector.h>
+#include <vector>
 #include <interface/View.h>
 #include <ArpBuild.h>
 #include "AmPublic/AmEvents.h"

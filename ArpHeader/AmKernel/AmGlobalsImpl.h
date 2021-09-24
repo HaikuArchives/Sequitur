@@ -40,8 +40,8 @@
 class BClipboard;
 class AmFilterAddOn;
 
-typedef vector<AmViewFactory*>			fac_vec;
-typedef vector<BMessenger>				observer_vec;
+typedef std::vector<AmViewFactory*>			fac_vec;
+typedef std::vector<BMessenger>				observer_vec;
 
 /***************************************************************************
  * AM-GLOBALS-IMPL
@@ -142,7 +142,7 @@ private:
 	songref_vec		mSongRefs;
 	AmStudio		mStudio;
 	AmSongRef		mSelectedSong;
-	vector<AmFilterAddOn*> mClockTargets;
+	std::vector<AmFilterAddOn*> mClockTargets;
 	
 	/* Protection for tool and tool observer data.
 	 */

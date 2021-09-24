@@ -1,6 +1,6 @@
 /* AmEditMotionWindow.cpp
  */
-#include <vector.h>
+#include <vector>
 #include <experimental/BitmapTools.h>
 #include <InterfaceKit.h>
 #include <support/String.h>
@@ -40,7 +40,7 @@ public:
 	_AmMotionEditorData()		{ }
 
 	AmTimeConverter				mMtc;
-	vector<_AmMotionHit>		mHits;
+	std::vector<_AmMotionHit>		mHits;
 	AmMotionMode				mEditingMode;
 	AmSignaturePhrase			mSignatures;
 };
@@ -200,12 +200,12 @@ public:
 	void					SetupScrollBars(BView* view);
 
 	const AmTimeConverter&	mMtc;
-	vector<_AmMotionHit>&	mHits;
+	std::vector<_AmMotionHit>&	mHits;
 	AmSignaturePhrase&		mSignatures;
 
 protected:
 	_AmMotionPlug(	const AmTimeConverter& mtc,
-					vector<_AmMotionHit>& hits,
+					std::vector<_AmMotionHit>& hits,
 					AmSignaturePhrase& signatures);
 
 	AmActiveToolView*		mActiveTools;
@@ -240,7 +240,7 @@ class _AmProgressionInfoPlug : public _AmMotionPlug
 {
 public:
 	_AmProgressionInfoPlug(	const AmTimeConverter& mtc,
-							vector<_AmMotionHit>& hits,
+							std::vector<_AmMotionHit>& hits,
 							AmSignaturePhrase& signatures);
 	
 	virtual void			DrawOn(BView* view, BRect clip, BRect bounds, AmTime grid);
@@ -261,7 +261,7 @@ class _AmProgressionDataPlug : public _AmMotionPlug
 {
 public:
 	_AmProgressionDataPlug(	const AmTimeConverter& mtc,
-							vector<_AmMotionHit>& hits,
+							std::vector<_AmMotionHit>& hits,
 							AmSignaturePhrase& signatures);
 	
 	virtual void			DrawOn(BView* view, BRect clip, BRect bounds, AmTime grid);
@@ -279,7 +279,7 @@ class _AmRhythmInfoPlug : public _AmMotionPlug
 {
 public:
 	_AmRhythmInfoPlug(	const AmTimeConverter& mtc,
-						vector<_AmMotionHit>& hits,
+						std::vector<_AmMotionHit>& hits,
 						AmSignaturePhrase& signatures);
 	
 	virtual void			DrawOn(BView* view, BRect clip, BRect bounds, AmTime grid);
@@ -301,7 +301,7 @@ class _AmRhythmDataPlug : public _AmMotionPlug
 {
 public:
 	_AmRhythmDataPlug(	const AmTimeConverter& mtc,
-						vector<_AmMotionHit>& hits,
+						std::vector<_AmMotionHit>& hits,
 						AmSignaturePhrase& signatures);
 	
 	virtual void			DrawOn(BView* view, BRect clip, BRect bounds, AmTime grid);
@@ -322,7 +322,7 @@ class _AmEnvelopeInfoPlug : public _AmMotionPlug
 {
 public:
 	_AmEnvelopeInfoPlug(const AmTimeConverter& mtc,
-						vector<_AmMotionHit>& hits,
+						std::vector<_AmMotionHit>& hits,
 						AmSignaturePhrase& signatures);
 	
 	virtual void			DrawOn(BView* view, BRect clip, BRect bounds, AmTime grid);
@@ -344,7 +344,7 @@ class _AmEnvelopeDataPlug : public _AmMotionPlug
 {
 public:
 	_AmEnvelopeDataPlug(const AmTimeConverter& mtc,
-						vector<_AmMotionHit>& hits,
+						std::vector<_AmMotionHit>& hits,
 						AmSignaturePhrase& signatures);
 	
 	virtual void			DrawOn(BView* view, BRect clip, BRect bounds, AmTime grid);
@@ -889,7 +889,7 @@ void _AmPlugView::MouseMoved(	BPoint where,
  * _AM-MOTION-PLUG
  *************************************************************************/
 _AmMotionPlug::_AmMotionPlug(	const AmTimeConverter& mtc,
-								vector<_AmMotionHit>& hits,
+								std::vector<_AmMotionHit>& hits,
 								AmSignaturePhrase& signatures)
 		: mMtc(mtc), mHits(hits), mSignatures(signatures),
 		  mActiveTools(NULL), mActiveTool(NULL), mGridCtrl(NULL),
@@ -1158,7 +1158,7 @@ static const int32		CENTER = 128;
 static const int32		BOTTOM = 256;
 
 _AmProgressionInfoPlug::_AmProgressionInfoPlug(	const AmTimeConverter& mtc,
-												vector<_AmMotionHit>& hits,
+												std::vector<_AmMotionHit>& hits,
 												AmSignaturePhrase& signatures)
 		: _AmMotionPlug(mtc, hits, signatures), mNoteHeight(5)
 {
@@ -1196,7 +1196,7 @@ void _AmProgressionInfoPlug::DrawOn(BView* view, BRect clip, BRect bounds, AmTim
  * _AM-PROGRESSION-DATA-PLUG
  *************************************************************************/
 _AmProgressionDataPlug::_AmProgressionDataPlug(	const AmTimeConverter& mtc,
-												vector<_AmMotionHit>& hits,
+												std::vector<_AmMotionHit>& hits,
 												AmSignaturePhrase& signatures)
 		: _AmMotionPlug(mtc, hits, signatures), mNoteHeight(5)
 {
@@ -1278,7 +1278,7 @@ float _AmProgressionDataPlug::HitPointYFromPixel(float y) const
  * _AM-RHYTHM-INFO-PLUG
  *************************************************************************/
 _AmRhythmInfoPlug::_AmRhythmInfoPlug(	const AmTimeConverter& mtc,
-										vector<_AmMotionHit>& hits,
+										std::vector<_AmMotionHit>& hits,
 										AmSignaturePhrase& signatures)
 		: _AmMotionPlug(mtc, hits, signatures)
 {
@@ -1321,7 +1321,7 @@ void _AmRhythmInfoPlug::FrameResized(BView* view, float new_width, float new_hei
  * _AM-RHYTHM-DATA-PLUG
  *************************************************************************/
 _AmRhythmDataPlug::_AmRhythmDataPlug(	const AmTimeConverter& mtc,
-										vector<_AmMotionHit>& hits,
+										std::vector<_AmMotionHit>& hits,
 										AmSignaturePhrase& signatures)
 		: _AmMotionPlug(mtc, hits, signatures)
 {
@@ -1402,7 +1402,7 @@ float _AmRhythmDataPlug::HitPointYFromPixel(float y) const
  * _AM-ENVELOPE-INFO-PLUG
  *************************************************************************/
 _AmEnvelopeInfoPlug::_AmEnvelopeInfoPlug(	const AmTimeConverter& mtc,
-											vector<_AmMotionHit>& hits,
+											std::vector<_AmMotionHit>& hits,
 											AmSignaturePhrase& signatures)
 		: _AmMotionPlug(mtc, hits, signatures)
 {
@@ -1447,7 +1447,7 @@ void _AmEnvelopeInfoPlug::FrameResized(BView* view, float new_width, float new_h
 static const float		HANDLE_HALF_W		= 3;
 
 _AmEnvelopeDataPlug::_AmEnvelopeDataPlug(	const AmTimeConverter& mtc,
-											vector<_AmMotionHit>& hits,
+											std::vector<_AmMotionHit>& hits,
 											AmSignaturePhrase& signatures)
 		: _AmMotionPlug(mtc, hits, signatures)
 {
@@ -1710,7 +1710,7 @@ void _AmMeasureControl::MouseDown(BPoint pt)
 {
 	MakeFocus(true);
 	BPoint		where;
-	ulong		buttons;
+	uint32		buttons;
 	GetMouse(&where, &buttons, false);
 	if (buttons&B_SECONDARY_MOUSE_BUTTON) {
 		ShowTimeSignatureMenu(pt);

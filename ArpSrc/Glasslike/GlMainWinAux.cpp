@@ -318,7 +318,7 @@ status_t GlMainPathView::Recache()
 {
 	ArpVALIDATE(mNodes, return B_NO_MEMORY);
 	mNodes->Free();
-	vector<GlMainLabelEntry*>		vec;
+	std::vector<GlMainLabelEntry*>		vec;
 	gl_node_id						nid = 0;
 	gl_chain_id						cid = 0;
 	status_t						err = mPath.GetTail(&nid, &cid);

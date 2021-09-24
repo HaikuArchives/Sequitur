@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <StorageKit.h>
 #include <GlPublic/GlGlobalsI.h>
 #include "GlPublic/GlParam.h"

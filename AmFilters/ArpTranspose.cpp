@@ -12,9 +12,9 @@
 #include "ArpViews/ArpKnobControl.h"
 #include "ArpLayout/ArpViewWrapper.h"
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 
 ArpMOD();
 static AmStaticResources gRes;

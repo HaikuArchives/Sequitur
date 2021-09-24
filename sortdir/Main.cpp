@@ -52,7 +52,7 @@
 #include <ArpKernel/ArpString.h>
 #endif
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <getopt.h>
 #include <vector>
 #include <algorithm>
@@ -121,12 +121,12 @@ int main(int argc, char **argv)
 		BDirectory dir(dirname);
 		status_t err = dir.InitCheck();
 		if( err ) {
-			cerr << "*** Unable to open directory " << dirname << ":" << endl
-				<< strerror(err) << endl;
+			std::cerr << "*** Unable to open directory " << dirname << ":" << std::endl
+				<< strerror(err) << std::endl;
 			continue;
 		}
 		
-		vector<ArpString> names;
+		std::vector<ArpString> names;
 		
 		entry_ref ref;
 		while( dir.GetNextRef(&ref) == B_OK ) {
@@ -135,9 +135,9 @@ int main(int argc, char **argv)
 		
 		sort(names.begin(), names.end(), ArpString_CaseNumLt);
 		
-		cerr << "Sorted " << names.size() << " Files:" << endl;
+		std::cerr << "Sorted " << names.size() << " Files:" << std::endl;
 		for( size_t i=0; i<names.size(); i++ ) {
-			cerr << names[i] << endl;
+			std::cerr << names[i] << std::endl;
 		}
 	}
 	
@@ -194,7 +194,7 @@ void MainApp::DispatchMessage(BMessage *message,
 								  BHandler *handler)
 {
 	ArpD(cdb << ADH << "MainApp::DispatchMessage: " <<
-				*message << endl);
+				*message << std::endl);
 	inherited::DispatchMessage(message,handler);
 }
 
@@ -224,8 +224,8 @@ public:
 	{
 		if( !msg ) return;
 		if( msg->WasDropped() ) {
-			cout << "Message dropped on window:" << endl
-				<< *msg << endl;
+			std::cout << "Message dropped on window:" << std::endl
+				<< *msg << std::endl;
 		}
 		
 		BView::MessageReceived(msg);

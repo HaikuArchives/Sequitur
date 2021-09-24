@@ -17,7 +17,7 @@ static const int32		_BLEND_KEY			= 'blnd';
 class _GlBlend1d : public GlAlgo1d
 {
 public:
-	_GlBlend1d(gl_node_id nid, GlAlgo1d* blend, vector<GlAlgo1d*>& maps);
+	_GlBlend1d(gl_node_id nid, GlAlgo1d* blend, std::vector<GlAlgo1d*>& maps);
 	_GlBlend1d(const _GlBlend1d& o);
 
 	virtual GlAlgo*		Clone() const;
@@ -69,7 +69,7 @@ GlAlgo* GlBlend1d::Generate(const gl_generate_args& args) const
 	 * complicated than the typical Generate().  Make an algo for each
 	 * chain and put it in the correct container.
 	 */
-	vector<GlAlgo1d*>	maps;
+	std::vector<GlAlgo1d*>	maps;
 	GlAlgo1d*			blend = 0;
 	uint32				size = ChainSize();
 
@@ -112,7 +112,7 @@ GlNode* GlBlend1dAddOn::NewInstance(const BMessage* config) const
  * _GL-BLEND-1D
  ***************************************************************************/
 _GlBlend1d::_GlBlend1d(	gl_node_id nid, GlAlgo1d* blend,
-						vector<GlAlgo1d*>& maps)
+						std::vector<GlAlgo1d*>& maps)
 		: inherited(GL_BLEND_KEY, nid), mBlendIndex(-1)
 {
 	if (blend) {
@@ -136,7 +136,7 @@ GlAlgo* _GlBlend1d::Clone() const
 
 status_t _GlBlend1d::Algo(float* line, float* at, int32 size, uint32 flags) const
 {
-	vector<const GlAlgo1d*>		mapsVec;
+	std::vector<const GlAlgo1d*>		mapsVec;
 	const GlAlgo1d*				blend1d = 0;
 	uint32						k;
 	for (k = 0; k < ChainSize(); k++) {

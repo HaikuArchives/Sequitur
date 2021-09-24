@@ -34,7 +34,7 @@ void ArpRefArrayBase::SetSize(long new_size)
 {
 	T** new_array = NULL;
 	DB(DBALL,cdb << "ArpRefArray: SetSize(" << new_size
-				<< "), oldsize=" << size << endl);
+				<< "), oldsize=" << size << std::endl);
 	if( new_size > 0 ) new_array = new T*[new_size];
 	long i = 0;
 	if( array && size ) {

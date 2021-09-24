@@ -92,10 +92,10 @@ void ArpConfigureWatch::ReportChange(const BMessage* changes,
 		report.AddMessage("settings", changes);
 	}
 	
-	ArpD(cdb << ADH << "Reporting change: " << report << endl);
+	ArpD(cdb << ADH << "Reporting change: " << report << std::endl);
 	
 	if( to ) {
-		ArpD(cdb << "Sending to: " << *to << endl);
+		ArpD(cdb << "Sending to: " << *to << std::endl);
 		to->SendMessage(&report);
 		return;
 	}
@@ -106,7 +106,7 @@ void ArpConfigureWatch::ReportChange(const BMessage* changes,
 	
 	for( int i=0; i<N; i++ ) {
 		if( mWatchers->at(i).IsValid() ) {
-			ArpD(cdb << ADH << "Sending to: " << mWatchers->at(i) << endl);
+			ArpD(cdb << ADH << "Sending to: " << mWatchers->at(i) << std::endl);
 			mWatchers->at(i).SendMessage(&report);
 		}
 	}

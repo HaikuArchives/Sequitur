@@ -1,9 +1,9 @@
 /* SeqApplication
  */
-#include <algo.h>
-#include <assert.h>
+#include <algorithm>
+#include <cassert>
 #include <malloc.h>
-#include <stdio.h>
+#include <cstdio>
 #include <app/Roster.h>
 #include <experimental/BitmapTools.h>
 #include <FindDirectory.h>
@@ -1003,10 +1003,10 @@ static const char*	filter_html_header();
 static const char*	filter_html_footer();
 static const char*	tool_html_header();
 static const char*	tool_html_footer();
-static void			build_tool_filter_list(const AmTool* tool, vector<_HtmlFilterEntry>& list);
-static void			tool_filter_list_add_mf(AmMultiFilter* filter, vector<_HtmlFilterEntry>& list);
-static void			tool_filter_list_add_f(AmFilterI* filter, vector<_HtmlFilterEntry>& list);
-static void			add_tool_filter_link(BString& html, vector<_HtmlFilterEntry>& list, uint32 index);
+static void			build_tool_filter_list(const AmTool* tool, std::vector<_HtmlFilterEntry>& list);
+static void			tool_filter_list_add_mf(AmMultiFilter* filter, std::vector<_HtmlFilterEntry>& list);
+static void			tool_filter_list_add_f(AmFilterI* filter, std::vector<_HtmlFilterEntry>& list);
+static void			add_tool_filter_link(BString& html, std::vector<_HtmlFilterEntry>& list, uint32 index);
 
 static bool sort_filter_entries(const _HtmlFilterEntry& entry1, const _HtmlFilterEntry& entry2)
 {
@@ -1016,7 +1016,7 @@ static bool sort_filter_entries(const _HtmlFilterEntry& entry1, const _HtmlFilte
 	return false;
 }
 
-static void build_filter_list(vector<_HtmlFilterEntry>& list)
+static void build_filter_list(std::vector<_HtmlFilterEntry>& list)
 {
 	AmFilterRoster*		roster1 = AmFilterRoster::Default();
 	if (roster1) {
@@ -1107,7 +1107,7 @@ status_t seq_generate_filter_docs()
 	AmMultiFilterRoster*	roster2 = AmMultiFilterRoster::Default();
 	if (!roster2) return B_ERROR;
 
-	vector<_HtmlFilterEntry>	entries;
+	std::vector<_HtmlFilterEntry>	entries;
 	build_filter_list(entries);
 
 	BString			html;
@@ -1212,28 +1212,28 @@ status_t seq_generate_filter_docs()
 
 static const char* filter_html_header()
 {
-	return "<HTML>
-<TITLE> Appendix A.  The Filters</TITLE> 
-<BODY bgcolor=b4b4b4> 
-<H1>Appendix A.  The Filters </H1>
-<HR width = \"575\"><BR>
-<EM><p>This appendix is generated each time it is accessed from the File -> Filter Guide menu item
-in a Sequitur song window.</p>
-
-<p>The images on this page are in PNG format.  If your browser does not display the images
-correctly, it is probably missing a PNG viewer plugin.</EM><BR>";
+	return "<HTML>"
+"<TITLE> Appendix A.  The Filters</TITLE> "
+"<BODY bgcolor=b4b4b4> "
+"<H1>Appendix A.  The Filters </H1>"
+"<HR width = \"575\"><BR>"
+"<EM><p>This appendix is generated each time it is accessed from the File -> Filter Guide menu item"
+"in a Sequitur song window.</p>"
+""
+"<p>The images on this page are in PNG format.  If your browser does not display the images"
+"correctly, it is probably missing a PNG viewer plugin.</EM><BR>";
 }
 
 static const char* filter_html_footer()
 {
-	return "<P><P><HR width = \"575\"><BR><CENTER> 
-<A HREF = \"16_prefs.html\"><IMG SRC = \"images/left.jpg\" BORDER=0></A> 
-<A HREF = \"index.html\"><IMG SRC = \"images/top.jpg\" BORDER=0></A> 
-<A HREF = \"b_tools_generated.html\"><IMG SRC = \"images/right.jpg\" BORDER=0></A> 
-</CENTER> 
-<BR><BR> 
-</BODY> 
-</HTML>";
+	return "<P><P><HR width = \"575\"><BR><CENTER> "
+"<A HREF = \"16_prefs.html\"><IMG SRC = \"images/left.jpg\" BORDER=0></A> "
+"<A HREF = \"index.html\"><IMG SRC = \"images/top.jpg\" BORDER=0></A> "
+"<A HREF = \"b_tools_generated.html\"><IMG SRC = \"images/right.jpg\" BORDER=0></A> "
+"</CENTER> "
+"<BR><BR> "
+"</BODY> "
+"</HTML>";
 }
 
 #if 0
@@ -1267,7 +1267,7 @@ status_t seq_generate_tool_docs()
 
 	/* First sort all the tools.
 	 */
-	vector<_HtmlFilterEntry>	tools;
+	std::vector<_HtmlFilterEntry>	tools;
 	AmToolRef					toolRef;
 	for (uint32 k = 0; (toolRef = AmGlobals().ToolAt(k)).IsValid(); k++) {
 		// READ TOOL BLOCK
@@ -1313,7 +1313,7 @@ status_t seq_generate_tool_docs()
 			tool->LongDescription(longDesc);
 			html << "<blockquote>\n";
 
-			vector<_HtmlFilterEntry>	filters;
+			std::vector<_HtmlFilterEntry>	filters;
 			build_tool_filter_list(tool, filters);
 			if (filters.size() == 1) {
 				html << "<em>Filters: ";
@@ -1351,31 +1351,31 @@ status_t seq_generate_tool_docs()
 
 static const char* tool_html_header()
 {
-	return "<HTML>
-<TITLE> Appendix B.  The Tools</TITLE> 
-<BODY bgcolor=b4b4b4> 
-<H1>Appendix B.  The Tools</H1>
-<HR width = \"575\"><BR>
-<EM><p>This appendix is generated each time it is accessed from the File -> Tool Guide menu item
-in a Sequitur song window.</p>
-
-<p>The images on this page are in PNG format.  If your browser does not display the images
-correctly, it is probably missing a PNG viewer plugin.</EM><BR>";
+	return "<HTML>"
+"<TITLE> Appendix B.  The Tools</TITLE> "
+"<BODY bgcolor=b4b4b4> "
+"<H1>Appendix B.  The Tools</H1>"
+"<HR width = \"575\"><BR>"
+"<EM><p>This appendix is generated each time it is accessed from the File -> Tool Guide menu item"
+"in a Sequitur song window.</p>"
+""
+"<p>The images on this page are in PNG format.  If your browser does not display the images"
+"correctly, it is probably missing a PNG viewer plugin.</EM><BR>";
 }
 
 static const char* tool_html_footer()
 {
-	return "</table><P><P><HR width = \"575\"><BR><CENTER> 
-<A HREF = \"a_filters_generated.html\"><IMG SRC = \"images/left.jpg\" BORDER=0></A> 
-<A HREF = \"index.html\"><IMG SRC = \"images/top.jpg\" BORDER=0></A> 
-<A HREF = \"c_controls.html\"><IMG SRC = \"images/right.jpg\" BORDER=0></A> 
-</CENTER> 
-<BR><BR> 
-</BODY> 
-</HTML>";
+	return "</table><P><P><HR width = \"575\"><BR><CENTER> "
+"<A HREF = \"a_filters_generated.html\"><IMG SRC = \"images/left.jpg\" BORDER=0></A> "
+"<A HREF = \"index.html\"><IMG SRC = \"images/top.jpg\" BORDER=0></A> "
+"<A HREF = \"c_controls.html\"><IMG SRC = \"images/right.jpg\" BORDER=0></A> "
+"</CENTER> "
+"<BR><BR> "
+"</BODY> "
+"</HTML>";
 }
 
-static void build_tool_filter_list(const AmTool* tool, vector<_HtmlFilterEntry>& list)
+static void build_tool_filter_list(const AmTool* tool, std::vector<_HtmlFilterEntry>& list)
 {
 	ArpASSERT(tool);
 	uint32					count = tool->CountPipelines();
@@ -1392,7 +1392,7 @@ static void build_tool_filter_list(const AmTool* tool, vector<_HtmlFilterEntry>&
 	sort(list.begin(), list.end(), sort_filter_entries);
 }
 
-static void tool_filter_list_add_mf(AmMultiFilter* filter, vector<_HtmlFilterEntry>& list)
+static void tool_filter_list_add_mf(AmMultiFilter* filter, std::vector<_HtmlFilterEntry>& list)
 {
 	ArpASSERT(filter);
 	if (filter->Flags()&AmFilterI::HIDE_PROPERTIES_FLAG) return;
@@ -1411,7 +1411,7 @@ static void tool_filter_list_add_mf(AmMultiFilter* filter, vector<_HtmlFilterEnt
 	}
 }
 
-static void tool_filter_list_add_f(AmFilterI* filter, vector<_HtmlFilterEntry>& list)
+static void tool_filter_list_add_f(AmFilterI* filter, std::vector<_HtmlFilterEntry>& list)
 {
 	ArpASSERT(filter);
 	if (filter->Flags()&AmFilterI::HIDE_PROPERTIES_FLAG) return;
@@ -1426,7 +1426,7 @@ static void tool_filter_list_add_f(AmFilterI* filter, vector<_HtmlFilterEntry>& 
 	list.push_back(_HtmlFilterEntry(filter->Name().String(), key.String(), 0, false) );
 }
 
-static void add_tool_filter_link(BString& html, vector<_HtmlFilterEntry>& list, uint32 index)
+static void add_tool_filter_link(BString& html, std::vector<_HtmlFilterEntry>& list, uint32 index)
 {
 	ArpASSERT(index < list.size() );
 	html << "<A HREF = \"a_filters_generated.html#Section_A_"

@@ -1,6 +1,6 @@
 /* SeqFilterPropertyWindows.cpp
  */
-#include <stdlib.h>
+#include <cstdlib>
 #include "ArpCollections/ArpPtrVector.h"
 #include "ArpKernel/ArpDebug.h"
 #include "ArpLayout/ArpBaseLayout.h"

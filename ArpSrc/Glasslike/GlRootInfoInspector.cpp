@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <interface/Window.h>
 #include <ArpInterface/ArpPrefs.h>
 #include <GlPublic/GlNode.h>

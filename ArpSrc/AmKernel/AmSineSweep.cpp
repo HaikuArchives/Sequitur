@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmEvents.h"
 #include "AmKernel/AmSineSweep.h"

@@ -26,7 +26,7 @@ static const char*		STRAINER_I_STR			= "strn_i";
 class GlNodePrivate
 {
 public:
-	vector<GlChain*>		chains;
+	std::vector<GlChain*>		chains;
 
 	GlNodePrivate()			{ }
 	~GlNodePrivate()		{ MakeEmpty(); }

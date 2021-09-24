@@ -16,9 +16,9 @@
 
 #include <Gehnaphore.h>
 
-#include <string.h>
-#include <time.h>
-#include <stdlib.h>
+#include <cstring>
+#include <ctime>
+#include <cstdlib>
 
 #define DEBUG_IMAGE_OPEN DEBUG
 #define DEBUG_IMAGE_LOAD 1

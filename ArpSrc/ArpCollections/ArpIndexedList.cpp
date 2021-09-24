@@ -9,10 +9,10 @@
  * <URL:http://www.angryredplanet.com/>.
  */
 
-#include <assert.h>
+#include <cassert>
 #include <malloc.h>
-#include <stdio.h>
-#include <math.h>
+#include <cstdio>
+#include <cmath>
 #include <support/ClassInfo.h>
 
 #ifndef ARPCOLLECTIONS__ARPINDEXEDLIST_H

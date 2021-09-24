@@ -113,7 +113,7 @@ private:
 	AmTrackWinPropertiesI& mTrackWinProps;
 	BMessenger			mTarget;
 	bool				mMenuBuilt;
-	vector<BMenuItem*>	mItems;
+	std::vector<BMenuItem*>	mItems;
 	
 	bool	StartBuildingItemList();
 	bool	AddNextItem(const AmSong* song);

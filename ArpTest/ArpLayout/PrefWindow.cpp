@@ -43,8 +43,8 @@
 #include <support/Autolock.h>
 
 #include <float.h>
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 
 #ifndef ARPKERNEL_ARPDEBUG_H
 #include <ArpKernel/ArpDebug.h>
@@ -376,10 +376,10 @@ PrefWindow::PrefWindow(const BMessenger& target,
 
 	if( root ) {
 		ArpD(cdb << ADH << "Before attach: win=" << Bounds()
-						<< ", root=" << root->Bounds() << endl);
+						<< ", root=" << root->Bounds() << std::endl);
 		this->AddChild(root);
 		ArpD(cdb << ADH << "After attach: win=" << Bounds()
-						<< ", root=" << root->Bounds() << endl);
+						<< ", root=" << root->Bounds() << std::endl);
 		
 		float w=100, h=00;
 		root->GetPreferredSize(&w, &h);
@@ -387,7 +387,7 @@ PrefWindow::PrefWindow(const BMessenger& target,
 		ResizeTo(w, h);
 		
 		ArpD(cdb << ADH << "After resize: win=" << Bounds()
-						<< ", root=" << root->Bounds() << endl);
+						<< ", root=" << root->Bounds() << std::endl);
 		
 		#if 0
 		printf("LAYOUT TREE:\n");
@@ -540,7 +540,7 @@ void PrefWindow::MessageReceived(BMessage *message)
 	if( message ) {
 		ArpMessage update;
 		update.what = 0;
-		ArpD(cdb << ADH << "Received message: " << *message << endl);
+		ArpD(cdb << ADH << "Received message: " << *message << std::endl);
 		switch(message->what) {
 			case COLOR_MSG:
 				show_color();
@@ -598,11 +598,11 @@ void PrefWindow::MessageReceived(BMessage *message)
 					strncat(&style[0],sitem->Text(),sizeof(style));
 					font.SetFamilyAndStyle(family,style);
 					ArpD(cdb << ADH << "old_font = "
-									<< old_font << endl);
+									<< old_font << std::endl);
 					ArpD(cdb << ADH << "new_font = "
-									<< font << endl);
+									<< font << std::endl);
 					if( font != old_font ) {
-						ArpD(cdb << ADH << "Sending update." << endl);
+						ArpD(cdb << ADH << "Sending update." << std::endl);
 						update.what = ARP_PREF_MSG;
 						update.SetFont(fontCat,&font);
 						if( revert_but ) revert_but->SetEnabled(true);
@@ -627,7 +627,7 @@ void PrefWindow::MessageReceived(BMessage *message)
 					float size = atof(font_size->Text());
 					font.SetSize(size > 1 ? size : 1);
 					if( font != old_font ) {
-						ArpD(cdb << ADH << "Sending update." << endl);
+						ArpD(cdb << ADH << "Sending update." << std::endl);
 						update.what = ARP_PREF_MSG;
 						update.SetFont(fontCat,&font);
 						if( revert_but ) revert_but->SetEnabled(true);

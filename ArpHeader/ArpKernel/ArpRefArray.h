@@ -72,7 +72,7 @@ public:
 	void SetSize(long new_size) {
 		T** new_array = NULL;
 		ArpD(cdb << ADH << "ArpRefArray: SetSize(" << new_size
-					<< "), oldsize=" << size << endl);
+					<< "), oldsize=" << size << std::endl);
 		if( new_size > 0 ) new_array = new T*[new_size];
 		long i = 0;
 		if( array && size ) {
@@ -92,10 +92,10 @@ public:
 		array = new_array;
 		size = new_size;
 		top = 0;
-		ArpD(cdb << ADH << "Resulting array:" << endl;
+		ArpD(cdb << ADH << "Resulting array:" << std::endl;
 				for( int j=0; j<size; j++ ) {
 					cdb << "Element " << j << " = 0x"
-						<< (void*)array[j] << endl;
+						<< (void*)array[j] << std::endl;
 				}
 			);
 	}
@@ -142,7 +142,7 @@ public:
 		while( index < 0 ) index += size;
 		ArpD(cdb << ADH << "Replace element " << index
 					<< ", was 0x" << ((void*)array[index])
-					<< ", now 0x" << ((void*)val) << endl);
+					<< ", now 0x" << ((void*)val) << std::endl);
 		if( val ) val->Ref();
 		if( array[index] != NULL ) array[index]->Deref();
 		array[index] = val;

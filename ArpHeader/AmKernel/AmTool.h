@@ -23,7 +23,7 @@
 #ifndef AMKERNEL_AMTOOL_H
 #define AMKERNEL_AMTOOL_H
 
-#include <vector.h>
+#include <vector>
 #include <interface/Menu.h>
 #include <interface/Bitmap.h>
 #include <storage/File.h>
@@ -65,13 +65,13 @@ public:
 								const BString& viewKey,
 								const BString& key,
 								const BMessage* config = NULL);
-	status_t			GetKey(	vector<BString> path,
+	status_t			GetKey(	std::vector<BString> path,
 								BString& outKey,
 								BMessage* config) const;
 	/* This method is assumed to be called on the root-level node.
 	 */
 	status_t			Key(uint32 index, uint32* count,
-							vector<BString>& outPath,
+							std::vector<BString>& outPath,
 							BString& outKey) const;
 	
 	status_t			Flatten(BMessage* into) const;
@@ -88,7 +88,7 @@ private:
 	BString			mKey;
 	BMessage		mConfig;
 	
-	vector<_AmToolViewNode> mChildren;
+	std::vector<_AmToolViewNode> mChildren;
 
 	const _AmToolViewNode*	FindChild(const BString& name) const;
 	_AmToolViewNode*		FindChild(const BString& name);
@@ -313,7 +313,7 @@ private:
 	bool					mIsValid;
 	mutable BString			mToolTip;
 	AmToolSeedI*			mCurrSeed;
-	vector<AmPipelineSegment> mPipelines;
+	std::vector<AmPipelineSegment> mPipelines;
 	BString					mShortDescription;
 	BString					mLongDescription;
 	uint32					mActions;
@@ -340,8 +340,8 @@ private:
 	 * order, in the MouseDown(), then released in the MouseUp();
 	 * This is support for ProcessSelections().
 	 */
-	vector<_AmInOutEntry>	mInEntries;
-	vector<_AmInOutEntry>	mOutEntries;
+	std::vector<_AmInOutEntry>	mInEntries;
+	std::vector<_AmInOutEntry>	mOutEntries;
 	void					CacheInOutEntries();
 	_AmInOutEntry*			InEntry(track_id tid);
 	_AmInOutEntry*			OutEntry(filter_id fid);	

@@ -73,9 +73,9 @@ void ArpRemoteTerminal::SetRemote(const BMessenger& dev)
 	device = dev;
 	if( device.IsValid() ) {
 		termhand = BMessenger(this);
-		ArpD(cdb << ADH << "ArpRemoteTerminal::SetRemote()" << endl);
+		ArpD(cdb << ADH << "ArpRemoteTerminal::SetRemote()" << std::endl);
 		ArpD(cdb << ADH << "Window = " << Window()
-					<< "valid = " << termhand.IsValid() << endl);
+					<< "valid = " << termhand.IsValid() << std::endl);
 		if( termhand.IsValid() ) {
 			SendAttachMsg();
 			if( manager ) SendEmulatorsMsg();
@@ -253,19 +253,19 @@ ArpRemoteTerminal::ColorIndex2ID(int32 idx, bool* isBackground)
 static int32 binsearch(const char** array, int32 size, const char* text)
 {
 	int32 curMin=0, curMax=size-1;
-	ArpD(cdb << ADH << "Bin search for " << text << endl);
+	ArpD(cdb << ADH << "Bin search for " << text << std::endl);
 	while( curMin <= curMax ) {
 		int32 mid = (curMin+curMax)/2;
 		ArpD(cdb << ADH << "Min=" << curMin << " Mid=" << mid
-					<< " Max=" << curMax << endl);
+					<< " Max=" << curMax << std::endl);
 		int32 cmp = strcmp(array[mid], text);
-		ArpD(cdb << ADH << "Compare with " << array[mid] << ": " << cmp << endl);
+		ArpD(cdb << ADH << "Compare with " << array[mid] << ": " << cmp << std::endl);
 		if( cmp > 0 ) curMax=mid-1;
 		else if ( cmp < 0 ) curMin=mid+1;
 		else return mid;
 	}
 	
-	ArpD(cdb << ADH << "*** Not found!" << endl);
+	ArpD(cdb << ADH << "*** Not found!" << std::endl);
 	
 	return -1;
 }
@@ -359,7 +359,7 @@ status_t ArpRemoteTerminal::GetConfiguration(BMessage* values) const
 	
 	try {
 		ArpD(cdb << ADH << "Getting settings; initial error = "
-						<< (msg.GetError()) << endl);
+						<< (msg.GetError()) << std::endl);
 
 		msg.SetInt32(ModeConfigName, TermMode());
 		msg.SetString(LFCharsConfigName, TermLFChars());
@@ -402,7 +402,7 @@ status_t ArpRemoteTerminal::GetConfiguration(BMessage* values) const
 		}
 		
 		ArpD(cdb << ADH << "Got settings; final error = "
-						<< (msg.GetError()) << endl);
+						<< (msg.GetError()) << std::endl);
 					
 		if( msg.GetError() == B_NO_ERROR ) {
 			*values = msg;
@@ -557,7 +557,7 @@ status_t ArpRemoteTerminal::Configure(ArpVectorI<BView*>& views)
 	
 	BMessage settings;
 	if( (err=GetConfiguration(&settings)) != B_NO_ERROR ) {
-		ArpD(cdb << ADH << "Error getting settings: " << err << endl);
+		ArpD(cdb << ADH << "Error getting settings: " << err << std::endl);
 		return err;
 	}
 	
@@ -575,7 +575,7 @@ void ArpRemoteTerminal::TermSendRemote(const ichar * d, size_t len)
 	if( device.IsValid() ) {
 		BMessage msg(TERM_XFER_TEXT_MSG);
 		msg.AddData("text",B_ASCII_TYPE,d,len);
-		ArpD(cdb << ADH << "ArpTerminal::TermSendRemote: " << msg << endl);
+		ArpD(cdb << ADH << "ArpTerminal::TermSendRemote: " << msg << std::endl);
 		device.SendMessage(&msg);
 	}
 }
@@ -598,12 +598,12 @@ void ArpRemoteTerminal::TermEmulationChanged(const char* name)
 
 void ArpRemoteTerminal::TermReset(bool hard)
 {
-	ArpD(cdb << ADH << "ArpRemoteTerminal: Reset hard=" << hard << endl);
+	ArpD(cdb << ADH << "ArpRemoteTerminal: Reset hard=" << hard << std::endl);
 	inherited::TermReset(hard);
 	if( HaveWatchers() ) {
 		BMessage config;
 		if( GetConfiguration(&config) == B_NO_ERROR ) {
-			ArpD(cdb << ADH << "Reporting change: " << config << endl);
+			ArpD(cdb << ADH << "Reporting change: " << config << std::endl);
 			ReportChange(&config);
 		}
 	}
@@ -611,7 +611,7 @@ void ArpRemoteTerminal::TermReset(bool hard)
 
 void ArpRemoteTerminal::MessageReceived(BMessage *message)
 {
-	ArpD(cdb << ADH << "ArpRemoteTerminal::MessageReceived: " << *message << endl);
+	ArpD(cdb << ADH << "ArpRemoteTerminal::MessageReceived: " << *message << std::endl);
 	switch( message->what ) {
 	
 		case TERM_XFER_TEXT_MSG: {
@@ -683,7 +683,7 @@ void ArpRemoteTerminal::MessageReceived(BMessage *message)
 			if( HaveWatchers() ) {
 				BMessage config;
 				if( GetConfiguration(&config) == B_NO_ERROR ) {
-					ArpD(cdb << ADH << "Reporting change: " << config << endl);
+					ArpD(cdb << ADH << "Reporting change: " << config << std::endl);
 					ReportChange(&config);
 				}
 			}
@@ -778,9 +778,9 @@ void ArpRemoteTerminal::AttachedToWindow(void)
 {
 	inherited::AttachedToWindow();
 	termhand = BMessenger(this);
-	ArpD(cdb << ADH << "ArpRemoteTerminal::AttachedToWindow()" << endl);
+	ArpD(cdb << ADH << "ArpRemoteTerminal::AttachedToWindow()" << std::endl);
 	ArpD(cdb << ADH << "Window = " << Window()
-				<< "valid = " << termhand.IsValid() << endl);
+				<< "valid = " << termhand.IsValid() << std::endl);
 	SendAttachMsg();
 }
 

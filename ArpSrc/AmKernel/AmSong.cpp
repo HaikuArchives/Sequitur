@@ -4,8 +4,8 @@
 
 #include "AmKernel/AmSong.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <support/Autolock.h>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmEvents.h"
@@ -132,7 +132,7 @@ private:
 class _AmPulseFilters
 {
 public:
-	vector<AmFilterHolderI*>		holders;
+	std::vector<AmFilterHolderI*>		holders;
 
 	_AmPulseFilters();
 	~_AmPulseFilters();
@@ -612,7 +612,7 @@ static void straighten_out_signatures(AmPhrase& oldSignatures)
 	AmSignature*	prevSig = NULL;
 	currentSig.Set(0, 1, 4, 4);
 	AmTime			sigLength = currentSig.Duration();
-	vector<AmSignature*>	removedSigs;
+	std::vector<AmSignature*>	removedSigs;
 	while (n) {
 		nextN = n->next;
 		AmSignature*	sig = dynamic_cast<AmSignature*>( n->Event() );
@@ -838,7 +838,7 @@ status_t AmSong::OffsetSignatures(AmTime start, AmTime offset)
 	/* Offset everyone and caching the starting info.
 	 */
 	uint32				beats = 4, beatValue = 4;
-	vector<AmEvent*>	moved;
+	std::vector<AmEvent*>	moved;
 	AmNode*				n = mSignatures.HeadNode();
 	if (n) {
 		AmSignature*	sig = dynamic_cast<AmSignature*>(n->Event());

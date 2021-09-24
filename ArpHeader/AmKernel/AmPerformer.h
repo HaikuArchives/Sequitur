@@ -197,7 +197,7 @@ private:
 	void ClearNewEvents();
 	int32 RunPerformance();
 	
-	const bool mContinuousRunning;
+	bool mContinuousRunning;
 	
 	// general data accessed by read thread and callers.
 	

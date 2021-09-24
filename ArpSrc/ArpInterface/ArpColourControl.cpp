@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <interface/StringView.h>
 #include <ArpInterface/ArpPrefs.h>
 #include <ArpInterface/ArpColourControl.h>

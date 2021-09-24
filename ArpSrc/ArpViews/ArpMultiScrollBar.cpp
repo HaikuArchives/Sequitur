@@ -1,7 +1,7 @@
 /* ArpMultiScrollBar.cpp
  */
-#include <assert.h>
-#include <stdio.h>
+#include <cassert>
+#include <cstdio>
 #include <interface/Window.h>
 #include "ArpViews/ArpMultiScrollBar.h"
 

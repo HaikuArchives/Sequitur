@@ -1,7 +1,7 @@
 /* SequiturDefs.cpp
  */
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <InterfaceKit.h>
 #include "AmPublic/AmPrefsI.h"
 #include "Sequitur/SequiturDefs.h"

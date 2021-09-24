@@ -51,7 +51,7 @@
 #include <storage/NodeMonitor.h>
 #endif
 
-#include <stdlib.h>
+#include <cstdlib>
 
 ArpMOD();
 
@@ -100,18 +100,18 @@ ArpConfigureFile& ArpConfigureFile::operator=(const ArpConfigureFile& o)
 
 	StartWatcher();
 	
-	ArpD(cdb << ADH << "Copied ArpConfigureFile:" << endl);
+	ArpD(cdb << ADH << "Copied ArpConfigureFile:" << std::endl);
 	ArpD(cdb << ADH << "  src num configs = " << o.mConfigs->size()
-					<< ", names = " << o.mNames->size() << endl);
+					<< ", names = " << o.mNames->size() << std::endl);
 	ArpD(cdb << ADH << "  new num configs = " << mConfigs->size()
-					<< ", names = " << mNames->size() << endl);
+					<< ", names = " << mNames->size() << std::endl);
 	return *this;
 }
 
 status_t ArpConfigureFile::AddConfig(ArpConfigurableI* obj, const char* nm)
 {
 	ArpD(cdb << ADH << "Adding configurable: obj=" << obj
-				<< ", name=" << (nm ? nm : "<NULL>") << endl);
+				<< ", name=" << (nm ? nm : "<NULL>") << std::endl);
 	mConfigs->push_back(obj);
 	mNames->push_back(BString(nm));
 	return B_OK;
@@ -196,21 +196,21 @@ status_t ArpConfigureFile::SetFile(const char* path, const char* name,
 	if( err != B_OK ) return err;
 	
 	ArpD(cdb << ADH << "ArpConfigureFile: base path = "
-					<< filename.Path() << endl);
+					<< filename.Path() << std::endl);
 	if( path ) {
 		err = filename.Append(path);
 		if( err != B_OK ) return err;
 		err = create_directory(filename.Path(), 0777);
 		if( err != B_OK ) return err;
 		ArpD(cdb << ADH << "ArpConfigureFile: added path = "
-						<< filename.Path() << endl);
+						<< filename.Path() << std::endl);
 	}
 	
 	err = filename.Append(name);
 	if( err != B_OK ) return err;
 	
 	ArpD(cdb << ADH << "ArpConfigureFile: full path = "
-					<< filename.Path() << endl);
+					<< filename.Path() << std::endl);
 	BEntry entry(filename.Path());
 	err = entry.InitCheck();
 	if( err != B_OK ) return err;
@@ -225,7 +225,7 @@ status_t ArpConfigureFile::SetFile(const char* path, const char* name,
 status_t ArpConfigureFile::SetFile(const char* name)
 {
 	ArpD(cdb << ADH << "ArpConfigureFile: setting file from path = "
-					<< name << endl);
+					<< name << std::endl);
 					
 	BEntry entry(&mFile);
 	if( entry.InitCheck() != B_OK ) return entry.InitCheck();
@@ -235,13 +235,13 @@ status_t ArpConfigureFile::SetFile(const char* name)
 	if( err != B_OK ) return err;
 	
 	ArpD(cdb << ADH << "ArpConfigureFile: orig path = "
-					<< path << endl);
+					<< path << std::endl);
 	
 	err = path.InitCheck();
 	if( err == B_OK ) err = path.GetParent(&path);
 	if( err == B_OK ) err = path.Append(name);
 	ArpD(cdb << ADH << "ArpConfigureFile: renamed path = "
-					<< path.Path() << endl);
+					<< path.Path() << std::endl);
 	
 	if( err != B_OK ) return err;
 	
@@ -302,7 +302,7 @@ status_t ArpConfigureFile::WriteSettings(const BMessage* from) const
 	if( from == 0 ) return B_BAD_VALUE;
 	
 	ArpD(cdb << ADH << "ArpConfigureFile: Writing settings with BMessage: "
-					<< *from << endl);
+					<< *from << std::endl);
 	
 	if( mFile == entry_ref() ) return B_NO_INIT;
 	
@@ -314,19 +314,19 @@ status_t ArpConfigureFile::WriteSettings(const BMessage* from) const
 	
 	BFile file(&entry, B_READ_WRITE | B_CREATE_FILE | B_ERASE_FILE);
 	err = file.InitCheck();
-	ArpD(cdb << ADH << "Result from creating file: " << err << endl);
+	ArpD(cdb << ADH << "Result from creating file: " << err << std::endl);
 	if( err ) return err;
 	
 	if( (err=from->Flatten(&file)) ) return err;
 	
-	ArpD(cdb << ADH << "Result from writing settings: " << err << endl);
+	ArpD(cdb << ADH << "Result from writing settings: " << err << std::endl);
 	
 	if( mMimeType != "" ) {
-		ArpD(cdb << ADH << "Writing MIME type: " << MimeType() << endl);
+		ArpD(cdb << ADH << "Writing MIME type: " << MimeType() << std::endl);
 		BNodeInfo info(&file);
 		if( (err=info.InitCheck()) ) return err;
 		err = info.SetType(mMimeType.String());
-		ArpD(cdb << ADH << "Result from writing mime type: " << err << endl);
+		ArpD(cdb << ADH << "Result from writing mime type: " << err << std::endl);
 		if( err ) return err;
 	}
 	
@@ -337,13 +337,13 @@ status_t ArpConfigureFile::WriteSettings() const
 {
 	BMessage settings;
 	
-	ArpD(cdb << ADH << "ArpConfigureFile: Writing settings..." << endl);
+	ArpD(cdb << ADH << "ArpConfigureFile: Writing settings..." << std::endl);
 	
 	status_t err;
 	if( (err=MakeSettings(&settings)) ) return err;
 	
 	ArpD(cdb << ADH << "ArpConfigureFile: Retrieved settings: "
-					<< settings << endl);
+					<< settings << std::endl);
 	
 	return WriteSettings(&settings);
 }
@@ -406,7 +406,7 @@ void ArpConfigureFile::MessageReceived(BMessage* message)
 	if( !message ) return;
 	
 	ArpD(cdb << ADH << "ArpConfigureFile received message: "
-					<< *message << endl);
+					<< *message << std::endl);
 	
 	if( message->what == B_NODE_MONITOR && mWatcher.IsValid() ) {
 	
@@ -482,9 +482,9 @@ status_t ArpConfigureFile::StartWatcher(void)
 {
 	StopWatcher();
 	
-	ArpD(cdb << ADH << "Starting watcher..." << endl);
+	ArpD(cdb << ADH << "Starting watcher..." << std::endl);
 	if( mFile != entry_ref() && mWatcher.IsValid() ) {
-		ArpD(cdb << ADH << "On file: " << Path().Path() << endl);
+		ArpD(cdb << ADH << "On file: " << Path().Path() << std::endl);
 		BEntry entry(&mFile);
 		if( entry.InitCheck() != B_OK ) return entry.InitCheck();
 		status_t err = entry.GetNodeRef(&mNode);
@@ -492,7 +492,7 @@ status_t ArpConfigureFile::StartWatcher(void)
 		
 		BLooper* looper=0;
 		mWatcher.Target(&looper);
-		ArpD(cdb << ADH << "Target is: " << looper << endl);
+		ArpD(cdb << ADH << "Target is: " << looper << std::endl);
 		if( looper == 0 ) {
 			mNode = node_ref();
 			return B_ERROR;
@@ -501,7 +501,7 @@ status_t ArpConfigureFile::StartWatcher(void)
 		looper->AddHandler(this);
 		
 		err = watch_node(&mNode, B_WATCH_ALL, this);
-		ArpD(cdb << ADH << "Result from watch_node(): " << err << endl);
+		ArpD(cdb << ADH << "Result from watch_node(): " << err << std::endl);
 		if( err != B_OK ) {
 			looper->RemoveHandler(this);
 			mNode = node_ref();
@@ -514,7 +514,7 @@ status_t ArpConfigureFile::StartWatcher(void)
 
 status_t ArpConfigureFile::StopWatcher(void)
 {
-	ArpD(cdb << ADH << "Stopping watcher..." << endl);
+	ArpD(cdb << ADH << "Stopping watcher..." << std::endl);
 	status_t err = B_NO_ERROR;
 	if( mNode != node_ref() ) {
 		err = watch_node(&mNode, B_STOP_WATCHING, this);

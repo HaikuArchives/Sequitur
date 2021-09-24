@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <experimental/ColumnListView.h>
 #include <experimental/ColumnTypes.h>
 #include <StorageKit.h>
@@ -78,8 +78,8 @@ public:
 	virtual ~GlMidiBindingRow();
 
 	GlMidiBinding		binding;
-	vector<BString16>	rootNames;
-	vector<BString16>	paramNames;
+	std::vector<BString16>	rootNames;
+	std::vector<BString16>	paramNames;
 
 	virtual bool		HasLatch() const		{ return false; }
 
