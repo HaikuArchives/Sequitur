@@ -226,7 +226,7 @@ public:
 	
 	// Similarily, assign new text to the string.
 	
-	void Set(const ichar * inText, long inLength=-1);
+	void Set(const ichar * inText, int32 inLength=-1);
 	
 	// Search for a character in the string.
 	
@@ -240,9 +240,9 @@ public:
 	
 	// These two are not yet implemented.
 	
-	ArpString& Insert(const ArpString& inArpString, long inOffset);
+	ArpString& Insert(const ArpString& inArpString, int32 inOffset);
 	ArpString& Replace(const ArpString& inArpString,
-						long inOffset, long inLength);
+						int32 inOffset, int32 inLength);
 
 	// Old ichar compatibility.
 	

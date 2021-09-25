@@ -40,7 +40,7 @@ class ArpMultiScrollBar : public BScrollBar
 {
 public:
 	ArpMultiScrollBar(	BRect frame, const char* name, BView* target,
-						long min, long max, orientation direction);
+						int32 min, int32 max, orientation direction);
 	virtual ~ArpMultiScrollBar();
 		
 	virtual void ValueChanged(float newValue);

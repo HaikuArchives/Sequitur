@@ -617,7 +617,7 @@ void ArpRemoteTerminal::MessageReceived(BMessage *message)
 		case TERM_XFER_TEXT_MSG: {
 #if 1
 			const ichar* txt = NULL;
-			long len=0;
+			int32 len=0;
 			int32 idx=0;
 			while( message->FindData("text", B_ASCII_TYPE, idx,
 									 (const void**)&txt, &len) == B_NO_ERROR ) {
@@ -633,7 +633,7 @@ void ArpRemoteTerminal::MessageReceived(BMessage *message)
 			BMessageQueue* queue = Window()->MessageQueue();
 			while( curmsg ) {
 				ichar* txt = NULL;
-				long len=0;
+				int32 len=0;
 				int32 idx=0;
 				while( curmsg->FindData("text", B_ASCII_TYPE, idx,
 									  &txt, &len) == B_NO_ERROR ) {

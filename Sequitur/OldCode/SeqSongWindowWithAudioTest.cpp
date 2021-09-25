@@ -1934,7 +1934,7 @@ void SeqSongWindow::InitializeControlLayer(float top, float height)
 	if (stv) mControlBg->AddChild(stv);
 }
 
-long SeqSongWindow::InitializeMeasureLayer(float top, float bottom)
+int32 SeqSongWindow::InitializeMeasureLayer(float top, float bottom)
 {
 	BRect				b = Bounds();
 	SeqMeasureControl*	ctrl;
@@ -1948,7 +1948,7 @@ long SeqSongWindow::InitializeMeasureLayer(float top, float bottom)
 	return 0;
 }
 
-long SeqSongWindow::InitializeTrackLayer(float top)
+int32 SeqSongWindow::InitializeTrackLayer(float top)
 {
 	BRect		bounds = Bounds();
 	BRect		rect;
@@ -1981,7 +1981,7 @@ long SeqSongWindow::InitializeTrackLayer(float top)
 		delete inputPanel;
 		delete arrangePanel;
 		delete outputPanel;
-		return (long)top;
+		return (int32)top;
 	}
 	AddChild(headerPanel);
 	splitter = NewSplitter(headerPanel->Frame(), inputPanel->Frame(), B_FOLLOW_LEFT | B_FOLLOW_TOP_BOTTOM, B_VERTICAL );
@@ -2857,7 +2857,7 @@ void SeqSongWindow::HandleContextMenuFor(AmTrack *track, AmTime time)
 	BPopUpMenu	*m = BuildContextMenuFor(track);
 	if (m == 0) return;
 	
-	ulong		buttons;
+	uint32		buttons;
 	BPoint		where;
 	backgroundView->GetMouse(&where, &buttons, true);
 	BMenuItem	*item;	
@@ -3166,7 +3166,7 @@ void _SongMeasureControl::MouseDown(BPoint pt)
 	 * button, so I shouldn't handle that.
 	 */
 	BPoint		where;
-	ulong		buttons;
+	uint32		buttons;
 	GetMouse(&where, &buttons, false);
 	if (buttons&B_SECONDARY_MOUSE_BUTTON) return;
 	/* User's can't change the selection if they start outside of the

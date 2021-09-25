@@ -160,7 +160,7 @@ bool ArpEmulator::EmulateToRemote(BMessage* msg)
 
 enum { NUMPAD_FLAG = 0x20000 };
 
-const long ArpEmulator::keymap[KEYMAP_SIZE] = {
+const int32 ArpEmulator::keymap[KEYMAP_SIZE] = {
 	/* 0x0n*/
 	ArpEmulator::KEY_ESCAPE, 0,
 	ArpEmulator::KEY_F1, ArpEmulator::KEY_F2, ArpEmulator::KEY_F3,

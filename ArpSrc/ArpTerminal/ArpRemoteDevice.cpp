@@ -499,7 +499,7 @@ int32 ArpPTYRemote::runReader(void)
 					<< find_thread(NULL) << std::endl);
 	receive("Connected.\r\n");
 	for(;;) {
-		long len = 0;
+		int32 len = 0;
 		status_t ret = EINTR;
 		if( readThread >= 0 ) {
 			ArpD(cdb << ADH << "ArpPTYRemote: Ready to receive." << std::endl);

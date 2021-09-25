@@ -2583,7 +2583,7 @@ void AmLyric::RealDelete()
 * class AmKeyPressure
 ***************************************************************/
 
-AmKeyPressure::AmKeyPressure(uint8 noteArg, uint8 pressureArg, ulong timeArg)
+AmKeyPressure::AmKeyPressure(uint8 noteArg, uint8 pressureArg, uint32 timeArg)
 		: AmEvent(timeArg) {
 	note = noteArg;
 	pressure = pressureArg;

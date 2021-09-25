@@ -61,7 +61,7 @@ class ArpHostName {
 public:
 
 	ArpHostName(const char* host = NULL, int port = 0);
-	ArpHostName(ulong addr, int port);
+	ArpHostName(uint32 addr, int port);
 	ArpHostName(const ArpHostName& o);
 	~ArpHostName();
 	
@@ -82,7 +82,7 @@ protected:
 	void GrabHostEnt(const struct hostent& he);
 	
 	ArpString name;
-	ulong ipaddr;				// host order
+	uint32 ipaddr;				// host order
 	struct hostent host;
 	struct sockaddr_in sockaddr;
 	status_t error;

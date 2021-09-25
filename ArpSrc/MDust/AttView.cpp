@@ -4,7 +4,7 @@
 #include "MDust/ExBitmapCache.h"
 #include "MDust/MStar.h"
 
-static long drawThread(AttView*);
+static int32 drawThread(AttView*);
 
 AttView::AttView(BRect R)
 	: BView(R, "attview", B_FOLLOW_ALL, B_WILL_DRAW | B_NAVIGABLE),
@@ -123,7 +123,7 @@ void AttView::DrawOn(BRect updateRect, BView *view)
 
 
 
-static long drawThread(AttView* mv)
+static int32 drawThread(AttView* mv)
 {
 	uint32	step = mv->Step(), nextStep = 0;
 	while(!(mv->QuitPending()))

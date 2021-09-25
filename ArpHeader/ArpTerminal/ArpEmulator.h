@@ -319,7 +319,7 @@ protected:
 
 private:
 	enum { KEYMAP_SIZE = 0x80 };
-	static const long keymap[KEYMAP_SIZE];
+	static const int32 keymap[KEYMAP_SIZE];
 
 	static const char* codes_00_20[];
 	static const char* codes_7f_9f[];

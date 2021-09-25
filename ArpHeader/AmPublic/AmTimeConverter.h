@@ -31,7 +31,7 @@
  *
  * 10.20.98		hackborn
  * Did some minor code clean-up: Switched the old-style MIDI time datatypes
- * (ulong) to the new AmTime.  Renamed member variables to the new-style
+ * (uint32) to the new AmTime.  Renamed member variables to the new-style
  * m- prefix.
  *
  * 08.10.98		hackborn

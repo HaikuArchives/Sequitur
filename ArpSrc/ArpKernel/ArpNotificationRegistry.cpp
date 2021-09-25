@@ -50,7 +50,7 @@ int32 ArpNotificationRegistry::AddDependent(BHandler *v)
 	ArpNotificationType		*ade;
 	int32				count = 0;
 
-	for (long k=0; (ade = (ArpNotificationType*)entries.ItemAt(k)) != NULL; k++)
+	for (int32 k=0; (ade = (ArpNotificationType*)entries.ItemAt(k)) != NULL; k++)
 		if (ade->AddDependent(v)) count++;
 	return count;
 }
@@ -60,7 +60,7 @@ int32 ArpNotificationRegistry::AddDependent(int32 type, BHandler *v)
 	ArpNotificationType		*ade;
 	int32				count = 0;
 
-	for (long k=0; (ade = (ArpNotificationType*)entries.ItemAt(k)) != NULL; k++) {
+	for (int32 k=0; (ade = (ArpNotificationType*)entries.ItemAt(k)) != NULL; k++) {
 		if (ade->Type() == type) {
 			if (ade->AddDependent(v)) count++;
 		}
@@ -71,7 +71,7 @@ int32 ArpNotificationRegistry::AddDependent(int32 type, BHandler *v)
 int32 ArpNotificationRegistry::RemoveDependent(BHandler *v) {
 	ArpNotificationType		*ade;
 	int32				count = 0;
-	for (long k=0; (ade = (ArpNotificationType*)entries.ItemAt(k)) != NULL; k++)
+	for (int32 k=0; (ade = (ArpNotificationType*)entries.ItemAt(k)) != NULL; k++)
 		if (ade->RemoveDependent(v)) count++;
 	return(count);
 }
@@ -79,7 +79,7 @@ int32 ArpNotificationRegistry::RemoveDependent(BHandler *v) {
 int32 ArpNotificationRegistry::RemoveDependent(int32 type, BHandler *v) {
 	ArpNotificationType		*ade;
 	int32				count = 0;
-	for (long k=0; (ade = (ArpNotificationType*)entries.ItemAt(k)) != NULL; k++)
+	for (int32 k=0; (ade = (ArpNotificationType*)entries.ItemAt(k)) != NULL; k++)
 		if (ade->Type() == type) {
 			if (ade->RemoveDependent(v)) count++;
 		}
@@ -90,7 +90,7 @@ void ArpNotificationRegistry::NotifyDependents(int32 type, BMessage *m,
 											   bool deliverAsynchronously)
 {
 	ArpNotificationType		*ade;
-	for (long k=0; (ade = (ArpNotificationType*)entries.ItemAt(k)) != 0; k++)
+	for (int32 k=0; (ade = (ArpNotificationType*)entries.ItemAt(k)) != 0; k++)
 		if (ade->Type() == type) ade->NotifyDependents(m, deliverAsynchronously);
 }
 
@@ -151,7 +151,7 @@ void ArpNotificationType::NotifyDependents(BMessage *msg, bool deliverAsynchrono
 {
 	BHandler	*h;
 	BLooper		*looper;
-	for (long i=0; (h = (BHandler*)dependents.ItemAt(i)) != 0; i++) {
+	for (int32 i=0; (h = (BHandler*)dependents.ItemAt(i)) != 0; i++) {
 		if (((looper = h->Looper()) != 0)
 				&& (looper->Lock())) {
 			// FIX: need to send out the message, and let the views

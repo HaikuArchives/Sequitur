@@ -226,7 +226,7 @@ static const float scl_backgrounds[TERM_NUMCOLORS] = {
 	1										// extra
 };
 
-const ulong ArpCoreTerminal::init_foregrounds[NUM_INITCOLORS] = {
+const uint32 ArpCoreTerminal::init_foregrounds[NUM_INITCOLORS] = {
 	((0x00)<<16) | ((0x00)<<8) | 0x00,      // the default foreground
 	((0x40)<<16) | ((0x40)<<8) | 0x40,      // black
 	((0x40)<<16) | ((0x00)<<8) | 0x00,      // red
@@ -238,7 +238,7 @@ const ulong ArpCoreTerminal::init_foregrounds[NUM_INITCOLORS] = {
 	((0x00)<<16) | ((0x00)<<8) | 0x00       // white
 };
 
-const ulong ArpCoreTerminal::init_backgrounds[NUM_INITCOLORS] = {
+const uint32 ArpCoreTerminal::init_backgrounds[NUM_INITCOLORS] = {
 #if 1 // this is good for 8-bit
 	((0xe0)<<16) | ((0xe0)<<8) | 0xe0,      // the default foreground
 	((0xe0)<<16) | ((0xe0)<<8) | 0xe0,      // black
@@ -268,7 +268,7 @@ ichar ArpCoreTerminal::defaultTranslation[translationLength];
 const bool ArpCoreTerminal::outputecho = true;
 #endif
 
-ArpCoreTerminal::ArpCoreTerminal(BRect frame, const char* name, ulong resizeMode, ulong flags)
+ArpCoreTerminal::ArpCoreTerminal(BRect frame, const char* name, uint32 resizeMode, uint32 flags)
 	: BView(frame, name, resizeMode,
 			  flags|B_WILL_DRAW|B_FRAME_EVENTS),
 	  curMode(0),

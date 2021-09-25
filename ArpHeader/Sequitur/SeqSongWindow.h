@@ -173,8 +173,8 @@ private:
 
 	void		AddViews();
 	void		InitializeControlLayer(float top, float height);
-	long		InitializeMeasureLayer(float, float);
-	long		InitializeTrackLayer(float);
+	int32		InitializeMeasureLayer(float, float);
+	int32		InitializeTrackLayer(float);
 	BView*		NewHeaderPanel(BRect frame) const;
 	BView*		NewInputPanel(BRect frame) const;
 	/* ARGH!  This can't be const or else the command to

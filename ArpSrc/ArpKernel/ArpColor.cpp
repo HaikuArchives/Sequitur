@@ -38,7 +38,7 @@ ArpColor::ArpColor(uchar red,uchar green,uchar blue,uchar alpha)
 	color.alpha = alpha;
 };
 
-ArpColor::ArpColor(long int mycol)
+ArpColor::ArpColor(int32 mycol)
 {
 	color.red = (mycol>>16)&0xff;
 	color.green = (mycol>>8)&0xff;

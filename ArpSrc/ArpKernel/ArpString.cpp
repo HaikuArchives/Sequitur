@@ -288,7 +288,7 @@ ArpString::ArpString(int32 value, int32 radix)
 	fData = NULL;
 	fSize = 0;
 	
-	ArpDL("core", 3, cdb << ADH << "Making ArpString for long: " << value << std::endl);
+	ArpDL("core", 3, cdb << ADH << "Making ArpString for int32: " << value << std::endl);
 
 	ichar		tempArpString[16];
 	sprintf((char*)tempArpString, "%ld", value);
@@ -627,7 +627,7 @@ operator += (ArpString& o, ichar add)
 ArpString &
 operator += (ArpString& o, int32 add)
 {
-	ArpDL("core", 3, cdb << ADH << "Add long to ArpString: " << add << std::endl);
+	ArpDL("core", 3, cdb << ADH << "Add int32 to ArpString: " << add << std::endl);
 
 	ichar		tempArpString[16];
 	sprintf((char *)tempArpString, "%ld", add);
@@ -750,7 +750,7 @@ ArpString::UnlockBuffer(int32 length)
 //BDS
 //	Insert a string at the specified offset
 ArpString &
-ArpString::Insert(const ArpString& inStr, long inOffset)
+ArpString::Insert(const ArpString& inStr, int32 inOffset)
 {
 	ASSERT(0);
 	return *this;
@@ -781,8 +781,8 @@ ArpString::Insert(const ArpString& inStr, long inOffset)
 //BDS
 //	Replace the ichars defined by inOffset and inLength by inArpString
 ArpString &
-ArpString::Replace(const ArpString& inStr,long inOffset,
-					long inLength)
+ArpString::Replace(const ArpString& inStr,int32 inOffset,
+					int32 inLength)
 {
 	ASSERT(0);
 	return *this;
@@ -850,7 +850,7 @@ ArpString::ROffsetOf(ichar inChar) const
 
 // Set the contents to the text defined by inArpString and inLength
 void
-ArpString::Set(const ichar * inText, long inLength)
+ArpString::Set(const ichar * inText, int32 inLength)
 {
 	if( inLength < 0 && inText )
 		inLength = strlen( (const char*)inText );
