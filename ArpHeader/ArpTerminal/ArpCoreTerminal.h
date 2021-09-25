@@ -523,8 +523,8 @@ private:
 	enum {
 		NUM_INITCOLORS = 9
 	};
-	static const ulong init_foregrounds[NUM_INITCOLORS];
-	static const ulong init_backgrounds[NUM_INITCOLORS];
+	static const uint32 init_foregrounds[NUM_INITCOLORS];
+	static const uint32 init_backgrounds[NUM_INITCOLORS];
 
 	/* ------------------------------------------------------------
 	   INSTANCE DATA SECTION

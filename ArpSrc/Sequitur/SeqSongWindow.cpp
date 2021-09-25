@@ -1924,7 +1924,7 @@ void SeqSongWindow::InitializeControlLayer(float top, float height)
 	if (stv) mControlBg->AddChild(stv);
 }
 
-long SeqSongWindow::InitializeMeasureLayer(float top, float bottom)
+int32 SeqSongWindow::InitializeMeasureLayer(float top, float bottom)
 {
 	BRect				b = Bounds();
 	SeqMeasureControl*	ctrl;
@@ -1938,7 +1938,7 @@ long SeqSongWindow::InitializeMeasureLayer(float top, float bottom)
 	return 0;
 }
 
-long SeqSongWindow::InitializeTrackLayer(float top)
+int32 SeqSongWindow::InitializeTrackLayer(float top)
 {
 	BRect		bounds = Bounds();
 	BRect		rect;
@@ -1977,7 +1977,7 @@ long SeqSongWindow::InitializeTrackLayer(float top)
 		delete inputPanel;
 		delete arrangePanel;
 		delete outputPanel;
-		return (long)top;
+		return (int32)top;
 	}
 	AddChild(headerPanel);
 	splitter = NewSplitter(headerPanel->Frame(), inputPanel->Frame(), SPLITTER_1_STR, B_FOLLOW_LEFT | B_FOLLOW_TOP_BOTTOM, B_VERTICAL );

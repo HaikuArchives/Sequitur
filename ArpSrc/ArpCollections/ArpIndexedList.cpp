@@ -107,7 +107,7 @@ ArpIndexedNode* ArpIndexedList::HeadNode()
 }
 
 status_t ArpIndexedList::ChainHeadFrom(int32 index, ArpIndexedNode **node) {
-	long hash = HashForIndex(index);
+	int32 hash = HashForIndex(index);
 
 	// We used to hash to 1 minus the hash of the index, but we've removed that.
 	// If clients want that, they can send it themselves.
@@ -129,7 +129,7 @@ Print();
 
 int32 ArpIndexedList::IndexHeadFrom(int32 index)
 {
-	long hash = HashForIndex(index);
+	int32 hash = HashForIndex(index);
 	if (! HashExists(hash)) return B_ERROR;
 	return hash * ChainIndexes();
 }
@@ -262,16 +262,16 @@ void ArpIndexedList::GrowToAtLeast(int32 countArg)
 	
 	if (chain == 0) {
 		chain = (ArpIndexedNode**)malloc(sizeof(ArpIndexedNode)*count+2);
-		for (long i=0; i<count; i++) chain[i] = 0;
+		for (int32 i=0; i<count; i++) chain[i] = 0;
 
 	} else {
 		ArpIndexedNode	**tmp;
 		tmp = (ArpIndexedNode**)malloc(sizeof(ArpIndexedNode)*count+2);
-		for (long i=0; i<count; i++) tmp[i] = 0;
+		for (int32 i=0; i<count; i++) tmp[i] = 0;
 		if (oldcount < count) {
-			for (long i=0; i<oldcount; i++) tmp[i] = chain[i];
+			for (int32 i=0; i<oldcount; i++) tmp[i] = chain[i];
 		} else {
-			for (long i=0; i<count; i++) tmp[i] = chain[i];
+			for (int32 i=0; i<count; i++) tmp[i] = chain[i];
 		}
 		free(chain);
 		chain = tmp;
@@ -330,7 +330,7 @@ void ArpIndexedList::CopyTo(ArpIndexedList *copy)
 {
 	copy->GrowToAtLeast(count);	
 
-	for (long k=0; k<count; k++) {
+	for (int32 k=0; k<count; k++) {
 		if (chain[k] != 0) copy->chain[k] = chain[k]->Copy();
 	}
 }
@@ -355,7 +355,7 @@ void ArpIndexedList::Print()
 		return;
 	}
 
-	for(long i=0; i<count; i++) {
+	for(int32 i=0; i<count; i++) {
 		printf("Chain %d", (int)i);
 		if (chain[i] == NULL) {
 			printf("\tNULL\n");
@@ -395,11 +395,11 @@ void ArpIndexedList::SyncTailNode()
 // but in the case of the adding functions, they need to grow to that size.
 int32 ArpIndexedList::HashForIndex(int32 index)
 {
-	long hash = (long)floor(index / chainIndexes);
+	int32 hash = (int32)floor(index / chainIndexes);
 	if (hash < 0) return(ARP_HASH_ERROR);
 	return(hash);
 
-//	long index = floor( ((ppqnTime / PPQN) / chainIndexes) );
+//	int32 index = floor( ((ppqnTime / PPQN) / chainIndexes) );
 //	if (index < 0) return(ARP_HASH_ERROR);
 //	return(index);
 }
@@ -461,7 +461,7 @@ void MidiAbstractList::VerifyListPosition(MidiAbstractList *lArg) {
 // Check to see if node should be the head of a chain.
 /*
 void MidiAbstractList::KeepChainsConsistent(MidiListNode *node) {
-	long index = IndexForPPQN(node->Time());
+	int32 index = IndexForPPQN(node->Time());
 	if (index >= count)
 		GrowToAtLeast(index + ARP_CHAIN_INCREMENT);	
 
@@ -477,7 +477,7 @@ void MidiAbstractList::KeepChainsConsistent(MidiListNode *node) {
 status_t ArpIndexedList::NodeBefore(int32 index, ArpIndexedNode **answer,
 						int32 findNode)
 {
-	long hash = HashForIndex(index);
+	int32 hash = HashForIndex(index);
 	if (hash >= count) hash = count - 1;
 	if (! HashExists(hash)) return B_ERROR;
 
@@ -540,7 +540,7 @@ status_t ArpIndexedList::NodeBefore(int32 index, ArpIndexedNode **answer,
 status_t ArpIndexedList::NodeAfter(int32 index, ArpIndexedNode **answer,
 						int32 findNode)
 {
-	long hash = HashForIndex(index);
+	int32 hash = HashForIndex(index);
 	if (! HashExists(hash)) return B_ERROR;
 
 	ArpIndexedNode	*nodeAfter = NULL,
@@ -580,7 +580,7 @@ status_t ArpIndexedList::NodeAfter(int32 index, ArpIndexedNode **answer,
 // the appropriate index.
 status_t ArpIndexedList::pAddNode(ArpIndexedNode *node)
 {
-	long hash = HashForIndex(node->Index());
+	int32 hash = HashForIndex(node->Index());
 #if 0 	// why did I write this?  Isn't the POINT that if the hash is
 		// too large, then the list grows?
 	if (not HashExists(hash)) {
@@ -637,7 +637,7 @@ status_t ArpIndexedList::pRemoveNode(ArpIndexedNode *node)
 // the nearest node to add it to, so it gets inserted in the list.
 void ArpIndexedList::pAddNodeAtChainHead(ArpIndexedNode *node, int32 hash)
 {
-	long	k = hash;
+	int32	k = hash;
 	while (++k < count) {
 		if (chain[k] != NULL) {
 			chain[k]->AddNode(node);

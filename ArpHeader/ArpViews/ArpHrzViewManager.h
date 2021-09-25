@@ -52,7 +52,7 @@
 class ArpHrzViewManager : public BView
 {
 public:
-	ArpHrzViewManager(BRect frame, const char* name, ulong resizingMode);
+	ArpHrzViewManager(BRect frame, const char* name, uint32 resizingMode);
 	virtual ~ArpHrzViewManager();
 
 	virtual void FrameResized(float new_width, float);
@@ -75,7 +75,7 @@ public:
 	 * The usefulness of this feature is questionable; it's likely that the ability
 	 * to pass in the topArg will be removed from a future release.
 	 */
-	BView* InsertMiniView(BView *view, long posArg, float topArg = B_ERROR);
+	BView* InsertMiniView(BView *view, int32 posArg, float topArg = B_ERROR);
 	virtual bool ReplaceMiniView(BView *view, int32 position);
 	void RemoveMiniView( view_id id );
 	
@@ -101,7 +101,7 @@ protected:
 
 	BView*	ViewForId( view_id id ) const;
 
-	long do_RemoveMiniView(view_id id);
+	int32 do_RemoveMiniView(view_id id);
 		
 	// Update messages that notify subclasses about what's going on.
 	virtual void PreInsertMiniView(BView* /*view*/)		{ }
@@ -123,8 +123,8 @@ protected:
 	 * should override this.
 	 */
 	virtual float HorizontalWidth()						{ return Bounds().Width(); }
-	virtual long BigHorizontalStep()					{ return (long)Bounds().Width(); }
-	virtual long SmallHorizontalStep()					{ return 10; }
+	virtual int32 BigHorizontalStep()					{ return (int32)Bounds().Width(); }
+	virtual int32 SmallHorizontalStep()					{ return 10; }
 
 	virtual void SetHSBRange();
 	virtual void SetHSBSteps();
@@ -136,7 +136,7 @@ private:
 	
 	void RepositionMiniViewsFrom(int32 position);
 
-	long ListTopAt(int32 position);
+	int32 ListTopAt(int32 position);
 	bool ListHeadConditions(int32 position);
 	bool ListTailConditions(int32 position);
 };

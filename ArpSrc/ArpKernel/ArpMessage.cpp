@@ -107,7 +107,7 @@ ArpMessage&	ArpMessage::Update(const BMessage& msg)
 	if( this ) {
 		char* name;
 		type_code type;
-		long count;
+		int32 count;
 		for( int32 i=0; !msg.GetInfo(B_ANY_TYPE,i,&name,&type,&count);
 			i++ ) {
 			bool all_gone = false;
@@ -117,7 +117,7 @@ ArpMessage&	ArpMessage::Update(const BMessage& msg)
 				if( !msg.FindData(name,type,j,&data,&size) ) {
 					if( !all_gone &&
 						ReplaceData(name,type,j,data,size) ) {
-						long cnt=0;
+						int32 cnt=0;
 						type_code mtype = type;
 						if( !GetInfo(name,&mtype,&cnt) ) {
 							for( int32 k=cnt-1; k>=j; k-- ) {

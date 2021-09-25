@@ -87,7 +87,7 @@ ArpHostName::ArpHostName(const char* host_in, int port_in)
 			}
 			error = ENOERR;
 			name = he->h_name;
-			ipaddr = ntohl(*((ulong*)he->h_addr));
+			ipaddr = ntohl(*((uint32*)he->h_addr));
 			GrabHostEnt(*he);
 		} else {
 			name = "";
@@ -106,7 +106,7 @@ ArpHostName::ArpHostName(const char* host_in, int port_in)
 	unlock();
 }
 
-ArpHostName::ArpHostName(ulong addr, int port)
+ArpHostName::ArpHostName(uint32 addr, int port)
 	: name(""), ipaddr(0), error(B_BAD_VALUE)
 {
 	ArpD(cdb << ADH << "ArpHostName: constructing " << this << std::endl);
@@ -125,7 +125,7 @@ ArpHostName::ArpHostName(ulong addr, int port)
 		error = ENOERR;
 	
 		name = he->h_name;
-		ipaddr = ntohl(*((ulong*)he->h_addr));
+		ipaddr = ntohl(*((uint32*)he->h_addr));
 		GrabHostEnt(*he);
 		
 		sockaddr.sin_family = AF_INET;

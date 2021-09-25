@@ -15,9 +15,9 @@ class ArpMidiListTest1 : public BApplication {
 		
 		// TESTING SUPPORT
 		bool NoteOnShouldBe(uchar noteArg, uchar velocityArg,
-						ulong timeArg, int32 findNode = 0);
+						uint32 timeArg, int32 findNode = 0);
 		
 		// GENERAL SUPPORT
-		bool AddNoteOn(uchar noteArg, uchar velocityArg, ulong timeArg); 
+		bool AddNoteOn(uchar noteArg, uchar velocityArg, uint32 timeArg); 
 		bool AddEvent(ArpMidiEvent *event);
 };

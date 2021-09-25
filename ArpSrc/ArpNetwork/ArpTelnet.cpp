@@ -373,7 +373,7 @@ ArpTelnet::~ArpTelnet()
 	CloseConnectWin();
 	DoDisconnect();
 	PromptInfo* pr;
-	for ( long i=0; (pr=(PromptInfo*)(prompts.ItemAt(i))) != NULL; i++ ) {
+	for ( int32 i=0; (pr=(PromptInfo*)(prompts.ItemAt(i))) != NULL; i++ ) {
 		delete pr;
 	}
 }
@@ -476,7 +476,7 @@ void ArpTelnet::clearPrompts()
 	
 	doPrompts = false;
 	PromptInfo* pr;
-	for ( long i=0; (pr=(PromptInfo*)(prompts.ItemAt(i))) != NULL; i++ ) {
+	for ( int32 i=0; (pr=(PromptInfo*)(prompts.ItemAt(i))) != NULL; i++ ) {
 		pr->pos = 0;
 	}
 }
@@ -1033,7 +1033,7 @@ int32 ArpTelnet::runReader(void)
 	receive("Connected.\r\n");
 	mInputState = InputData;
 	for(;;) {
-		long len = 0;
+		int32 len = 0;
 		status_t ret = EINTR;
 		if( readThread >= 0 ) {
 			ArpD(cdb << ADH << "ArpTelnet: Ready to receive." << std::endl);

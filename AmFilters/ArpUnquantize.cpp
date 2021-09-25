@@ -44,7 +44,7 @@ ArpUnquantizeFilter::ArpUnquantizeFilter(ArpUnquantizeFilterAddOn* addon,
 	  mRecoveryMult(4),	mRecoveryQuant(PPQN*4),		mRecoveryEighths(2),
 	  mLastTime(0), mDrift(0)
 {
-	srand48((long int)system_time());
+	srand48((int32)system_time());
 	if (config) PutConfiguration(config);
 }
 

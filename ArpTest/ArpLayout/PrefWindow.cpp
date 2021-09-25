@@ -296,8 +296,8 @@ PrefWindow::PrefWindow(const BMessenger& target,
 	// Place color variables into their list view
 	if( color_vars ) {
 		char* name;
-		ulong type;
-		long count=0;
+		uint32 type;
+		int32 count=0;
 		for( int i=0; !globals.GetInfo(B_RGB_COLOR_TYPE,i,
 									&name,&type,&count); i++ ) {
 			if( count > 0 ) {
@@ -311,8 +311,8 @@ PrefWindow::PrefWindow(const BMessenger& target,
 	// Place color variables into their popup menu
 	if( color_pop ) {
 		char* name;
-		ulong type;
-		long count=0;
+		uint32 type;
+		int32 count=0;
 		for( int i=0; !globals.GetInfo(B_RGB_COLOR_TYPE,i,
 									&name,&type,&count); i++ ) {
 			if( count > 0 ) {
@@ -329,8 +329,8 @@ PrefWindow::PrefWindow(const BMessenger& target,
 	// Place font variables into their list view
 	if( font_vars ) {
 		char* name;
-		ulong type;
-		long count=0;
+		uint32 type;
+		int32 count=0;
 		for( int i=0; !globals.GetInfo(FFont::FONT_TYPE,i,
 									&name,&type,&count); i++ ) {
 			if( count > 0 ) {
@@ -344,8 +344,8 @@ PrefWindow::PrefWindow(const BMessenger& target,
 	// Place font variables into their popup menu
 	if( font_pop ) {
 		char* name;
-		ulong type;
-		long count=0;
+		uint32 type;
+		int32 count=0;
 		for( int i=0; !globals.GetInfo(FFont::FONT_TYPE,i,
 									&name,&type,&count); i++ ) {
 			if( count > 0 ) {

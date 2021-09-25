@@ -18,7 +18,7 @@
 
 #include <cstdio>
 
-long	nodeCount = 0;
+int32	nodeCount = 0;
 
 
 ArpIndexedNode::ArpIndexedNode(void *dataArg)

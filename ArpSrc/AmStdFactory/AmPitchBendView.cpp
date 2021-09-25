@@ -313,7 +313,7 @@ AmEvent* _AmPitchTarget::InterestingEventAt(const AmTrack* track,
 			beenInRange = true;
 			if( IsInteresting( n->Event() ) ) {
 				if (!closest) closest = n->Event();
-				else if ( abs(time - eventRange.start) < abs(time - topPhrase.EventRange(closest).start) )
+				else if ( llabs(time - eventRange.start) < llabs(time - topPhrase.EventRange(closest).start) )
 					closest = n->Event();
 			}
 		} else {

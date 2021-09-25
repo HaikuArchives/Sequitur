@@ -86,7 +86,7 @@ enum {
 	TERM_DOPASTE = '.dps'
 };
 
-ArpTerminal::ArpTerminal(BRect frame, const char* name, ulong resizeMode, ulong flags)
+ArpTerminal::ArpTerminal(BRect frame, const char* name, uint32 resizeMode, uint32 flags)
 	: ArpCoreTerminal(frame,name,resizeMode,flags),
 	  curEmulator(NULL), defEmulator(*this),
 	  pasteVerify(true), rmbPaste(true), wasNavigable(true),
