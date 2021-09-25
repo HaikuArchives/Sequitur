@@ -23,7 +23,12 @@
 #endif
 
 #include <float.h>
-//#include <algobase.h>
+//
+#if __GNUC__ < 3 
+#include <algobase.h>
+#endif 
+
+
 
 #include <support/Autolock.h>
 

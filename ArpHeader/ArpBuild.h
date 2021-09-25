@@ -52,6 +52,8 @@
 
 #if __INTEL__
 
+#if __CNUC__ < 3
+
 #if _BUILDING_AmKernel
 #define	_IMPEXP_ARPMIDI	__declspec(dllexport)
 #else
@@ -63,6 +65,13 @@
 #else
 #define	_IMPEXP_ARPLAYOUT	__declspec(dllimport)
 #endif
+
+#else // __GNUC__ < 3
+
+#define _IMPEXP_ARPMIDI
+#define _IMPEXP_ARPLAYOUT
+
+#endif // __GNUC__ < 3
 
 #endif /* __INTEL__ */
 
@@ -82,8 +91,6 @@
 
 #endif /* _STATIC_LINKING */
 
-#define _IMPEXP_ARPMIDI
-#define _IMPEXP_ARPLAYOUT
 
 #ifdef __cplusplus
 

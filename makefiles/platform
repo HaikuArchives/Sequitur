@@ -81,13 +81,11 @@
 ifndef CPU
 	MACHINE =$(shell uname -m)
 ifeq ($(MACHINE), x86_64)
-	CPU = x86
-else
-ifeq ($(MACHINE), BePC)
+	CPU = x86_64
+else ifeq ($(MACHINE), BePC)
 	CPU = x86
 else
 	CPU = ppc
-endif
 endif
 endif
 
@@ -189,7 +187,7 @@ endif
 		ARFLAGS	+= -xml -o
 
 #	platform specific settings
-ifeq ($(CPU), x86)
+ifeq ($(CPU), x86_64)
 
 #		specify flags to cause compiler to generate dependencies
 		MK_DEPS_FLAGS	= -M
@@ -256,7 +254,88 @@ endif
 		endif
 
 #		specify the Standard C++ link library
-		CPPLIB			= stdc++
+		CPPLIB			= stdc++ supc++
+
+
+else
+
+ifeq ($(CPU), x86)
+
+		STDCPPLIBS = 
+#		Check gcc version
+		GCC_GTEQ_300 := $(shell expr `gcc -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/'` \>= 30000)
+		ifeq "$(GCC_GTEQ_300)" "1"
+			STDCPPLIBS = stdc++ supc++
+		else
+			STDCPPLIBS = stdc++.r4
+		endif
+
+#		specify flags to cause compiler to generate dependencies
+		MK_DEPS_FLAGS	= -M
+
+#		specify the compiler
+		CC				= gcc
+
+#		specify flags for including files
+		INCLUDE_FLAG	= -I
+		SYSINCLUDE_SEP	=
+		SYSINCLUDE_FLAG	= -isystem
+
+#		specify the library extension
+		LIB_EXTENSION	=
+
+#		specify the optimizer setting
+ifdef RELEASE_BUILD
+#		CPLATFLAGS	+= -O3 -DNDEBUG=1 -- O3 crashes compiler! NDEBUG not in Sequitur
+		CPLATFLAGS	+= -O2
+else
+		CPLATFLAGS	+= -O0
+endif
+
+#		show lots of warning messages
+		CPLATFLAGS += -Wall -Wno-multichar -Wno-ctor-dtor-privacy
+
+#		specify the linker
+		LD				= gcc
+
+#		specify additional linker flags
+ifdef RELEASE_BUILD
+#		LDPLATFLAGS		+= -Xlinker --strip-all --strip-debug
+#		LDPLATFLAGS		+= --strip-debug
+endif
+
+		ifeq ($(IMG_TYPE), APP)
+			LDPLATFLAGS += -Xlinker -soname=_APP_
+		else
+		ifeq ($(IMG_TYPE), SHARED)
+			LDPLATFLAGS +=   -shared -Xlinker -soname=lib$(IMG_NAME).so
+		else
+		ifeq ($(IMG_TYPE), ADD-ON)
+			LDPLATFLAGS +=  -shared -Xlinker -soname=$(IMG_NAME) 
+		else
+		ifeq ($(IMG_TYPE), STATIC)
+
+		else
+		ifeq ($(IMG_TYPE), DRIVER)
+			CPLATFLAGS += -no-fpic
+			LDPLATFLAGS += -nostdlib /boot/develop/lib/x86/_KERNEL_
+		endif
+		endif
+		endif
+		endif
+		endif
+
+		ifneq ($(IMG_TYPE), STATIC)
+			#MAPNAME			= $(TARGET).xMAP
+			#MAPFLAGS		= -Xlinker -Map $(MAPNAME)
+			MAPNAME			=
+			MAPFLAGS		=
+			SYMBOLNAME		=
+			SYMBOLFLAGS		=
+		endif
+
+#		specify the Standard C++ link library
+		CPPLIB			= $(STDCPPLIBS)
 
 
 else
@@ -329,6 +408,7 @@ endif
 		CPPLIB			= mslcpp_2_2
 		#CPPLIB			= $(shell cd $(MWLIBRARIES); ls libmslcpp*.a )
 
+endif
 endif
 endif
 

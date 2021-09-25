@@ -8,7 +8,7 @@
 #	int32 compare_and_swap32(int32 *location, int32 oldValue, int32 newValue);
 #
 
-#if __X86_64
+#if __x86_64
 									.align	8									
 									.globl compare_and_swap32
 			compare_and_swap32:		pushq	%rbx			# Save these
