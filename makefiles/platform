@@ -410,6 +410,7 @@ endif
 
 endif
 endif
+endif
 
 	TARGET_NAME		= $(IMG_NAME)
 
