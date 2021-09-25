@@ -1,5 +1,5 @@
 // =============================================================================
-//    � BTSSocket.cpp
+//     BTSSocket.cpp
 // =============================================================================
 
 #include <ArpNetwork/BTSSocket.h>
@@ -12,7 +12,7 @@
 ArpMOD();
 
 // =============================================================================
-//    � BTSSocket
+//     BTSSocket
 // =============================================================================
 BTSSocket::BTSSocket() : fFamily(AF_INET), fType(SOCK_STREAM), 
 						fProtocol(IPPROTO_TCP)
@@ -28,7 +28,7 @@ BTSSocket::BTSSocket() : fFamily(AF_INET), fType(SOCK_STREAM),
 }
 
 // =============================================================================
-//    � BTSSocket
+//     BTSSocket
 // =============================================================================
 
 BTSSocket::BTSSocket(const int type, const int protocol, const int family) :
@@ -52,7 +52,7 @@ BTSSocket::BTSSocket(const int type, const int protocol, const int family) :
 }
 
 // =============================================================================
-//    � BTSSocket
+//     BTSSocket
 // =============================================================================
 BTSSocket::BTSSocket(const int socketID) : fFamily(-1), fType(-1), fProtocol(-1)
 {
@@ -62,7 +62,7 @@ BTSSocket::BTSSocket(const int socketID) : fFamily(-1), fType(-1), fProtocol(-1)
 }
 
 // =============================================================================
-//    � Init
+//     Init
 // =============================================================================
 void
 BTSSocket::Init()
@@ -77,7 +77,7 @@ BTSSocket::Init()
 }
 
 // =============================================================================
-//    � SetOption
+//     SetOption
 // =============================================================================
 long
 BTSSocket::SetOption(const int level, const int option, char* data, 
@@ -88,7 +88,7 @@ BTSSocket::SetOption(const int level, const int option, char* data,
 	return result < 0 ? errno : result;
 }
 // =============================================================================
-//    � Open
+//     Open
 // =============================================================================
 long
 BTSSocket::Open()
@@ -103,7 +103,7 @@ BTSSocket::Open()
 }
 
 // =============================================================================
-//    � SendLock
+//     SendLock
 // =============================================================================
 long
 BTSSocket::SendLock() const 
@@ -112,7 +112,7 @@ BTSSocket::SendLock() const
 }
 
 // =============================================================================
-//    � SendUnlock
+//     SendUnlock
 // =============================================================================
 long
 BTSSocket::SendUnlock() const 
@@ -121,7 +121,7 @@ BTSSocket::SendUnlock() const
 }
 
 // =============================================================================
-//    � RecvLock
+//     RecvLock
 // =============================================================================
 long
 BTSSocket::RecvLock() const 
@@ -130,7 +130,7 @@ BTSSocket::RecvLock() const
 }
 
 // =============================================================================
-//    � RecvUnlock
+//     RecvUnlock
 // =============================================================================
 long
 BTSSocket::RecvUnlock() const 
@@ -138,7 +138,7 @@ BTSSocket::RecvUnlock() const
 	return ::release_sem(fRecvSem);
 }
 // =============================================================================
-//    � ConnectToAddress
+//     ConnectToAddress
 // =============================================================================
 long
 BTSSocket::ConnectToAddress(const ArpHostName& host)
@@ -155,7 +155,7 @@ BTSSocket::ConnectToAddress(const ArpHostName& host)
 }
 
 // =============================================================================
-//    � BindTo
+//     BindTo
 // =============================================================================
 long	
 BTSSocket::BindTo(const ArpHostName& host)
@@ -170,7 +170,7 @@ BTSSocket::BindTo(const ArpHostName& host)
 }
 
 // =============================================================================
-//    � Listen
+//     Listen
 // =============================================================================
 long	
 BTSSocket::Listen(const int maxConnections)
@@ -181,7 +181,7 @@ BTSSocket::Listen(const int maxConnections)
 }
 
 // =============================================================================
-//    � Close
+//     Close
 // =============================================================================
 long
 BTSSocket::Close()
@@ -195,7 +195,7 @@ BTSSocket::Close()
 }
 
 // =============================================================================
-//    � Send
+//     Send
 // =============================================================================
 long
 BTSSocket::Send(const char* buf, const long bufSize) const
@@ -227,7 +227,7 @@ BTSSocket::Send(const char* buf, const long bufSize) const
 }
 
 // =============================================================================
-//    � Recv
+//     Recv
 // =============================================================================
 long
 BTSSocket::Recv(const char* buf, const long bufSize, long* recvlen) const
@@ -289,7 +289,7 @@ BTSSocket::Recv(const char* buf, const long bufSize, long* recvlen) const
 }
 
 // =============================================================================
-//    � UpdateSendCount
+//     UpdateSendCount
 // =============================================================================
 void BTSSocket::UpdateSendCount(const long numBytes)
 {
@@ -300,7 +300,7 @@ void BTSSocket::UpdateSendCount(const long numBytes)
 }
 
 // =============================================================================
-//    � UpdateReceiveCount
+//     UpdateReceiveCount
 // =============================================================================
 void BTSSocket::UpdateReceiveCount(const long numBytes)
 {
