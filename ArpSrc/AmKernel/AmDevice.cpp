@@ -161,18 +161,6 @@ BString AmDevice::ControlName(uint32 number, bool prependNumber) const
 	return name;
 }
 
-BString AmDevice::ControlName(ulong number, bool prependNumber) const
-{
-	if (number < 0 || number >= mControls.size() ) return BString();
-	BString		name;
-	if (prependNumber) name << number;
-	if (mControls[number].Length() > 0) {
-		if (prependNumber) name << " - ";
-		name << mControls[number].String();
-	}
-	return name;
-}
-
 AmCommandType AmDevice::SysexCommandType() const
 {
 	if (mSysExCommands.size() < 1) return AM_COMMAND_NONE;

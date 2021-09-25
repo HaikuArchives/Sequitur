@@ -73,7 +73,6 @@ public:
 
 	virtual uint32				CountControls() const;
 	virtual BString				ControlName(uint32 controlNumber, bool prependNumber = true) const;
-	virtual BString				ControlName(ulong controlNumber, bool prependNumber = true) const;
 
 	virtual AmCommandType		SysexCommandType() const;
 	virtual status_t			GetSysexCommandKey(	uint32 index, BString& outKey) const;
