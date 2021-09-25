@@ -75,6 +75,11 @@
 
 #endif /* __INTEL__ */
 
+#if __x86_64
+#define _IMPEXP_ARPMIDI
+#define _IMPEXP_ARPLAYOUT
+#endif /* __x86_64 */
+
 #if __POWERPC__
 
 #define _IMPEXP_ARPMIDI
