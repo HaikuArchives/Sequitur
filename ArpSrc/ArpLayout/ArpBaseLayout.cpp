@@ -35,7 +35,7 @@
 #include <support/Autolock.h>
 #endif
 
-#if __GNUC < 3 
+#if __GNUC__ < 3 
 #include <algobase.h>
 #include 
 
