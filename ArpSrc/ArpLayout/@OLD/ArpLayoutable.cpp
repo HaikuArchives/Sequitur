@@ -31,7 +31,12 @@
 #include <support/Autolock.h>
 #endif
 
-//#include <algobase.h>
+//
+#if __GNUC__ < 3 
+#include <algobase.h>
+#endif 
+
+
 #include <float.h>
 #include <cstring>
 
