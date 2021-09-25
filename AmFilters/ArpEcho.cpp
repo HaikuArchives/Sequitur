@@ -397,7 +397,7 @@ AmEvent* ArpEchoFilter::PerformMouseDistanceMode(	AmNoteOn* orig,
 	AmTime				xOffset = grid;
 	if (xDist < 0) {
 		xOffset = -grid;
-		xDist = abs(xDist);
+		xDist = llabs(xDist);
 	}
 	int32				yDist = toolParams->cur_y_value - toolParams->orig_y_value;
 	int32				yOffset = 1;
@@ -454,7 +454,7 @@ AmEvent* ArpEchoFilter::PerformMouseLocationMode(	AmNoteOn* orig,
 	AmTime				xOffset = grid;
 	if (xDist < 0) {
 		xOffset = -grid;
-		xDist = abs(xDist);
+		xDist = llabs(xDist);
 	}
 	int32				yDist = toolParams->cur_y_value - orig->Note();
 	int32				yOffset = 1;

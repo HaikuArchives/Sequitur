@@ -515,7 +515,7 @@ AmEvent* _AmVelocityTarget::InterestingEventAt(	const AmTrack* track,
 			if( IsInteresting( n->Event() ) ) {
 				if (!closest)
 					closest = n->Event();
-				else if ( abs(time - eventRange.start) < abs(time - topPhrase.EventRange(closest).start) )
+				else if ( llabs(time - eventRange.start) < llabs(time - topPhrase.EventRange(closest).start) )
 					closest = n->Event();
 			}
 		} else {
@@ -550,7 +550,7 @@ AmEvent* _AmVelocityTarget::InterestingReleaseEventAt(	const AmTrack* track,
 			if( IsInteresting( n->Event() ) ) {
 				if( !closest )
 					closest = n->Event();
-				else if( abs(time - n->EndTime()) < abs(time - closest->EndTime()) )
+				else if( llabs(time - n->EndTime()) < llabs(time - closest->EndTime()) )
 					closest = n->Event();
 			}
 		} else {
