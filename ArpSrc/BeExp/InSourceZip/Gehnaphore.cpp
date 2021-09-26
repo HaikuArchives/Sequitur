@@ -1,8 +1,12 @@
 #ifndef _Gehnaphore_H
-#include <Gehnaphore.h>
+#include "Gehnaphore.h"
 #endif
+#if __GNUC__ >=5
+#define cmpxchg32(X,Y,Z) __sync_bool_compare_and_swap(X,Y,Z)
+#else
 #ifndef _ATOMIC_H
-#include <atomic.h>
+#include "atomic.h"
+#endif
 #endif
 #ifndef _DEBUG_H
 #include <Debug.h>
