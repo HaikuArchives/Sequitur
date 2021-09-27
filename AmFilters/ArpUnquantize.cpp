@@ -274,21 +274,21 @@ status_t ArpUnquantizeFilter::Configure(ArpVectorI<BView*>& panels)
 void ArpUnquantizeFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>Typically, MIDI performances have computer-perfect timing."
-	"Unquantizing is a process that slightly alters the time of MIDI events in"
-	"order to create a sloppy, more human feel.  The Amount parameter of this"
-	"filter determines the maximum number of ticks that a single event can be"
-	"offset, by randomly generating a value between zero and the Amount and applying"
-	"that to each event.</p>"
-""
-	"<P>Randomly quantizing a performance makes it less mechanical, but generally"
-	"not any more human, since human players tend to have patterns in their"
-	"imperfections.  If the Drifting parameter is on, this filter uses the Recovery"
-	"value and Step value together to simulate a human player drifting on and off"
-	"the beat.  The Recovery is the maximum number of ticks it takes the performer"
-	"to return to the correct time, the Steps are the number of ticks in each step"
-	"on the return.  This filter is used heavily in the file <i>Examples/DianneHackborn"
-	"- Bells.mid</i></p>";
+	str << "<p>Typically, MIDI performances have computer-perfect timing. \n"
+	"Unquantizing is a process that slightly alters the time of MIDI events in \n"
+	"order to create a sloppy, more human feel.  The Amount parameter of this \n"
+	"filter determines the maximum number of ticks that a single event can be \n"
+	"offset, by randomly generating a value between zero and the Amount and applying \n"
+	"that to each event.</p>\n"
+"\n"
+	"<P>Randomly quantizing a performance makes it less mechanical, but generally \n"
+	"not any more human, since human players tend to have patterns in their \n"
+	"imperfections.  If the Drifting parameter is on, this filter uses the Recovery \n"
+	"value and Step value together to simulate a human player drifting on and off \n"
+	"the beat.  The Recovery is the maximum number of ticks it takes the performer \n"
+	"to return to the correct time, the Steps are the number of ticks in each step \n"
+	"on the return.  This filter is used heavily in the file <i>Examples/DianneHackborn \n"
+	"- Bells.mid</i></p>\n";
 }
 
 void ArpUnquantizeFilterAddOn::GetVersion(int32* major, int32* minor) const

@@ -102,8 +102,8 @@ ArpKeyboardSplitterAddOn::ArpKeyboardSplitterAddOn(const void* cookie)
 void ArpKeyboardSplitterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>All notes above the split point continue down my pipeline.  Notes"
-"below the split point are sent to my connection, if any</P>";
+	str << "<P>All notes above the split point continue down my pipeline.  Notes \n"
+"below the split point are sent to my connection, if any</P>\n";
 }
 
 void ArpKeyboardSplitterAddOn::GetVersion(int32* major, int32* minor) const

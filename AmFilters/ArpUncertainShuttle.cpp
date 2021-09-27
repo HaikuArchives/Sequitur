@@ -79,9 +79,9 @@ ArpUncertainShuttleAddOn::ArpUncertainShuttleAddOn(const void* cookie)
 void ArpUncertainShuttleAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>For every event I receive, I randomly choose one of my"
-	"connections and send the event to it.  I can have any number of"
-	"connections.</p>";
+	str << "<p>For every event I receive, I randomly choose one of my \n"
+	"connections and send the event to it.  I can have any number of \n"
+	"connections.</p>\n";
 }
 
 void ArpUncertainShuttleAddOn::GetVersion(int32* major, int32* minor) const

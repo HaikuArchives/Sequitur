@@ -162,8 +162,8 @@ status_t ArpControllerMapFilter::Configure(ArpVectorI<BView*>& panels)
 void ArpControllerMapAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>I am a map of control changes.  Every controller can be"
-	"mapped to a new control value.</p>";
+	str << "<p>I am a map of control changes.  Every controller can be \n"
+	"mapped to a new control value.</p>\n";
 }
 
 void ArpControllerMapAddOn::GetVersion(int32* major, int32* minor) const

@@ -452,12 +452,12 @@ status_t ArpMetronomeFilter::Configure(ArpVectorI<BView*>& panels)
 void ArpMetronomeFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>I am used to generate click events. I am most appropriate in the"
-	"output pipeline. The output filter for the track I reside in determines which"
-	"of your instruments will perform the click. Controls allow you to set the note value"
-	"and velocity for several different types of clicks. By default, the metronome"
-	"will only click while the song is recording; however, unchecking the <I>On only"
-	"while recording</I> box will allow it to click during playback, as well.</P>";
+	str << "<P>I am used to generate click events. I am most appropriate in the \n"
+	"output pipeline. The output filter for the track I reside in determines which \n"
+	"of your instruments will perform the click. Controls allow you to set the note value \n"
+	"and velocity for several different types of clicks. By default, the metronome \n"
+	"will only click while the song is recording; however, unchecking the <I>On only \n"
+	"while recording</I> box will allow it to click during playback, as well.</P>\n";
 }
 
 void ArpMetronomeFilterAddOn::GetVersion(int32* major, int32* minor) const

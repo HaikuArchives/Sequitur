@@ -231,23 +231,23 @@ AmEvent* ArpUnstackFilter::ThinAndMerge(AmEvent* thin, AmEvent* ans, uint32 thin
 void ArpUnstackAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>I thin out stacks of notes, where a stack is a series of notes"
-	"at the same start time.  The Frequency control determines how many notes"
-	"from a stack I remove.  If this value is at Never, I do not remove any notes."
-	"If it is at Always, I remove every note in every stack.  The Threshold control"
-	"determines how many notes must start at the same time before I consider them"
-	"a stack.  The default threshold is 1, meaning that any group of two or more"
-	"notes occurring at the same time is a stack.</p>"
-	""
-	"<p>The Shift parameters are an optional time shift I can apply to the notes,"
-	"which is another way to thin them.  These parameters will only work if the"
-	"On checkbox is checked.</p>"
-	""
-	"<p>The Start shift parameter increases the start time of each note in a"
-	"stack by the given value, resulting in a staircase effect for groups of notes."
-	"If the Negative box is checked, the start time decreases.  If the Use tool"
-	"grid box is checked, then the Shift: time specified is ignored, and the current"
-	"grid is used.</p>";
+	str << "<p>I thin out stacks of notes, where a stack is a series of notes \n"
+	"at the same start time.  The Frequency control determines how many notes \n"
+	"from a stack I remove.  If this value is at Never, I do not remove any notes. \n"
+	"If it is at Always, I remove every note in every stack.  The Threshold control \n"
+	"determines how many notes must start at the same time before I consider them \n"
+	"a stack.  The default threshold is 1, meaning that any group of two or more \n"
+	"notes occurring at the same time is a stack.</p>\n"
+	"\n"
+	"<p>The Shift parameters are an optional time shift I can apply to the notes, \n"
+	"which is another way to thin them.  These parameters will only work if the \n"
+	"On checkbox is checked.</p>\n"
+	"\n"
+	"<p>The Start shift parameter increases the start time of each note in a \n"
+	"stack by the given value, resulting in a staircase effect for groups of notes. \n"
+	"If the Negative box is checked, the start time decreases.  If the Use tool \n"
+	"grid box is checked, then the Shift: time specified is ignored, and the current \n"
+	"grid is used.</p>\n";
 }
 
 void ArpUnstackAddOn::GetVersion(int32* major, int32* minor) const

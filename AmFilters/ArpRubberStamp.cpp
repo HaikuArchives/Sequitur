@@ -274,8 +274,8 @@ AmEvent* ArpRubberStampFilter::GenerateMotion(	AmRange range, float amount,
 void ArpRubberStampAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>I transform events into control changes based on my motion."
-	"<I>This is a prerelease version of this filter.</I></p>";
+	str << "<p>I transform events into control changes based on my motion. \n"
+	"<I>This is a prerelease version of this filter.</I></p>\n";
 }
 
 void ArpRubberStampAddOn::GetVersion(int32* major, int32* minor) const

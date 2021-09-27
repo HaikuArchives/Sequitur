@@ -289,10 +289,10 @@ status_t ArpChorusFilter::Configure(ArpVectorI<BView*>& panels)
 void ArpChorusFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	inherited::LongDescription(name, str);
-	str << "<P>I produce up to four additional notes for every note I receive. "
-	"The chorused notes can be offset in pitch by octave and/or step amounts,"
-	"and their velocities can be scaled. Typically, the velocity should be increased"
-	"for notes lower in pitch and decreased for notes higher in pitch.</P>";
+	str << "<P>I produce up to four additional notes for every note I receive. \n"
+		"The chorused notes can be offset in pitch by octave and/or step amounts, \n"
+		"and their velocities can be scaled. Typically, the velocity should be increased \n"
+		"for notes lower in pitch and decreased for notes higher in pitch.</P>\n";
 }
 
 void ArpChorusFilterAddOn::GetVersion(int32* major, int32* minor) const

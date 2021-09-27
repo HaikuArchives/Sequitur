@@ -113,8 +113,8 @@ status_t ArpNoteFilter::Configure(ArpVectorI<BView*>& panels)
 void ArpNoteAddOn::LongDescription(BString& name, BString& str) const
 {
 	inherited::LongDescription(name, str);
-	str << "<p>I perform no processing on events.  I am merely a place to store"
-	"some text.</p>";
+	str << "<p>I perform no processing on events.  I am merely a place to store \n"
+	"some text.</p>\n";
 }
 
 void ArpNoteAddOn::GetVersion(int32* major, int32* minor) const

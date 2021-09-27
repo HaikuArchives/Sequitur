@@ -139,8 +139,8 @@ status_t ArpEricFilter::GetProperties(BMessage* properties) const
 void ArpEricFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>I am a template for writing your own C++ filters.  The source"
-	"code can be found in the <i>DevKit/ExampleFilters/</i> folder.</P>";
+	str << "<P>I am a template for writing your own C++ filters.  The source \n"
+	"code can be found in the <i>DevKit/ExampleFilters/</i> folder.</P>\n";
 }
 
 void ArpEricFilterAddOn::GetVersion(int32* major, int32* minor) const

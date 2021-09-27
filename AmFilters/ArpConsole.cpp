@@ -400,10 +400,10 @@ status_t ArpConsoleFilter::Configure(ArpVectorI<BView*>& panels)
 void ArpConsoleFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>I print in the terminal every MIDI event I receive. I am useful"
-	"for debugging any filters you've written, so you can see the output"
-	"they are providing.  In order for this filter to work, Sequitur must be"
-	"launched from a command line.</P>";
+	str << "<P>I print in the terminal every MIDI event I receive. I am useful \n"
+	"for debugging any filters you've written, so you can see the output \n"
+	"they are providing.  In order for this filter to work, Sequitur must be \n"
+	"launched from a command line.</P>\n";
 }
 
 void ArpConsoleFilterAddOn::GetVersion(int32* major, int32* minor) const

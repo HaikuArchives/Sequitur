@@ -84,8 +84,8 @@ uint8 ArpMonophobicFilter::NewNote(	uint8 oldNote, AmRange noteRange,
 void ArpMonophobicAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>I am only available in a tool pipeline.  I cause all selected"
-	"note events to follow the mouse as it is dragged up and down.</P>";
+	str << "<P>I am only available in a tool pipeline.  I cause all selected \n"
+	"note events to follow the mouse as it is dragged up and down.</P>\n";
 }
 
 void ArpMonophobicAddOn::GetVersion(int32* major, int32* minor) const

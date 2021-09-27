@@ -36,7 +36,7 @@ AmEvent* ArpMergeFilter::HandleEvent(AmEvent* event, const am_filter_params* /*p
 void ArpMergeFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>I am a simple passthrough.  I merge together input from multiple"
+	str << "<P>I am a simple passthrough.  I merge together input from multiple \n"
 	"sources.</P>";
 }
 

@@ -99,13 +99,13 @@ status_t ArpExampleFilter::Configure(ArpVectorI<BView*>& /*panels*/)
 void ArpExampleFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>In addition to the Dan filter, I am a template for writing"
-	"your own C++ filters.  The source code can be found in the"
-	"<i>DevKit/ExampleFilters/</i> folder.</P>"
-	""
-	"<P>In previous versions of Sequitur I was the Example filter.  For every"
-	"note I receive, I create a softer note one beat before and one beat after"
-	"the input note.</P>";
+	str << "<P>In addition to the Dan filter, I am a template for writing \n"
+	"your own C++ filters.  The source code can be found in the \n"
+	"<i>DevKit/ExampleFilters/</i> folder.</P>\n"
+	"\n"
+	"<P>In previous versions of Sequitur I was the Example filter.  For every \n"
+	"note I receive, I create a softer note one beat before and one beat after \n"
+	"the input note.</P>\n";
 }
 
 void ArpExampleFilterAddOn::GetVersion(int32* major, int32* minor) const

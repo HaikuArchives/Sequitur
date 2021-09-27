@@ -200,17 +200,17 @@ void ArpTilTheEndFilter::PerformCopyMeasuresMode(AmEvent* event, const am_filter
 void ArpTilTheEndAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>I am a form of echo that uses measure information for my stop condition."
-	"When I am in fill mode, I will fill depth number of measures with the current"
-	"event.  When I am in copy mode, I place a single copy of the event in depth"
-	"number of measures.</p>"
-	""
-	"<P>If I have a single connection, all events go to that connection.  However,"
-	"if I have two connections the original event will go out the first connection,"
-	"and all new events will go out the second.</p>"
-	""
-	"<p>The Grid is only active in Fill mode.  It determines the grid on which"
-	"each note is aligned.</p>";
+	str << "<p>I am a form of echo that uses measure information for my stop condition. \n"
+	"When I am in fill mode, I will fill depth number of measures with the current \n"
+	"event.  When I am in copy mode, I place a single copy of the event in depth \n"
+	"number of measures.</p>\n"
+	"\n"
+	"<P>If I have a single connection, all events go to that connection.  However, \n"
+	"if I have two connections the original event will go out the first connection, \n"
+	"and all new events will go out the second.</p>\n"
+	"\n"
+	"<p>The Grid is only active in Fill mode.  It determines the grid on which \n"
+	"each note is aligned.</p>\n";
 }
 
 void ArpTilTheEndAddOn::GetVersion(int32* major, int32* minor) const
