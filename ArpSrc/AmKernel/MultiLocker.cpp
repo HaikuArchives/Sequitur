@@ -6,6 +6,7 @@
  * This file may be used under the terms of the Be Sample Code License.
  */
 
+#define DEBUG 1
 
 #include "AmKernel/MultiLocker.h"
 
