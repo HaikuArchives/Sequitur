@@ -21,7 +21,7 @@
 
 
 #include <OS.h>
-#include "AmKernel/locks.h"
+#include <locks.h>
 
 
 #define MULTI_LOCKER_TIMING	0
