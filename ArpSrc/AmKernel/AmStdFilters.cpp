@@ -914,24 +914,24 @@ BString AmProducerFilterAddOn::ShortDescription() const
 void AmProducerFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	name << "MIDI In";
-	str << "<p>I correspond to a single BeOS MIDI producer.  The most common type of MIDI"
-		"producer is a hardware MIDI port installed on your system, although any application"
-		"that generates MIDI data can publish a MIDI producer.  Any MIDI In filter that is"
-		"a result of an application will appear and disappear as the application is opened"
-		"and closed.  A BeOS MIDI producer can supply its own icon (software synthesizers"
-		"frequently do), although any that don\'t will receive the standard icon with a"
-		"unique colour.</p>"
-""
-		"<P>These filters can only be placed in the first slot of the input pipeline.  Once"
-		"the filter is in the pipeline, you can change its MIDI channel by clicking anywhere"
-		"on the icon and selecting a new channel from the popup menu.  Alternatively, you can"
-		"open the properties window for the filter and change the channel there.  The properties"
-		"window also allows you to turn off MIDI event types, which prevents them from appearing"
-		"in a track.</p>"
-		""
-		"<p>There are a variety of ways to add MIDI ports to your system:  Some soundcards"
-		"have supported MIDI ports, or drivers have been published for several popular USB-based"
-		"MIDI interfaces (such as the Yamaha UX256).</p>";
+	str << "<p>I correspond to a single BeOS MIDI producer.  The most common type of MIDI \n"
+		"producer is a hardware MIDI port installed on your system, although any application \n"
+		"that generates MIDI data can publish a MIDI producer.  Any MIDI In filter that is \n"
+		"a result of an application will appear and disappear as the application is opened \n"
+		"and closed.  A BeOS MIDI producer can supply its own icon (software synthesizers \n"
+		"frequently do), although any that don\'t will receive the standard icon with a \n"
+		"unique colour.</p>\n"
+"\n"
+		"<P>These filters can only be placed in the first slot of the input pipeline.  Once \n"
+		"the filter is in the pipeline, you can change its MIDI channel by clicking anywhere \n"
+		"on the icon and selecting a new channel from the popup menu.  Alternatively, you can \n"
+		"open the properties window for the filter and change the channel there.  The properties \n"
+		"window also allows you to turn off MIDI event types, which prevents them from appearing \n"
+		"in a track.</p>\n"
+		"\n"
+		"<p>There are a variety of ways to add MIDI ports to your system:  Some soundcards \n"
+		"have supported MIDI ports, or drivers have been published for several popular USB-based \n"
+		"MIDI interfaces (such as the Yamaha UX256).</p>\n";
 }
 
 BString AmProducerFilterAddOn::Author() const

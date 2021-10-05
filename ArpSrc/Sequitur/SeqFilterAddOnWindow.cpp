@@ -318,9 +318,7 @@ SeqFilterAddOnWindow::SeqFilterAddOnWindow(	BRect frame,
 	AddViews();
 	if (!roster) roster = AmFilterRoster::Default();
 	mRoster = roster;
-	//HACK to make compile on 64 bit. What the hell s going on here?
 	AmMultiFilterRoster*	mroster = AmMultiFilterRoster::Default();
-	// AmMultiFilterRoster*	roster = AmMultiFilterRoster::Default();
 	if (mroster) mroster->AddObserver(this);
 
 	if (config) SetConfiguration(config);

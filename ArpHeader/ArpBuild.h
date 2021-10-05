@@ -52,7 +52,7 @@
 
 #if __INTEL__
 
-#if __CNUC__ < 3
+#if __GNUC__ < 3
 
 #if _BUILDING_AmKernel
 #define	_IMPEXP_ARPMIDI	__declspec(dllexport)

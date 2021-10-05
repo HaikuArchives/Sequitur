@@ -167,19 +167,19 @@ void ArpVelociTeaseFilter::Start(uint32 context)
 void ArpVelociTeaseAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>I alter the velocity of all incoming notes.  The change I make depends on"
-	"my current mode.</P>"
-	"<UL>"
-	"	<LI><I>Set to</I> will set all velocities to the specified value.</LI>"
-	"	<LI><I>Scaled</I> will scale all velocities.  For example, a scale of 50 will"
-	"			halve the velocities; 200 will double them.  A value of 100 will have"
-	"			no effect.</LI>"
-	"	<LI><I>Change by</I> will change the velocities by the given delta.  For example,"
-	"			if the delta is 10, then a note with velocity 100 will be changed to 110."
-	"			If the delta is -10, then the same note will be 90.  A value of 0 will"
-	"			have no effect.</LI>"
-	"	<LI><I>Random</I> will assign a random velocity to each note.</LI>"
-	"</UL>&nbsp;";
+	str << "<P>I alter the velocity of all incoming notes.  The change I make depends on \n"
+	"my current mode.</P>\n"
+	"<UL>\n"
+	"	<LI><I>Set to</I> will set all velocities to the specified value.</LI>\n"
+	"	<LI><I>Scaled</I> will scale all velocities.  For example, a scale of 50 will \n"
+	"			halve the velocities; 200 will double them.  A value of 100 will have \n"
+	"			no effect.</LI>\n"
+	"	<LI><I>Change by</I> will change the velocities by the given delta.  For example, \n"
+	"			if the delta is 10, then a note with velocity 100 will be changed to 110. \n"
+	"			If the delta is -10, then the same note will be 90.  A value of 0 will \n"
+	"			have no effect.</LI>\n"
+	"	<LI><I>Random</I> will assign a random velocity to each note.</LI>\n"
+	"</UL>&nbsp; \n";
 }
 
 void ArpVelociTeaseAddOn::GetVersion(int32* major, int32* minor) const
