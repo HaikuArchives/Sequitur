@@ -205,7 +205,6 @@ ifeq ($(CPU), x86_64)
 
 #		specify the optimizer setting
 ifdef RELEASE_BUILD
-#		CPLATFLAGS	+= -O3 -DNDEBUG=1 -- O3 crashes compiler! NDEBUG not in Sequitur
 		CPLATFLAGS	+= -O2
 else
 		CPLATFLAGS	+= -O0
