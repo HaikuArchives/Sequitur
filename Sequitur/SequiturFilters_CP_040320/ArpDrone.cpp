@@ -132,11 +132,11 @@ ArpDroneAddOn::ArpDroneAddOn(const void* cookie)
 void ArpDroneAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>Send copies of all note events to another pipeline, forcing all notes"
-"to the same value.</P>"
-"<P>Example use: place Drone in a bass track, send its output to a drum track, "
-"select a note which plays a bass drum in Drones GUI - the bass drum with be"
-"automatically snychronized with the bass.</P>";
+	str << "<P>Send copies of all note events to another pipeline, forcing all notes \n"
+"to the same value.</P>\n"
+"<P>Example use: place Drone in a bass track, send its output to a drum track, \n"
+"select a note which plays a bass drum in Drones GUI - the bass drum with be \"
+"automatically snychronized with the bass.</P>\n";
 }
 
 void ArpDroneAddOn::GetVersion(int32* major, int32* minor) const
