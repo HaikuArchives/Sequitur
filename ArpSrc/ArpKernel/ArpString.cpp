@@ -19,9 +19,9 @@
 //	General-purpose string class.  Modifed to allow strings to
 //  contain embedded nulls.
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cctype>
 
 #ifndef ARPKERNEL_ARPSTRING_H
 #include "ArpKernel/ArpString.h"
@@ -219,7 +219,7 @@ ArpString::ArpString(void)
 	fData = NULL;
 	fSize = 0;
 	
-	ArpDL("core", 3, cdb << ADH << "Making empty ArpString" << endl);
+	ArpDL("core", 3, cdb << ADH << "Making empty ArpString" << std::endl);
 }
 
 
@@ -229,11 +229,11 @@ ArpString::ArpString(const ichar * init, int32 cnt, bool copy)
 	fSize = 0;
 	
 	ArpDL("core", 3, cdb << ADH << "Making ArpString for istring: "
-				<< ((const char *)init ? (const char *)init : "<null>") << endl);
+				<< ((const char *)init ? (const char *)init : "<null>") << std::endl);
 	if( init && cnt < 0 ) cnt = strlen((const char*)init);
 	ReadFrom(init, cnt, copy);
 	//cdb << "Created string '" << (const char*)GetString()
-	//	<< "' from '" << (init ? init:(const ichar*)"") << endl;
+	//	<< "' from '" << (init ? init:(const ichar*)"") << std::endl;
 }
 
 
@@ -243,11 +243,11 @@ ArpString::ArpString(const char * init, int32 cnt, bool copy)
 	fSize = 0;
 	
 	ArpDL("core", 3, cdb << ADH << "Making ArpString for string: "
-					<< (init ? init : "<null>") << endl);
+					<< (init ? init : "<null>") << std::endl);
 	if( init && cnt < 0 ) cnt = strlen(init);
 	ReadFrom(init, cnt, copy);
 	//cdb << "Created string '" << (const char*)GetString()
-	//	<< "' from '" << (init ? init:"") << endl;
+	//	<< "' from '" << (init ? init:"") << std::endl;
 }
 
 
@@ -256,7 +256,7 @@ ArpString::ArpString(char init)
 	fData = NULL;
 	fSize = 0;
 	
-	ArpDL("core", 3, cdb << ADH << "Making ArpString for char: " << init << endl);
+	ArpDL("core", 3, cdb << ADH << "Making ArpString for char: " << init << std::endl);
 	ichar* str = NewString(1);
 	str[0] = init;
 	str[1] = 0;
@@ -268,7 +268,7 @@ ArpString::ArpString(const ArpString & clone)
 	fData = NULL;
 	fSize = 0;
 	
-	ArpDL("core", 3, cdb << ADH << "Copying ArpString from: " << clone << endl);
+	ArpDL("core", 3, cdb << ADH << "Copying ArpString from: " << clone << std::endl);
 				
 	if( clone.fData ) {
 		if( clone.fSize&STORAGE_MASK ) {
@@ -288,7 +288,7 @@ ArpString::ArpString(int32 value, int32 radix)
 	fData = NULL;
 	fSize = 0;
 	
-	ArpDL("core", 3, cdb << ADH << "Making ArpString for long: " << value << endl);
+	ArpDL("core", 3, cdb << ADH << "Making ArpString for int32: " << value << std::endl);
 
 	ichar		tempArpString[16];
 	sprintf((char*)tempArpString, "%ld", value);
@@ -300,7 +300,7 @@ ArpString::ArpString(float 	value)
 	fData = NULL;
 	fSize = 0;
 	
-	ArpDL("core", 3, cdb << ADH << "Making ArpString for float: " << value << endl);
+	ArpDL("core", 3, cdb << ADH << "Making ArpString for float: " << value << std::endl);
 
 	ichar		tempArpString[32];
 	sprintf((char*)tempArpString, "%f", value);
@@ -313,14 +313,14 @@ ArpString::ArpString(const BString& string)
 	fSize = 0;
 	
 	ArpDL("core", 3, cdb << ADH << "Making ArpString for BString: "
-					<< string.String() << endl);
+					<< string.String() << std::endl);
 	ReadFrom((const ichar*)string.String(), string.Length(), true);
 }
 
 
 ArpString::~ArpString()
 {
-	ArpDL("core", 3, cdb << ADH << "Deleting ArpString: " << (*this) << endl);
+	ArpDL("core", 3, cdb << ADH << "Deleting ArpString: " << (*this) << std::endl);
 	FreeString();
 }
 
@@ -596,7 +596,7 @@ operator += (ArpString& o, const ArpString & add)
 		memcpy(str+origLen, add.GetString(), appLen);
 		str[origLen+appLen] = 0;
 	}
-	ArpDL("core", 3, cdb << ADH << ", result=" << o << endl);
+	ArpDL("core", 3, cdb << ADH << ", result=" << o << std::endl);
 
 	return o;
 }
@@ -617,7 +617,7 @@ operator += (ArpString& o, ichar add)
 	ichar* str = o.ResizeString(origLen + 1);
 	str[origLen] = add;
 	str[origLen+1] = 0;
-	ArpDL("core", 3, cdb << ADH << ", result=" << o << endl);
+	ArpDL("core", 3, cdb << ADH << ", result=" << o << std::endl);
 
 	return o;
 }
@@ -627,7 +627,7 @@ operator += (ArpString& o, ichar add)
 ArpString &
 operator += (ArpString& o, int32 add)
 {
-	ArpDL("core", 3, cdb << ADH << "Add long to ArpString: " << add << endl);
+	ArpDL("core", 3, cdb << ADH << "Add int32 to ArpString: " << add << std::endl);
 
 	ichar		tempArpString[16];
 	sprintf((char *)tempArpString, "%ld", add);
@@ -689,7 +689,7 @@ ArpString &
 ArpString::Append(const ichar * add, int32 len)
 {
 	ArpDL("core", 3, cdb << ADH << "Add istring to ArpString: "
-			<< ((const char*)add ? (const char*)add : "<null>") << endl);
+			<< ((const char*)add ? (const char*)add : "<null>") << std::endl);
 	if( add && *add ) {
 		const int32 origLen = Length();
 		if( len < 0 ) len = strlen((const char*)add);
@@ -697,7 +697,7 @@ ArpString::Append(const ichar * add, int32 len)
 		memcpy(str+origLen, add, len);
 		str[origLen+len] = 0;
 	}
-	ArpDL("core", 3, cdb << ADH << ", result=" << (*this) << endl);
+	ArpDL("core", 3, cdb << ADH << ", result=" << (*this) << std::endl);
 	
 	return *this;
 }
@@ -715,7 +715,7 @@ ArpString::LockBuffer(int32 maxLength)
 	}
 	ichar* str = ResizeString(maxLength);
 	//cdb << "Locking buffer '" << (char*)str << "' with length "
-	//	<< maxLength << endl;
+	//	<< maxLength << std::endl;
 	return (char*)str;
 }
 
@@ -732,17 +732,17 @@ ArpString::UnlockBuffer(int32 length)
 		}
 		//cdb << "Found length to unlock buffer: length="
 		//	<< length << ", max=" << LEN << ", str='"
-		//	<< (const char*)str << "'" << endl;
+		//	<< (const char*)str << "'" << std::endl;
 	}
 	
 	if( length < 0 ) length = 0;
 	
 	//cdb << "Unlocking buffer '" << (const char*)GetString()
-	//	<< "' with length " << length << endl;
+	//	<< "' with length " << length << std::endl;
 	ichar* str = ResizeString(length);
 	str[length] = 0;
 	
-	//cdb << "Final string is '" << (char*)str << "'" << endl;
+	//cdb << "Final string is '" << (char*)str << "'" << std::endl;
 	
 	return *this;
 }
@@ -750,7 +750,7 @@ ArpString::UnlockBuffer(int32 length)
 //BDS
 //	Insert a string at the specified offset
 ArpString &
-ArpString::Insert(const ArpString& inStr, long inOffset)
+ArpString::Insert(const ArpString& inStr, int32 inOffset)
 {
 	ASSERT(0);
 	return *this;
@@ -781,8 +781,8 @@ ArpString::Insert(const ArpString& inStr, long inOffset)
 //BDS
 //	Replace the ichars defined by inOffset and inLength by inArpString
 ArpString &
-ArpString::Replace(const ArpString& inStr,long inOffset,
-					long inLength)
+ArpString::Replace(const ArpString& inStr,int32 inOffset,
+					int32 inLength)
 {
 	ASSERT(0);
 	return *this;
@@ -850,7 +850,7 @@ ArpString::ROffsetOf(ichar inChar) const
 
 // Set the contents to the text defined by inArpString and inLength
 void
-ArpString::Set(const ichar * inText, long inLength)
+ArpString::Set(const ichar * inText, int32 inLength)
 {
 	if( inLength < 0 && inText )
 		inLength = strlen( (const char*)inText );
@@ -978,7 +978,7 @@ status_t ArpParseURL(const ArpString& URL,
 	while( tok.AtDelim() == ParamSep ) {
 		strret = tok.Next(Separators);
 		ArpDL("core", 3, cdb << ADH << "Found param=" << strret
-					<< ", delim=" << tok.AtDelim() << endl);
+					<< ", delim=" << tok.AtDelim() << std::endl);
 		if( Parameters && !strret.IsNull() ) Parameters->push_back(strret);
 	}
 	

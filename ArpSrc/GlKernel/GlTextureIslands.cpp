@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 #include <ArpCore/StlSet.h>
 #include <ArpCore/StlVector.h>
 #include "GlPublic/GlImage.h"
@@ -23,7 +23,7 @@ public:
 class _GlIslandData
 {
 public:
-	vector<_GlIsland*>	islands;
+	std::vector<_GlIsland*>	islands;
 
 	_GlIslandData()							{ }
 	~_GlIslandData()
@@ -74,7 +74,7 @@ private:
 	/* Write out the islands.
 	 */
 	status_t			Step6(	GlPlanes* pixels, _island* islands, int32 w, int32 h,
-								set<int32>& groups, int32 minW, int32 minH);
+								std::set<int32>& groups, int32 minW, int32 minH);
 	
 	/* UTILS
 	 */
@@ -347,8 +347,8 @@ status_t _GlImageToIslands::MakeIslands(GlPlanes* pixels, int32 w, int32 h,
 	while (merge_groups(islands, w, h)) ;
 	/* Find the unique island numbers.
 	 */
-	set<int32>				uniqueGroups;
-	set<int32>::iterator	i;
+	std::set<int32>				uniqueGroups;
+	std::set<int32>::iterator	i;
 	for (pix = 0; pix < w * h; pix++) {
 		if (islands[pix].group >= GROUP_START) uniqueGroups.insert(islands[pix].group);
 	}
@@ -448,9 +448,9 @@ void _GlImageToIslands::Step5(_island* islands, int32 w, int32 h)
 }
 
 status_t _GlImageToIslands::Step6(	GlPlanes* pixels, _island* islands, int32 w, int32 h,
-									set<int32>& groups, int32 minW, int32 minH)
+									std::set<int32>& groups, int32 minW, int32 minH)
 {
-	set<int32>::iterator	i;
+	std::set<int32>::iterator	i;
 	for (i = groups.begin(); i != groups.end(); i++) {
 		/* Find the bounds of the island.
 		 */

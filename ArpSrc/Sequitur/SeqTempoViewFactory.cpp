@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cassert>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmMeasureBackground.h"
 #include "AmPublic/AmPrefsI.h"
@@ -554,7 +554,7 @@ AmEvent* _AmTempoTarget::InterestingEventAt(const AmTrack* track,
 			if( IsInteresting( n->Event() ) ) {
 				if (!closest)
 					closest = n->Event();
-				else if ( abs(time - eventRange.start) < abs(time - topPhrase.EventRange(closest).start) )
+				else if ( llabs(time - eventRange.start) < llabs(time - topPhrase.EventRange(closest).start) )
 					closest = n->Event();
 			}
 		} else {

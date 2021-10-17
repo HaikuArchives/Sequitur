@@ -1,7 +1,7 @@
 /* SeqTimeViews.cpp
  */
-#include <assert.h>
-#include <stdio.h>
+#include <cassert>
+#include <cstdio>
 #include <app/Cursor.h>
 #include <app/Message.h>
 #include <interface/Window.h>

@@ -150,7 +150,7 @@ private:
 
 class MIDIRefFilter : public BRefFilter {
 public:
-	bool MIDIRefFilter::Filter(const entry_ref *r, BNode *node, struct stat_beos *,
+	bool Filter(const entry_ref *r, BNode *node, struct stat_beos *,
 									   const char *mimetype);
 private:
 	static BMimeType typeA, typeB, typeC;

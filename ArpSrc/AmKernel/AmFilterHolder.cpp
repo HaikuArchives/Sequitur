@@ -56,9 +56,9 @@
 
 #include "AmKernel/AmFileRosters.h"
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 
 #include <map>
 
@@ -729,7 +729,7 @@ struct am_filter_batch
 	~am_filter_batch()	{ }
 };
 
-typedef map<AmFilterHolderI*, am_filter_batch> batch_map;
+typedef std::map<AmFilterHolderI*, am_filter_batch> batch_map;
 
 struct am_exec_state
 {
@@ -755,7 +755,7 @@ struct am_exec_state
 		
 		while (gen) {
 			#if NOISY
-			ArpD(cdb << ADH << "Process generated event=" << gen << endl);
+			ArpD(cdb << ADH << "Process generated event=" << gen << std::endl);
 			#endif
 			AmFilterHolderI* filter = gen->NextFilter();
 #if 0
@@ -813,7 +813,7 @@ AmEvent* ArpExecFilters(AmEvent* list, filter_exec_type type, bool deleteNULL,
 		list = list->RemoveEvent();
 		#if NOISY
 		ArpD(cdb << ADH << "Filtering " << gen
-						<< "; next is " << list << endl);
+						<< "; next is " << list << std::endl);
 		#endif
 		AmFilterHolderI* filter = gen->NextFilter();
 		AmFilterHolderI* successor;
@@ -826,7 +826,7 @@ AmEvent* ArpExecFilters(AmEvent* list, filter_exec_type type, bool deleteNULL,
 			if (filter->IsBypassed()) {
 				gen->SetNextFilter(successor);
 				#if NOISY
-				ArpD(cdb << ADH << "Bypassed a filter" << endl);
+				ArpD(cdb << ADH << "Bypassed a filter" << std::endl);
 				#endif
 			} else if(filter->Type() != AmFilterAddOn::DESTINATION_FILTER) {
 				//printf("Exec filter %s: flags=0x%08lx\n", filter->Filter()->Name().String(), flags);
@@ -882,12 +882,12 @@ AmEvent* ArpExecFilters(AmEvent* list, filter_exec_type type, bool deleteNULL,
 					while (tidE) { tidE->trackId = tid; tidE = tidE->NextEvent(); }
 						
 					#if NOISY
-					ArpD(cdb << ADH << "First resulting event is " << gen << endl);
+					ArpD(cdb << ADH << "First resulting event is " << gen << std::endl);
 					#endif
 				}
 			} else {
 				#if NOISY
-				ArpD(cdb << ADH << "Whoops, this is the last filter." << endl);
+				ArpD(cdb << ADH << "Whoops, this is the last filter." << std::endl);
 				#endif
 				state.outPlace = state.outPlace->MergeEvent(gen);
 				if (!state.output) state.output = state.outPlace;
@@ -896,14 +896,14 @@ AmEvent* ArpExecFilters(AmEvent* list, filter_exec_type type, bool deleteNULL,
 			}
 		} else if (!filter && deleteNULL) {
 			#if NOISY
-			ArpD(cdb << ADH << "Hit a NULL filter -- deleting event." << endl);
+			ArpD(cdb << ADH << "Hit a NULL filter -- deleting event." << std::endl);
 			#endif
 			gen->Delete();
 			gen = NULL;
 			successor = NULL;
 		} else {
 			#if NOISY
-			ArpD(cdb << ADH << "Whoops, this is the last filter." << endl);
+			ArpD(cdb << ADH << "Whoops, this is the last filter." << std::endl);
 			#endif
 			state.outPlace = state.outPlace->MergeEvent(gen);
 			if (!state.output) state.output = state.outPlace;
@@ -991,7 +991,7 @@ AmEvent* ArpExecFilters(AmEvent* list, filter_exec_type type, bool deleteNULL,
 					while (tidE) { tidE->trackId = tid; tidE = tidE->NextEvent(); }
 
 					#if NOISY
-					ArpD(cdb << ADH << "First resulting event is " << list << endl);
+					ArpD(cdb << ADH << "First resulting event is " << list << std::endl);
 					#endif
 					
 					state.merge_generated(list);

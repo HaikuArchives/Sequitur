@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <ArpCore/StlVector.h>
 #include "GlPublic/GlParam.h"
 #include "GlPublic/GlParamList.h"
@@ -15,7 +15,7 @@ static const char*		_NODE_PARAMS_STR			= "node_params";
 class _GlParamListData
 {
 public:
-	vector<GlParam*>		params;
+	std::vector<GlParam*>		params;
 
 	_GlParamListData();
 	_GlParamListData(const _GlParamListData& o, gl_node_id nid);

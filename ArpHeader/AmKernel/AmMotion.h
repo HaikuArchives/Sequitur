@@ -23,7 +23,7 @@
 #ifndef AMKERNEL_AMMOTION_H
 #define AMKERNEL_AMMOTION_H
 
-#include <vector.h>
+#include <vector>
 #include <app/Message.h>
 #include "AmPublic/AmMotionI.h"
 #include "AmKernel/AmFileRosterEntryI.h"
@@ -117,7 +117,7 @@ private:
 	BString					mAuthor;
 	BString			 		mEmail;
 	bool					mIsValid;
-	vector<_AmMotionHit>	mHits;
+	std::vector<_AmMotionHit>	mHits;
 	AmSignaturePhrase		mSignatures;
 	AmMotionMode			mEditingMode;
 	bool					mReadOnly;

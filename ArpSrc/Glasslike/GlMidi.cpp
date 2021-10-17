@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <interface/Window.h>
 #include <midi2/MidiProducer.h>
 #include <midi2/MidiRoster.h>
@@ -99,7 +99,7 @@ public:
 	~GlMidiProducerList();
 
 private:
-	vector<GlMidiProducer*>		mProducers;
+	std::vector<GlMidiProducer*>		mProducers;
 };
 
 /***************************************************************************

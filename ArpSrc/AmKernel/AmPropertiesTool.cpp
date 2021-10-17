@@ -1,7 +1,7 @@
 /* AmPropertiesTool.cpp
  */
-#include <stdio.h>
-#include <vector.h>
+#include <cstdio>
+#include <vector>
 #include <app/Clipboard.h>
 #include <interface/MenuItem.h>
 #include <interface/PopUpMenu.h>

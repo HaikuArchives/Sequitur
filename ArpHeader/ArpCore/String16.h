@@ -3,7 +3,7 @@
 #define ARP_CORE_STRING16_H
 
 #include <String.h>
-#include <stdlib.h>
+#include <cstdlib>
 
 class BString16 : public BString {
 public:

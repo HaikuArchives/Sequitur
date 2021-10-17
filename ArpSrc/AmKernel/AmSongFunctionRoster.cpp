@@ -11,7 +11,7 @@
 #include <ArpKernel/ArpDebug.h>
 #endif
 
-#include <algo.h>
+#include <algorithm>
 #include <interface/OutlineListView.h>
 #include <interface/ScrollView.h>
 #include <interface/Window.h>
@@ -137,7 +137,7 @@ public:
 	void				Merge(const _AmProgramEntry &o);
 	void				AddTo(BOutlineListView* list) const;
 	
-	mutable vector<uint8>	programs;
+	mutable std::vector<uint8>	programs;
 	BString					name;
 };
 
@@ -190,7 +190,7 @@ void _AmProgramEntry::AddTo(BOutlineListView* list) const
 	if (!superitem) return;
 	list->AddItem(superitem);
 
-	sort( programs.begin(), programs.end(), greater<uint8>() );
+	sort( programs.begin(), programs.end(), std::greater<uint8>() );
 	for (uint32 k = 0; k < programs.size(); k++) {
 		BString			str;
 		str << (int)programs[k];
@@ -214,7 +214,7 @@ public:
 	void		Print() const;
 	
 private:
-	vector<_AmProgramEntry>	mEntries;
+	std::vector<_AmProgramEntry>	mEntries;
 };
 
 void _AmProgramEntryCollection::AddEntry(const _AmProgramEntry& entry)
@@ -320,7 +320,7 @@ public:
 	void				AddControl(uint8 control);
 	void				AddTo(BOutlineListView* list) const;
 	
-	mutable vector<uint8>	controls;
+	mutable std::vector<uint8>	controls;
 	const AmTrack*			track;
 //	BString					name;
 };
@@ -366,7 +366,7 @@ void _AmControlEntry::AddTo(BOutlineListView* list) const
 	if (!superitem) return;
 	list->AddItem(superitem);
 
-	sort( controls.begin(), controls.end(), greater<uint8>() );
+	sort( controls.begin(), controls.end(), std::greater<uint8>() );
 	for (uint32 k = 0; k < controls.size(); k++) {
 		BString			str;
 		str << (int)controls[k];
@@ -390,7 +390,7 @@ public:
 	void		Print() const;
 	
 private:
-	vector<_AmControlEntry>	mEntries;
+	std::vector<_AmControlEntry>	mEntries;
 };
 
 void _AmControlEntryCollection::AddEntry(const _AmControlEntry& entry)

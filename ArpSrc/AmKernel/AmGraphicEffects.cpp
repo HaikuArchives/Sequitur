@@ -1,6 +1,6 @@
 /* AmGraphicEffects.cpp
  */
-#include <stdio.h>
+#include <cstdio>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmPrefsI.h"
 #include "AmKernel/AmGraphicEffects.h"
@@ -145,8 +145,8 @@ filter_result AmFadingLineEffect::Filter(BMessage *message, BHandler **target)
 
 void AmFadingLineEffect::AddLine(BPoint from, BPoint to, rgb_color c)
 {
-	BRect	r(	min(from.x, to.x), min(from.y, to.y),
-				max(from.x, to.x), max(from.y, to.y) );
+	BRect	r(	std::min(from.x, to.x), std::min(from.y, to.y),
+				std::max(from.x, to.x), std::max(from.y, to.y) );
 	if (mLines.size() >= mMaxLines) {
 		/* Fix: merge area in with rect.
 		 */
@@ -165,10 +165,10 @@ void AmFadingLineEffect::Fade(uint8 step)
 	for (int32 k = (int32)mLines.size() - 1; k >= 0; k--) {
 		mLines[k].Fade(step, mFadeColor);
 
-		float	left = min(mLines[k].from.x, mLines[k].to.x);
-		float	top = min(mLines[k].from.y, mLines[k].to.y);
-		float	right = max(mLines[k].from.x, mLines[k].to.x);
-		float	bottom = max(mLines[k].from.y, mLines[k].to.y);
+		float	left = std::min(mLines[k].from.x, mLines[k].to.x);
+		float	top = std::min(mLines[k].from.y, mLines[k].to.y);
+		float	right = std::max(mLines[k].from.x, mLines[k].to.x);
+		float	bottom = std::max(mLines[k].from.y, mLines[k].to.y);
 		if (unset) {
 			invalid.Set(left, top, right, bottom);
 			unset = false;
@@ -195,10 +195,10 @@ void AmFadingLineEffect::AlphaFade(uint8 step)
 	for (int32 k = (int32)mLines.size() - 1; k >= 0; k--) {
 		mLines[k].AlphaFade(step);
 
-		float	left = min(mLines[k].from.x, mLines[k].to.x);
-		float	top = min(mLines[k].from.y, mLines[k].to.y);
-		float	right = max(mLines[k].from.x, mLines[k].to.x);
-		float	bottom = max(mLines[k].from.y, mLines[k].to.y);
+		float	left = std::min(mLines[k].from.x, mLines[k].to.x);
+		float	top = std::min(mLines[k].from.y, mLines[k].to.y);
+		float	right = std::max(mLines[k].from.x, mLines[k].to.x);
+		float	bottom = std::max(mLines[k].from.y, mLines[k].to.y);
 		if (unset) {
 			invalid.Set(left, top, right, bottom);
 			unset = false;

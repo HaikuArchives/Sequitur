@@ -27,7 +27,7 @@
 #define AMKERNEL_AMSONGFUNCTIONROSTER_H
 
 #include "AmPublic/AmSongFunctionI.h"
-#include <vector.h>
+#include <vector>
 
 /***************************************************************************
  * AM-SONG-FUNCTION-ROSTER
@@ -46,7 +46,7 @@ public:
 	AmSongFunctionI* FindFunction(const char* name) const;
 	
 private:
-	vector<AmSongFunctionI*>	mFunctions;
+	std::vector<AmSongFunctionI*>	mFunctions;
 };
 
 #endif

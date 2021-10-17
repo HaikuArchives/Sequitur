@@ -52,6 +52,8 @@
 
 #if __INTEL__
 
+#if __GNUC__ < 3
+
 #if _BUILDING_AmKernel
 #define	_IMPEXP_ARPMIDI	__declspec(dllexport)
 #else
@@ -64,7 +66,19 @@
 #define	_IMPEXP_ARPLAYOUT	__declspec(dllimport)
 #endif
 
+#else // __GNUC__ < 3
+
+#define _IMPEXP_ARPMIDI
+#define _IMPEXP_ARPLAYOUT
+
+#endif // __GNUC__ < 3
+
 #endif /* __INTEL__ */
+
+#if __x86_64
+#define _IMPEXP_ARPMIDI
+#define _IMPEXP_ARPLAYOUT
+#endif /* __x86_64 */
 
 #if __POWERPC__
 

@@ -1,7 +1,7 @@
 /* AmStdViewFactoryAux.cpp
  */
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "ArpViewsPublic/ArpIntFormatterI.h"
 #include "ArpViews/ArpIntControl.h"
 #include "AmPublic/AmPrefsI.h"

@@ -1,6 +1,6 @@
 /* SeqSignatureWindow.cpp
  */
-#include <stdio.h>
+#include <cstdio>
 #include <app/Message.h>
 #include <interface/Box.h>
 #include <interface/Menu.h>

@@ -23,7 +23,7 @@
 #ifndef AMKERNEL_AMMULTIFILTER_H
 #define AMKERNEL_AMMULTIFILTER_H
 
-#include <vector.h>
+#include <vector>
 #include <app/Message.h>
 #include <interface/View.h>
 #include <support/String.h>
@@ -151,7 +151,7 @@ private:
 
 	bool					mWtfHack;
 
-	vector<AmPipelineSegment>	mPipelines;
+	std::vector<AmPipelineSegment>	mPipelines;
 	AmNotifier				mNotifier;
 
 	AmEvent*				UnifiedHandleEvent(	AmEvent* event, filter_exec_type type,

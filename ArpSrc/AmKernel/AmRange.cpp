@@ -2,9 +2,9 @@
 */
 #define _BUILDING_AmKernel 1
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 #include "AmPublic/AmRange.h"
 
 /***************************************************************************

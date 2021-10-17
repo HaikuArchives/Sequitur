@@ -22,7 +22,7 @@
 #ifndef AMPUBLIC_AMVIEWPROPERTYI_H
 #define AMPUBLIC_AMVIEWPROPERTYI_H
 
-#include <vector.h>
+#include <vector>
 #include <app/Message.h>
 #include <support/String.h>
 #include <ArpBuild.h>

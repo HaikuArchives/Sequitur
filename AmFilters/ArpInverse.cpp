@@ -1,6 +1,6 @@
 /* ArpInverse.cpp
  */
-#include <stdio.h>
+#include <cstdio>
 #include <support/Autolock.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpInverse.h"

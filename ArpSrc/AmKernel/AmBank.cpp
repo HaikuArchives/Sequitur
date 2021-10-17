@@ -4,8 +4,8 @@
 #include "AmKernel/AmBank.h"
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 
 static const char*		NAME_STR				= "name";
 static const char*		PATCH_STR				= "patch";

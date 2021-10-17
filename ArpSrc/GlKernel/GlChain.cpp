@@ -17,7 +17,7 @@ static const char*		NODE_MSG			= "node";
 class GlChainPrivate
 {
 public:
-	vector<GlNode*>	nodes;
+	std::vector<GlNode*>	nodes;
 
 	GlChainPrivate();
 	~GlChainPrivate();

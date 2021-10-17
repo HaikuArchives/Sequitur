@@ -1,6 +1,6 @@
 
 #include <kernel/OS.h>
-#include <stdio.h>
+#include <cstdio>
 
 sem_id sem;
 

@@ -45,7 +45,7 @@
  *
  * ArpD(x) and ArpDL(mod,level,x) are used to place debugging output in the
  * code.  The 'x' argument is the statement needed to display the
- * output -- typically, this is something like 'cdb << "My text" << endl'.
+ * output -- typically, this is something like 'cdb << "My text" << std::endl'.
  * In the second form, 'mod' is the name of the module being
  * instrumented, and 'level' is the debugging level it needs to be set
  * at to have this particular statement executed; the first form sets
@@ -55,10 +55,10 @@
  *
  *   ...
  *   int myvar = get_value();
- *   ArpD(cdb << ADH << "My value set to " << myvar << endl);
+ *   ArpD(cdb << ADH << "My value set to " << myvar << std::endl);
  *   ...
  *   for( int i=0; i<10000; i++ ) {
- *     ArpDL("mymod",3,cdb << ADH << "At index " << i << endl);
+ *     ArpDL("mymod",3,cdb << ADH << "At index " << i << std::endl);
  *     do_something(i);
  *   }
  *   ...
@@ -77,7 +77,7 @@
  *   #if defined(ArpDEBUG)
  *     ArpDLB("example",3) {
  *       for( int i=0; i<100; i++ )
- *         cdb << ADH << "Value " << i << " = " << array[i] << endl;
+ *         cdb << ADH << "Value " << i << " = " << array[i] << std::endl;
  *     }
  *   #endif
  *
@@ -122,7 +122,7 @@
 #endif
 #endif
 
-#include <assert.h>
+#include <cassert>
 
 #include <support/Debug.h>
 
@@ -130,7 +130,7 @@
 
 #if defined(ArpDEBUG)
 
-#include <iostream.h>
+#include <iostream>
 
 #ifndef ARPKERNEL_ARPSTRING_H
 #include <ArpKernel/ArpString.h>
@@ -166,7 +166,7 @@ ArpString ArpDebugHeader(const char* module, int line);
 // Define debug output stream.  Under Unix, this is sent out the stderr
 // stream; under Windows, it is streamed into the debugger using
 // OutputDebugText().
-ostream& ArpDBStream(void);
+std::ostream& ArpDBStream(void);
 #define cdb ArpDBStream()
 
 // Sequencing of debug output between multiple threads.
@@ -197,7 +197,7 @@ public:
 // Marking place in a file
 #define ArpMARKL(mod,level) ArpDL(mod,level,						\
 					 cdb << "ArpMARK: at line " << __LINE__		\
-						   << " of file " << __FILE__ << endl);
+						   << " of file " << __FILE__ << std::endl);
 #define ArpMARK() ArpMARKL(__FILE__,1)
 
 #define ArpPOLISH(__A__) cdb << "ArpPOLISH: At line " << __LINE__ << \
@@ -242,7 +242,7 @@ public:
 #endif
 
 #if defined(DEBUG) || defined(USE_STREAMS)
-#include <iostream.h>
+#include <iostream>
 
 #ifndef ARPKERNEL_ARPSTRING_H
 #include <ArpKernel/ArpString.h>
@@ -255,7 +255,7 @@ public:
 // We only define these stream operators when debugging is turned
 // on, since using streams bloats code so much...
 
-inline ostream& operator << (ostream& os, const ArpString & str)
+inline std::ostream& operator << (std::ostream& os, const ArpString & str)
 { os << ((const char*)str ? (const char*)str : "<null>"); return os; }
 
 class BPoint;
@@ -268,17 +268,17 @@ struct entry_ref;
 struct rgb_color;
 struct pattern;
 
-ostream& operator << (ostream& os, const BPoint & bp);
-ostream& operator << (ostream& os, const BRect & br);
-ostream& operator << (ostream& os, const BFont & fn);
-ostream& operator << (ostream& os, const BMessenger & o);
-ostream& operator << (ostream& os, const BPath & o);
-ostream& operator << (ostream& os, const entry_ref & o);
-ostream& operator << (ostream& os, const rgb_color & o);
-ostream& operator << (ostream& os, const pattern & o);
-ostream& operator << (ostream& os, const BMessage & msg);
+std::ostream& operator << (std::ostream& os, const BPoint & bp);
+std::ostream& operator << (std::ostream& os, const BRect & br);
+std::ostream& operator << (std::ostream& os, const BFont & fn);
+std::ostream& operator << (std::ostream& os, const BMessenger & o);
+std::ostream& operator << (std::ostream& os, const BPath & o);
+std::ostream& operator << (std::ostream& os, const entry_ref & o);
+std::ostream& operator << (std::ostream& os, const rgb_color & o);
+std::ostream& operator << (std::ostream& os, const pattern & o);
+std::ostream& operator << (std::ostream& os, const BMessage & msg);
 
-ostream& ArpToStream(ostream& os, const BMessage& msg, const char* prefix="");
+std::ostream& ArpToStream(std::ostream& os, const BMessage& msg, const char* prefix="");
 
 #endif
 	

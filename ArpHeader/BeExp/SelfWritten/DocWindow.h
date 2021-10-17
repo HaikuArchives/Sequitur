@@ -1,6 +1,7 @@
 #ifndef _DOC_WINDOW_H
 #define _DOC_WINDOW_H
 
+#include <FilePanel.h>
 #include <Window.h>
 #include <Entry.h>
 

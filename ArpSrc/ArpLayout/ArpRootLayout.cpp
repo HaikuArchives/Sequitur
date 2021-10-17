@@ -54,7 +54,7 @@ ArpRootLayout::ArpRootLayout(BRect frame, const char* name,
 							 uint32 resizeMask, uint32 flags)
 	: ArpLayoutView(frame,name,resizeMask,flags)
 {
-	ArpD(cdb << ADH << "Creating root layout " << name << endl);
+	ArpD(cdb << ADH << "Creating root layout " << name << std::endl);
 	
 	ArpColor stdBack(ui_color(B_PANEL_BACKGROUND_COLOR));
 	ArpColor stdText(0x00, 0x00, 0x00);
@@ -68,10 +68,10 @@ ArpRootLayout::ArpRootLayout(BRect frame, const char* name,
 	
 	MakeDefaultGlobals(mGlobals);
 	
-	ArpD(cdb << ADH << "Placing root globals into layout..." << endl);
+	ArpD(cdb << ADH << "Placing root globals into layout..." << std::endl);
 	SetGlobals(this);
 	
-	ArpD(cdb << ADH << "Setting layout to current bounds..." << endl);
+	ArpD(cdb << ADH << "Setting layout to current bounds..." << std::endl);
 	SetViewLayout(Bounds());
 }
 
@@ -125,7 +125,7 @@ void ArpRootLayout::AttachedToWindow()
 {
 	ArpD(cdb << ADH << "Root " << Name()
 				 << ": this view is attached to window "
-				 << Window()->Title() << endl);
+				 << Window()->Title() << std::endl);
 	
 	inherited::AttachedToWindow();
 }
@@ -134,7 +134,7 @@ void ArpRootLayout::AllAttached()
 {
 	ArpD(cdb << ADH << "Root " << Name()
 				 << ": all views are now attached to window "
-				 << Window()->Title() << endl);
+				 << Window()->Title() << std::endl);
 	
 	inherited::AllAttached();
 	
@@ -162,7 +162,7 @@ void ArpRootLayout::AllAttached()
 void ArpRootLayout::DetachedFromWindow()
 {
 	ArpD(cdb << ADH << "Root " << Name()
-				 << ": all views are now detached from window." << endl);
+				 << ": all views are now detached from window." << std::endl);
 	
 	// Similarily, disable updates when removed from a window.
 	SetLayoutInhibit(true);
@@ -173,11 +173,11 @@ void ArpRootLayout::DetachedFromWindow()
 void ArpRootLayout::FrameResized(float width, float height)
 {
 	if( Window() ) {
-		ArpD(cdb << ADH <<"-------------------------------------------" << endl);
-		ArpD(cdb << ADH << "ArpRootLayout::FrameResized()" << endl);
-		ArpD(cdb << ADH << "  width=" << width << ", height=" << height << endl);
+		ArpD(cdb << ADH <<"-------------------------------------------" << std::endl);
+		ArpD(cdb << ADH << "ArpRootLayout::FrameResized()" << std::endl);
+		ArpD(cdb << ADH << "  width=" << width << ", height=" << height << std::endl);
 		BRect bounds = Bounds();
-		ArpD(cdb << ADH << "  Resizing to bounds: " << bounds << endl);
+		ArpD(cdb << ADH << "  Resizing to bounds: " << bounds << std::endl);
 		Window()->BeginViewTransaction();
 		SetViewLayout(bounds);
 		Window()->EndViewTransaction();
@@ -209,7 +209,7 @@ void ArpRootLayout::Draw(BRect updateRect)
 	ArpD(cdb << ADH << "Root " << Name()
 				 << ": drawing window with frame "
 				 << updateRect
-				 << " (bounds=" << Bounds() << ")" << endl);
+				 << " (bounds=" << Bounds() << ")" << std::endl);
 	inherited::Draw(updateRect);
 }
 
@@ -217,7 +217,7 @@ void ArpRootLayout::FrameMoved(BPoint new_position)
 {
 	ArpD(cdb << ADH << "Root " << Name()
 				 << ": frame moved to "
-				 << new_position << endl);
+				 << new_position << std::endl);
 	inherited::FrameMoved(new_position);
 }
 
@@ -244,7 +244,7 @@ void ArpRootLayout::SetWindowLimits()
 				<< ", Locked=" << win->IsLocked()
 				<< ", Locks=" << win->CountLocks()
 				<< ", LockRequests=" << win->CountLockRequests()
-				<< endl);
+				<< std::endl);
 		float minw=0,minh=0,maxw=0,maxh=0;
 		const ArpDimens& dimens = LayoutDimens();
 		win->GetSizeLimits(&minw,&maxw,&minh,&maxh);
@@ -252,12 +252,12 @@ void ArpRootLayout::SetWindowLimits()
 						   dimens.Y().TotalMin(), maxh);
 		win->SetZoomLimits(dimens.X().TotalPref(), dimens.Y().TotalPref());
 		BRect bounds = win->Bounds();
-		ArpD(cdb << ADH << "SetWindowLimits():" << endl);
+		ArpD(cdb << ADH << "SetWindowLimits():" << std::endl);
 		ArpD(cdb << ADH << "  Bounds: " << bounds << ", minw=" << minw
 						<< ", minh=" << minh << ", maxw=" << maxw
-						<< ", maxh=" << maxh << endl);
+						<< ", maxh=" << maxh << std::endl);
 		ArpD(cdb << ADH << "  Layout minw=" << dimens.X().TotalMin()
-						<< ", minh=" << dimens.Y().TotalMin() << endl);
+						<< ", minh=" << dimens.Y().TotalMin() << std::endl);
 		float bw = bounds.Width();
 		float bh = bounds.Height();
 		if( bw < dimens.X().TotalMin() || bh < dimens.Y().TotalMin() ) {
@@ -272,13 +272,13 @@ status_t ArpRootLayout::AddGlobals(const BMessage* values)
 {
 	status_t res = B_NO_ERROR;
 	if( values ) {
-		ArpD(cdb << ADH << "Adding global values: " << *values << endl);
+		ArpD(cdb << ADH << "Adding global values: " << *values << std::endl);
 		char* name;
-		ulong type;
-		long count;
+		uint32 type;
+		int32 count;
 		for( int32 i=0; !values->GetInfo(B_ANY_TYPE,i,&name,&type,&count); i++ ) {
 			ArpD(cdb << ADH << "Adding global " << name
-							<< " (type=" << type <<")." << endl);
+							<< " (type=" << type <<")." << std::endl);
 			if( !mGlobals.HasData(name,type) ) {
 				const void* data;
 				ssize_t size;
@@ -286,14 +286,14 @@ status_t ArpRootLayout::AddGlobals(const BMessage* values)
 					res = mGlobals.AddData(name,type,data,size);
 				} else {
 					ArpD(cdb << ADH << "Ehhh?  Error getting global: res="
-								<< res << "." << endl);
+								<< res << "." << std::endl);
 				}
 			} else {
 				type = 0;
 				int32 count;
 				mGlobals.GetInfo(name,&type,&count);
 				ArpD(cdb << ADH << "Whoops, already have it!  Type is "
-							<< type << "." << endl);
+							<< type << "." << std::endl);
 			}
 		}
 	}
@@ -310,42 +310,42 @@ status_t ArpRootLayout::UpdateGlobals(const BMessage* newVals)
 	if( Window() ) Window()->BeginViewTransaction();
 	
 	ArpD(cdb << ADH << "Global update msg = " << *newVals
-				<< endl);
+				<< std::endl);
 	ArpD(cdb << ADH << "Final global values = " << mGlobals
-				<< endl);
-	ArpD(cdb << ADH << "-------------------------------------" << endl);
-	ArpD(cdb << ADH << "Refreshing globals:" << endl);
+				<< std::endl);
+	ArpD(cdb << ADH << "-------------------------------------" << std::endl);
+	ArpD(cdb << ADH << "Refreshing globals:" << std::endl);
 	ArpGlobalUpdate update(newVals);
 	SetGlobals(&update);
 	
 	SetLayoutInhibit(oldInhibit);
 	
 	if( Window() && strcmp(Window()->Name(), "bm") ) {
-		ArpD(cdb << ADH << "-------------------------------------" << endl);
-		ArpD(cdb << ADH << "Getting dimensions:" << endl);
+		ArpD(cdb << ADH << "-------------------------------------" << std::endl);
+		ArpD(cdb << ADH << "Getting dimensions:" << std::endl);
 		BRect bounds = Bounds();
 		const ArpDimens& dimens = LayoutDimens();
 		if( Parent() == 0 ) {		// top-level view in window?
 			if( bounds.Width() < dimens.X().TotalMin() ||
 				bounds.Height() < dimens.Y().TotalMin() ) {
 				ArpD(cdb << ADH << "-------------------------------------"
-						<< endl);
-				ArpD(cdb << ADH << "Resizing window:" << endl);
+						<< std::endl);
+				ArpD(cdb << ADH << "Resizing window:" << std::endl);
 				Window()->ResizeTo(dimens.X().TotalMin(),dimens.Y().TotalMin());
 				bounds = Window()->Bounds();
 			}
 			SetWindowLimits();
 		}
-		ArpD(cdb << ADH << "-------------------------------------" << endl);
-		ArpD(cdb << ADH << "Setting layout:" << endl);
+		ArpD(cdb << ADH << "-------------------------------------" << std::endl);
+		ArpD(cdb << ADH << "Setting layout:" << std::endl);
 		SetViewLayout(bounds);
 	}
 	
-	ArpD(cdb << ADH << "-------------------------------------" << endl);
-	ArpD(cdb << ADH << "Enabling updates:" << endl);
+	ArpD(cdb << ADH << "-------------------------------------" << std::endl);
+	ArpD(cdb << ADH << "Enabling updates:" << std::endl);
 	if( Window() ) Window()->EndViewTransaction();
-	ArpD(cdb << ADH << "-------------------------------------" << endl);
-	ArpD(cdb << ADH << "Done!" << endl);
+	ArpD(cdb << ADH << "-------------------------------------" << std::endl);
+	ArpD(cdb << ADH << "Done!" << std::endl);
 	
 	return B_OK;
 }

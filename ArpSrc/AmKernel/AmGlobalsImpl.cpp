@@ -1,7 +1,7 @@
 /* AmGlobalsImpl.cpp
  */
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <app/Application.h>
 #include <app/Clipboard.h>
 #include <interface/Alert.h>

@@ -56,12 +56,12 @@ ArpAboutWindow::ArpAboutWindow(BWindow* inwin,
 	aView->GetPreferredSize(&w, &h);
 	ResizeTo(w, h);
 	BRect cfrm = Frame();
-	ArpD(cdb << ADH << "Resized frame = " << cfrm << endl);
+	ArpD(cdb << ADH << "Resized frame = " << cfrm << std::endl);
 	MoveTo( frm.left
 			+ (frm.Width()-cfrm.Width())/2,
 		 	frm.top
 		 	+ (frm.Height()-cfrm.Height())/2);
-	ArpD(cdb << ADH << "Moved frame = " << Frame() << endl);
+	ArpD(cdb << ADH << "Moved frame = " << Frame() << std::endl);
 }
 
 bool ArpAboutWindow::QuitRequested()

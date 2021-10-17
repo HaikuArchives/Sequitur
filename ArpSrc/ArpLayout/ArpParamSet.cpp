@@ -197,7 +197,7 @@ ArpParamSetItem::MarkChange(size_t idx, uint32* global_flags)
 	if( global_flags ) *global_flags |= InfoOf(idx)->local_change_flags;
 	ArpD(cdb << ADH << "Change param set " << Parameters()
 			<< ": local=" << mChanges << ", global="
-			<< (global_flags ? *global_flags : 0) << endl);
+			<< (global_flags ? *global_flags : 0) << std::endl);
 }
 
 uint32

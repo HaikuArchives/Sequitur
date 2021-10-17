@@ -78,7 +78,7 @@ private:
 	
 	void		CreateLink(	track_id trackId,
 							AmRange range, int32 sourceTrack,
-							vector<uint32>& tracks,
+							std::vector<uint32>& tracks,
 							AmTime dropTime);
 	/* This is called when the user has not initiated a drag, but
 	 * has just clicked and released on a specific point.
@@ -105,7 +105,7 @@ private:
 							AmSong* srcSong,
 							AmSong* destSong,
 							AmRange range,
-							vector<uint32>& tracks,
+							std::vector<uint32>& tracks,
 							int32 trackDelta,
 							AmTime dropTime,
 							AmTime oldMeasureStart,

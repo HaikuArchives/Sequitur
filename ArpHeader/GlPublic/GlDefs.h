@@ -4,7 +4,7 @@
 #ifndef GL_DEFS_H
 #define GL_DEFS_H
 
-#include <stdio.h>
+#include <cstdio>
 #include <support/Errors.h>
 #include <support/SupportDefs.h>
 #include <ArpCore/String16.h>

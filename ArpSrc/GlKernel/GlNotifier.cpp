@@ -31,7 +31,7 @@ public:
 	status_t				ReportChange(uint32 code, BMessage* msg, BMessenger sender);
 
 private:
-	vector<_GlObserver*>	mObservers;
+	std::vector<_GlObserver*>	mObservers;
 };
 
 /***************************************************************************

@@ -19,8 +19,8 @@
 #include "ArpKernel/ArpDebug.h"
 #endif
 
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 
 ArpMOD();
 

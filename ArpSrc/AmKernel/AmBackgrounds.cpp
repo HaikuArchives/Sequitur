@@ -1,7 +1,7 @@
 /* AmBackgrounds.cpp
  */
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "AmPublic/AmBackgrounds.h"
 #include "AmPublic/AmPrefsI.h"
 

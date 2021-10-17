@@ -1,7 +1,7 @@
 /* SeqAboutWindow.cpp
  */
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <support/Autolock.h>
 #include <app/MessageRunner.h>
 #include <interface/Button.h>

@@ -70,7 +70,7 @@ private:
 	uint32						mFlags;
 	int32						mType;
 	BString16					mLabel;
-	vector<_GlToolBarEntry*>	mTools;
+	std::vector<_GlToolBarEntry*>	mTools;
 
 public:
 	void						Print(uint32 tabs = 0) const;
@@ -129,7 +129,7 @@ private:
 	/* All public calls must go through the lock.
 	 */
 	mutable BLocker 		mLock; 
-	vector<GlToolBarRef>	mRefs;
+	std::vector<GlToolBarRef>	mRefs;
 
 public:
 	void					Print() const;

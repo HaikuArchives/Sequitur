@@ -31,7 +31,7 @@
 #ifndef MDUSTPUBLIC_MPARTICLEI_H
 #define MDUSTPUBLIC_MPARTICLEI_H
 
-#include <vector.h>
+#include <vector>
 #include <opengl/GLView.h>
 #include "ArpMidiPublic/ArpMidiEventsI.h"
 #include "MDust/MPoint.h"
@@ -94,6 +94,6 @@ public:
 						float halfWidth,
 						float halfHeight) = 0;
 };
-typedef vector<MParticleI*>		particle_vec;
+typedef std::vector<MParticleI*>		particle_vec;
 
 #endif

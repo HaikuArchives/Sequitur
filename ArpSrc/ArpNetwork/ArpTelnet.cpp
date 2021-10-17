@@ -43,7 +43,7 @@
 #endif
 
 #include <signal.h>
-#include <string.h>
+#include <cstring>
 
 ArpMOD();
 
@@ -75,7 +75,7 @@ ArpMOD();
 #include <support/Autolock.h>
 #endif
 
-#include <stdlib.h>
+#include <cstdlib>
 
 enum {
 	SEND_CONNECT_MSG = '.scn',
@@ -107,7 +107,7 @@ ConnectWin::ConnectWin(BMessenger inreply, BWindow* inwin,
 				B_NOT_RESIZABLE | B_ASYNCHRONOUS_CONTROLS ),
 	  reply(inreply), hosttext(NULL), porttext(NULL)
 {
-	ArpD(cdb << ADH << "ConnectWin::ConnectWin()" << endl);
+	ArpD(cdb << ADH << "ConnectWin::ConnectWin()" << std::endl);
 	
 	if( inwin ) AddToSubset(inwin);
 	
@@ -190,16 +190,16 @@ ConnectWin::ConnectWin(BMessenger inreply, BWindow* inwin,
 	}
 
 	BRect frm = Frame();
-	ArpD(cdb << ADH << "Parent window frame = " << frm << endl);
+	ArpD(cdb << ADH << "Parent window frame = " << frm << std::endl);
 	ResizeTo(aRect.left+hw+pw+spacew,aRect.top+hh+ch+spaceh);
 	if( inwin ) {
 		BRect cfrm = Frame();
-		ArpD(cdb << ADH << "Resized frame = " << cfrm << endl);
+		ArpD(cdb << ADH << "Resized frame = " << cfrm << std::endl);
 		MoveTo( frm.left
 				+ (frm.Width()-cfrm.Width())/2,
 			 	frm.top
 			 	+ (frm.Height()-cfrm.Height())/2);
-		ArpD(cdb << ADH << "Moved frame = " << Frame() << endl);
+		ArpD(cdb << ADH << "Moved frame = " << Frame() << std::endl);
 	}
 }
 
@@ -373,7 +373,7 @@ ArpTelnet::~ArpTelnet()
 	CloseConnectWin();
 	DoDisconnect();
 	PromptInfo* pr;
-	for ( long i=0; (pr=(PromptInfo*)(prompts.ItemAt(i))) != NULL; i++ ) {
+	for ( int32 i=0; (pr=(PromptInfo*)(prompts.ItemAt(i))) != NULL; i++ ) {
 		delete pr;
 	}
 }
@@ -476,7 +476,7 @@ void ArpTelnet::clearPrompts()
 	
 	doPrompts = false;
 	PromptInfo* pr;
-	for ( long i=0; (pr=(PromptInfo*)(prompts.ItemAt(i))) != NULL; i++ ) {
+	for ( int32 i=0; (pr=(PromptInfo*)(prompts.ItemAt(i))) != NULL; i++ ) {
 		pr->pos = 0;
 	}
 }
@@ -521,7 +521,7 @@ status_t ArpTelnet::Configure(ArpVectorI<BView*>& views)
 	
 	BMessage settings;
 	if( (err=GetConfiguration(&settings)) != B_NO_ERROR ) {
-		ArpD(cdb << ADH << "Error getting settings: " << err << endl);
+		ArpD(cdb << ADH << "Error getting settings: " << err << std::endl);
 		return err;
 	}
 	
@@ -553,13 +553,13 @@ int ArpTelnet::Port()
 
 status_t ArpTelnet::Connect(BWindow* win)
 {
-	ArpD(cdb << ADH << "ArpTelnet::Connect(win=" << win << ")" << endl);
+	ArpD(cdb << ADH << "ArpTelnet::Connect(win=" << win << ")" << std::endl);
 	BAutolock llock(this);
 	BAutolock glock(&globals);
 	CloseConnectWin();
 	ConnectWin* cn = new ConnectWin(BMessenger(this), win,
 									hostName, hostPort);
-	ArpD(cdb << ADH << "Created connect window: " << cn << endl);
+	ArpD(cdb << ADH << "Created connect window: " << cn << std::endl);
 	if( !cn ) return B_ERROR;
 	cn->Show();
 	cnwin = BMessenger(cn);
@@ -622,7 +622,7 @@ status_t ArpTelnet::DoConnect(const char* host, int32 port)
 	if( host ) hostName = host;
 	if( port >= 0 ) hostPort = port;
 	mWatch.ReportState();
-	ArpD(cdb << ADH << "ArpTelnet: Spawn reader thread." << endl);
+	ArpD(cdb << ADH << "ArpTelnet: Spawn reader thread." << std::endl);
 	readThread = spawn_thread(readThreadEntry,
 								"ARP™ Telnet Reader",
 								B_NORMAL_PRIORITY,
@@ -631,7 +631,7 @@ status_t ArpTelnet::DoConnect(const char* host, int32 port)
 		Disconnect();
 		return (status_t)readThread;
 	}
-	ArpD(cdb << ADH << "ArpTelnet: Resume reader thread." << endl);
+	ArpD(cdb << ADH << "ArpTelnet: Resume reader thread." << std::endl);
 	socketError = resume_thread(readThread);
 	
 	// Kill the thread if unable to start it.
@@ -644,7 +644,7 @@ void ArpTelnet::DoDisconnect()
 {
 	BAutolock llock(this);
 	
-	ArpD(cdb << ADH << "ArpTelnet: Disconnecting..." << endl);
+	ArpD(cdb << ADH << "ArpTelnet: Disconnecting..." << std::endl);
 
 	globals.Lock();
 	
@@ -659,15 +659,15 @@ void ArpTelnet::DoDisconnect()
 	// to quit.
 	while( connected && mythread >= 0 ) {
 		ArpD(cdb << ADH << "ArpTelnet: signal " << SIGUSR1
-							<< "to reader " << mythread << endl);
+							<< "to reader " << mythread << std::endl);
 		send_signal(mythread, SIGUSR1);
 		globals.Unlock();
-		ArpD(cdb << ADH << "ArpTelnet: waiting for reader." << endl);
+		ArpD(cdb << ADH << "ArpTelnet: waiting for reader." << std::endl);
 		snooze(20000);
 		//wait_for_thread(mythread,&ret);
-		ArpD(cdb << ADH << "ArpTelnet: checking reader again." << endl);
+		ArpD(cdb << ADH << "ArpTelnet: checking reader again." << std::endl);
 	}
-	ArpD(cdb << ADH << "ArpTelnet: no reader running." << endl);
+	ArpD(cdb << ADH << "ArpTelnet: no reader running." << std::endl);
 	
 	globals.Unlock();
 	mInUse = false;
@@ -694,7 +694,7 @@ void ArpTelnet::MessageReceived(BMessage* message)
 	if( !message ) return;
 	
 	ArpD(cdb << ADH << "Telnet::MessageReceived: " <<
-				*message << endl);
+				*message << std::endl);
 
 	if( mWatch.MessageReceived(message) == B_OK ) return;
 	
@@ -837,7 +837,7 @@ void ArpTelnet::write(char b)
 	
 	if( connected ) {
 		ArpD(cdb << ADH << "ArpTelnet: Put: " << ArpString::CharToString(b)
-							<< " (" << (int)b << ")" << endl);
+							<< " (" << (int)b << ")" << std::endl);
 		sock.Send(&b,1);
 		if( !rem_options[TELOPT_ECHO] ) {
 			receive(&b,1);
@@ -852,7 +852,7 @@ void ArpTelnet::write(const char* b, int32 len)
 	
 	if( connected && len > 0 ) {
 		ArpD(cdb << ADH << "ArpTelnet: Put: " << ArpString(b,len).AsSequence()
-						<< endl);
+						<< std::endl);
 		sock.Send(b,len);
 		if( !rem_options[TELOPT_ECHO] ) {
 			receive(b,len);
@@ -873,18 +873,18 @@ void ArpTelnet::write(const ArpString& str)
 static void ignore_signal(int)
 {
 	ArpD(cdb << ADH << "ArpTelnet: entered ignore_signal(), thread="
-						<< find_thread(NULL) << endl);
+						<< find_thread(NULL) << std::endl);
 }
 
 /* Entry point and main loop. */
 
 int32 ArpTelnet::readThreadEntry(void* arg)
 {
-	ArpD(cdb << ADH << "ArpTelnet: Enter the reader." << endl);
+	ArpD(cdb << ADH << "ArpTelnet: Enter the reader." << std::endl);
 	signal(SIGUSR1,ignore_signal);
 	ArpTelnet *obj = (ArpTelnet *)arg; 
 	return (obj->startSession()); 
-	ArpD(cdb << ADH << "ArpTelnet: Exit the reader." << endl);
+	ArpD(cdb << ADH << "ArpTelnet: Exit the reader." << std::endl);
 }
 
 int32 ArpTelnet::startSession(void)
@@ -923,7 +923,7 @@ int32 ArpTelnet::startReader(void)
 			receive(hostName);
 			receive("...\r\n");
 			ArpD(cdb << ADH << "ArpTelnet: Looking up " << hostName
-							<< " at " << hostPort << endl);
+							<< " at " << hostPort << std::endl);
 			tName = hostName;
 			tPort = hostPort;
 		}
@@ -952,7 +952,7 @@ int32 ArpTelnet::startReader(void)
 							(int)host.IPPort());
 			receive((const char*)buffer);
 			ArpD(cdb << ADH << "ArpTelnet: Opening socket at " << hostName
-							   << " / " << hostPort << endl);
+							   << " / " << hostPort << std::endl);
 		}
 		
 		status_t ret = sock.Open();
@@ -961,7 +961,7 @@ int32 ArpTelnet::startReader(void)
 			BAutolock glock(globals);
 		
 			ArpD(cdb << ADH << "ArpTelnet: returned with " << ret
-							<< ", readthread=" << readThread << endl);
+							<< ", readthread=" << readThread << std::endl);
 			if( ret >= 0 && readThread < 0 ) ret = EINTR;
 		}
 		
@@ -978,7 +978,7 @@ int32 ArpTelnet::startReader(void)
 				return ret;
 			}
 		
-			ArpD(cdb << ADH << "ArpTelnet: Connected to remote." << endl);
+			ArpD(cdb << ADH << "ArpTelnet: Connected to remote." << std::endl);
 			connected = true;
 		}
 		
@@ -989,20 +989,20 @@ int32 ArpTelnet::startReader(void)
 	{
 		BAutolock glock(&globals);		// Protect termination
 		
-		ArpD(cdb << ADH << "ArpTelnet: Cleaning up..." << endl);
+		ArpD(cdb << ADH << "ArpTelnet: Cleaning up..." << std::endl);
 		
 		clearPrompts();
 		if( socketError < 0 ) {
-			ArpD(cdb << ADH << "ArpTelnet: Showing close error..." << endl);
+			ArpD(cdb << ADH << "ArpTelnet: Showing close error..." << std::endl);
 			receive("\r\n\r\nConnection closed: ");
 			receive(strerror(socketError));
 			receive("\r\n");
 		}
 		
-		ArpD(cdb << ADH << "ArpTelnet: Closing socket..." << endl);	
+		ArpD(cdb << ADH << "ArpTelnet: Closing socket..." << std::endl);	
 		sock.Close();
 		
-		ArpD(cdb << ADH << "ArpTelnet: Clearing hostname..." << endl);	
+		ArpD(cdb << ADH << "ArpTelnet: Clearing hostname..." << std::endl);	
 		host = ArpHostName();
 		
 		readThread = -1;
@@ -1012,7 +1012,7 @@ int32 ArpTelnet::startReader(void)
 			loc_options[i] = rem_options[i] = false;
 		}
 		
-		ArpD(cdb << ADH << "ArpTelnet: Finished disconnect." << endl);
+		ArpD(cdb << ADH << "ArpTelnet: Finished disconnect." << std::endl);
 		connected = false;
 		mInUse = false;
 		readThread = -1;
@@ -1027,38 +1027,38 @@ int32 ArpTelnet::runReader(void)
 	
 	//bool client_kill = false;
     ArpD(cdb << ADH << "WebTerm: Telnet input thread has started."
-    				<< endl);
+    				<< std::endl);
 	ArpD(cdb << ADH << "WebTerm: Telnet thread: "
-					<< find_thread(NULL) << endl);
+					<< find_thread(NULL) << std::endl);
 	receive("Connected.\r\n");
 	mInputState = InputData;
 	for(;;) {
-		long len = 0;
+		int32 len = 0;
 		status_t ret = EINTR;
 		if( readThread >= 0 ) {
-			ArpD(cdb << ADH << "ArpTelnet: Ready to receive." << endl);
+			ArpD(cdb << ADH << "ArpTelnet: Ready to receive." << std::endl);
 			ret = sock.Recv((char*)buffer,sizeof(buffer)-4,&len);
 		}
 		//if( ret == 0 ) ret = ECONNABORTED;
 		if( (ret < B_OK && ret != EINTR) || readThread < 0 ) {
 			ArpD(cdb << ADH << "ArpTelnet: Input thread is terminating."
-							<< endl);
+							<< std::endl);
 			socketError = ret;
 			return ret;
 		}
 		if( len > 0 ) {
 			ArpD(cdb << ADH << "ArpTelnet: Now read " << len << " bytes:"
 							<< (ArpString(&buffer[0],len).AsSequence())
-							<< endl);
+							<< std::endl);
 			const uint8* start = &buffer[0];
 			const uint8* end = &buffer[len];
 			while( start != 0 && start < end ) {
 				start = process_buffer(start, (size_t)(end-start));
 				ArpD(cdb << ADH << "ArpTelnet: New reader state is "
-								<< int(mInputState) << endl);
+								<< int(mInputState) << std::endl);
 			}
 		} else {
-			ArpD(cdb << ADH << "ArpTelnet: Nothing read." << endl);
+			ArpD(cdb << ADH << "ArpTelnet: Nothing read." << std::endl);
 		}
 	}
 }
@@ -1152,8 +1152,8 @@ const uint8* ArpTelnet::process_buffer(const uint8* buffer, size_t len)
 		}
 		
 		default: {
-			ArpD(cdb << ADH << "**** BAD STATE ****" << endl
-							<< "State code: " << int(mInputState) << endl);
+			ArpD(cdb << ADH << "**** BAD STATE ****" << std::endl
+							<< "State code: " << int(mInputState) << std::endl);
 			mInputState = InputData;
 		}
 	}
@@ -1174,7 +1174,7 @@ void ArpTelnet::process_data(uint8 b)
 	BAutolock glock(&globals);
 	
 	ArpD(cdb << ADH << "ArpTelnet: Got: "
-				<< ArpEmulator::charToString((ichar)b) << endl);
+				<< ArpEmulator::charToString((ichar)b) << std::endl);
 	handlePrompts(b);
 	receive((char *)&b,1);
 }
@@ -1185,7 +1185,7 @@ void ArpTelnet::process_data(const uint8* c, size_t len)
 	
 	ArpD(cdb << ADH << "ArpTelnet: Got: "
 				<< ArpEmulator::sequenceToString(ArpString(c,len))
-				<< endl);
+				<< std::endl);
 	if( doPrompts && doPrompts) {
 		const uint8* curPos = c;
 		size_t curLen = len;
@@ -1212,7 +1212,7 @@ void ArpTelnet::handlePrompts(uint8 c)
 					pi->pos++;
 					ArpD(cdb << ADH << i << ": prompt="
 								<< pi->prompt << ", pos="
-								<< pi->pos << endl);
+								<< pi->pos << std::endl);
 					if( pi->pos >= pi->prompt.Length() ) {
 						if( pi->reply.Length() > 0 ) {
 							write(pi->reply);
@@ -1247,7 +1247,7 @@ void ArpTelnet::send_opt(int32 cmd, int32 opt, bool force)
 					<< (remopt_ok(opt) ? rem_options[opt-TELOPT_FIRST]:false)
 					<< ", loc ok=" << locopt_ok(opt) << " state="
 					<< (locopt_ok(opt) ? loc_options[opt-TELOPT_FIRST]:false)
-					<< endl);
+					<< std::endl);
 					
 	/* Send this command if we are being forced to,
 	   OR if it is a change of state of the server options,
@@ -1346,22 +1346,22 @@ void ArpTelnet::process_sb(int32 opt, ArpString data)
 	BAutolock glock(&globals);
 	
 	ArpD(cdb << ADH << "ArpTelnet: Processing SB #" << opt << ": "
-					<< data.AsSequence() << endl);
+					<< data.AsSequence() << std::endl);
 					
 	switch( opt ) {
 		case TELOPT_TTYPE: {
-			ArpD(cdb << ADH << "ArpTelnet: Terminal Type." << endl);
+			ArpD(cdb << ADH << "ArpTelnet: Terminal Type." << std::endl);
 			if( data.Length() < 1 || data[0] != 1 ) break;
 			curEmuType++;
 			send_ttype();
 		} break;
 		case TELOPT_TSPEED: {
-			ArpD(cdb << ADH << "ArpTelnet: Terminal Speed." << endl);
+			ArpD(cdb << ADH << "ArpTelnet: Terminal Speed." << std::endl);
 			if( data.Length() < 1 || data[0] != 1 ) break;
 			send_tspeed();
 		} break;
 		default: {
-			ArpD(cdb << ADH << "ArpTelnet: Unknown SB." << endl);
+			ArpD(cdb << ADH << "ArpTelnet: Unknown SB." << std::endl);
 		} break;
 	}
 }
@@ -1403,7 +1403,7 @@ void ArpTelnet::send_naws(int width, int height)
 		print_cmd("Client",SE);
 		ArpD(cdb << ADH << "WebTerm: Client: len=" << i << ", dat="
 						<< ArpEmulator::sequenceToString(ArpString(&reply[0],0,i))
-						<< endl);
+						<< std::endl);
 		sock.Send((char *)reply,i);
 	}
 }
@@ -1477,7 +1477,7 @@ void ArpTelnet::send_naohtd()
 		print_cmd("Client",IAC);
 		print_cmd("Client",SE);
 		ArpD(cdb << ADH << "WebTerm: Client: len=" << i
-						<< ", dat=" << (char*)reply << endl);
+						<< ", dat=" << (char*)reply << std::endl);
 		sock.Send((char*)reply,i);
 	}
 }
@@ -1514,7 +1514,7 @@ void ArpTelnet::send_tspeed()
 		print_cmd("Client",IAC);
 		print_cmd("Client",SE);
 		ArpD(cdb << ADH << "WebTerm: Client: len=" << i
-						<< ", dat=" << (char*)reply << endl);
+						<< ", dat=" << (char*)reply << std::endl);
 		sock.Send((char*)reply,i);
 	}
 }
@@ -1580,7 +1580,7 @@ ArpString ArpTelnet::parseString(const ArpString& in)
 void ArpTelnet::print_cmd(const ArpString& label, int32 cmd)
 {
 	ArpD(cdb << ADH << label << ": Cmd " << telcmd(cmd)
-					<< " (" << cmd << ")" << endl);
+					<< " (" << cmd << ")" << std::endl);
 }
 
 void ArpTelnet::print_opt(const ArpString& label, int32 opt)
@@ -1591,7 +1591,7 @@ void ArpTelnet::print_opt(const ArpString& label, int32 opt)
 			flag = locopts_impl[opt-TELOPT_FIRST];
 		}
 		cdb << ADH << label << ": Opt " << telopt(opt)
-				<< " (" << opt << ") impl=" << flag << endl;
+				<< " (" << opt << ") impl=" << flag << std::endl;
 	)
 }
 

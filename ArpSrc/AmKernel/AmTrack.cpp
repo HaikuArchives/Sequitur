@@ -2,7 +2,7 @@
  */
 #define _BUILDING_AmKernel 1
 
-#include <stdio.h>
+#include <cstdio>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmGlobalsI.h"
@@ -306,7 +306,7 @@ static void straighten_out_signatures(AmPhrase& oldSignatures)
 	AmSignature*	prevSig = NULL;
 	currentSig.Set(0, 1, 4, 4);
 	AmTime			sigLength = currentSig.Duration();
-	vector<AmSignature*>	removedSigs;
+	std::vector<AmSignature*>	removedSigs;
 	while (n) {
 		nextN = n->next;
 		AmSignature*	sig = dynamic_cast<AmSignature*>( n->Event() );
@@ -787,7 +787,7 @@ status_t AmTrack::AddEvent(	AmPhrase* phrase, AmEvent* event,
 			AmRange		newRange = phrase->TimeRange();
 			if (oldRange == newRange) MergeRangeChange(range, range, event);
 			else {
-				AmRange		r2( min(oldRange.start, newRange.start), max(oldRange.end, newRange.end) );
+				AmRange		r2( std::min(oldRange.start, newRange.start), std::max(oldRange.end, newRange.end) );
 				MergeRangeChange(range, r2, event);
 			}
 		}
@@ -821,7 +821,7 @@ status_t AmTrack::RemoveEvent(	AmPhrase* phrase, AmEvent* event,
 			AmRange		newRange = phrase->TimeRange();
 			if (oldRange == newRange) MergeRangeChange(range, range, event);
 			else {
-				AmRange		r2( min(oldRange.start, newRange.start), max(oldRange.end, newRange.end) );
+				AmRange		r2( std::min(oldRange.start, newRange.start), std::max(oldRange.end, newRange.end) );
 				MergeRangeChange(range, r2, event);
 			}
 		}

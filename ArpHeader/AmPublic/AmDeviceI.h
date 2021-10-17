@@ -71,7 +71,7 @@ public:
 	/* If prependNumber is true, then the answered string will include
 	 * the controller's number.
 	 */
-	virtual BString				ControlName(ulong controlNumber, bool prependNumber = true) const = 0;
+	virtual BString				ControlName(uint32 controlNumber, bool prependNumber = true) const = 0;
 
 	/* About a year after I finished working on Sequitur, I'm hacking
 	 * on some sysex stuff.

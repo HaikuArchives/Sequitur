@@ -1,7 +1,7 @@
 
 
 #include <Debug.h>
-#include <assert.h>
+#include <cassert>
 
 #include <vector>
 #include <map>
@@ -45,11 +45,11 @@ void AmFilterTest1::TestBasic01()
 	int i;
 	
 	printf("Making a vector.\n");
-	vector<int, allocator<int> > myVect(2);
+	std::vector<int, allocator<int> > myVect(2);
 	myVect[0] = 1;
 	
 	printf("Making a map.\n");
-	map< int, int, less<int>, allocator<int> > myMap;
+	std::map< int, int, std::less<int>, allocator<int> > myMap;
 	myMap[0] = 1;
 	
 	printf("Creating example filter object...\n");

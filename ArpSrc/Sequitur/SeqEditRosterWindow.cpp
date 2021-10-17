@@ -1,6 +1,6 @@
 /* SeqEditRosterWindow.cpp
  */
-#include <stdlib.h>
+#include <cstdlib>
 #include <interface/Button.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViewsPublic/ArpViewDefs.h"

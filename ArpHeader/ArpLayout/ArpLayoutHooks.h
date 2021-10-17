@@ -155,7 +155,7 @@
 	ThisClass(BMessage* data, bool final=true);							\
 	virtual status_t Archive(BMessage* data, bool deep=true) const;		
 #define ARPLAYOUT_ARCHIVEHOOKS_SOURCE(ThisClass, ParentClass, ViewDeep)		\
-	ThisClass::ThisClass(BMessage* data, bool final=true)							\
+	ThisClass::ThisClass(BMessage* data, bool final)							\
 		: ParentClass(data), ArpBaseLayout(data, false)					\
 	{																	\
 		initialize();													\
@@ -206,7 +206,7 @@
 		DrawLayout(this, updateRect);									\
 		ParentClass::Draw(updateRect);									\
 	}																	\
-	void Class::MakeFocus(bool focusState=true)						\
+	void Class::MakeFocus(bool focusState)						\
 	{																	\
 		ParentClass::MakeFocus(focusState);								\
 		SetFocusShown(focusState);										\

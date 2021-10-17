@@ -1,7 +1,7 @@
 /* AmVelocityView.cpp
  */
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <interface/MenuField.h>
 #include <interface/MenuItem.h>
 #include <interface/PopUpMenu.h>
@@ -404,7 +404,7 @@ void AmVelocityDataView::DrawEvent(	BView* view, const AmPhraseEvent& topPhrase,
 		c = AmPrefs().SelectedColor();
 	c.alpha = 75;
 	view->SetHighColor(c);
-	view->FillPolygon( pts, 4, BRect(on.x, min(on.y, off.y), off.x, mPt2.y) );
+	view->FillPolygon( pts, 4, BRect(on.x, std::min(on.y, off.y), off.x, mPt2.y) );
 	view->SetDrawingMode( mode );
 
 	/* Draw the foreground
@@ -515,7 +515,7 @@ AmEvent* _AmVelocityTarget::InterestingEventAt(	const AmTrack* track,
 			if( IsInteresting( n->Event() ) ) {
 				if (!closest)
 					closest = n->Event();
-				else if ( abs(time - eventRange.start) < abs(time - topPhrase.EventRange(closest).start) )
+				else if ( llabs(time - eventRange.start) < llabs(time - topPhrase.EventRange(closest).start) )
 					closest = n->Event();
 			}
 		} else {
@@ -550,7 +550,7 @@ AmEvent* _AmVelocityTarget::InterestingReleaseEventAt(	const AmTrack* track,
 			if( IsInteresting( n->Event() ) ) {
 				if( !closest )
 					closest = n->Event();
-				else if( abs(time - n->EndTime()) < abs(time - closest->EndTime()) )
+				else if( llabs(time - n->EndTime()) < llabs(time - closest->EndTime()) )
 					closest = n->Event();
 			}
 		} else {

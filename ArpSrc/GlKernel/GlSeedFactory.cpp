@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 #include "ArpMath/ArpPoint3d.h"
 #include "GlPublic/GlAlgo2d.h"
 #include "GlPublic/GlPlanes.h"

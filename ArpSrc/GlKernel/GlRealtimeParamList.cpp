@@ -15,7 +15,7 @@
 class _GlRtplData
 {
 public:
-	vector<GlAlgo*>		redirectors;
+	std::vector<GlAlgo*>		redirectors;
 
 	_GlRtplData();
 
@@ -88,7 +88,7 @@ public:
 	status_t		UpdateSource(GlNode* node);
 
 private:
-	vector<GlRealtimeEntry*>	mEntries;
+	std::vector<GlRealtimeEntry*>	mEntries;
 
 public:
 	void			Print(uint32 tabs) const;

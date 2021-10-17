@@ -114,7 +114,7 @@ public:
 	status_t				ReadFrom(const BMessage& msg);
 
 private:
-	vector<GlMidiBinding*>	mBindings;
+	std::vector<GlMidiBinding*>	mBindings;
 	bool					mDirty;
 
 	void					Free();

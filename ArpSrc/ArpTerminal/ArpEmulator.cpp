@@ -35,7 +35,7 @@
 #include <interface/View.h>
 #endif
 
-#include <string.h>
+#include <cstring>
 
 ArpMODL(__FILE__, 0, arp_declstdmod);
 
@@ -106,7 +106,7 @@ const ArpEmulationType* ArpEmulator::EmulationType(void) const
 void ArpEmulator::EmulateToTTY(const ichar* d, size_t len)
 {
 	if( len == 1 ) {
-		ArpD(cdb << ADH << "ArpEmulator::EmulateToTTY(" << *d << ")" << endl);
+		ArpD(cdb << ADH << "ArpEmulator::EmulateToTTY(" << *d << ")" << std::endl);
 		if( EmuRemoteNextSpecial(d,1) != d ) {
 			ArpD(cdb << ADH << "WebTerm: Text: '" << charToString(*d) << "'");
 			terminal->TermSendTTY(d,1);
@@ -140,7 +140,7 @@ void ArpEmulator::EmulateToTTY(const ichar* d, size_t len)
 	}
 	ArpD(cdb << ADH << "WebTerm: Text: '"
 				<< sequenceToString(ArpString(d,0,len)) << "'"
-				<< endl);
+				<< std::endl);
 	terminal->TermSendTTY(d,len,0);
 }
 
@@ -153,14 +153,14 @@ bool ArpEmulator::EmulateToRemote(BMessage* msg)
 {
 	if( !msg ) return false;
 
-	ArpD(cdb << ADH << "ArpEmulator::EmulateToRemote " << (*msg) << endl);
+	ArpD(cdb << ADH << "ArpEmulator::EmulateToRemote " << (*msg) << std::endl);
 
 	return EmuTTYMessage(msg);
 }
 
 enum { NUMPAD_FLAG = 0x20000 };
 
-const long ArpEmulator::keymap[KEYMAP_SIZE] = {
+const int32 ArpEmulator::keymap[KEYMAP_SIZE] = {
 	/* 0x0n*/
 	ArpEmulator::KEY_ESCAPE, 0,
 	ArpEmulator::KEY_F1, ArpEmulator::KEY_F2, ArpEmulator::KEY_F3,
@@ -242,7 +242,7 @@ bool ArpEmulator::EmuTTYMessage(BMessage* msg)
 
 #if defined(ArpDEBUG)
 		ArpDB() {
-			cdb << ADH << hex << "key=" << key << ", mods=" << mods
+			cdb << ADH << std::hex << "key=" << key << ", mods=" << mods
 				<< ", utfchar=" << utfchar << " (";
 			while( *utfchar ) {
 				const int32 val = *((const unsigned char*)utfchar);
@@ -251,33 +251,33 @@ bool ArpEmulator::EmuTTYMessage(BMessage* msg)
 				utfchar++;
 				if( *utfchar ) cdb << " ";
 			}
-			cdb << "), unichar=" << unichar << dec << endl;
+			cdb << "), unichar=" << unichar << std::dec << std::endl;
 		}
 #endif
 		
 		int32 trans = key <= KEYMAP_SIZE ? keymap[key] : 0;
 		
 		ArpD(cdb << ADH << "ArpEmulator::EmuTTYMessage key="
-					<< hex << unichar << ", trans=" << trans << dec << endl);
+					<< std::hex << unichar << ", trans=" << trans << std::dec << std::endl);
 					
 		if( !trans ) return EmuTTYKeyPress(msg, unichar, mods);
 		
 		if( trans&NUMPAD_FLAG ) {
 			trans &= ~NUMPAD_FLAG;
-			ArpD(cdb << ADH << "This is a numeric keypad." << endl);
+			ArpD(cdb << ADH << "This is a numeric keypad." << std::endl);
 			if( mods&B_CONTROL_KEY ) {
-				ArpD(cdb << ADH << "Control pressed: sending as cursor." << endl);
+				ArpD(cdb << ADH << "Control pressed: sending as cursor." << std::endl);
 				return EmuTTYKeyPress(msg, trans,
 							mods&~(B_CONTROL_KEY|B_LEFT_CONTROL_KEY|B_RIGHT_CONTROL_KEY));
 			}
 			const int32 old_mods = mods;
 			mods &= ~(B_SHIFT_KEY|B_RIGHT_SHIFT_KEY|B_LEFT_SHIFT_KEY);
 			if( ((old_mods&B_SHIFT_KEY)!=0) ^ ((old_mods&B_NUM_LOCK)!=0) ) {
-				ArpD(cdb << ADH << "Shift/NumLock pressed: sending as number." << endl);
+				ArpD(cdb << ADH << "Shift/NumLock pressed: sending as number." << std::endl);
 				return EmuTTYKeyPress(msg, unichar, mods);
 			}
 		}
-		ArpD(cdb << ADH << "Sending translated key code." << endl);
+		ArpD(cdb << ADH << "Sending translated key code." << std::endl);
 		return EmuTTYKeyPress(msg, trans, mods);
 	}
 	case B_MOUSE_DOWN: {
@@ -286,7 +286,7 @@ bool ArpEmulator::EmuTTYMessage(BMessage* msg)
 		msg->FindPoint("where",&point);
 		msg->FindInt32("buttons",&buttons);
 		ArpD(cdb << ADH << "ArpEmulator::EmuTTYMessage down="
-					<< buttons << endl);
+					<< buttons << std::endl);
 		return EmuTTYMouseDown(msg,point,buttons);
 	}
 	case B_MOUSE_MOVED: {
@@ -311,7 +311,7 @@ bool ArpEmulator::EmuTTYKeyPress(BMessage* /*msg*/,
 									int32 key, int32 /*mods*/)
 {
 	ArpD(cdb << ADH << "ArpEmulator::EmuTTYKeyPress(key="
-				<< hex << key << dec << ")" << endl);
+				<< std::hex << key << std::dec << ")" << std::endl);
 	return false;
 }
 

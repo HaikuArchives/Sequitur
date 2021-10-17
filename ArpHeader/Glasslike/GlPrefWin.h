@@ -11,7 +11,7 @@
  * Known Bugs
  * ~~~~~~~~~~
  *
- *	-¢ None!  Ha ha!
+ *	- None!  Ha ha!
  *
  * ----------------------------------------------------------------------
  *
@@ -72,7 +72,7 @@ private:
 	ArpFloatControl*		mMidiMinCtrl;
 	ArpFloatControl*		mMidiMaxCtrl;
 #endif
-	vector<GlMidiEvent>		mDeletedBindings;
+	std::vector<GlMidiEvent>		mDeletedBindings;
 
 	void					OkGeneral();
 	void					OkMidi();

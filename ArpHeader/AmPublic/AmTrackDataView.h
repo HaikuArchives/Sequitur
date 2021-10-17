@@ -224,7 +224,7 @@ private:
 	 * placed on the stack until it finishes up.  Once finished, it is
 	 * deleted and gone forever.
 	 */
-	vector<AmGraphicEffect*> mPrevToolGraphics;
+	std::vector<AmGraphicEffect*> mPrevToolGraphics;
 	
 	void		HandleScrollMsg(const BMessage* msg);
 	bool		IsOrdered(track_id tid) const;

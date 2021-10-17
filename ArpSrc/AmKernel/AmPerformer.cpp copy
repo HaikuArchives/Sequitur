@@ -11,9 +11,9 @@
 #include <Autolock.h>
 #include <scheduler.h>
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 
 ArpMOD();
 
@@ -187,7 +187,7 @@ status_t AmPerformer::Start(AmEvent* song, uint32 flags)
 	#if ArpDEBUG
 	int32 sugPri = suggest_thread_priority(B_AUDIO_PLAYBACK,
 										   1000000/32, 2000, 100);
-	ArpD(cdb << ADH << "Suggested thread pri=" << sugPri << endl);
+	ArpD(cdb << ADH << "Suggested thread pri=" << sugPri << std::endl);
 	#endif
 	
 	ASSERT(mDataSem == BAD_SEM_ID);
@@ -237,12 +237,12 @@ status_t AmPerformer::Append(AmEvent* song, uint32 flags)
 	
 	if ((flags&AMPF_RESTART) || N < 1) {
 		if (N > 0) {
-			ArpD(cdb << ADH << "Marking last song as finished" << endl);
+			ArpD(cdb << ADH << "Marking last song as finished" << std::endl);
 			song_entry* entry = reinterpret_cast<song_entry*>(mSongs.ItemAt(N-1));
 			entry->finished = true;
 		}
 		if (song) {
-			ArpD(cdb << ADH << "Adding new song entry" << endl);
+			ArpD(cdb << ADH << "Adding new song entry" << std::endl);
 			song_entry* entry = new song_entry(song, (flags&AMPF_RESTART) ? true : false);
 			entry->finished = (flags&AMPF_FINISHED) ? true : false;
 			mSongs.AddItem(entry);
@@ -250,7 +250,7 @@ status_t AmPerformer::Append(AmEvent* song, uint32 flags)
 	} else {
 		song_entry* orig = reinterpret_cast<song_entry*>(mSongs.ItemAt(N-1));
 		if (song) {
-			ArpD(cdb << ADH << "Merging new song events into existing song" << endl);
+			ArpD(cdb << ADH << "Merging new song events into existing song" << std::endl);
 			if (orig->song) {
 				// Pull out closest event we know of to the end, for
 				// better performance,
@@ -280,15 +280,15 @@ status_t AmPerformer::Append(AmEvent* song, uint32 flags)
 		}
 		if (flags&AMPF_RESTART) orig->restart = true;
 		if (flags&AMPF_FINISHED) {
-			ArpD(cdb << ADH << "Marking current song as finished" << endl);
+			ArpD(cdb << ADH << "Marking current song as finished" << std::endl);
 			orig->finished = true;
 		}
-		ArpD(cdb << ADH << "Adding new section to song" << endl);
+		ArpD(cdb << ADH << "Adding new section to song" << std::endl);
 		orig->sections.AddItem(song);
 	}
 	
 	// Make sure the playback thread is running.
-	ArpD(cdb << ADH << "Resuming performer thread" << endl);
+	ArpD(cdb << ADH << "Resuming performer thread" << std::endl);
 	return release_sem(mDataSem);
 }
 
@@ -296,7 +296,7 @@ void AmPerformer::Stop()
 {
 	mAccess.Lock();
 	
-	ArpD(cdb << ADH << "Stopping performer." << endl);
+	ArpD(cdb << ADH << "Stopping performer." << std::endl);
 	
 	sem_id dataSem = mDataSem;
 	mDataSem = B_BAD_SEM_ID;
@@ -309,7 +309,7 @@ void AmPerformer::Stop()
 	status_t ret;
 	if (playThread >= B_OK) wait_for_thread(playThread, &ret);
 	
-	ArpD(cdb << ADH << "Performer is stopped." << endl);
+	ArpD(cdb << ADH << "Performer is stopped." << std::endl);
 	
 	// All resources should have been cleaned up by the thread.
 	// Did it do the right thing?
@@ -322,7 +322,7 @@ void AmPerformer::Stop()
 
 int32 AmPerformer::PlayThreadEntry(void* arg)
 {
-	ArpD(cdb << ADH << "Enter the performer." << endl);
+	ArpD(cdb << ADH << "Enter the performer." << std::endl);
 	AmPerformer *obj = (AmPerformer *)arg;
 	
 	int32 ret = B_OK;
@@ -361,7 +361,7 @@ int32 AmPerformer::PlayThreadEntry(void* arg)
 		}
 	}
 	
-	ArpD(cdb << ADH << "Exit the performer." << endl);
+	ArpD(cdb << ADH << "Exit the performer." << std::endl);
 	return ret;
 }
 
@@ -442,7 +442,7 @@ bigtime_t AmPerformer::WaitTillEvent(AmEvent* event)
 	
 	ArpD(cdb << ADH << "Next note at " << nextTime
 				<< " us (" << (float(nextTime)/1000000) << " secs)"
-				<< ", mBaseTime=" << mBaseTime << endl);
+				<< ", mBaseTime=" << mBaseTime << std::endl);
 	
 	// And this is the system time at which to perform the event.
 	nextTime += mTempoTime;
@@ -459,7 +459,7 @@ bigtime_t AmPerformer::WaitTillEvent(AmEvent* event)
 	ArpD(cdb << ADH << "Done waiting, time now is "
 				<< (system_time()-mBaseTime)
 				<< " us (" << (float(system_time()-mBaseTime)/1000000) << " secs)"
-				<< ", mBaseTime=" << mBaseTime << endl);
+				<< ", mBaseTime=" << mBaseTime << std::endl);
 	
 	return (mDataSem >= B_OK && nextTime < system_time()) ? nextTime : 0;
 }
@@ -475,7 +475,7 @@ AmEvent* AmPerformer::NextEvents()
 	
 	ArpD(cdb << ADH << "Next note at " << nextTime
 				<< " us (" << (float(nextTime)/1000000) << " secs)"
-				<< ", mBaseTime=" << mBaseTime << endl);
+				<< ", mBaseTime=" << mBaseTime << std::endl);
 	
 	bigtime_t curTime = system_time();
 	
@@ -490,11 +490,11 @@ AmEvent* AmPerformer::NextEvents()
 	ArpD(cdb << ADH << "Done waiting, time now is "
 				<< (system_time()-mBaseTime)
 				<< " us (" << (float(system_time()-mBaseTime)/1000000) << " secs)"
-				<< ", mBaseTime=" << mBaseTime << endl);
+				<< ", mBaseTime=" << mBaseTime << std::endl);
 	
 	// Bail now if we are shutting down.
 	if (mDataSem < B_OK) {
-		ArpD(cdb << ADH << "NextEvents(): Premature execution." << endl);
+		ArpD(cdb << ADH << "NextEvents(): Premature execution." << std::endl);
 		return NULL;
 	}
 	
@@ -502,7 +502,7 @@ AmEvent* AmPerformer::NextEvents()
 	// should have already been played.
 	curTime = system_time();
 	const AmTime endBeat = RealTimeToEventTime(curTime-mTempoTime)+1;
-	ArpD(cdb << ADH << "NextEvents(): Collecting up to beat " << endBeat << endl);
+	ArpD(cdb << ADH << "NextEvents(): Collecting up to beat " << endBeat << std::endl);
 	
 	// Now collect all of the events to be performed at this time.  In the
 	// case of premature executation, we just won't find any events and return
@@ -511,8 +511,8 @@ AmEvent* AmPerformer::NextEvents()
 	if (mPosition) {
 		#if defined(ArpDEBUG)
 		ArpDB() {
-			ArpD(cdb << ADH << "NextEvents(): Cutting mPosition " << mPosition << endl);
-			ArpD(cdb << ADH << "Original chain:" << endl);
+			ArpD(cdb << ADH << "NextEvents(): Cutting mPosition " << mPosition << std::endl);
+			ArpD(cdb << ADH << "Original chain:" << std::endl);
 			if (mPosition) mPosition->PrintChain(AmEvent::PRINT_ADDRESS);
 		}
 		#endif
@@ -520,26 +520,26 @@ AmEvent* AmPerformer::NextEvents()
 		#if defined(ArpDEBUG)
 		ArpDB() {
 			ArpD(cdb << ADH << "NextEvents(): cut front=" << result
-					<< ", back=" << mPosition << endl);
-			ArpD(cdb << ADH << "Front chain:" << endl);
+					<< ", back=" << mPosition << std::endl);
+			ArpD(cdb << ADH << "Front chain:" << std::endl);
 			if (result) result->PrintChain(AmEvent::PRINT_ADDRESS);
-			ArpD(cdb << ADH << "Back chain:" << endl);
+			ArpD(cdb << ADH << "Back chain:" << std::endl);
 			if (mPosition) mPosition->PrintChain(AmEvent::PRINT_ADDRESS);
 		}
 		#endif
 	}
 	if (mNewEvents) {
-		ArpD(cdb << ADH << "NextEvents(): Cutting mNewEvents " << mPosition << endl);
+		ArpD(cdb << ADH << "NextEvents(): Cutting mNewEvents " << mPosition << std::endl);
 		AmEvent* extra = mNewEvents->CutAtTime(endBeat, &mNewEvents);
 		ArpD(cdb << ADH << "NextEvents(): cut front=" << extra
-				<< ", back=" << mNewEvents << endl);
+				<< ", back=" << mNewEvents << std::endl);
 		if (extra) {
 			if (!result) {
-				ArpD(cdb << ADH << "NextEvents(): Using mNewEvents." << endl);
+				ArpD(cdb << ADH << "NextEvents(): Using mNewEvents." << std::endl);
 				result = extra;
 			} else {
 				result = result->MergeList(extra, true)->HeadEvent();
-				ArpD(cdb << ADH << "NextEvents(): head of merge=" << result << endl);
+				ArpD(cdb << ADH << "NextEvents(): head of merge=" << result << std::endl);
 			}
 		}
 	}
@@ -568,7 +568,7 @@ void AmPerformer::ExecuteEvent(AmEvent* event, am_filter_params* params)
 		}
 		if( event ) {
 			ArpD(cdb << ADH << "Filter generated events:"
-						<< endl << ADH; event->Print());
+						<< std::endl << ADH; event->Print());
 			event = event->HeadEvent();
 			if( mNewEvents ) mNewEvents = mNewEvents->MergeList(event)->HeadEvent();
 			else mNewEvents = event;
@@ -576,7 +576,7 @@ void AmPerformer::ExecuteEvent(AmEvent* event, am_filter_params* params)
 	} else {
 		// Just delete this event.
 		ArpD(cdb << ADH << "Dropping event without filter:"
-					<< endl << ADH; event->Print());
+					<< std::endl << ADH; event->Print());
 		event->DeleteChain();
 	}
 }
@@ -601,7 +601,7 @@ void AmPerformer::ConsumeEvents()
 	if (!entry->finished && !nextSection) {
 		// If this song is not yet finished, but there is no more
 		// data, then leave it and wait for more.
-		ArpD(cdb << ADH << "*** End of song data, but not finished." << endl);
+		ArpD(cdb << ADH << "*** End of song data, but not finished." << std::endl);
 		return;
 	}
 	
@@ -618,9 +618,9 @@ void AmPerformer::ConsumeEvents()
 		nextSection->SetPrevEvent(NULL);
 		entry->song = nextSection;
 		ArpD(cdb << ADH << "Playing next song section from " << mPosition
-				<< " to " << entry->song << endl);
+				<< " to " << entry->song << std::endl);
 	} else {
-		ArpD(cdb << ADH << "Finish playing song " << entry << endl);
+		ArpD(cdb << ADH << "Finish playing song " << entry << std::endl);
 		mSongs.RemoveItem(0L);
 		delete entry;
 	}
@@ -653,7 +653,7 @@ int32 AmPerformer::RunPerformance()
 		// Get the next event to perform.  If there are no more events
 		// in the current song, move to the next song in the mSongs BList.
 		ArpD(cdb << ADH << "Ready for next: mPosition="
-					<< mPosition << ", mNewEvents=" << mNewEvents << endl);
+					<< mPosition << ", mNewEvents=" << mNewEvents << std::endl);
 		if( mPosition == NULL ) {
 			ConsumeEvents();
 			
@@ -669,7 +669,7 @@ int32 AmPerformer::RunPerformance()
 				if( dataSem < B_OK || mFinished ) break;
 				
 				// Wait for more song data to appear.
-				ArpD(cdb << ADH << "Waiting for more to play." << endl);
+				ArpD(cdb << ADH << "Waiting for more to play." << std::endl);
 				mPlaying = false;
 				acquire_sem(dataSem);
 				continue;
@@ -696,7 +696,7 @@ int32 AmPerformer::RunPerformance()
 		ArpD(thisTimer = system_time());
 		
 		ArpD(cdb << ADH << "Start=" << lastTimer << ", end=" << thisTimer
-						<< ", taken=" << (thisTimer-lastTimer) << endl);
+						<< ", taken=" << (thisTimer-lastTimer) << std::endl);
 		
 		#if SHOW_ERROR
 		if( error > 0 ) {

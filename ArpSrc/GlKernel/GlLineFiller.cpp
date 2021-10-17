@@ -8,7 +8,7 @@
 class GlLineFillerData
 {
 public:
-	vector<GlFillingLine*>	mLines;
+	std::vector<GlFillingLine*>	mLines;
 	
 	GlLineFillerData()		{ }
 	~GlLineFillerData()

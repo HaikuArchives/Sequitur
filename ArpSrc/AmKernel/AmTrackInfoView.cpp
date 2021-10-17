@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <interface/Bitmap.h>
 #include <interface/MenuItem.h>
 #include <interface/PopUpMenu.h>
@@ -208,7 +208,7 @@ void AmTrackInfoView::PostDrawSliceOn(BView* view, BRect clip)
 void AmTrackInfoView::HandleDraggedTrackData(BMessage *msg) {
 #if 0
 	BWindow		*win;
-	long		dragIndex /*, index = Index()*/;
+	int32		dragIndex /*, index = Index()*/;
 	if ( (msg->FindPointer(STR_WINDOW, (void**)&win) != B_OK)
 			|| (msg->FindInt32(STR_POSITION, &dragIndex) != B_OK) )
 		return;

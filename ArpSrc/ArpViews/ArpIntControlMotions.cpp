@@ -1,8 +1,8 @@
 /* ArpIntControlMotions.cpp
  */
-#include <stdio.h>
-#include <assert.h>
-#include <string.h>
+#include <cstdio>
+#include <cassert>
+#include <cstring>
 #include <malloc.h>
 #include "ArpViews/ArpIntControlMotions.h"
 

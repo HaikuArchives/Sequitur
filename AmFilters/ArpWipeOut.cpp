@@ -2,9 +2,9 @@
  */
 #include "ArpWipeOut.h"
 
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include <interface/MenuField.h>
 #include <interface/MenuItem.h>
 #include "ArpKernel/ArpDebug.h"
@@ -192,16 +192,16 @@ status_t ArpWipeOutFilter::Configure(ArpVectorI<BView*>& panels)
 void ArpWipeOutFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>I delete events that are at their minimum values, as defined by each
-	event, below.  The Amount: control can cause events to change by the given
-	amount.  If Amount: is set to -100%, I automatically delete all events I receive.
-	The Amount: controls the following values:</P>
-	<UL>
-		<LI><I>Notes</I> change by velocity.</LI>
-		<LI><I>Control changes</I> change by control value.</LI>
-		<LI><I>Pitch bend events</I> change by pitch.</LI>
-		<LI><I>Any other events are deleted.</I></LI>
-	</UL>&nbsp;";
+	str << "<P>I delete events that are at their minimum values, as defined by each \n"
+	"event, below.  The Amount: control can cause events to change by the given \n"
+	"amount.  If Amount: is set to -100%, I automatically delete all events I receive. \n"
+	"The Amount: controls the following values:</P>\n"
+	"<UL>\n"
+	"	<LI><I>Notes</I> change by velocity.</LI>\n"
+	"	<LI><I>Control changes</I> change by control value.</LI>\n"
+	"	<LI><I>Pitch bend events</I> change by pitch.</LI>\n"
+	"	<LI><I>Any other events are deleted.</I></LI>\n"
+	"</UL>&nbsp;\n";
 }
 
 void ArpWipeOutFilterAddOn::GetVersion(int32* major, int32* minor) const

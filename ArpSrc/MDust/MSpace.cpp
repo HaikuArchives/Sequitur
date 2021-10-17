@@ -1,8 +1,8 @@
 /* MSpace.cpp
  */
-#include <stdio.h>
-#include <assert.h>
-#include <string.h>
+#include <cstdio>
+#include <cassert>
+#include <cstring>
 #include <midi2/MidiRoster.h>
 #include <ArpKernel/ArpDebug.h>
 #include "ArpMidi2/ArpMidiEvents.h"
@@ -158,7 +158,7 @@ void MSpace::SetConsumer(const char* name)
 	mConsumer = ConsumerNamed(name);
 	if (mConsumer == 0) return;
 	if (mConsumer->Acquire() != B_OK) {
-		DB(DBALL, cerr << "MSpace::MSpace() couldn't acquire the consumer." << endl);
+		DB(DBALL, std::cerr << "MSpace::MSpace() couldn't acquire the consumer." << std::endl);
 		mConsumer->Release();
 		mConsumer = 0;
 		return;

@@ -1,6 +1,6 @@
 /* SeqTrackWindow.cpp
  */
-#include <stdio.h>
+#include <cstdio>
 #include <app/Application.h>
 #include <app/Clipboard.h>
 #include <InterfaceKit.h>
@@ -1825,7 +1825,7 @@ BPoint SeqTrackWindow::AddToolBars()
 	while ( (v = mBgView->FindView("tool_bar_view")) != NULL) mBgView->RemoveChild(v);
 
 	AmToolBarRef			toolBarRef;
-	vector<AmToolBarRef>	refs;
+	std::vector<AmToolBarRef>	refs;
 	for (uint32 k = 0; (toolBarRef = AmGlobals().ToolBarAt(k)).IsValid(); k++) {
 		// READ TOOL BAR BLOCK
 		const AmToolBar*	toolBar = toolBarRef.ReadLock();

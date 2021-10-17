@@ -25,7 +25,7 @@
 #ifndef SEQUITUR_SEQSONGINDEXMATRIXVIEW_H
 #define SEQUITUR_SEQSONGINDEXMATRIXVIEW_H
 
-#include <vector.h>
+#include <vector>
 #include <interface/View.h>
 #include "AmPublic/AmSongRef.h"
 class SeqSongSelections;
@@ -91,13 +91,13 @@ public:
 								const BMessage* dragMessage);
 	virtual	void	MouseUp(BPoint where);
 
-	void			InvalidateTracks(vector<track_id>& tracks);
+	void			InvalidateTracks(std::vector<track_id>& tracks);
 	void			FillMetrics(const AmSong* song);
 
 private:
 	typedef	BView			inherited;
 	AmSongRef				mSongRef;
-	vector<_SeqIndexMetric>	mMetrics;
+	std::vector<_SeqIndexMetric>	mMetrics;
 	float					mModeWidth;		// The width of the area displaying
 											// the mode buttons
 	enum {

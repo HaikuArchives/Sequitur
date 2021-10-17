@@ -1,7 +1,7 @@
 /* AmNoteRenderer.cpp
  */
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include "ArpKernel/ArpDebug.h"
 #include "AmKernel/AmPhraseEvent.h"
 #include "AmKernel/AmTrack.h"

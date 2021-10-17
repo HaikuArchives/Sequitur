@@ -21,7 +21,12 @@
 #endif
 
 #include <float.h>
+//
+#if __GNUC__ < 3 
 #include <algobase.h>
+#endif 
+
+
 
 #include <support/Autolock.h>
 
@@ -243,21 +248,21 @@ void ArpUniDimens::SetMinTotal(float value)
 
 void ArpUniDimens::SetMinDimens(const ArpUniDimens& dim)
 {
-	mPreLabel = max(mPreLabel, dim.PreLabel());
-	mMinBody = max(mMinBody, dim.MinBody());
-	mPrefBody = max(mPrefBody, dim.PrefBody());
-	mMaxBody = max(mMaxBody, dim.MaxBody());
-	mPostLabel = max(mPostLabel, dim.PostLabel());
+	mPreLabel = std::max(mPreLabel, dim.PreLabel());
+	mMinBody = std::max(mMinBody, dim.MinBody());
+	mPrefBody = std::max(mPrefBody, dim.PrefBody());
+	mMaxBody = std::max(mMaxBody, dim.MaxBody());
+	mPostLabel = std::max(mPostLabel, dim.PostLabel());
 	ArpASSERT( validate() );
 }
 
 void ArpUniDimens::SetMaxDimens(const ArpUniDimens& dim)
 {
-	mPreLabel = min(mPreLabel, dim.PreLabel());
-	mMinBody = min(mMinBody, dim.MinBody());
-	mPrefBody = min(mPrefBody, dim.PrefBody());
-	mMaxBody = min(mMaxBody, dim.MaxBody());
-	mPostLabel = min(mPostLabel, dim.PostLabel());
+	mPreLabel = std::min(mPreLabel, dim.PreLabel());
+	mMinBody = std::min(mMinBody, dim.MinBody());
+	mPrefBody = std::min(mPrefBody, dim.PrefBody());
+	mMaxBody = std::min(mMaxBody, dim.MaxBody());
+	mPostLabel = std::min(mPostLabel, dim.PostLabel());
 	ArpASSERT( validate() );
 }
 

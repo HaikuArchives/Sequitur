@@ -33,9 +33,9 @@ class _EXPORT BResourceSet;
 #include <Debug.h>
 #include <String.h>
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <unistd.h>
-#include <ctype.h>
+#include <cctype>
 
 #include <png.h>
 

@@ -80,7 +80,9 @@
 #	determine the CPU if not specified on the command line
 ifndef CPU
 	MACHINE =$(shell uname -m)
-ifeq ($(MACHINE), BePC)
+ifeq ($(MACHINE), x86_64)
+	CPU = x86_64
+else ifeq ($(MACHINE), BePC)
 	CPU = x86
 else
 	CPU = ppc
@@ -163,15 +165,15 @@ else
 endif
 
 #		specify the path to the headers
-		BEHEADERS		= /boot/develop/headers
+		BEHEADERS		= /boot/system/develop/headers
 
 #		set the initial compiler flags
 ifndef RELEASE_BUILD
-		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline
-#		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -fno-implement-inlines
-#		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -fno-implement-inlines -fcheck-memory-usage -D_KERNEL_MODE
+		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -std=c++98
+#		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -fno-implement-inlines -std=c++98
+#		CPLATFLAGS		= -g -DArpDEBUG=1 -fno-inline-functions -fno-omit-frame-pointer -fno-default-inline -fno-implement-inlines -fcheck-memory-usage -D_KERNEL_MODE -std=c++98
 else
-		CPLATFLAGS		=
+		CPLATFLAGS		= -std=c++98
 endif
 
 #		specify the basic linker flags
@@ -185,7 +187,87 @@ endif
 		ARFLAGS	+= -xml -o
 
 #	platform specific settings
+ifeq ($(CPU), x86_64)
+
+#		specify flags to cause compiler to generate dependencies
+		MK_DEPS_FLAGS	= -M
+
+#		specify the compiler
+		CC				= gcc
+
+#		specify flags for including files
+		INCLUDE_FLAG	= -I
+		SYSINCLUDE_SEP	=
+		SYSINCLUDE_FLAG	= -isystem
+
+#		specify the library extension
+		LIB_EXTENSION	=
+
+#		specify the optimizer setting
+ifdef RELEASE_BUILD
+		CPLATFLAGS	+= -O2
+else
+		CPLATFLAGS	+= -O0
+endif
+
+#		show lots of warning messages
+		CPLATFLAGS += -Wall -Wno-multichar -Wno-ctor-dtor-privacy
+
+#		specify the linker
+		LD				= gcc
+
+#		specify additional linker flags
+ifdef RELEASE_BUILD
+#		LDPLATFLAGS		+= -Xlinker --strip-all --strip-debug
+#		LDPLATFLAGS		+= --strip-debug
+endif
+
+		ifeq ($(IMG_TYPE), APP)
+			LDPLATFLAGS += -Xlinker -soname=_APP_
+		else
+		ifeq ($(IMG_TYPE), SHARED)
+			LDPLATFLAGS +=   -shared -Xlinker -soname=lib$(IMG_NAME).so
+		else
+		ifeq ($(IMG_TYPE), ADD-ON)
+			LDPLATFLAGS +=  -shared -Xlinker -soname=$(IMG_NAME) 
+		else
+		ifeq ($(IMG_TYPE), STATIC)
+
+		else
+		ifeq ($(IMG_TYPE), DRIVER)
+			CPLATFLAGS += -no-fpic
+			LDPLATFLAGS += -nostdlib /boot/develop/lib/x86/_KERNEL_
+		endif
+		endif
+		endif
+		endif
+		endif
+
+		ifneq ($(IMG_TYPE), STATIC)
+			#MAPNAME			= $(TARGET).xMAP
+			#MAPFLAGS		= -Xlinker -Map $(MAPNAME)
+			MAPNAME			=
+			MAPFLAGS		=
+			SYMBOLNAME		=
+			SYMBOLFLAGS		=
+		endif
+
+#		specify the Standard C++ link library
+		CPPLIB			= stdc++ supc++
+
+
+else
+
 ifeq ($(CPU), x86)
+
+		STDCPPLIBS = 
+#		Check gcc version
+		GCC_GTEQ_300 := $(shell expr `gcc -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/'` \>= 30000)
+		ifeq "$(GCC_GTEQ_300)" "1"
+			STDCPPLIBS = stdc++ supc++
+		else
+			STDCPPLIBS = stdc++.r4
+		endif
 
 #		specify flags to cause compiler to generate dependencies
 		MK_DEPS_FLAGS	= -M
@@ -218,17 +300,17 @@ endif
 #		specify additional linker flags
 ifdef RELEASE_BUILD
 #		LDPLATFLAGS		+= -Xlinker --strip-all --strip-debug
-		LDPLATFLAGS		+= --strip-debug
+#		LDPLATFLAGS		+= --strip-debug
 endif
 
 		ifeq ($(IMG_TYPE), APP)
 			LDPLATFLAGS += -Xlinker -soname=_APP_
 		else
 		ifeq ($(IMG_TYPE), SHARED)
-			LDPLATFLAGS += -nostart -Xlinker -soname=lib$(IMG_NAME).so
+			LDPLATFLAGS +=   -shared -Xlinker -soname=lib$(IMG_NAME).so
 		else
 		ifeq ($(IMG_TYPE), ADD-ON)
-			LDPLATFLAGS += -nostart -Xlinker -soname=$(IMG_NAME)
+			LDPLATFLAGS +=  -shared -Xlinker -soname=$(IMG_NAME) 
 		else
 		ifeq ($(IMG_TYPE), STATIC)
 
@@ -252,7 +334,8 @@ endif
 		endif
 
 #		specify the Standard C++ link library
-		CPPLIB			= stdc++.r4
+		CPPLIB			= $(STDCPPLIBS)
+
 
 else
 
@@ -324,6 +407,7 @@ endif
 		CPPLIB			= mslcpp_2_2
 		#CPPLIB			= $(shell cd $(MWLIBRARIES); ls libmslcpp*.a )
 
+endif
 endif
 endif
 

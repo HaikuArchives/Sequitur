@@ -43,7 +43,7 @@ private:
 	ArpSelectiveAddOn*	mAddOn;
 	AmFilterHolderI*	mHolder;
 	int32				mTypeMask;
-	vector<uint8>		mControlNumbers;
+	std::vector<uint8>		mControlNumbers;
 
 	bool				IncludesControlNumber(uint8 number) const;
 };

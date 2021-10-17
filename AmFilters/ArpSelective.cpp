@@ -2,9 +2,9 @@
  */
 #include "ArpSelective.h"
 
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include <InterfaceKit.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpLayout/ArpViewWrapper.h"
@@ -322,13 +322,13 @@ status_t ArpSelectiveFilter::Configure(ArpVectorI<BView*>& panels)
 void ArpSelectiveAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>I allow through only the selected event types, diverting all other
-	events to my second connection (if any).  By default, all event types are selected,
-	allowing everything through.</P>
-	
-	<P>Most events have a checkbox for simple allow / don't allow behaviour.
-	For control change events, you can choose the specific controller number
-	to allow.</P>";
+	str << "<P>I allow through only the selected event types, diverting all other \n"
+	"events to my second connection (if any).  By default, all event types are selected, \n"
+	"allowing everything through.</P>\n"
+	"\n"
+	"<P>Most events have a checkbox for simple allow / don't allow behaviour. \n"
+	"For control change events, you can choose the specific controller number \n"
+	"to allow.</P>\n";
 }
 
 void ArpSelectiveAddOn::GetVersion(int32* major, int32* minor) const

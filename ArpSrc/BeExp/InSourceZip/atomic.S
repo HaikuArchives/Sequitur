@@ -8,6 +8,14 @@
 #	int32 compare_and_swap32(int32 *location, int32 oldValue, int32 newValue);
 #
 
+#if __x86_64
+
+#else
+
+#
+#	int32 compare_and_swap32(int32 *location, int32 oldValue, int32 newValue);
+#
+
 									.align	8									
 									.globl compare_and_swap32
 			compare_and_swap32:		pushl	%ebx			# Save these
@@ -50,4 +58,4 @@
 									ret
 									
 									.end
-									
+#endif							

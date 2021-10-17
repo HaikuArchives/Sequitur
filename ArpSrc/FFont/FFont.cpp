@@ -23,7 +23,9 @@
 #include <support/ByteOrder.h>
 #endif
 
-#include <string.h>
+#include <cstring>
+
+#include <arpa/inet.h>
 
 // ----------------------- Constructors -----------------------
 

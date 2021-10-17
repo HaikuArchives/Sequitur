@@ -15,7 +15,7 @@
 #include <ArpKernel/ArpDrawPens.h>
 #endif
 
-#include <stdarg.h>
+#include <cstdarg>
 
 #ifndef ARPKERNEL_ARPDEBUG_H
 #include <ArpKernel/ArpDebug.h>
@@ -221,7 +221,7 @@ void ArpDrawPens::InitPens()
 	for( int i=0; i<_Num_ArpLogicalPen; i++ ) {
 		pens[i] = initpen_colors[i];
 		ArpD(cdb << ADH << "Initialized pen #" << i
-					 << " to color " << (rgb_color)pens[i] << endl);
+					 << " to color " << (rgb_color)pens[i] << std::endl);
 	}
 }
 
@@ -234,7 +234,7 @@ void ArpDrawPens::SetPens(ArpLogicalPen pen1, ...)
 		col = va_arg(ap,ArpColor);
 		SetPen(pen1,col);
 		ArpD(cdb << ADH << "Set pen #" << (int)pen1
-					 << " to color " << (rgb_color)col << endl);
+					 << " to color " << (rgb_color)col << std::endl);
 		(void)GetPen(pen1);
 		pen1 = va_arg(ap,ArpLogicalPen);
 	}
@@ -259,7 +259,7 @@ ArpStdDrawPens::ArpStdDrawPens()
 	for( int i=0; i<_Num_ArpLogicalPen; i++ ) {
 		pens[i] = stdpen_colors[i];
 		ArpD(cdb << ADH << "Initialized pen #" << i
-					 << " to color " << (rgb_color)pens[i] << endl);
+					 << " to color " << (rgb_color)pens[i] << std::endl);
 	}
 }
 
@@ -278,7 +278,7 @@ ArpTintDrawPens::ArpTintDrawPens()
 	for( int i=0; i<_Num_ArpLogicalPen; i++ ) {
 		pens[i] = tintpen_colors[i];
 		ArpD(cdb << ADH << "Initialized pen #" << i
-					 << " to color " << (rgb_color)pens[i] << endl);
+					 << " to color " << (rgb_color)pens[i] << std::endl);
 	}
 }
 
@@ -297,6 +297,6 @@ ArpLightDrawPens::ArpLightDrawPens()
 	for( int i=0; i<_Num_ArpLogicalPen; i++ ) {
 		pens[i] = lightpen_colors[i];
 		ArpD(cdb << ADH << "Initialized pen #" << i
-					 << " to color " << (rgb_color)pens[i] << endl);
+					 << " to color " << (rgb_color)pens[i] << std::endl);
 	}
 }

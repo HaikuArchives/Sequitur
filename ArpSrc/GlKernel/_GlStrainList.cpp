@@ -39,7 +39,7 @@ public:
 	_GlStrainListParam*		Param(int32 key, int32 index, bool create);
 
 private:
-	vector<_GlStrainListParam*>	mParams;
+	std::vector<_GlStrainListParam*>	mParams;
 
 public:
 	void			Print() const;

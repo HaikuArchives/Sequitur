@@ -5,7 +5,7 @@
 * I exhibit basic behaviour for adding new views to the list (AddMiniView() always
 * adds at the bottom), inserting at a given point, and removing.
 */
-#include <stdio.h>
+#include <cstdio>
 #include <interface/Window.h>
 #include "ArpViews/ArpHrzViewManager.h"
 
@@ -15,7 +15,7 @@
 * MiniViews.
 *************************************************************************/
 
-ArpHrzViewManager::ArpHrzViewManager(BRect frame, const char *name, ulong resizingMode)
+ArpHrzViewManager::ArpHrzViewManager(BRect frame, const char *name, uint32 resizingMode)
 		: inherited(frame, name, resizingMode, B_WILL_DRAW | B_FRAME_EVENTS),
 		mHsb(0), mSeparation(0)
 {
@@ -76,7 +76,7 @@ void ArpHrzViewManager::SetHorizontalScrollBar(ArpMultiScrollBar* sb)
 	// child would just be scrolled out of the view.
 	if (mHsb != 0) {
 		BView		*view;
-		for (long i=0; (view = (BView*)mViewList.ItemAt(i)) != 0; i++) {
+		for (int32 i=0; (view = (BView*)mViewList.ItemAt(i)) != 0; i++) {
 			mHsb->AddTarget(view);
 		}
 	}
@@ -117,7 +117,7 @@ bool ArpHrzViewManager::ReplaceMiniView(BView *view, int32 position)
 // to find the value dynamically.  This is mostly a convenience when replacing
 // elements.
 // Return 0 if we fail, otherwise the added view.
-BView* ArpHrzViewManager::InsertMiniView(BView *view, long posArg, float topArg)
+BView* ArpHrzViewManager::InsertMiniView(BView *view, int32 posArg, float topArg)
 {
 	if( !view ) return 0;
 	bool		unlock = false;
@@ -125,7 +125,7 @@ BView* ArpHrzViewManager::InsertMiniView(BView *view, long posArg, float topArg)
 		if( !(Window()->Lock()) ) return 0;
 		unlock = true;
 	}
-	long				pos, top = 0;
+	int32				pos, top = 0;
 	int32				itemCount = mViewList.CountItems();
 
 	if ( (posArg < 0) || (posArg >= itemCount) ) {
@@ -184,7 +184,7 @@ BView* ArpHrzViewManager::InsertMiniView(BView *view, long posArg, float topArg)
 
 void ArpHrzViewManager::RemoveMiniView(view_id id)
 {
-	long position;
+	int32 position;
 	if( (position = do_RemoveMiniView( id )) != B_ERROR )
 		RepositionMiniViewsFrom(position);
 	ManagerOperationFinished( REMOVE_OP );
@@ -199,9 +199,9 @@ BView* ArpHrzViewManager::ViewForId( view_id id ) const
 	return 0;
 }
 
-long ArpHrzViewManager::do_RemoveMiniView(view_id id)
+int32 ArpHrzViewManager::do_RemoveMiniView(view_id id)
 {
-	long	position;
+	int32	position;
 	BView*	view = ViewForId( id );
 	if( !view ) return B_ERROR;
 
@@ -246,7 +246,7 @@ void ArpHrzViewManager::RepositionMiniViewsFrom(int32 position)
 
 	if (position == B_ERROR) return;
 
-	for (long i = 0;
+	for (int32 i = 0;
 			(view = (BView*)mViewList.ItemAt(i)) != 0; i++) {
 
 		if (i >= position) view->MoveTo(0, bottom + 1 + mSeparation);
@@ -256,19 +256,19 @@ void ArpHrzViewManager::RepositionMiniViewsFrom(int32 position)
 
 //  Return the top pixel value for the item at pos, or B_ERROR if something
 // goes wrong.
-long ArpHrzViewManager::ListTopAt(int32 position)
+int32 ArpHrzViewManager::ListTopAt(int32 position)
 {
 	if (ListHeadConditions(position)) return 0;
 
 	if (ListTailConditions(position)) {
 		BView	*v;
 		if ((v = (BView*)(mViewList.LastItem())) == 0) return B_ERROR;
-		return (long)(v->Frame().bottom + 1 + mSeparation);
+		return (int32)(v->Frame().bottom + 1 + mSeparation);
 	}
 
 	BView	*v;
 	if ((v = (BView*)(mViewList.ItemAt(position - 1))) == 0) return B_ERROR;
-	return (long)(v->Frame().bottom + 1 + mSeparation);	
+	return (int32)(v->Frame().bottom + 1 + mSeparation);	
 }
 
 bool ArpHrzViewManager::ListHeadConditions(int32 position)
@@ -287,7 +287,7 @@ void ArpHrzViewManager::InvalidateAll()
 {
 	BView		*view;
 	
-	for (long i = 0;
+	for (int32 i = 0;
 			(view = (BView*)mViewList.ItemAt(i)) != 0; i++) {
 		view->Invalidate();
 	}
@@ -312,12 +312,12 @@ void ArpHrzViewManager::SetHSBSteps()
 	mHsb->GetRange(&min, &max);
 	if ((min == 0) && (max == 0)) return;
 
-	long bigStep = BigHorizontalStep();
-	long smallStep = SmallHorizontalStep();
+	int32 bigStep = BigHorizontalStep();
+	int32 smallStep = SmallHorizontalStep();
 
 	if (bigStep > 20) bigStep -= smallStep;
-	if (bigStep > width - bounds.Width()) bigStep = (long)(width - bounds.Width());
-	if ((bounds.right + smallStep) > width) smallStep = (long)(width - bounds.right);
+	if (bigStep > width - bounds.Width()) bigStep = (int32)(width - bounds.Width());
+	if ((bounds.right + smallStep) > width) smallStep = (int32)(width - bounds.right);
 
 	mHsb->SetSteps(smallStep, bigStep);
 	

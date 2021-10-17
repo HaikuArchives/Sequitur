@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <app/Message.h>
 #include <ArpCore/StlVector.h>
 #include <GlPublic/GlNode.h>
@@ -7,7 +7,7 @@
 // GL-NODE-ROSTER-DATA
 class GlNodeRosterData {
 public:
-	vector<GlNodeAddOn*>	addons;
+	std::vector<GlNodeAddOn*>	addons;
 	
 	GlNodeRosterData();
 	~GlNodeRosterData();

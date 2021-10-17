@@ -2,7 +2,7 @@
  */
 #define _BUILDING_AmKernel 1
 
-#include <stdio.h>
+#include <cstdio>
 #include "AmKernel/AmViewProperty.h"
 
 static const char*	V_SIG_STR		= "signature";

@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <vector.h>
+#include <cstdio>
+#include <cstdlib>
+#include <vector>
 #include <interface/Screen.h>
 #include <interface/View.h>
 #include <interface/Window.h>
@@ -36,7 +36,7 @@ public:
 
 private:
 	mutable MultiLocker	mLock;
-	vector<BBitmap*>	mBitmaps;
+	std::vector<BBitmap*>	mBitmaps;
 	uint32				mLimit;
 };
 
@@ -193,7 +193,7 @@ const BBitmap* _AmPianoRollCache::NewPianoRollView(	float width, float noteHeigh
 	delete win;
 
 	if (mBitmaps.size() >= mLimit) {
-		vector<BBitmap*>::iterator		i;
+		std::vector<BBitmap*>::iterator		i;
 		i = mBitmaps.begin();
 		delete (*i);
 		mBitmaps.erase(i);

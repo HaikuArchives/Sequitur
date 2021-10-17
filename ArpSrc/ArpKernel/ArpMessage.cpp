@@ -46,7 +46,7 @@ enum {
 #include <app/Messenger.h>
 #endif
 
-#include <string.h>
+#include <cstring>
 
 ArpMOD();
 
@@ -56,7 +56,7 @@ BMessage& ArpUpdateMessage(BMessage& to, const BMessage& msg)
 {
 	char* name;
 	type_code type;
-	long count;
+	int32 count;
 	for( int32 i=0; !msg.GetInfo(B_ANY_TYPE,i,&name,&type,&count);
 		i++ ) {
 		bool all_gone = false;
@@ -80,7 +80,7 @@ BMessage& ArpUpdateMessage(BMessage& to, const BMessage& msg)
 						}
 					}
 					if( to.ReplaceData(name,type,j,data,size) ) {
-						long cnt=0;
+						int32 cnt=0;
 						type_code mtype = type;
 						if( !to.GetInfo(name,&mtype,&cnt) ) {
 							for( int32 k=cnt-1; k>=j; k-- ) {
@@ -107,7 +107,7 @@ ArpMessage&	ArpMessage::Update(const BMessage& msg)
 	if( this ) {
 		char* name;
 		type_code type;
-		long count;
+		int32 count;
 		for( int32 i=0; !msg.GetInfo(B_ANY_TYPE,i,&name,&type,&count);
 			i++ ) {
 			bool all_gone = false;
@@ -117,7 +117,7 @@ ArpMessage&	ArpMessage::Update(const BMessage& msg)
 				if( !msg.FindData(name,type,j,&data,&size) ) {
 					if( !all_gone &&
 						ReplaceData(name,type,j,data,size) ) {
-						long cnt=0;
+						int32 cnt=0;
 						type_code mtype = type;
 						if( !GetInfo(name,&mtype,&cnt) ) {
 							for( int32 k=cnt-1; k>=j; k-- ) {
@@ -602,7 +602,7 @@ myinline const char* ArpMessage::GetIndirect(const char *name, const char* def, 
 		if( FindData(name, ARP_INDIRECT_TYPE, index, (const void**)&res, &bytes) != B_NO_ERROR ) return def;
 		if( !res ) return def;
 		ArpD(cdb << ADH << "Got indirect: " << res << " for " << name
-					<< " (" << bytes << " bytes)" << endl);
+					<< " (" << bytes << " bytes)" << std::endl);
 		if( res[bytes-1] != '\0' ) {
 			printf("Oops!\n");
 			return def;

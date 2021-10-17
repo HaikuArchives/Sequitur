@@ -1,6 +1,6 @@
 /* SeqSongTitleMatrixView.cpp
  */
-#include <stdio.h>
+#include <cstdio>
 #include <InterfaceKit.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpKernel/ArpBitmapCache.h"

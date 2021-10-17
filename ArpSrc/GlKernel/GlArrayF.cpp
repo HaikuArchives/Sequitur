@@ -1,6 +1,6 @@
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include <ArpKernel/ArpDebug.h>
 #include <ArpMath/ArpDefs.h>
 #include <GlPublic/GlArrayF.h>

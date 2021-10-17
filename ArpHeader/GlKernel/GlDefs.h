@@ -4,7 +4,7 @@
 #ifndef GLKERNEL_DEFS_H
 #define GLKERNEL_DEFS_H
 
-#include <stdio.h>
+#include <cstdio>
 #include <ArpCore/String16.h>
 #include <support/SupportDefs.h>
 

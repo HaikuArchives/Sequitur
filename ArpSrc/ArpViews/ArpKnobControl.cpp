@@ -1,8 +1,8 @@
 /* ArpKnobControl.cpp
  */
-#include <stdio.h>
-#include <assert.h>
-#include <string.h>
+#include <cstdio>
+#include <cassert>
+#include <cstring>
 #include <malloc.h>
 #include <interface/Bitmap.h>
 #include <interface/Screen.h>

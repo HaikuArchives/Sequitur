@@ -42,9 +42,9 @@ static const int32		_MASK_KEY			= 'mask';
 static const int32		_MASK_INDEX			= 1;
 static const int32		_LAYER_KEY			= 'lyr_';
 
-static void _verify_dest(	vector<GlImage*>& destImgs, vector<GlImage*>& layers,
+static void _verify_dest(	std::vector<GlImage*>& destImgs, std::vector<GlImage*>& layers,
 							GlNodeDataList& list);
-static void _align_sources(vector<GlImage*>& layers);
+static void _align_sources(std::vector<GlImage*>& layers);
 
 /***************************************************************************
  * _GL-LAYER-ALGO
@@ -53,7 +53,7 @@ class _GlLayerAlgo : public GlAlgoIm
 {
 public:
 	_GlLayerAlgo(	gl_node_id nid, int32 mode, int32 onMask, bool align,
-					GlAlgo* image, GlAlgo* mask, vector<GlAlgo*>& layers);
+					GlAlgo* image, GlAlgo* mask, std::vector<GlAlgo*>& layers);
 	_GlLayerAlgo(const _GlLayerAlgo& o);
 
 	virtual GlAlgo*		Clone() const;
@@ -130,7 +130,7 @@ GlAlgo* GlLayerIm::Generate(const gl_generate_args& args) const
 	 * complicated than the typical Generate().  Make an algo for each
 	 * chain and put it in the correct container.
 	 */
-	vector<GlAlgo*>		layers;
+	std::vector<GlAlgo*>		layers;
 	uint32				size = ChainSize();
 	for (uint32 k = 0; k < size; k++) {
 		const GlChain*	c = ChainAt(k);
@@ -205,7 +205,7 @@ GlNode* GlLayerImAddOn::NewInstance(const BMessage* config) const
  * _GL-LAYER-ALGO
  ***************************************************************************/
 _GlLayerAlgo::_GlLayerAlgo(	gl_node_id nid, int32 mode, int32 onMask, bool align,
-							GlAlgo* image, GlAlgo* mask, vector<GlAlgo*>& layers)
+							GlAlgo* image, GlAlgo* mask, std::vector<GlAlgo*>& layers)
 		: inherited(nid), mMode(mode), mOnMask(onMask), mAlign(align)
 {
 	for (uint32 k = 0; k < layers.size(); k++) {
@@ -264,8 +264,8 @@ status_t _GlLayerAlgo::Perform(GlNodeDataList& list, const gl_process_args* args
 	GlImage*			destImg;
 	GlImage*			srcImg;
 	uint32				k;
-	vector<GlImage*>	destImgs;
-	vector<GlImage*>	layers;
+	std::vector<GlImage*>	destImgs;
+	std::vector<GlImage*>	layers;
 	for (k = 0; (destImg = list.ImageAt(k)) != 0; k++) destImgs.push_back(destImg);
 	while ((srcImg = layerList.DetachImage()) != 0) layers.push_back(srcImg);
 	layerList.DeleteContents();
@@ -493,7 +493,7 @@ status_t _GlLayerAlgo::GetLayerImages(	GlNodeDataList& inList,
 /***************************************************************************
  * Misc
  ***************************************************************************/
-static void _verify_dest(	vector<GlImage*>& destImgs, vector<GlImage*>& layers,
+static void _verify_dest(	std::vector<GlImage*>& destImgs, std::vector<GlImage*>& layers,
 							GlNodeDataList& list)
 {
 	if (destImgs.size() > 0) return;
@@ -526,7 +526,7 @@ static void _verify_dest(	vector<GlImage*>& destImgs, vector<GlImage*>& layers,
 	}
 }
 
-static void _align_sources(vector<GlImage*>& layers)
+static void _align_sources(std::vector<GlImage*>& layers)
 {
 	if (layers.size() < 2) return;
 	int32			originX, originY, x, y;

@@ -16,8 +16,8 @@ bool steadyFlag;
 bool (*board)[BOARD_SIZE][BOARD_SIZE];
 sem_id read_board_sem, write_board_sem;
 
-static long lifeThread(lifeView *);
-static long drawThread(lifeView *);
+static int32 lifeThread(lifeView *);
+static int32 drawThread(lifeView *);
 static void DoLife(bool (*last)[BOARD_SIZE][BOARD_SIZE], 
 			bool (*next)[BOARD_SIZE][BOARD_SIZE]);
 
@@ -324,7 +324,7 @@ lifeView::DrawCube(int x, int y, int z)
 
 }
 
-static long 
+static int32 
 drawThread(lifeView *mv)
 {
 
@@ -372,7 +372,7 @@ drawThread(lifeView *mv)
 	return 1;
 }
 
-static long
+static int32
 lifeThread(lifeView *mv)
 {
 	

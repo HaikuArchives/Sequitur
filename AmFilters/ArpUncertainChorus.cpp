@@ -1,7 +1,7 @@
 /* ArpUncertainChorus.cpp
  */
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpLayout/ArpViewWrapper.h"
 #include "ArpViews/ArpIntControl.h"
@@ -196,10 +196,10 @@ ArpUncertainChorusAddOn::ArpUncertainChorusAddOn(const void* cookie)
 void ArpUncertainChorusAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>I create a random chorus for each note I receives.  If I am in an
-	input or output pipeline, I create a random note based on my Frequency.  If
-	I am in a tool pipeline, I follow the mouse, and create random notes between
-	where the mouse was pressed and its current Y position.</p>";
+	str << "<p>I create a random chorus for each note I receives.  If I am in an \n"
+	"input or output pipeline, I create a random note based on my Frequency.  If \n"
+	"I am in a tool pipeline, I follow the mouse, and create random notes between \n"
+	"where the mouse was pressed and its current Y position.</p>\n";
 }
 
 void ArpUncertainChorusAddOn::GetVersion(int32* major, int32* minor) const

@@ -66,7 +66,7 @@ template<class T> status_t ArpFindParam(T* value, const BMessage* msg,
 	status_t err = msg->FindData(name, type, index, (const void**)&get, &len);
 	if( err ) {
 		ArpD(cdb << ADH << "Unable to find data: " << name
-				<< " at index " << index << endl);
+				<< " at index " << index << std::endl);
 		return err;
 	}
 	ArpVALIDATE(len == sizeof(T), return B_MISMATCHED_VALUES);
@@ -93,7 +93,7 @@ status_t ArpFindParam(BString* value, const BMessage* msg,
 	status_t err = msg->FindData(name, type, index, (const void**)&get, &len);
 	if( err ) {
 		ArpD(cdb << ADH << "Unable to find data: " << name
-				<< " at index " << index << endl);
+				<< " at index " << index << std::endl);
 		return err;
 	}
 	if( get[len] == 0 ) len--;
@@ -170,7 +170,7 @@ public:
 			value = name.String();
 		}
 		ArpD(cdb << ADH << "Archiving " << Name(sarg)
-				<< ": value name is " << value << endl);
+				<< ": value name is " << value << std::endl);
 		return ArpAddParam(&mValue, msg, value, Type(sarg));
 	}
 	
@@ -185,7 +185,7 @@ public:
 			value = name.String();
 		}
 		ArpD(cdb << ADH << "Instantiating " << Name(sarg)
-				<< ": value name is " << value << endl);
+				<< ": value name is " << value << std::endl);
 		return ArpFindParam(&mValue, msg, value, Type(sarg), 0);
 	}
 	

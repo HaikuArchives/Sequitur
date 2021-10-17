@@ -31,8 +31,13 @@
 #include <interface/ScrollBar.h>
 #endif
 
+//
+#if __GNUC__ < 3 
 #include <algobase.h>
-#include <string.h>
+#endif 
+
+
+#include <cstring>
 
 ArpMOD();
 
@@ -191,23 +196,23 @@ void ArpScrollArea::update_scroll_bars(void)
 	BView* childv = get_child();
 	bool changed = false;
 	if( PV_ScrollHorizontal && scroll_h && scroll_h->IsHidden() ) {
-		ArpD(cdb << ADH << "ArpScrollArea: Showing hscroll" << endl);
+		ArpD(cdb << ADH << "ArpScrollArea: Showing hscroll" << std::endl);
 		if( childv ) scroll_h->SetTarget(childv);
 		scroll_h->Show();
 		changed = true;
 	} else if( !PV_ScrollHorizontal && scroll_h && !scroll_h->IsHidden() ) {
-		ArpD(cdb << ADH << "ArpScrollArea: Hiding hscroll" << endl);
+		ArpD(cdb << ADH << "ArpScrollArea: Hiding hscroll" << std::endl);
 		scroll_h->SetTarget((BView*)NULL);
 		scroll_h->Hide();
 		changed = true;
 	}
 	if( PV_ScrollVertical && scroll_v && scroll_v->IsHidden() ) {
-		ArpD(cdb << ADH << "ArpScrollArea: Showing vscroll" << endl);
+		ArpD(cdb << ADH << "ArpScrollArea: Showing vscroll" << std::endl);
 		if( childv ) scroll_v->SetTarget(childv);
 		scroll_v->Show();
 		changed = true;
 	} else if( !PV_ScrollVertical && scroll_v && !scroll_v->IsHidden() ) {
-		ArpD(cdb << ADH << "ArpScrollArea: Hiding vscroll" << endl);
+		ArpD(cdb << ADH << "ArpScrollArea: Hiding vscroll" << std::endl);
 		scroll_v->SetTarget((BView*)NULL);
 		scroll_v->Hide();
 		changed = true;
@@ -317,7 +322,7 @@ void ArpScrollArea::SetLayoutActivated(bool state)
 
 void ArpScrollArea::AttachView(BView* par_view, BView* before)
 {
-	ArpD(cdb << ADH << "*** ArpScrollArea::AttachView()" << endl);
+	ArpD(cdb << ADH << "*** ArpScrollArea::AttachView()" << std::endl);
 	inherited::AttachView(par_view, before);
 	if( par_view && InView() ) {
 		par_view = InView();
@@ -349,10 +354,10 @@ void ArpScrollArea::ComputeDimens(ArpDimens& cur_dimens)
 	curx.SetMinTotal((dimh*3)+4);
 	s_height = dimh;
 	
-	ArpD(cdb << ADH << "Computed hscroll dimens:" << endl
+	ArpD(cdb << ADH << "Computed hscroll dimens:" << std::endl
 				<< "  dimw=" << dimw << " dimh=" << dimh
 				<< " min_w=" << curx.MinBody()
-				<< " min_h=" << cury.MinBody() << endl);
+				<< " min_h=" << cury.MinBody() << std::endl);
 	
 	dimw = dimh = 0;
 	if( (PV_ScrollVertical || PV_InsetCorner) && scroll_v )
@@ -361,10 +366,10 @@ void ArpScrollArea::ComputeDimens(ArpDimens& cur_dimens)
 	cury.SetMinTotal((dimw*3)+4);
 	s_width = dimw;
 
-	ArpD(cdb << ADH << "Computed vscroll dimens:" << endl
+	ArpD(cdb << ADH << "Computed vscroll dimens:" << std::endl
 				<< "  dimw=" << dimw << " dimh=" << dimh
 				<< " min_w=" << curx.MinBody()
-				<< " min_h=" << cury.MinBody() << endl);
+				<< " min_h=" << cury.MinBody() << std::endl);
 	
 	if( (PV_ScrollHorizontal && PV_ScrollVertical)
 		|| (PV_InsetCorner && (PV_ScrollHorizontal || PV_ScrollVertical)) ) {
@@ -381,9 +386,9 @@ void ArpScrollArea::ComputeDimens(ArpDimens& cur_dimens)
 	}
 	
 	ArpD(cdb << ADH << "final min_width = " << curx.MinBody()
-			<< ", min_height = " << cury.MinBody() << endl);
+			<< ", min_height = " << cury.MinBody() << std::endl);
 	ArpD(cdb << ADH << "final pref_width = " << curx.PrefBody()
-			<< ", pref_height = " << cury.PrefBody() << endl);
+			<< ", pref_height = " << cury.PrefBody() << std::endl);
 }
 
 void ArpScrollArea::LayoutView(void)
@@ -396,13 +401,13 @@ void ArpScrollArea::LayoutView(void)
 		// including all the parents!!!  So it's better to just invalidate
 		// the whole view, it seems.  *sigh*
 		ArpD(cdb << ADH << "Invalidating parent view: " << InView()->Name()
-				<< " (" << InView() << ")" << endl);
+				<< " (" << InView() << ")" << std::endl);
 		if( mLastFrame.IsValid() ) {
-			ArpD(cdb << ADH << "Previous rectangle: " << mLastFrame << endl);
+			ArpD(cdb << ADH << "Previous rectangle: " << mLastFrame << std::endl);
 			//InView()->Invalidate(mLastFrame);
 		}
 		mLastFrame = LayoutFrame();
-		ArpD(cdb << ADH << "New rectangle: " << mLastFrame << endl);
+		ArpD(cdb << ADH << "New rectangle: " << mLastFrame << std::endl);
 		//InView()->Invalidate(mLastFrame);
 		InView()->Invalidate();
 	}
@@ -411,7 +416,7 @@ void ArpScrollArea::LayoutView(void)
 	int32 num = CountLayoutChildren();
 
 	ArpD(cdb << ADH << "Frame=" << frm << " s_width=" << s_width
-				<< " s_height=" << s_height << endl);
+				<< " s_height=" << s_height << std::endl);
 	
 	if( PV_BorderStyle == B_FANCY_BORDER ) {
 		frm.left += 2;
@@ -431,10 +436,10 @@ void ArpScrollArea::LayoutView(void)
 	if( PV_ScrollHorizontal && scroll_h && frm.Width() > 0 ) {
 		ArpD(cdb << ADH << "Moving hscroll to (" << frm.right << ","
 					<< frm.top << ") size=(" << s_width
-					<< "," << frm.Height() << ")" << endl);
+					<< "," << frm.Height() << ")" << std::endl);
 		ArpD(cdb << ADH << "Hscroll parent="
 					<< (void*)scroll_h->Parent()
-					<< " ishidden=" << scroll_h->IsHidden() << endl);
+					<< " ishidden=" << scroll_h->IsHidden() << std::endl);
 		float inset = (PV_InsetCorner && !PV_ScrollVertical) ? s_width : 0;
 		float width = frm.Width()-inset;
 		if( width < s_height+4 ) width = s_height+4;
@@ -450,10 +455,10 @@ void ArpScrollArea::LayoutView(void)
 	if( PV_ScrollVertical && scroll_v && frm.Height() > 0 ) {
 		ArpD(cdb << ADH << "Moving vscroll to (" << frm.left << ","
 					<< frm.bottom << ") size=(" << frm.Width()
-					<< "," << s_height << ")" << endl);
+					<< "," << s_height << ")" << std::endl);
 		ArpD(cdb << ADH << "Vscroll parent="
 					<< (void*)scroll_v->Parent()
-					<< " ishidden=" << scroll_v->IsHidden() << endl);
+					<< " ishidden=" << scroll_v->IsHidden() << std::endl);
 		float inset = (PV_InsetCorner && !PV_ScrollHorizontal) ? s_height : 0;
 		float height = frm.Height()-inset;
 		if( height < s_width+4 ) height = s_width+4;
@@ -469,14 +474,14 @@ void ArpScrollArea::LayoutView(void)
 	
 	if( num >= 1 ) {
 		ArpBaseLayout* child = LayoutChildAt(0);
-		ArpD(cdb << ADH << "Moving child to " << frm << endl);
+		ArpD(cdb << ADH << "Moving child to " << frm << std::endl);
 		if( child ) child->SetViewLayout(frm);
 	}
 	
 	ArpD(cdb << ADH << "cframe=" << (get_child() ? get_child()->Frame():BRect())
 				<< " vframe=" << (scroll_v ? scroll_v->Frame():BRect())
 				<< " hframe=" << (scroll_h ? scroll_h->Frame():BRect())
-				<< endl);
+				<< std::endl);
 }
 
 static void
@@ -516,7 +521,7 @@ void ArpScrollArea::DrawLayout(BView* inside, BRect region)
 	
 	BRect rect(LayoutBounds());
 	BPoint inset(rect.right-s_width, rect.bottom-s_height);
-	ArpD(cdb << ADH << "Drawing frame in bounds: " << rect << endl);
+	ArpD(cdb << ADH << "Drawing frame in bounds: " << rect << std::endl);
 	
 	bool show_focus = LayoutActivated() ? FocusShown() : false;
 	

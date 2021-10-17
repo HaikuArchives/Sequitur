@@ -28,9 +28,10 @@
 
 #include <MidiDefs.h>
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
+#include <memory>
 
 ArpMOD();
 
@@ -431,14 +432,14 @@ status_t AmStandardMidiFile::ReadTrack(ArpStructuredIO& io)
 		mCurTrackInfo.has_output_connections = false;
 
 	mCurTime = 0;
-	ArpD(cdb << ADH << "===> Starting to read new track" << endl);
+	ArpD(cdb << ADH << "===> Starting to read new track" << std::endl);
 	
 	while (io.RemainingReadChunk() > B_OK) {
 		uint64 timeOff;
 		if ((res=io.ReadMidiNumber(&timeOff)) != B_OK) return res;
 		mCurTime += timeOff;
 		ArpD(cdb << ADH << "Next track event at time " << mCurTime
-				<< " (delta " << timeOff << ")" << endl);
+				<< " (delta " << timeOff << ")" << std::endl);
 		if ((res=io.ReadInt8((int8*)&c)) != B_OK) return res;
 		
 		// Check for running status
@@ -1250,7 +1251,7 @@ status_t AmStandardMidiFile::WriteEvent(ArpStructuredIO& io, int32 channel,
 							*queue = (*queue)->HeadEvent();
 						} else *queue = offev;
 					}
-				} catch (bad_alloc& e) {
+				} catch (std::bad_alloc& e) {
 				}
 			}
 		} break;

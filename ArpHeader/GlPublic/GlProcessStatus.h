@@ -66,7 +66,7 @@ protected:
 
 private:
 	BLocker 		mLock; 
-	vector<_GlProcessPartition*>	mPartitions;
+	std::vector<_GlProcessPartition*>	mPartitions;
 	BMessenger		mTarget;
 	uint32			mCode;
 	int32			mProgressWidth;

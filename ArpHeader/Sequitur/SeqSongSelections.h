@@ -22,7 +22,7 @@
 #ifndef SEQUITUR_SEQSONGSELECTIONS_H
 #define SEQUITUR_SEQSONGSELECTIONS_H
 
-#include <vector.h>
+#include <vector>
 #include <support/SupportDefs.h>
 #include "AmPublic/AmRange.h"
 
@@ -55,7 +55,7 @@ public:
 
 private:
 	AmRange				mRange;
-	vector<track_id>	mTracks;
+	std::vector<track_id>	mTracks;
 };
 
 /******************************************************************

@@ -30,8 +30,8 @@
 #ifndef ARPMATH_ARPDEFS_H
 #define ARPMATH_ARPDEFS_H
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <support/SupportDefs.h>
 #include <ArpKernel/ArpDebug.h>
 

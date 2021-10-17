@@ -8,7 +8,7 @@
 #include <GlPublic/GlPixel.h>
 #include <GlPublic/GlPlanes.h>
 
-static vector<int32>		gKeys;
+static std::vector<int32>		gKeys;
 
 /***************************************************************************
  * GL-MAP

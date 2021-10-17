@@ -3,9 +3,9 @@
 
 #define _BUILDING_AmKernel 1
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <interface/Bitmap.h>
 #include "ArpKernel/ArpDebug.h"
 #include "AmKernel/AmDevice.h"
@@ -548,7 +548,7 @@ status_t AmDevice::ReadFrom(const BMessage& config)
 	return B_OK;
 }
 
-static status_t sc_get_syx(const BMessage& msg, vector<AmSystemExclusive*>& sysexVec)
+static status_t sc_get_syx(const BMessage& msg, std::vector<AmSystemExclusive*>& sysexVec)
 {
 	uint8*						data;
 	ssize_t						size;
@@ -580,7 +580,7 @@ static status_t sc_get_cv(const BMessage& msg, const char* name, _AmCommandValue
 	return B_OK;
 }
 
-static status_t sc_get_labels(const BMessage& msg, vector<BString>& labelVec)
+static status_t sc_get_labels(const BMessage& msg, std::vector<BString>& labelVec)
 {
 	BString		str;
 	for (uint32 k = 0; msg.FindString("vl", k, &str) == B_OK; k++) {
@@ -592,7 +592,7 @@ static status_t sc_get_labels(const BMessage& msg, vector<BString>& labelVec)
 status_t AmDevice::ReadSysExCommand(const BMessage& msg)
 {
 	status_t						err;
-	vector<AmSystemExclusive*>		sysexVec;
+	std::vector<AmSystemExclusive*>		sysexVec;
 	if ((err = sc_get_syx(msg, sysexVec)) != B_OK) return err;
 	int32							initValue;
 	if ((err = msg.FindInt32("iv", &initValue)) != B_OK) return err;
@@ -603,7 +603,7 @@ status_t AmDevice::ReadSysExCommand(const BMessage& msg)
 	if ((err = sc_get_cv(msg, "cv_did", deviceId)) != B_OK) return err;
 	if ((err = sc_get_cv(msg, "cv_v", value)) != B_OK) return err;
 	if (sc_get_cv(msg, "cv_c", channelC) == B_OK) channel = &channelC;
-	vector<BString>					valueLabels;
+	std::vector<BString>					valueLabels;
 	if ((err = sc_get_labels(msg, valueLabels)) != B_OK) return err;
 
 	AmSysExCommand*			com = new AmSysExMultiCommand(sysexVec, initValue, key, deviceId, value, channel, &valueLabels);

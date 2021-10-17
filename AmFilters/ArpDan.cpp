@@ -2,8 +2,8 @@
  */
 #include "ArpDan.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <interface/MenuField.h>
 #include <interface/MenuItem.h>
 #include "ArpKernel/ArpDebug.h"
@@ -125,8 +125,8 @@ status_t ArpDanFilter::PutConfiguration(const BMessage* values)
 void ArpDanFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>I am thoroughly commented template for writing your own C++ filters.  The source
-	code can be found in the <i>DevKit/ExampleFilters/</i> folder.</P>";
+	str << "<P>I am thoroughly commented template for writing your own C++ filters.  The source \n"
+	"code can be found in the <i>DevKit/ExampleFilters/</i> folder.</P>\n";
 }
 
 void ArpDanFilterAddOn::GetVersion(int32* major, int32* minor) const

@@ -2,8 +2,8 @@
  */
 #define _BUILDING_AmKernel 1
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "ArpKernel/ArpDebug.h"
 #include "AmKernel/AmMotion.h"
 
@@ -148,8 +148,8 @@ static inline float interpolated_y(float x, BPoint fromPt, BPoint toPt)
 	if (x <= fromPt.x) return fromPt.y;
 	if (x >= toPt.x) return toPt.y;
 	
-	float		minY = min(fromPt.y, toPt.y);
-	float		maxY = max(fromPt.y, toPt.y);
+	float		minY = std::min(fromPt.y, toPt.y);
+	float		maxY = std::max(fromPt.y, toPt.y);
 	float		distX = toPt.x - fromPt.x;
 	float		distY = maxY - minY;
 	

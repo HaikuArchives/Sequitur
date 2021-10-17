@@ -22,7 +22,7 @@
 #ifndef AMKERNEL_AMTRACKREF_H
 #define AMKERNEL_AMTRACKREF_H
 
-#include <vector.h>
+#include <vector>
 #include <support/SupportDefs.h>
 #include <app/Messenger.h>
 #include "AmPublic/AmDefs.h"
@@ -133,6 +133,6 @@ private:
 	track_id		mId;
 };
 
-typedef vector<AmTrackRef>		trackref_vec;
+typedef std::vector<AmTrackRef>		trackref_vec;
 
 #endif 

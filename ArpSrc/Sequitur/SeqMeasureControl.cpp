@@ -1,10 +1,10 @@
 /* SeqMeasureControl.cpp
  */
-#include <stdio.h>
-#include <assert.h>
-#include <string.h>
+#include <cstdio>
+#include <cassert>
+#include <cstring>
 #include <malloc.h>
-#include <math.h>
+#include <cmath>
 #include <experimental/BitmapTools.h>
 #include <interface/Bitmap.h>
 #include <interface/MenuItem.h>
@@ -262,7 +262,7 @@ void SeqMeasureControl::MouseDown(BPoint pt)
 {
 	MakeFocus(true);
 	BPoint		where;
-	ulong		buttons;
+	uint32		buttons;
 	GetMouse(&where, &buttons, false);
 	if (buttons&B_SECONDARY_MOUSE_BUTTON) {
 		ShowTimeSignatureMenu(pt);

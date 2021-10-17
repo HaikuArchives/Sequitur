@@ -2,9 +2,9 @@
  */
 #include "ArpPandemic.h"
 
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include <interface/MenuField.h>
 #include <interface/MenuItem.h>
 #include "ArpKernel/ArpDebug.h"
@@ -235,12 +235,12 @@ uint8 ArpPandemicFilter::RandomControlValue() const
 void ArpPandemicFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>I generate random control changes with each note I receive. By default,
-	I generate a single random pan value between 0 and 127. The range can be constrained
-	by setting the min value and max value properties. If the duration is greater than one,
-	a series of control changes will be generated, that sweep from the previously generated
-	value to the new random value. The density control sets how many controllers are generated 
-	during the sweep -- lower values generate more controllers.</p>";
+	str << "<p>I generate random control changes with each note I receive. By default, \n"
+	"I generate a single random pan value between 0 and 127. The range can be constrained \n"
+	"by setting the min value and max value properties. If the duration is greater than one, \n"
+	"a series of control changes will be generated, that sweep from the previously generated \n"
+	"value to the new random value. The density control sets how many controllers are generated \n"
+	"during the sweep -- lower values generate more controllers.</p>\n";
 }
 
 void ArpPandemicFilterAddOn::GetVersion(int32* major, int32* minor) const

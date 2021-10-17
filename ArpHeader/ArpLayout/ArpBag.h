@@ -133,8 +133,8 @@ private:
 		float		total_weight;		// WeightC constraint of all chidren
 		float		min_weight;			// pref-min size of all children
 	};
-	vector<ArpDimens>	fColumns;
-	vector<ArpDimens>	fRows;
+	std::vector<ArpDimens>	fColumns;
+	std::vector<ArpDimens>	fRows;
 	totals				fColumnTotals;
 	totals				fRowTotals;
 	

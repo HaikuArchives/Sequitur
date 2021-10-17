@@ -69,12 +69,12 @@ public:
 		SetSize(0);
 	}
 	
-	void SetSize(long new_size) {
+	void SetSize(int32 new_size) {
 		T** new_array = NULL;
 		ArpD(cdb << ADH << "ArpRefArray: SetSize(" << new_size
-					<< "), oldsize=" << size << endl);
+					<< "), oldsize=" << size << std::endl);
 		if( new_size > 0 ) new_array = new T*[new_size];
-		long i = 0;
+		int32 i = 0;
 		if( array && size ) {
 			for( ; i<size && i<new_size; i++ ) {
 				new_array[i] = array[(top+i)%size];
@@ -92,15 +92,15 @@ public:
 		array = new_array;
 		size = new_size;
 		top = 0;
-		ArpD(cdb << ADH << "Resulting array:" << endl;
+		ArpD(cdb << ADH << "Resulting array:" << std::endl;
 				for( int j=0; j<size; j++ ) {
 					cdb << "Element " << j << " = 0x"
-						<< (void*)array[j] << endl;
+						<< (void*)array[j] << std::endl;
 				}
 			);
 	}
 
-	inline long Size(void) const { return size; }
+	inline int32 Size(void) const { return size; }
 	
 	// positive scrolls new elements in to bottom
 	void ScrollView(int offset) {
@@ -112,52 +112,52 @@ public:
 		// PowerPC apparently goes the negative route.
 		while( top < 0 ) top += size;
 		if( offset > 0 ) {
-			for( long i=0; i<offset; i++ ) {
+			for( int32 i=0; i<offset; i++ ) {
 				SetElem(size-i-1,NULL);
 			}
 		} else {
 			offset = -offset;
-			for( long i=0; i<offset; i++ ) {
+			for( int32 i=0; i<offset; i++ ) {
 				SetElem(i,NULL);
 			}
 		}
 	}
 	
-	T* GetElem(long index) {
+	T* GetElem(int32 index) {
 		if( size <= 0 ) return NULL;
 		index = (index+top)%size;
 		while( index < 0 ) index += size;
 		return array[index];
 	}
-	const T* GetElem(long index) const {
+	const T* GetElem(int32 index) const {
 		if( size <= 0 ) return NULL;
 		index = (index+top)%size;
 		while( index < 0 ) index += size;
 		return array[index];
 	}
 	
-	void SetElem(long index, T* val) {
+	void SetElem(int32 index, T* val) {
 		if( size <= 0 ) return;
 		index = (index+top)%size;
 		while( index < 0 ) index += size;
 		ArpD(cdb << ADH << "Replace element " << index
 					<< ", was 0x" << ((void*)array[index])
-					<< ", now 0x" << ((void*)val) << endl);
+					<< ", now 0x" << ((void*)val) << std::endl);
 		if( val ) val->Ref();
 		if( array[index] != NULL ) array[index]->Deref();
 		array[index] = val;
 	}
 
-	inline T* operator [] (long index) {
+	inline T* operator [] (int32 index) {
 		return GetElem(index);
 	}
-	inline const T* operator [] (long index) const {
+	inline const T* operator [] (int32 index) const {
 		return GetElem(index);
 	}
 	
 private:
-	long size;			// Total number of entries in array
-	long top;			// Current top position of array
+	int32 size;			// Total number of entries in array
+	int32 top;			// Current top position of array
 	T** array;			// The actual array
 };
 
@@ -178,21 +178,21 @@ public:
 	ArpRefArray(int init_size=0);
 	~ArpRefArray();
 	
-	void SetSize(long new_size);
+	void SetSize(int32 new_size);
 
-	long Size(void) { return size; }
+	int32 Size(void) { return size; }
 	
 	// positive scrolls new elements in to bottom
 	void ScrollView(int offset);
-	void* GetVoidElem(long index);
-	void SetVoidElem(long index, void* val);
+	void* GetVoidElem(int32 index);
+	void SetVoidElem(int32 index, void* val);
 	
 	virtual void DoDeref(void* elem) { };
 	virtual void DoRef(void* elem) { };
 	
 private:
-	long size;			// Total number of entries in array
-	long top;			// Current top position of array
+	int32 size;			// Total number of entries in array
+	int32 top;			// Current top position of array
 	void** array;		// The actual array
 };
 

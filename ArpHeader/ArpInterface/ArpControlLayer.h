@@ -77,7 +77,7 @@ protected:
 	status_t			SetControlProps(int32 id, BPoint origin, bool enabled);
 
 private:
-	vector<_ControlLayerEntry*>	mEntries;
+	std::vector<_ControlLayerEntry*>	mEntries;
 	enum {
 		ENABLED_F		= 0x00000001
 	};

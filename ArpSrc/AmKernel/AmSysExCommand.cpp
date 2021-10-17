@@ -2,9 +2,9 @@
  */
 #define _BUILDING_AmKernel 1
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "ArpKernel/ArpDebug.h"
 #include "AmKernel/AmSysExCommand.h"
 #include "AmKernel/AmPhraseEvent.h"
@@ -33,7 +33,7 @@ static AmIntCodecI* int_codec_for(uint32 bitNum, uint32 flags);
  * AM-SYS-EX-COMMAND
  ***************************************************************************/
 AmSysExCommand::AmSysExCommand(	const BString& key, const _AmCommandValue& deviceId,
-								const _AmCommandValue& value, vector<BString>* valueLabels,
+								const _AmCommandValue& value, std::vector<BString>* valueLabels,
 								uint32 inBitNum, uint32 inFlags)
 		: mKey(key), mDeviceId(deviceId), mValue(value),
 		  mBitNum(inBitNum), mFlags(inFlags)
@@ -174,7 +174,7 @@ void AmSysExCommand::Print() const
  ***************************************************************************/
 AmSysExSingleCommand::AmSysExSingleCommand(	AmSystemExclusive* sysex, int32 initValue,
 											const BString& key, const _AmCommandValue& deviceId,
-											const _AmCommandValue& value, vector<BString>* valueLabels,
+											const _AmCommandValue& value, std::vector<BString>* valueLabels,
 											uint32 bitNum, uint32 flags)
 		: inherited(key, deviceId, value, valueLabels, bitNum, flags),
 		  mSysEx(sysex)
@@ -264,11 +264,11 @@ void AmSysExSingleCommand::Print() const
 /***************************************************************************
  * AM-SYS-EX-MULTI-COMMAND
  ***************************************************************************/
-AmSysExMultiCommand::AmSysExMultiCommand(	vector<AmSystemExclusive*>& sysex, int32 initValue,
+AmSysExMultiCommand::AmSysExMultiCommand(	std::vector<AmSystemExclusive*>& sysex, int32 initValue,
 											const BString& key, const _AmCommandValue& deviceId,
 											const _AmCommandValue& value,
 											const _AmCommandValue* channel,
-											vector<BString>* valueLabels,
+											std::vector<BString>* valueLabels,
 											uint32 bitNum, uint32 flags)
 		: inherited(key, deviceId, value, valueLabels, bitNum, flags)
 {

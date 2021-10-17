@@ -1,18 +1,18 @@
 // =============================================================================
-//    ¥ BTSSocket.cpp
+//     BTSSocket.cpp
 // =============================================================================
 
 #include <ArpNetwork/BTSSocket.h>
 #include <ArpKernel/ArpDebug.h>
-#include <stdio.h>
+#include <cstdio>
 #include <support/Debug.h>
 #include <errno.h>
-#include <string.h>
+#include <cstring>
 
 ArpMOD();
 
 // =============================================================================
-//    ¥ BTSSocket
+//     BTSSocket
 // =============================================================================
 BTSSocket::BTSSocket() : fFamily(AF_INET), fType(SOCK_STREAM), 
 						fProtocol(IPPROTO_TCP)
@@ -28,7 +28,7 @@ BTSSocket::BTSSocket() : fFamily(AF_INET), fType(SOCK_STREAM),
 }
 
 // =============================================================================
-//    ¥ BTSSocket
+//     BTSSocket
 // =============================================================================
 
 BTSSocket::BTSSocket(const int type, const int protocol, const int family) :
@@ -52,7 +52,7 @@ BTSSocket::BTSSocket(const int type, const int protocol, const int family) :
 }
 
 // =============================================================================
-//    ¥ BTSSocket
+//     BTSSocket
 // =============================================================================
 BTSSocket::BTSSocket(const int socketID) : fFamily(-1), fType(-1), fProtocol(-1)
 {
@@ -62,7 +62,7 @@ BTSSocket::BTSSocket(const int socketID) : fFamily(-1), fType(-1), fProtocol(-1)
 }
 
 // =============================================================================
-//    ¥ Init
+//     Init
 // =============================================================================
 void
 BTSSocket::Init()
@@ -77,20 +77,20 @@ BTSSocket::Init()
 }
 
 // =============================================================================
-//    ¥ SetOption
+//     SetOption
 // =============================================================================
-long
+int32
 BTSSocket::SetOption(const int level, const int option, char* data, 
 					const unsigned int size) const
 {
-	long result = ::setsockopt(fID, level, option, data, size);	
+	int32 result = ::setsockopt(fID, level, option, data, size);	
 	ArpD(PRINT(("Result of socket option setting is %ld\n", result)));
 	return result < 0 ? errno : result;
 }
 // =============================================================================
-//    ¥ Open
+//     Open
 // =============================================================================
-long
+int32
 BTSSocket::Open()
 {
 	if (fID > -1)
@@ -103,64 +103,64 @@ BTSSocket::Open()
 }
 
 // =============================================================================
-//    ¥ SendLock
+//     SendLock
 // =============================================================================
-long
+int32
 BTSSocket::SendLock() const 
 {
 	return ::acquire_sem(fSendSem);
 }
 
 // =============================================================================
-//    ¥ SendUnlock
+//     SendUnlock
 // =============================================================================
-long
+int32
 BTSSocket::SendUnlock() const 
 {
 	return ::release_sem(fSendSem);
 }
 
 // =============================================================================
-//    ¥ RecvLock
+//     RecvLock
 // =============================================================================
-long
+int32
 BTSSocket::RecvLock() const 
 {
 	return ::acquire_sem(fRecvSem);
 }
 
 // =============================================================================
-//    ¥ RecvUnlock
+//     RecvUnlock
 // =============================================================================
-long
+int32
 BTSSocket::RecvUnlock() const 
 {
 	return ::release_sem(fRecvSem);
 }
 // =============================================================================
-//    ¥ ConnectToAddress
+//     ConnectToAddress
 // =============================================================================
-long
+int32
 BTSSocket::ConnectToAddress(const ArpHostName& host)
 {
-	long 				result;
+	int32 				result;
 	fHost = host;
 	const sockaddr_in* 	sockAddr = &fHost.SockAddr();
 	ArpD(cdb << ADH << "Connect to: family=" << (sockAddr->sin_family)
 				<< ", port=" << (sockAddr->sin_port)
-				<< ", addr=" << (sockAddr->sin_addr.s_addr) << endl);
+				<< ", addr=" << (sockAddr->sin_addr.s_addr) << std::endl);
 	result = ::connect(fID, (struct sockaddr*)sockAddr, 
 						sizeof(*sockAddr));
 	return result < 0 ? errno : result;
 }
 
 // =============================================================================
-//    ¥ BindTo
+//     BindTo
 // =============================================================================
-long	
+int32	
 BTSSocket::BindTo(const ArpHostName& host)
 {
-	long	result;
+	int32	result;
 	fHost = host;
 	const 	sockaddr_in* sockAddr  = &fHost.SockAddr();
 	
@@ -170,20 +170,20 @@ BTSSocket::BindTo(const ArpHostName& host)
 }
 
 // =============================================================================
-//    ¥ Listen
+//     Listen
 // =============================================================================
-long	
+int32	
 BTSSocket::Listen(const int maxConnections)
 {
 	fMaxConnections = maxConnections;
-	long result = ::listen(fID, maxConnections);
+	int32 result = ::listen(fID, maxConnections);
 	return result < 0 ? errno : result;
 }
 
 // =============================================================================
-//    ¥ Close
+//     Close
 // =============================================================================
-long
+int32
 BTSSocket::Close()
 {
 	if (fID > -1)
@@ -195,15 +195,15 @@ BTSSocket::Close()
 }
 
 // =============================================================================
-//    ¥ Send
+//     Send
 // =============================================================================
-long
-BTSSocket::Send(const char* buf, const long bufSize) const
+int32
+BTSSocket::Send(const char* buf, const int32 bufSize) const
 {
 	// Sends the data for a BMessage over a socket, preceded by the message's
 	// size.
 	
-	long 	result = B_NO_ERROR;
+	int32 	result = B_NO_ERROR;
 	int 	numBytes = -1;
 	int		sentBytes = 0;
 	ArpD(PRINT(( "SOCKET SEND - ENTER, %ld bytes on socket %d\n", bufSize, fID)));
@@ -227,17 +227,17 @@ BTSSocket::Send(const char* buf, const long bufSize) const
 }
 
 // =============================================================================
-//    ¥ Recv
+//     Recv
 // =============================================================================
-long
-BTSSocket::Recv(const char* buf, const long bufSize, long* recvlen) const
+int32
+BTSSocket::Recv(const char* buf, const int32 bufSize, int32* recvlen) const
 {
 	// Receives a network data buffer of a certain size. Does not return until
 	// the buffer is full or if the socket returns 0 bytes (meaning it was 
 	// closed) or returns an error besides EINTR. (EINTR can be generated when a
 	// send() occurs on the same socket.
 	
-	long result = B_NO_ERROR;	// error value of socket calls
+	int32 result = B_NO_ERROR;	// error value of socket calls
 	int  receivedBytes = 0;		
 	int  numBytes = 0;
 	
@@ -289,22 +289,22 @@ BTSSocket::Recv(const char* buf, const long bufSize, long* recvlen) const
 }
 
 // =============================================================================
-//    ¥ UpdateSendCount
+//     UpdateSendCount
 // =============================================================================
-void BTSSocket::UpdateSendCount(const long numBytes)
+void BTSSocket::UpdateSendCount(const int32 numBytes)
 {
-	static long sendCount = 0;
+	static int32 sendCount = 0;
 	sendCount += numBytes;
 	ArpD(PRINT(("Total bytes sent: %ld\n", sendCount)));
 	return;
 }
 
 // =============================================================================
-//    ¥ UpdateReceiveCount
+//     UpdateReceiveCount
 // =============================================================================
-void BTSSocket::UpdateReceiveCount(const long numBytes)
+void BTSSocket::UpdateReceiveCount(const int32 numBytes)
 {
-	static long receiveCount = 0;
+	static int32 receiveCount = 0;
 	receiveCount += numBytes;
 	ArpD(PRINT(("Total bytes received: %ld\n", receiveCount)));
 	return;

@@ -1,6 +1,6 @@
 /* ArpMerge.cpp
  */
-#include <stdio.h>
+#include <cstdio>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpMerge.h"
 
@@ -36,8 +36,8 @@ AmEvent* ArpMergeFilter::HandleEvent(AmEvent* event, const am_filter_params* /*p
 void ArpMergeFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>I am a simple passthrough.  I merge together input from multiple
-	sources.</P>";
+	str << "<P>I am a simple passthrough.  I merge together input from multiple \n"
+	"sources.</P>";
 }
 
 void ArpMergeFilterAddOn::GetVersion(int32* major, int32* minor) const

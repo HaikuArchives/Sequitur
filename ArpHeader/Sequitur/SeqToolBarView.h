@@ -24,7 +24,7 @@
 #ifndef SEQUITUR_SEQTOOLBARVIEW_H
 #define SEQUITUR_SEQTOOLBARVIEW_H
 
-#include <vector.h>
+#include <vector>
 #include <interface/Bitmap.h>
 #include <interface/View.h>
 #include "AmPublic/AmToolBarRef.h"
@@ -32,7 +32,7 @@
 #include "BeExp/ToolTip.h"
 class _SeqCachedTool;
 
-typedef vector<_SeqCachedTool>	cachedtool_vec;
+typedef std::vector<_SeqCachedTool>	cachedtool_vec;
 
 /***************************************************************************
  * SEQ-TOOL-BAR-VIEW

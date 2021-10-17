@@ -32,7 +32,7 @@
 #endif
 
 #include <support/Autolock.h>
-#include <string.h>
+#include <cstring>
 
 ArpMOD();
 
@@ -41,18 +41,18 @@ ArpAddonManager::BasicAddon::BasicAddon(BEntry* entry)
 {
 	ArpD(cdb << ADH << "Setting addon path: entry=" << (void*)entry
 			<< " (init=" << entry->InitCheck()
-			<< " exists=" << entry->Exists() <<")" << endl);
+			<< " exists=" << entry->Exists() <<")" << std::endl);
 	if( entry ) entry->GetPath(&where);
-	ArpD(cdb << ADH << "Creating new addon for: " << where << endl);
+	ArpD(cdb << ADH << "Creating new addon for: " << where << std::endl);
 }
 
 ArpAddonManager::BasicAddon::BasicAddon(const char* path)
 	: image(B_ERROR), ref_count(0)
 {
 	ArpD(cdb << ADH << "Setting addon path: path=" << (void*)path
-				<< " (" << (path ? path : "<null>") << ")" << endl);
+				<< " (" << (path ? path : "<null>") << ")" << std::endl);
 	if( path ) where.SetTo(path);
-	ArpD(cdb << ADH << "Creating new addon for: " << where << endl);
+	ArpD(cdb << ADH << "Creating new addon for: " << where << std::endl);
 }
 
 ArpAddonManager::BasicAddon::~BasicAddon()
@@ -100,14 +100,14 @@ void ArpAddonManager::BasicAddon::Close(void)
 
 void ArpAddonManager::Start(void)
 {
-	ArpD(cdb << ADH << "Starting addon manager" << endl);
+	ArpD(cdb << ADH << "Starting addon manager" << std::endl);
 	BAutolock(Lock());
-	ArpD(cdb << ADH << "Locked myself." << endl);
+	ArpD(cdb << ADH << "Locked myself." << std::endl);
 	BEntry entry;
 	Rewind();
 	while( GetNextEntry(&entry,true) == B_NO_ERROR ) {
 		if( entry.InitCheck() == B_NO_ERROR ) {
-			ArpD(cdb << ADH << "Trying addon for: " << (void*)&entry << endl);
+			ArpD(cdb << ADH << "Trying addon for: " << (void*)&entry << std::endl);
 			BasicAddon* addon = AllocAddon(&entry);
 			if( addon ) {
 				if( addon->InitCheck() == B_NO_ERROR ) AddAddon(addon);

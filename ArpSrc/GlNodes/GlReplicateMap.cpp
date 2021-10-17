@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <typeinfo>
 #include <ArpMath/ArpDefs.h>
 #include <GlPublic/GlArrayF.h>

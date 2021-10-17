@@ -11,7 +11,7 @@
  * Known Bugs
  * ~~~~~~~~~~
  *
- *	-¢ None!  Ha ha!
+ *	- None!  Ha ha!
  *
  * ----------------------------------------------------------------------
  *
@@ -114,7 +114,7 @@ public:
 	status_t					MakeEmpty();
 
 protected:
-	vector<GlPathNode*>			mNodes;
+	std::vector<GlPathNode*>			mNodes;
 	// This is just for the editor, and only the editor sets it to false.
 	bool						mDirty;
 	
@@ -125,7 +125,7 @@ protected:
 	
 private:
 	int32						mCurrent;
-	vector<_GlProjectEntry*>	mList;
+	std::vector<_GlProjectEntry*>	mList;
 
 	void						FreeList();
 	void						FreePath();

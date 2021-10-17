@@ -115,7 +115,7 @@ namespace BPrivate {
 				return !fData.IsEmpty();
 			}
 			UndoState* This = const_cast<UndoState*>(this);
-			map<const void*, int32>::iterator i = This->fOwners.find(owner);
+			std::map<const void*, int32>::iterator i = This->fOwners.find(owner);
 			return i != fOwners.end();
 		}
 		
@@ -125,8 +125,8 @@ namespace BPrivate {
 			
 			if( fData.AddItem(data) ) {
 				fRecent.AddItem(data);
-				pair<const void* const, int32> val(data->Owner(), N);
-				pair<map<const void*, int32>::iterator, bool> p = fOwners.insert(val);
+				std::pair<const void* const, int32> val(data->Owner(), N);
+				std::pair<std::map<const void*, int32>::iterator, bool> p = fOwners.insert(val);
 				p.first->second = N;
 			} else {
 				delete data;
@@ -139,7 +139,7 @@ namespace BPrivate {
 				return (BUndoOperation*)fData.LastItem();
 			}
 			UndoState* This = const_cast<UndoState*>(this);
-			map<const void*, int32>::iterator i = This->fOwners.find(owner);
+			std::map<const void*, int32>::iterator i = This->fOwners.find(owner);
 			if( i != fOwners.end() ) {
 				return (BUndoOperation*)fData.ItemAt(i->second);
 			}
@@ -198,7 +198,7 @@ namespace BPrivate {
 		}
 		
 	private:
-		map<const void*, int32> fOwners;
+		std::map<const void*, int32> fOwners;
 		BList fData;					// BUndoOperation*
 		BList fRecent;					// BUndoOperation*
 		BString fName;

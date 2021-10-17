@@ -81,7 +81,7 @@ public:
 	void			SetHorizontalScrollBar(BScrollBar* sb);
 	void			SetupScrollBars(bool horizontal = true, bool vertical = true);
 
-	void			InvalidateTracks(vector<track_id>& tracks);
+	void			InvalidateTracks(std::vector<track_id>& tracks);
 	void			StartEdit(track_id tid, bool sticky = true);
 	void			StopEdit(bool keepChanges=true);
 	void			FillMetrics(const AmSong* song);
@@ -93,7 +93,7 @@ protected:
 private:
 	typedef	BView			inherited;
 	AmSongRef				mSongRef;
-	vector<_SeqTitleMetric>	mMetrics;
+	std::vector<_SeqTitleMetric>	mMetrics;
 	BScrollBar*				mHsb;
 	/* Time at which primary mouse button went down.
 	 * -1 if not pressed.

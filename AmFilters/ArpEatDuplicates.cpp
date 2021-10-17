@@ -1,6 +1,6 @@
 /* ArpEatDuplicates.cpp
  */
-#include <stdio.h>
+#include <cstdio>
 #include <support/Autolock.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpEatDuplicates.h"
@@ -201,18 +201,18 @@ void ArpEatDuplicatesFilter::Init(bool first)
 void ArpEatDuplicatesFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>This filter deletes the following events:</P>
-		<UL>
-			<LI><I>Channel pressure events</I>.  Any channel pressure events with the same
-								value as the previous channel pressure are deleted.</LI>
-			<LI><I>Control change events</I>.  Any control change events with the same value
-								as the previous control change are deleted.</LI>
-			<LI><I>Note events</I>.  Any overlapping notes are deleted.  The note with
-								the highest velocity is retained.</LI>
-			<LI><I>Pitch bend events</I>.  Any pitch bend events with the same value as the
-								previous pitch bend are deleted.</LI>
-		</UL>
-		This filter has no controls.&nbsp;";
+	str << "<P>This filter deletes the following events:</P>\n"
+		"<UL>\n"
+		"	<LI><I>Channel pressure events</I>.  Any channel pressure events with the same \n"
+		"						value as the previous channel pressure are deleted.</LI>\n"
+		"	<LI><I>Control change events</I>.  Any control change events with the same value \n"
+		"						as the previous control change are deleted.</LI>\n"
+		"	<LI><I>Note events</I>.  Any overlapping notes are deleted.  The note with \n"
+		"						the highest velocity is retained.</LI>\n"
+		"	<LI><I>Pitch bend events</I>.  Any pitch bend events with the same value as the \n"
+		"						previous pitch bend are deleted.</LI>\n"
+		"</UL>\n"
+		"This filter has no controls.&nbsp;\n";
 }
 
 void ArpEatDuplicatesFilterAddOn::GetVersion(int32* major, int32* minor) const

@@ -6,7 +6,7 @@ like this:
 	mt.SetTo("application/x-vnd.ARP.ArpTelnetConfig");
 	if( !mt.IsInstalled() ) {
 		DB(DBALL, cdb << "Config type not installed, installing it."
-					<< endl);
+					<< std::endl);
 		mt.Install();
 		mt.SetShortDescription("ArpTelnet Configuration");
 		mt.SetLongDescription("BMessage archive of ArpTelnet program settings.");
@@ -25,18 +25,18 @@ One final problem I have is with this code:
 	BMimeType mt;
 	mt.SetTo("application/x-vnd.Be.URL.telnet");
 	if( mt.InitCheck() == B_OK ) {
-		DB(DBALL, cdb << "Checking URL telnet type..." << endl);
+		DB(DBALL, cdb << "Checking URL telnet type..." << std::endl);
 		if( mt.IsInstalled() ) {
 			DB(DBALL, cdb << "Already exists, checking preferred app."
-							<< endl);
+							<< std::endl);
 			char prefapp[B_MIME_TYPE_LENGTH];
 			prefapp[0] = 0;
 			if( mt.GetPreferredApp(prefapp) == B_OK ) {
 				DB(DBALL, cdb << "Current preferred app is: "
-								<< prefapp << endl);
+								<< prefapp << std::endl);
 				if( strcmp(prefapp, AppSig) != 0 ) {
 					DB(DBALL, cdb << "Asking user to replace it."
-										<< endl);
+										<< std::endl);
 					BAlert* myAlert = ...
 					int cmd = myAlert->Go();
 					if( cmd == 2 ) {

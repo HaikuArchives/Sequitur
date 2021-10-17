@@ -24,7 +24,7 @@
 
 #include "AmPublic/AmSelectionsI.h"
 
-#include <vector.h>
+#include <vector>
 
 /***************************************************************************
  * _AM-EVENT-SELECTION-ENTRY
@@ -59,7 +59,7 @@ public:
 	virtual ~_AmPhraseSelectionEntry();
 
 	AmPhraseEvent*		mTopPhrase;
-	vector<_AmEventSelectionEntry>	mEntries;
+	std::vector<_AmEventSelectionEntry>	mEntries;
 
 	_AmPhraseSelectionEntry&	operator=(const _AmPhraseSelectionEntry& o);
 
@@ -133,7 +133,7 @@ public:
 	void				Print() const;
 
 	track_id			mTrackId;
-	vector<_AmPhraseSelectionEntry>	mEntries;
+	std::vector<_AmPhraseSelectionEntry>	mEntries;
 
 private:
 	status_t			EntryFor(	const AmPhraseEvent* topPhrase,
@@ -207,7 +207,7 @@ public:
 	void				Print() const;
 
 private:
-	vector<_AmTrackSelectionEntry>	mSelections;
+	std::vector<_AmTrackSelectionEntry>	mSelections;
 };
 
 #endif 

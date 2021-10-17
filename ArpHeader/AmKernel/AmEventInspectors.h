@@ -35,7 +35,7 @@
 #ifndef AMKERNEL_AMEVENTINSPECTORS_H
 #define AMKERNEL_AMEVENTINSPECTORS_H
 
-#include <vector.h>
+#include <vector>
 #include <interface/View.h>
 #include "AmPublic/AmSongRef.h"
 #include "AmPublic/AmTrackRef.h"
@@ -281,8 +281,8 @@ private:
  * makes sure the proper inspector is installed based on whatever MIDI
  * events are supplied through the InstallViewFor() method.
  ***************************************************************************/
-typedef vector<int32>		int32_vec;
-typedef vector<BView*>		view_vec;
+typedef std::vector<int32>		int32_vec;
+typedef std::vector<BView*>		view_vec;
 
 class AmInspectorFactory
 {

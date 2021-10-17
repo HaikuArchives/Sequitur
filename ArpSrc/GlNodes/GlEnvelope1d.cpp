@@ -401,7 +401,7 @@ private:
 	GlRootRef				mRef;
 	gl_node_id				mNid;
 	GlNode*					mNode;
-vector<ArpPoint3d>		mStages;
+std::vector<ArpPoint3d>		mStages;
 	BPoint					mRad;
 	int32					mMouse;
 	bool					mChanges;

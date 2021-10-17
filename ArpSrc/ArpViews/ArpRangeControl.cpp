@@ -1,10 +1,10 @@
 /* ArpRangeControl.cpp
  */
-#include <assert.h>
+#include <cassert>
 #include <malloc.h>
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
 #include <app/Message.h>
 #include <interface/Bitmap.h>
 #include <interface/Region.h>
@@ -490,7 +490,7 @@ void ArpRangeControl::SetZoomY(float y)
 	}
 }
 
-static void build_bitmap_vec(BString str, vector<const BBitmap*>& vec)
+static void build_bitmap_vec(BString str, std::vector<const BBitmap*>& vec)
 {
 	int32		len = str.Length();
 	for(int32 k = 0; k < len; k++) {
@@ -515,7 +515,7 @@ static void draw_value_label(BRect frame, BView* view, float value)
 {
 	BString		str;
 	str << value;
-	vector<const BBitmap*>	vec;
+	std::vector<const BBitmap*>	vec;
 	build_bitmap_vec(str, vec);
 	
 	BRect		r(0, 0, 0, 0);

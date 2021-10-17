@@ -23,7 +23,7 @@
 #ifndef AMKERNEL_AMTOOLBAR_H
 #define AMKERNEL_AMTOOLBAR_H
 
-#include <vector.h>
+#include <vector>
 #include "AmKernel/AmKernelDefs.h"
 #include "AmKernel/MultiLocker.h"
 #include "AmKernel/AmNotifier.h"
@@ -110,7 +110,7 @@ private:
 	AmNotifier			mNotifier;
 
 	BString				mName;
-	vector<BString>		mToolKeys;
+	std::vector<BString>		mToolKeys;
 	bool				mShowing;
 
 	bool				ContainsTool(const BString& toolKey) const;

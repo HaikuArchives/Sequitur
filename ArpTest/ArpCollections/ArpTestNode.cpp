@@ -1,4 +1,4 @@
-#include <assert.h>
+#include <cassert>
 
 #ifndef ARP_TEST_NODE
 #include "ArpTestNode.h"

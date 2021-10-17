@@ -25,7 +25,7 @@
 #include <AmPublic/AmFilterI.h>
 #endif
 
-#include <vector.h>
+#include <vector>
 #include <Message.h>
 #include <String.h>
 #include <View.h>
@@ -97,7 +97,7 @@ private:
 	AmFilterHolderI*			mHolder;
 
 	AmRange						mRange;
-	vector<ArpRecombination*>	mRecombinations;
+	std::vector<ArpRecombination*>	mRecombinations;
 	ArpMidiValueTable			mTable;
 };
 

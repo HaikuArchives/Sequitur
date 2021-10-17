@@ -47,13 +47,13 @@ public:
 	BString16					creator;
 	int32						key;
 	
-	vector<_chain_macro_int32>	i32;
-	vector<_chain_macro_float>	f;
-	vector<_chain_macro_text>	t;
+	std::vector<_chain_macro_int32>	i32;
+	std::vector<_chain_macro_float>	f;
+	std::vector<_chain_macro_text>	t;
 
 	/* A macro entry (which is a node) can have sub chains
 	 */
-	vector<GlChainMacro*>		chains;
+	std::vector<GlChainMacro*>		chains;
 	
 	_GlChainMacroEntry();
 	_GlChainMacroEntry(const BString16& c, int32 k);
@@ -82,7 +82,7 @@ private:
 class _GlChainMacroData
 {
 public:
-	vector<_GlChainMacroEntry*>	e;
+	std::vector<_GlChainMacroEntry*>	e;
 	
 	_GlChainMacroData();
 	_GlChainMacroData(const _GlChainMacroData* d);
@@ -337,7 +337,7 @@ GlChainMacro* _GlChainMacroEntry::Sub(uint32 index)
 	return chains[index];
 }
 
-static bool _key_exists(vector<int32>& vec, int32 v)
+static bool _key_exists(std::vector<int32>& vec, int32 v)
 {
 	for (uint32 k = 0; k < vec.size(); k++) {
 		if (vec[k] == v) return true;
@@ -367,7 +367,7 @@ bool _GlChainMacroEntry::Matches(const GlNode* n) const
 
 bool _GlChainMacroEntry::MatchInt32(const GlParamList& params) const
 {
-	vector<int32>			matches, nomatch;
+	std::vector<int32>			matches, nomatch;
 	GlInt32Wrap				w;
 	uint32					k;
 	/* Categorize every key -- either it's a match or not.
@@ -399,7 +399,7 @@ bool _GlChainMacroEntry::MatchInt32(const GlParamList& params) const
 
 bool _GlChainMacroEntry::MatchFloat(const GlParamList& params) const
 {
-	vector<int32>			matches, nomatch;
+	std::vector<int32>			matches, nomatch;
 	GlFloatWrap				w;
 	uint32					k;
 	/* Categorize every key -- either it's a match or not.
@@ -431,7 +431,7 @@ bool _GlChainMacroEntry::MatchFloat(const GlParamList& params) const
 
 bool _GlChainMacroEntry::MatchText(const GlParamList& params) const
 {
-	vector<int32>			matches, nomatch;
+	std::vector<int32>			matches, nomatch;
 	GlTextWrap				w;
 	uint32					k;
 	/* Categorize every key -- either it's a match or not.

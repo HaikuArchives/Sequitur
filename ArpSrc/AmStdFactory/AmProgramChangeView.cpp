@@ -1,8 +1,8 @@
 /* AmProgramChangeView.cpp
  */
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cassert>
 #include "ArpKernel/ArpDebug.h"
 
 #include "AmPublic/AmEvents.h"

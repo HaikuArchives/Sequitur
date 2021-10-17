@@ -79,7 +79,7 @@ public:
 	 * any actual changes, then I place this undo into the song.
 	 */
 	AmChangeEventUndo*		mUndoCache;
-	vector<_AmMoveEntry>	mEntries;
+	std::vector<_AmMoveEntry>	mEntries;
 
 private:
 	void			MoveEvent(	AmTrack* track,
@@ -146,7 +146,7 @@ public:
 	
 private:
 	typedef AmToolSeedI		inherited;
-	vector<_AmTrackMoveEntry> mEntries;
+	std::vector<_AmTrackMoveEntry> mEntries;
 	/* The grid to quantize to is cached with each mouse down.
 	 */
 	AmTime					mGridCache;
@@ -429,7 +429,7 @@ public:
 	_AmTrackTransEntry(const _AmTrackTransEntry& o);
 	
 	track_id				mTrackId;
-	vector<_AmTransEntry>	mEntries;
+	std::vector<_AmTransEntry>	mEntries;
 	/* I cache an undo operation that stores the changed state to any
 	 * number of events.  If, when I'm done transforming, there are
 	 * any actual changes, then I place this undo into the song.
@@ -534,7 +534,7 @@ private:
 	/* The grid to quantize to is cached with each mouse down.
 	 */
 	AmTime					mGridCache;
-	vector<_AmTrackTransEntry> mEntries;
+	std::vector<_AmTrackTransEntry> mEntries;
 	/* Use the point supplied to Prepare() as the origin -- it's a
 	 * delta value that gets added to the current point and used to
 	 * offset each event's original secondary values.
@@ -579,8 +579,8 @@ public:
 	
 	track_id					mTrackId;
 	AmChangeEventUndo*			mUndo;
-	vector<_AmMoveEntry>		mEntries;
-	vector<AmTrackEventUndo*>	mUndoList;
+	std::vector<_AmMoveEntry>		mEntries;
+	std::vector<AmTrackEventUndo*>	mUndoList;
 
 	_AmTrackRefilterEntry&	operator=(const _AmTrackRefilterEntry& o);
 
@@ -679,7 +679,7 @@ protected:
 	 * is creating, which means of course that I need to cache all those
 	 * changes.
 	 */
-	vector<_AmTrackRefilterEntry> mEntries;
+	std::vector<_AmTrackRefilterEntry> mEntries;
 
 	AmSelectionsI*	PostMove(AmSong* song, AmSelectionsI* oldSelections);
 	AmSelectionsI*	MouseDown(	AmSong* song,
@@ -822,7 +822,7 @@ private:
 									BPoint where);
 
 	AmSelectionsI*					NewCreatedEvents() const;
-	vector<_CreateAndFilterEntry>	mCreateEntries;
+	std::vector<_CreateAndFilterEntry>	mCreateEntries;
 };
 
 #endif

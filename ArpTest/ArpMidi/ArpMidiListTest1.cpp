@@ -3,7 +3,7 @@
 #define _BUILDING_AmKernel 1
 
 #include <Debug.h>
-#include <assert.h>
+#include <cassert>
 
 #include "ArpMidiListTest1.h"
 
@@ -54,7 +54,7 @@ void ArpMidiListTest1::TestBasic01()
 ***************************************************************************/
 
 bool ArpMidiListTest1::NoteOnShouldBe(uchar noteArg, uchar velocityArg,
-									ulong timeArg, int32 findNode)
+									uint32 timeArg, int32 findNode)
 {
 	ArpMidiNode		*node;
 	if (access->NodeAt(timeArg, (ArpIndexedNode**)&node, 0) != B_OK) {
@@ -100,7 +100,7 @@ bool ArpMidiListTest1::NoteOnShouldBe(uchar noteArg, uchar velocityArg,
 ***************************************************************************/
 
 bool ArpMidiListTest1::AddNoteOn(uchar noteArg, uchar velocityArg,
-									ulong timeArg)
+									uint32 timeArg)
 {
 	ArpMidiNoteOn	*event;
 	if ((event = new ArpMidiNoteOn(noteArg, velocityArg, timeArg)) == NULL)

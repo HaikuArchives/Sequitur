@@ -75,9 +75,9 @@
 #include <storage/Entry.h>
 #endif
 
-#include <string.h>
-#include <stdlib.h>
-#include <math.h>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
 
 ArpMOD();
 
@@ -86,7 +86,7 @@ enum {
 	TERM_DOPASTE = '.dps'
 };
 
-ArpTerminal::ArpTerminal(BRect frame, const char* name, ulong resizeMode, ulong flags)
+ArpTerminal::ArpTerminal(BRect frame, const char* name, uint32 resizeMode, uint32 flags)
 	: ArpCoreTerminal(frame,name,resizeMode,flags),
 	  curEmulator(NULL), defEmulator(*this),
 	  pasteVerify(true), rmbPaste(true), wasNavigable(true),
@@ -255,7 +255,7 @@ void ArpTerminal::DoPaste(const char* text, size_t size)
 				size -= in;
 				text += in;
 				ArpD(cdb << ADH << in << " in chars to " << out
-						<< " out chars; " << size << " left." << endl);
+						<< " out chars; " << size << " left." << std::endl);
 			}
 		} else {
 			ConvertInput((const ichar*)text, size);
@@ -269,7 +269,7 @@ void ArpTerminal::MakeRefsString(BString* strout,
 	*strout = "";
 	int32 buttons=0;
 	from->FindInt32("buttons", &buttons);
-	ArpD(cdb << ADH << "Got button = " << buttons << endl);
+	ArpD(cdb << ADH << "Got button = " << buttons << std::endl);
 	
 	type_code type;
 	int32 count;
@@ -281,19 +281,19 @@ void ArpTerminal::MakeRefsString(BString* strout,
 		BEntry entry;
 		BPath path;
 		status_t res = from->FindRef("refs", i, &ref);
-		ArpD(cdb << ADH << "Got ref = " << ref << endl);
+		ArpD(cdb << ADH << "Got ref = " << ref << std::endl);
 		if( !res ) {
 			entry.SetTo(&ref);
 			res = entry.InitCheck();
-			ArpD(cdb << ADH << "Got BEntry, res = " << res << endl);
+			ArpD(cdb << ADH << "Got BEntry, res = " << res << std::endl);
 		}
 		if( !res ) {
 			res = entry.GetPath(&path);
-			ArpD(cdb << ADH << "Got BPath, res = " << res << endl);
+			ArpD(cdb << ADH << "Got BPath, res = " << res << std::endl);
 		}
 		if( !res ) {
 			const char* pathName = path.Path();
-			ArpD(cdb << ADH << "Adding path = " << pathName << endl);
+			ArpD(cdb << ADH << "Adding path = " << pathName << std::endl);
 			if( *strout != "" ) *strout << " ";
 			BString esc;
 			esc.CharacterEscape(pathName, " \n\t\"'\\()$#&*;<>`", '\\');
@@ -306,9 +306,9 @@ void ArpTerminal::MessageReceived(BMessage *message)
 {
 	if( !message ) return;
 	
-	ArpD(cdb << ADH << "ArpTerminal::MessageReceived: " << *message << endl);
+	ArpD(cdb << ADH << "ArpTerminal::MessageReceived: " << *message << std::endl);
 	if( message->WasDropped() ) {
-		ArpD(cdb << ADH << "This was a dropped message." << endl);
+		ArpD(cdb << ADH << "This was a dropped message." << std::endl);
 		switch( message->what ) {
 			case B_SIMPLE_DATA:
 				if( message->HasRef("refs") ) {
@@ -316,7 +316,7 @@ void ArpTerminal::MessageReceived(BMessage *message)
 					MakeRefsString(&str, message);
 					if( str != "" ) {
 						ArpD(cdb << ADH << "Pasting refs = "
-									<< str.String() << endl);
+									<< str.String() << std::endl);
 						DoPaste(str.String(), strlen(str.String()));
 					}
 					break;
@@ -404,7 +404,7 @@ void ArpTerminal::ScrollTo(BPoint where)
 
 void ArpTerminal::DidInput(void)
 {
-	ArpD(cdb << ADH << "ArpTerminal::DidInput()" << endl);
+	ArpD(cdb << ADH << "ArpTerminal::DidInput()" << std::endl);
 	be_app->ObscureCursor();
 	if( (((int)AutoScrollMode())&AUTOSCROLL_INPUT) != 0 ) {
 		int32 row=0, col=0;
@@ -417,7 +417,7 @@ void ArpTerminal::KeyDown(const char *bytes, int32 numBytes)
 {
 	ArpD(cdb << ADH << "ArpTerminal::KeyDown(char=" << *bytes
 		<< " (" << (int)(*bytes) << "), count=" << numBytes << ")"
-		<< ", msg=" << *Window()->CurrentMessage() << endl);
+		<< ", msg=" << *Window()->CurrentMessage() << std::endl);
 		
 	BMessage* msg = Window()->CurrentMessage();
 	int32 mods = 0;
@@ -512,7 +512,7 @@ void ArpTerminal::KeyDown(const char *bytes, int32 numBytes)
 		}
 	}
 	
-	ArpD(cdb << ADH << "ArpTerminal: Sending key: " << bytes << endl);
+	ArpD(cdb << ADH << "ArpTerminal: Sending key: " << bytes << std::endl);
 	
 	if( numBytes > 0 ) {
 		BString altBytes;
@@ -549,7 +549,7 @@ void ArpTerminal::MouseDown(BPoint point)
 		return;
 	}
 	ArpCoreTerminal::MouseDown(point);
-	ArpD(cdb << ADH << "ArpTerminal: Mouse down: " << point << endl);
+	ArpD(cdb << ADH << "ArpTerminal: Mouse down: " << point << std::endl);
 	BMessage* msg = Window()->CurrentMessage();
 	if( !msg ) return;
 	
@@ -627,7 +627,7 @@ void ArpTerminal::MouseMoved(BPoint point, uint32 transit,
 	if( message ) {
 		ArpD(cdb << ADH << "Mouse Moved: point=" << point
 			<< ", transit=" << transit << ", msg="
-			<< *message << endl);
+			<< *message << std::endl);
 	}
 }
 
@@ -785,12 +785,12 @@ void ArpTerminal::CopyToMessage(BMessage* clip,
 							(char*)newtext,&dstsize,NULL) != B_OK ) {
 						ArpD(cdb << ADH << "Error converting!  char="
 								<< (char)(*text) << " (" << (int)(*text)
-								<< ")" << endl);
+								<< ")" << std::endl);
 						memcpy((char*)newtext,(char*)text,tsize);
 						usedsize = tsize;
 						uniSize = tsize;
 					} else if( usedsize <= 0 ) {
-						ArpD(cdb << ADH << "Huh?!?  Couldn't convert any characters!" << endl);
+						ArpD(cdb << ADH << "Huh?!?  Couldn't convert any characters!" << std::endl);
 						memcpy((char*)newtext,(char*)text,tsize);
 						usedsize = tsize;
 						uniSize = tsize;
@@ -860,7 +860,7 @@ void ArpTerminal::CopyToMessage(BMessage* clip,
 		if( style ) free(style);
 	}
 	
-	ArpD(cdb << ADH << "Paste message:" << endl << *clip << endl);
+	ArpD(cdb << ADH << "Paste message:" << std::endl << *clip << std::endl);
 	
 	TermSetEnterStream(oldEnter.String());
 }

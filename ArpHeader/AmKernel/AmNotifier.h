@@ -22,8 +22,8 @@
 #ifndef AMKERNEL_AMNOTIFIER_H
 #define AMKERNEL_AMNOTIFIER_H
 
-#include <map.h>
-#include <vector.h>
+#include <map>
+#include <vector>
 #include <app/Handler.h>
 #include <app/Messenger.h>
 #include <support/Locker.h>
@@ -36,8 +36,8 @@ class AmPhraseEvent;
 class _AmFilterEntry;
 class _AmRangeEntry;
 class _AmObserversEntry;
-typedef map< uint32, _AmObserversEntry*, less<uint32> >	observers_map;
-typedef vector<_AmFilterEntry>		notifier_filter_vec;
+typedef std::map< uint32, _AmObserversEntry*, std::less<uint32> >	observers_map;
+typedef std::vector<_AmFilterEntry>		notifier_filter_vec;
 
 extern const char*	RANGE_ALL_EVENT_STR;
 

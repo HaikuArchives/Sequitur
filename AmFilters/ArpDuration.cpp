@@ -2,8 +2,8 @@
  */
 #include "ArpDuration.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <interface/MenuField.h>
 #include <interface/MenuItem.h>
 #include <interface/RadioButton.h>
@@ -352,16 +352,16 @@ status_t ArpDurationFilter::Configure(ArpVectorI<BView*>& panels)
 void ArpDurationFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>I set or modify the duration of all incoming notes.</P>
-	<UL>
-		<LI><I>Absolute</I> mode sets the duration of all notes to the supplied MIDI ticks.</LI>
-		<LI><I>Scaled</I> mode modifies the duration of all notes by the supplied
-				scale.  At 100%, there will be no change.  At 50%, all notes will
-				be halved in length, at 200% they will be doubled.</LI>
-		<LI><I>From grid</I> sets the duration to the current grid value in the track
-				window.  This mode is only valid when the Duration filter is being
-				operated from inside a tool.</LI>
-	</UL>";
+	str << "<P>I set or modify the duration of all incoming notes.</P>\n"
+	"<UL>\n"
+	"	<LI><I>Absolute</I> mode sets the duration of all notes to the supplied MIDI ticks.</LI> \n"
+	"	<LI><I>Scaled</I> mode modifies the duration of all notes by the supplied \n"
+	"			scale.  At 100%, there will be no change.  At 50%, all notes will \n"
+	"			be halved in length, at 200% they will be doubled.</LI>\n"
+	"	<LI><I>From grid</I> sets the duration to the current grid value in the track \n"
+	"			window.  This mode is only valid when the Duration filter is being \n"
+	"			operated from inside a tool.</LI>\n"
+	"</UL>\n";
 }
 
 void ArpDurationFilterAddOn::GetVersion(int32* major, int32* minor) const

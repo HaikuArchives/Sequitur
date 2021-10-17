@@ -1,7 +1,7 @@
 /* Main.cpp
  */
 #include <malloc.h>
-#include <stdio.h>
+#include <cstdio>
 #include "Sequitur/SeqApplication.h"
 
 int main(int argc, char **argv)

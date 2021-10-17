@@ -56,7 +56,7 @@ public:
 	float				mTop, mBottom;
 	AmPhraseRendererI*	mRenderer;
 };
-typedef vector<_SeqTrackMetric>		trackmetric_vec;
+typedef std::vector<_SeqTrackMetric>		trackmetric_vec;
 
 /*************************************************************************
  * _SEQ-DRAG-METRIC
@@ -77,7 +77,7 @@ public:
 	bool			IsValid() const;
 
 	AmRange					mRange;
-	vector<uint32>			mSrcIndexes;
+	std::vector<uint32>			mSrcIndexes;
 	int32					mSrcIndex;
 	int32					mDestIndex;
 };
@@ -125,7 +125,7 @@ public:
 	 * time range and a series of track indexes -- invalidate all my
 	 * tracks at the supplied indexes by the given range.
 	 */
-	void			InvalidateSelections(AmRange range, vector<track_id>& tracks);
+	void			InvalidateSelections(AmRange range, std::vector<track_id>& tracks);
 	/* Clear the last song position, and draw a new one at the supplied time.
 	 * Pass in -1 to draw no song position.
 	 */

@@ -26,7 +26,7 @@
 #ifndef SEQUITUR_SEQPIPELINEMATRIXVIEW_H
 #define SEQUITUR_SEQPIPELINEMATRIXVIEW_H
 
-#include <vector.h>
+#include <vector>
 #include <app/Messenger.h>
 #include <interface/View.h>
 #include "ArpKernel/ArpLineArrayCache.h"

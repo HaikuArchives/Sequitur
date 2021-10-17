@@ -1,7 +1,7 @@
 #include <Entry.h>
 #include <Message.h>
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <experimental/DocWindow.h>
 
@@ -72,7 +72,7 @@ DocWindow::Load(BEntry* e)
 
 
 status_t
-DocWindow::Save(BEntry* e, const BMessage* args = 0)
+DocWindow::Save(BEntry* e, const BMessage* args)
 {
 	printf("DocWindow::Save()\n");
 	return B_ERROR;

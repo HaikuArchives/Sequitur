@@ -2,8 +2,8 @@
  */
 #include "ArpOnKey.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <interface/CheckBox.h>
 #include <interface/MenuField.h>
 #include <interface/MenuItem.h>
@@ -365,14 +365,14 @@ status_t ArpOnKeyFilter::Configure(ArpVectorI<BView*>& panels)
 void ArpOnKeyFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>I take all incoming notes and makes them conform to a desired key.
-	You can choose from several predefined scales or make your own. Incoming notes
-	that aren't in the selected scale can either be discarded -- they are never heard
-	from again -- shifted down to the next note that is in the scale, shifted up, or
-	shifted up or down, depending upon which shift is closest.</p>
-
-	<p>This filter can have either one or two connections.  If I have two connections
-	and I am in Discard mode, then all discarded events are sent to the second connection.</p>";
+	str << "<p>I take all incoming notes and makes them conform to a desired key. \n"
+	"You can choose from several predefined scales or make your own. Incoming notes \n"
+	"that aren't in the selected scale can either be discarded -- they are never heard \n"
+	"from again -- shifted down to the next note that is in the scale, shifted up, or \n"
+	"shifted up or down, depending upon which shift is closest.</p> \n"
+"\n"
+	"<p>This filter can have either one or two connections.  If I have two connections \n"
+	"and I am in Discard mode, then all discarded events are sent to the second connection.</p>\n";
 }
 
 void ArpOnKeyFilterAddOn::GetVersion(int32* major, int32* minor) const

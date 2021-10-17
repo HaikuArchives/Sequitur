@@ -31,14 +31,14 @@
 #endif
 
 #include <signal.h>
-#include <string.h>
+#include <cstring>
 #include <unistd.h>
-#include <stdio.h>
+#include <cstdio>
 
 #include <OS.h>
 #include <image.h>
 #include <errno.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <termios.h>
 
 ArpMOD();
@@ -237,7 +237,7 @@ status_t ArpPTYRemote::Connect()
 		BAutolock glock(&globals);
 	
 		// Just start up the reader thread, and let it do all else.
-		ArpD(cdb << ADH << "ArpPTYRemote: Spawn reader thread." << endl);
+		ArpD(cdb << ADH << "ArpPTYRemote: Spawn reader thread." << std::endl);
 		readThread = spawn_thread(readThreadEntry,
 									"ARP™ PTY Reader",
 									B_NORMAL_PRIORITY,
@@ -246,7 +246,7 @@ status_t ArpPTYRemote::Connect()
 			Disconnect();
 			return (status_t)readThread;
 		}
-		ArpD(cdb << ADH << "ArpPTYRemote: Resume reader thread." << endl);
+		ArpD(cdb << ADH << "ArpPTYRemote: Resume reader thread." << std::endl);
 		socketError = resume_thread(readThread);
 		
 		// Kill the thread if unable to start it.
@@ -260,7 +260,7 @@ void ArpPTYRemote::Disconnect()
 {
 	BAutolock llock(this);
 	
-	ArpD(cdb << ADH << "ArpPTYRemote: Disconnecting..." << endl);
+	ArpD(cdb << ADH << "ArpPTYRemote: Disconnecting..." << std::endl);
 
 	globals.Lock();
 	
@@ -276,15 +276,15 @@ void ArpPTYRemote::Disconnect()
 	// to quit.
 	while( connected && mythread >= 0 ) {
 		ArpD(cdb << ADH << "ArpPTYRemote: signal " << SIGUSR1
-							<< "to reader " << mythread << endl);
+							<< "to reader " << mythread << std::endl);
 		send_signal(mythread, SIGUSR1);
 		globals.Unlock();
-		ArpD(cdb << ADH << "ArpPTYRemote: waiting for reader." << endl);
+		ArpD(cdb << ADH << "ArpPTYRemote: waiting for reader." << std::endl);
 		snooze(20000);
 		//wait_for_thread(mythread,&ret);
-		ArpD(cdb << ADH << "ArpPTYRemote: checking reader again." << endl);
+		ArpD(cdb << ADH << "ArpPTYRemote: checking reader again." << std::endl);
 	}
-	ArpD(cdb << ADH << "ArpPTYRemote: no reader running." << endl);
+	ArpD(cdb << ADH << "ArpPTYRemote: no reader running." << std::endl);
 	
 	globals.Unlock();
 	
@@ -303,7 +303,7 @@ void ArpPTYRemote::MessageReceived(BMessage* message)
 	if( !message ) return;
 	
 	ArpD(cdb << ADH << "Telnet::MessageReceived: " <<
-				*message << endl);
+				*message << std::endl);
 
 	switch( message->what ) {
 		case TERM_XFER_TEXT_MSG: {
@@ -419,10 +419,10 @@ void ArpPTYRemote::write(char b)
 	
 	if( connected ) {
 		ArpD(cdb << ADH << "ArpPTYRemote: Put: " << (char)b
-							<< " (" << (int)b << ")" << endl);
+							<< " (" << (int)b << ")" << std::endl);
 		int size = ::write(ptyfd, &b, 1);
-		ArpD(cdb << ADH << "Bytes written: " << size << endl);
-		ArpD(cdb << ADH << "Current error: " << strerror(errno) << endl);
+		ArpD(cdb << ADH << "Bytes written: " << size << std::endl);
+		ArpD(cdb << ADH << "Current error: " << strerror(errno) << std::endl);
 		if( doEcho ) {
 			receive(&b,1);
 		}
@@ -435,10 +435,10 @@ void ArpPTYRemote::write(const char* b, int32 len)
 	
 	if( connected && len > 0 ) {
 		ArpD(cdb << ADH << "WebTerm: Put: " << b
-							<< " (" << len << " bytes)" << endl);
+							<< " (" << len << " bytes)" << std::endl);
 		int size = ::write(ptyfd, b, len);
-		ArpD(cdb << ADH << "Bytes written: " << size << endl);
-		ArpD(cdb << ADH << "Current error: " << strerror(errno) << endl);
+		ArpD(cdb << ADH << "Bytes written: " << size << std::endl);
+		ArpD(cdb << ADH << "Current error: " << strerror(errno) << std::endl);
 		if( doEcho ) {
 			receive(b,len);
 		}
@@ -457,7 +457,7 @@ void ArpPTYRemote::write(const ArpString& str)
 static void ignore_signal(int)
 {
 	ArpD(cdb << ADH << "ArpPTYRemote: entered ignore_signal(), thread="
-						<< find_thread(NULL) << endl);
+						<< find_thread(NULL) << std::endl);
 }
 
 /* Entry point and main loop.
@@ -469,7 +469,7 @@ static void ignore_signal(int)
 
 int32 ArpPTYRemote::readThreadEntry(void* arg)
 {
-	ArpD(cdb << ADH << "ArpPTYRemote: Enter the reader." << endl);
+	ArpD(cdb << ADH << "ArpPTYRemote: Enter the reader." << std::endl);
 	signal(SIGUSR1,ignore_signal);
 	ArpPTYRemote *obj = (ArpPTYRemote *)arg; 
 	return (obj->startReader()); 
@@ -494,31 +494,31 @@ int32 ArpPTYRemote::runReader(void)
 	
 	bool client_kill = false;
     ArpD(cdb << ADH << "WebTerm: Telnet input thread has started."
-    				<< endl);
+    				<< std::endl);
 	ArpD(cdb << ADH << "WebTerm: Telnet thread: "
-					<< find_thread(NULL) << endl);
+					<< find_thread(NULL) << std::endl);
 	receive("Connected.\r\n");
 	for(;;) {
-		long len = 0;
+		int32 len = 0;
 		status_t ret = EINTR;
 		if( readThread >= 0 ) {
-			ArpD(cdb << ADH << "ArpPTYRemote: Ready to receive." << endl);
+			ArpD(cdb << ADH << "ArpPTYRemote: Ready to receive." << std::endl);
 			len = ::read(ptyfd, buffer, sizeof(buffer)-4);
 		}
 		//if( ret == 0 ) ret = ECONNABORTED;
 		if( (ret < B_OK && ret != EINTR) || readThread < 0 ) {
 			ArpD(cdb << ADH << "ArpPTYRemote: Input thread is terminating."
-							<< endl);
+							<< std::endl);
 			socketError = ret;
 			return ret;
 		}
 		if( len > 0 ) {
 			ArpD(cdb << ADH << "ArpPTYRemote: Now read " << len << " bytes:"
 							<< ArpEmulator::sequenceToString(ArpString(&buffer[0],0,len))
-							<< endl);
+							<< std::endl);
 			receive((const char*)&buffer[0],len);
 		} else {
-			ArpD(cdb << ADH << "ArpPTYRemote: Nothing read." << endl);
+			ArpD(cdb << ADH << "ArpPTYRemote: Nothing read." << std::endl);
 		}
 	}
 }

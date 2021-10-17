@@ -1,7 +1,7 @@
 /* ArpMultiScrollBar.cpp
  */
-#include <assert.h>
-#include <stdio.h>
+#include <cassert>
+#include <cstdio>
 #include <interface/Window.h>
 #include "ArpViews/ArpMultiScrollBar.h"
 
@@ -9,7 +9,7 @@
  * ARP-MULTI-SCROLL-BAR
  *************************************************************************/
 ArpMultiScrollBar::ArpMultiScrollBar(BRect frame, const char *name,
-				BView *target, long min, long max,
+				BView *target, int32 min, int32 max,
 				orientation direction)
 		: inherited(frame, name, target, min, max, direction)
 {
@@ -28,7 +28,7 @@ void ArpMultiScrollBar::ValueChanged(float newValue)
 	Window()->BeginViewTransaction();
 
 	BView		*item;
-	for (long i=0; (item = (BView*)mTargetList.ItemAt(i)) != 0; i++) {
+	for (int32 i=0; (item = (BView*)mTargetList.ItemAt(i)) != 0; i++) {
 		if (Orientation() == B_HORIZONTAL) {
 			item->ScrollTo(BPoint(newValue, item->Bounds().top));
 		} else {

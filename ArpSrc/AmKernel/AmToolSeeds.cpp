@@ -1,6 +1,6 @@
 /* AmToolSeeds.cpp
  */
-#include <stdio.h>
+#include <cstdio>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmSelectionsI.h"
 #include "AmPublic/AmToolTarget.h"
@@ -376,8 +376,8 @@ void AmBoxToolSeed::PostMouseUp(AmSongRef songRef,
 void AmBoxToolSeed::DrawOn(BView* view, BRect clip)
 {
 	ArpASSERT(view);
-	BRect		r(	min(mOrigin.x, mCorner.x), min(mOrigin.y, mCorner.y),
-					max(mOrigin.x, mCorner.x), max(mOrigin.y, mCorner.y) );
+	BRect		r(	std::min(mOrigin.x, mCorner.x), std::min(mOrigin.y, mCorner.y),
+					std::max(mOrigin.x, mCorner.x), std::max(mOrigin.y, mCorner.y) );
 	if (r.left < clip.left) r.left = clip.left;
 	if (r.top < clip.top) r.top = clip.top;
 	if (r.right > clip.right) r.right = clip.right;
@@ -1791,7 +1791,7 @@ uint32 _AmTrackTransEntry::TransformEvent(	AmTrack* track,
  * AM-TRANSFORM-TOOL-SEED
  *************************************************************************/
 #if 0
-static void print_trans_events(vector<_AmTrackTransEntry>& trackEntries)
+static void print_trans_events(std::vector<_AmTrackTransEntry>& trackEntries)
 {
 	printf("Transform entry events:\n");
 	for (uint32 k = 0; k < trackEntries.size(); k++) {

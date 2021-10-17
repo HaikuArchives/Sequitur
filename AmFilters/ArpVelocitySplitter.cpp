@@ -1,7 +1,7 @@
 /* ArpKeyboardSplitter.cpp
  */
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <InterfaceKit.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpLayout/ViewStubs.h"
@@ -99,8 +99,8 @@ ArpVelocitySplitterAddOn::ArpVelocitySplitterAddOn(const void* cookie)
 void ArpVelocitySplitterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>All notes above the split point continue down my pipeline.  Notes
-below the split point are sent to my connection, if any.</p>";
+	str << "<p>All notes above the split point continue down my pipeline.  Notes \n"
+"below the split point are sent to my connection, if any.</p>\n";
 }
 
 void ArpVelocitySplitterAddOn::GetVersion(int32* major, int32* minor) const

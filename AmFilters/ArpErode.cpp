@@ -9,9 +9,9 @@
 #include <ArpKernel/ArpDebug.h>
 #endif
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 
 static AmStaticResources gRes;
 
@@ -79,7 +79,7 @@ status_t ErodeFilter::PutConfiguration(const BMessage* values)
 void ErodeFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<P>Successive notes placed at half duration.</P>";
+	str << "<P>Successive notes placed at half duration.</P>\n";
 }
 
 

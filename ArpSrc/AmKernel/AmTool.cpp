@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <app/Application.h>
 #include <app/Roster.h>
 #include <storage/Entry.h>
@@ -501,7 +501,7 @@ status_t AmTool::GetSeed(	uint32 index,
 							BString& outViewKey,
 							BString& outSeedKey) const
 {
-	vector<BString>		path;
+	std::vector<BString>		path;
 	uint32				count = 0;
 	if (mSeedRoot.Key(index, &count, path, outSeedKey) != B_OK) return B_ERROR;
 	if (path.size() == 1) {
@@ -520,7 +520,7 @@ status_t AmTool::GetSeed(	const BString& factoryKey,
 							BString& outSeedKey,
 							BMessage* outConfig) const
 {
-	vector<BString>		path;
+	std::vector<BString>		path;
 	path.push_back(viewKey);
 	path.push_back(factoryKey);
 	status_t	err = mSeedRoot.GetKey(path, outSeedKey, outConfig);
@@ -554,7 +554,7 @@ status_t AmTool::Graphic(	uint32 index,
 							BString& outViewKey,
 							BString& outGraphicKey) const
 {
-	vector<BString>		path;
+	std::vector<BString>		path;
 	uint32				count = 0;
 	if (mGraphicRoot.Key(index, &count, path, outGraphicKey) != B_OK) return B_ERROR;
 	if (path.size() == 1) {
@@ -573,7 +573,7 @@ AmGraphicEffect* AmTool::NewGraphic(const BString& factoryKey,
 {
 	BString				key;
 	BMessage			config;
-	vector<BString>		path;
+	std::vector<BString>		path;
 	path.push_back(viewKey);
 	path.push_back(factoryKey);
 	mGraphicRoot.GetKey(path, key, &config);
@@ -608,7 +608,7 @@ status_t AmTool::Prepare(	const BString& factoryKey,
 
 	BString				key;
 	BMessage			config;
-	vector<BString>		path;
+	std::vector<BString>		path;
 	path.push_back(viewKey);
 	path.push_back(factoryKey);
 	mSeedRoot.GetKey(path, key, &config);
@@ -1281,7 +1281,7 @@ status_t _AmToolViewNode::SetKey(	const BString& factoryKey,
 	return B_OK;
 }
 
-status_t _AmToolViewNode::GetKey(	vector<BString> path,
+status_t _AmToolViewNode::GetKey(	std::vector<BString> path,
 									BString& outKey,
 									BMessage* config) const
 {
@@ -1311,7 +1311,7 @@ status_t _AmToolViewNode::GetKey(	vector<BString> path,
 }
 
 status_t _AmToolViewNode::Key(	uint32 index, uint32* count,
-								vector<BString>& outPath,
+								std::vector<BString>& outPath,
 								BString& outKey) const
 {
 	if (index == *count) {

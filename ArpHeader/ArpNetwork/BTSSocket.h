@@ -1,5 +1,5 @@
 // =============================================================================
-//    ¥ BTSSocket.h
+//    ï¿½ BTSSocket.h
 // =============================================================================
 /*	Implementation of a socket object. Socket is not server/client specific,
 	only does tcp/ip right now. */
@@ -32,24 +32,24 @@ class BTSSocket
 						BTSSocket(const int socketID);
 		virtual			~BTSSocket() { Close(); }
 		
-		virtual long	SetOption(const int level, const int option,
+		virtual int32	SetOption(const int level, const int option,
 									char* data, 
 									const unsigned int size) const;
-		virtual long	ConnectToAddress(const ArpHostName& host);
-		virtual long	BindTo(const ArpHostName& address);
-		virtual	long	Send(const char* buf, const long bufSize) const;
-		virtual	long	Recv(const char* buf, const long bufSize,
-								long* recvlen) const;
-		virtual long 	Open();
-		virtual long	Listen(const int maxConnections);
-		virtual long	Close();
+		virtual int32	ConnectToAddress(const ArpHostName& host);
+		virtual int32	BindTo(const ArpHostName& address);
+		virtual	int32	Send(const char* buf, const int32 bufSize) const;
+		virtual	int32	Recv(const char* buf, const int32 bufSize,
+								int32* recvlen) const;
+		virtual int32 	Open();
+		virtual int32	Listen(const int maxConnections);
+		virtual int32	Close();
 		virtual bool	IsOpen() {return fID >= 0 ? true : false;}
 		virtual int		ID() const {return fID;}
 		
-		virtual long	SendLock() const;
-		virtual long	SendUnlock() const;
-		virtual long	RecvLock() const;
-		virtual long	RecvUnlock() const;
+		virtual int32	SendLock() const;
+		virtual int32	SendUnlock() const;
+		virtual int32	RecvLock() const;
+		virtual int32	RecvUnlock() const;
 		
 	private:
 		
@@ -64,8 +64,8 @@ class BTSSocket
 		sem_id			fRecvSem;
 		
 		virtual void	Init();
-		static void		UpdateSendCount(const long numBytes);
-		static void		UpdateReceiveCount(const long numBytes);
+		static void		UpdateSendCount(const int32 numBytes);
+		static void		UpdateReceiveCount(const int32 numBytes);
 };
 
 

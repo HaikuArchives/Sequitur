@@ -87,7 +87,7 @@ private:
 	BPoint		mLastPoint;
 	BMessageRunner* mFadeRunner;
 	
-	vector<_AmLineSegment> mLines;
+	std::vector<_AmLineSegment> mLines;
 
 	void		CleanUp();
 };

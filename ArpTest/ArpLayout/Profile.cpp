@@ -132,13 +132,13 @@ TestApplication::TestApplication()
 	fflush(stderr);
 	
 	{
-		DB(DBALL,cdb << "Testing messages..." << endl);
+		DB(DBALL,cdb << "Testing messages..." << std::endl);
 		BMessage testMsg;
 		status_t res = testMsg.AddInt32("A param...",65);
-		DB(DBALL,cdb << "Added an int32; result=" << res << endl);
+		DB(DBALL,cdb << "Added an int32; result=" << res << std::endl);
 		res = testMsg.AddFloat("A param...",103.4);
-		DB(DBALL,cdb << "Added a float; result=" << res << endl);
-		DB(DBALL,cdb << "Final message = " << testMsg << endl);
+		DB(DBALL,cdb << "Added a float; result=" << res << std::endl);
+		DB(DBALL,cdb << "Final message = " << testMsg << std::endl);
 		DB(DBALL,cdb.flush());
 	}
 	

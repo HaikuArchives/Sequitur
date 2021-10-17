@@ -22,7 +22,7 @@
 #ifndef AMPUBLIC_AMTRACKHANDLER_H
 #define AMPUBLIC_AMTRACKHANDLER_H
 
-#include <vector.h>
+#include <vector>
 #include <app/Message.h>
 #include <interface/View.h>
 #include <ArpBuild.h>

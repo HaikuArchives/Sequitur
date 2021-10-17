@@ -33,7 +33,7 @@ public:
 	ArpBitmap*					MakeFallback(const BString16& text);
 
 private:
-	vector<GlLabelCacheEntry*>	mEntries;
+	std::vector<GlLabelCacheEntry*>	mEntries;
 };
 
 class GlChainCache : public GlLabelCache

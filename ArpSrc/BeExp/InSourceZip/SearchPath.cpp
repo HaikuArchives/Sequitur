@@ -32,8 +32,8 @@
 
 #include <Debug.h>
 
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 
 static const char* _dot_ = ".";
 static const char* _dotdot_ = "..";
@@ -286,7 +286,7 @@ status_t BSearchPath::AddDirectory(const char* dir, const char* leaf)
 	BPath path(dir,leaf);
 	if (path.InitCheck() != B_OK) return path.InitCheck();
 	
-	DEBUG_ONLY(BErr << "Adding path: " << path.Path() << endl);
+	DEBUG_ONLY(BErr << "Adding path: " << path.Path() << std::endl);
 	
 	// Make an entry to this path, traversing any symbolic links.
 	// We need to be working with the actual directory entry, so
@@ -373,7 +373,7 @@ status_t BSearchPath::AddSearchPath(const char* path, const char* leaf)
 {
 	if (!path) return B_OK;
 	
-	DEBUG_ONLY(BErr << "Adding path: " << path << ", leaf: " << leaf << endl);
+	DEBUG_ONLY(BErr << "Adding path: " << path << ", leaf: " << leaf << std::endl);
 	
 	char* mypath = strdup(path);
 	if (!mypath) return B_NO_MEMORY;
@@ -604,7 +604,7 @@ status_t BSearchPath::HandleNodeMessage(const BMessage* msg)
 	
 	node_entry_ref tmp;
 	
-	DEBUG_ONLY(BErr << "Handling node message: " << *msg << endl);
+	DEBUG_ONLY(BErr << "Handling node message: " << *msg << std::endl);
 	
 	status_t res = msg->FindInt32("opcode", &opcode);
 	if (res == B_OK) res = msg->FindInt64("node", (int64*)&(node.node));
@@ -719,7 +719,7 @@ status_t BSearchPath::HandleNodeMessage(const BMessage* msg)
 					node_entry_ref* ref = new node_entry_ref;
 					if (!ref) res = B_NO_MEMORY;
 					else {
-						DEBUG_ONLY(BErr << "Adding " << entry << " to removed list." << endl);
+						DEBUG_ONLY(BErr << "Adding " << entry << " to removed list." << std::endl);
 						ref->node = node;
 						ref->entry = entry;
 						node_entry_ref* found = add_ref_to_list(fRemovedNodes, ref, true);
@@ -960,7 +960,7 @@ status_t BSearchPath::exec_next_action(void)
 
 status_t BSearchPath::exec_entry_created(const node_ref* node, const entry_ref* entry)
 {
-	DEBUG_ONLY(BErr << "Adding " << *entry << " to active list." << endl);
+	DEBUG_ONLY(BErr << "Adding " << *entry << " to active list." << std::endl);
 	
 	node_entry_ref* ref = new node_entry_ref;
 	if (ref == NULL) return B_NO_MEMORY;
@@ -983,7 +983,7 @@ status_t BSearchPath::exec_entry_moved(int32 index, const entry_ref* newEntry)
 	if (!it) return B_ENTRY_NOT_FOUND;
 	
 	DEBUG_ONLY(BErr << "Moving " << it->entry << " (#" << index << ")"
-		 << " to " << *newEntry << endl);
+		 << " to " << *newEntry << std::endl);
 				
 	EntryMoved(&(it->node), newEntry, &(it->entry));
 	
@@ -1001,7 +1001,7 @@ status_t BSearchPath::exec_entry_removed(int32 index)
 	if (!ref) return B_ENTRY_NOT_FOUND;
 	
 	DEBUG_ONLY(BErr << "Removing " << ref->entry << " (#" << index << ")"
-		 << " from active list." << endl);
+		 << " from active list." << std::endl);
 	
 	EntryRemoved(&(ref->node), &(ref->entry));
 	delete ref;

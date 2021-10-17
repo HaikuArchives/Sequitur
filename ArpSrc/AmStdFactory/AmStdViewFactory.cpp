@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cassert>
 #include "AmStdFactory/AmBankChangeView.h"
 #include "AmStdFactory/AmChannelPressureView.h"
 #include "AmStdFactory/AmCommandView.h"

@@ -16,10 +16,10 @@
 #include <MessageRunner.h>
 #include <scheduler.h>
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 #include <vector>
 
@@ -69,7 +69,7 @@ printf("MessageReceived 1\n");
 		}
 printf("MessageReceived 2\n");
 		
-		ArpD(cdb << ADH << "Received: " << *msg << endl);
+		ArpD(cdb << ADH << "Received: " << *msg << std::endl);
 		if (mState != TS_STOPPED && SendReport(kCheckState, msg) == B_OK) {
 			return;
 		} else if (msg->what == 'puls') {
@@ -162,7 +162,7 @@ printf("SendReport 3\n");
 				
 		if (flags&kCheckState) {
 			ArpD(cdb << ADH << "Before report, checking: state="
-				<< (int)mState << ", playing=" << mTransport->IsPlaying() << endl);
+				<< (int)mState << ", playing=" << mTransport->IsPlaying() << std::endl);
 			if (mState != TS_STOPPED && !mTransport->IsRunning()) {
 				return SetState(TS_STOPPED);
 			}
@@ -187,7 +187,7 @@ printf("SendReport 4\n");
 			msg.AddInt32("id", -1);
 			msg.AddInt32("sequence", -1);
 			msg.AddBool("play_to_end", mTransport->PlayToEnd());
-			ArpD(cdb << ADH << "Sending: " << msg << endl);
+			ArpD(cdb << ADH << "Sending: " << msg << std::endl);
 			
 			size_t i, j;
 			status_t err;
@@ -220,7 +220,7 @@ printf("SendReport 4\n");
 				}
 			}
 			if (j < i) mObservers.resize(j);
-			ArpD(cdb << ADH << "Sent " << j << " transport messages" << endl);
+			ArpD(cdb << ADH << "Sent " << j << " transport messages" << std::endl);
 			
 			mCurLoop = curLoop;
 			
@@ -230,7 +230,7 @@ printf("SendReport 4\n");
 				ArpD(cdb << ADH << "Next report time in "
 						<< (nextrealtime-sysrealtime) << " us "
 						<< "(current time " << sysrealtime
-						<< ", next time " << nextrealtime << ")" << endl);
+						<< ", next time " << nextrealtime << ")" << std::endl);
 				if (!mPulse || nextrealtime < mPulseTime) {
 					delete mPulse;
 					mPulse = NULL;
@@ -242,7 +242,7 @@ printf("SendReport 4\n");
 			}
 		} else if (mTransport->IsRunning()) {
 			ArpD(cdb << ADH << "Skipping this report, setting up pulse for next"
-					<< endl);
+					<< std::endl);
 			delete mPulse;
 			mPulse = NULL;
 			BMessage pulse('puls');
@@ -260,7 +260,7 @@ printf("SendReport 4\n");
 			msg.AddInt32("id", -1);
 			msg.AddInt32("sequence", -1);
 			msg.AddBool("play_to_end", mTransport->PlayToEnd());
-			ArpD(cdb << ADH << "Sending: " << msg << endl);
+			ArpD(cdb << ADH << "Sending: " << msg << std::endl);
 			size_t i;
 			for (i=0; i<mObservers.size(); i++) {
 				observer& obs = mObservers[i];
@@ -298,7 +298,7 @@ private:
 		int32 sequence;
 		bool updateSent;
 	};
-	vector<observer>	mObservers;
+	std::vector<observer>	mObservers;
 	
 	transport_state		mState;
 	AmTime				mCurLoop;
@@ -582,7 +582,7 @@ status_t AmTransport::Start(AmTrackRef solo,
 	}
 	
 	ArpD(cdb << "transport start " << startTime
-			<< " stop " << stopTime << endl);
+			<< " stop " << stopTime << std::endl);
 	ArpASSERT(startTime >= 0 && stopTime >= 0);
 	
 	if (startTime >= stopTime) return B_OK;
@@ -594,7 +594,7 @@ status_t AmTransport::Start(AmTrackRef solo,
 	#if ArpDEBUG
 	int32 sugPri = suggest_thread_priority(B_AUDIO_PLAYBACK,
 										   1000000/32, 2000, 100);
-	ArpD(cdb << ADH << "Suggested thread pri=" << sugPri << endl);
+	ArpD(cdb << ADH << "Suggested thread pri=" << sugPri << std::endl);
 	#endif
 	
 	BAutolock l(mAccess);
@@ -645,22 +645,22 @@ void AmTransport::Stop(uint32 context)
 	wait_for_thread(mFeedThread,&ret);
 	#if 0
 	while( mFeedThread >= 0 ) {
-		ArpD(cdb << ADH << "Interrupt feeder " << mFeedThread << endl);
+		ArpD(cdb << ADH << "Interrupt feeder " << mFeedThread << std::endl);
 		suspend_thread(mFeedThread);
 		while ((ret=resume_thread(mFeedThread)) == B_INTERRUPTED) ;
 		if (ret != B_OK) mFeedThread = -1;
 		
 		mAccess.Unlock();
-		ArpD(cdb << ADH << "Waiting for feeder." << endl);
+		ArpD(cdb << ADH << "Waiting for feeder." << std::endl);
 		//snooze(20000);
 		wait_for_thread(mFeedThread,&ret);
 		mAccess.Lock();
 		
-		ArpD(cdb << ADH << "Checking feeder again." << endl);
+		ArpD(cdb << ADH << "Checking feeder again." << std::endl);
 	}
 	#endif
 	
-	ArpD(cdb << ADH << "Feeder is stopped." << endl);
+	ArpD(cdb << ADH << "Feeder is stopped." << std::endl);
 	
 	mPerformer.Stop();
 	
@@ -687,7 +687,7 @@ AmTransport& AmTransport::operator=(const AmTransport&) { return *this; }
 
 int32 AmTransport::FeedThreadEntry(void* arg)
 {
-	ArpD(cdb << ADH << "Enter the feeder." << endl);
+	ArpD(cdb << ADH << "Enter the feeder." << std::endl);
 	AmTransport *obj = (AmTransport *)arg;
 	obj->mSyncSem = create_sem(2, "ARP™ Midi Transport Sync");
 	if (obj->mSyncSem < B_OK) return obj->mSyncSem;
@@ -698,7 +698,7 @@ int32 AmTransport::FeedThreadEntry(void* arg)
 	}
 	obj->mFeedThread = B_BAD_THREAD_ID;
 	obj->mRunning = false;
-	ArpD(cdb << ADH << "Exit the feeder." << endl);
+	ArpD(cdb << ADH << "Exit the feeder." << std::endl);
 	return ret;
 }
 
@@ -721,7 +721,7 @@ int32 AmTransport::FeedPerformance()
 	AmTrackLookahead		lookahead;
 	
 	ArpD(cdb << ADH << "Playing song: from " << startTime
-			<< " to " << stopTime << endl);
+			<< " to " << stopTime << std::endl);
 	ArpASSERT(startTime >= 0 && stopTime >= 0);
 	
 	bool				firstTime = true;
@@ -743,7 +743,7 @@ int32 AmTransport::FeedPerformance()
 		
 		#if SHOW_TRANSPORT_MSGS
 		ArpD(cdb << ADH << "Playing from "
-						<< startTime << " to " << nextTime << endl);
+						<< startTime << " to " << nextTime << std::endl);
 		#endif
 		ArpASSERT(startTime >= 0 && nextTime >= 0);
 		
@@ -754,7 +754,7 @@ int32 AmTransport::FeedPerformance()
 		const AmTrack* track = NULL;
 		
 		#if SHOW_TRANSPORT_MSGS
-		ArpD(cdb << ADH << "Reading song " << song << endl);
+		ArpD(cdb << ADH << "Reading song " << song << std::endl);
 		#endif
 		if (!song) return B_ERROR;
 		if (!madeMotions) {
@@ -860,7 +860,7 @@ int32 AmTransport::FeedPerformance()
 		}
 		
 		#if SHOW_TRANSPORT_MSGS
-		ArpD(cdb << ADH << "Retrieved events " << event << endl);
+		ArpD(cdb << ADH << "Retrieved events " << event << std::endl);
 		#endif
 		
 		params.flags = (song->IsRecording() ? AMFF_RECORDING : 0)
@@ -889,7 +889,7 @@ int32 AmTransport::FeedPerformance()
 		event = event->MergeList(ev, true);
 		
 		#if SHOW_TRANSPORT_MSGS
-		ArpD(cdb << ADH << "Filtered events " << event << endl);
+		ArpD(cdb << ADH << "Filtered events " << event << std::endl);
 		#endif
 		
 		ReadUnlock(song);
@@ -903,7 +903,7 @@ int32 AmTransport::FeedPerformance()
 			ev = ev->NextEvent();
 		}
 		ArpD(cdb << ADH << "Result: " << count << " events, pred="
-				<< (event ? event->PrevEvent() : NULL) << endl);
+				<< (event ? event->PrevEvent() : NULL) << std::endl);
 		#endif
 		#endif
 		
@@ -968,7 +968,7 @@ int32 AmTransport::FeedPerformance()
 		status_t err = mPerformer.Play(event, wasFirstNote ? AMPF_RESTART : 0);
 		
 		#if SHOW_TRANSPORT_MSGS
-		ArpD(cdb << ADH << "Performer append = " << strerror(err) << endl);
+		ArpD(cdb << ADH << "Performer append = " << strerror(err) << std::endl);
 		#endif
 		if (err != B_OK) continue;
 
@@ -983,7 +983,7 @@ int32 AmTransport::FeedPerformance()
 		}
 	}
 	
-	ArpD(cdb << ADH << "Exiting with err=" << strerror(err) << endl);
+	ArpD(cdb << ADH << "Exiting with err=" << strerror(err) << std::endl);
 	
 	mExiting = true;
 	

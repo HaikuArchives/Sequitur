@@ -1,7 +1,7 @@
 #include "ArpTrackStamp.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpLayout/ArpViewWrapper.h"
 #include "ArpLayout/ViewStubs.h"

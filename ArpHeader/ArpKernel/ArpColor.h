@@ -50,7 +50,7 @@ public:
 
 	ArpColor();
 	ArpColor(uchar red,uchar green,uchar blue,uchar alpha=255);
-	ArpColor(long int mycol);
+	ArpColor(int32 mycol);
 	ArpColor(color_which which);
 	ArpColor(const rgb_color & mycol);
 	ArpColor(const ArpColor & mycol);

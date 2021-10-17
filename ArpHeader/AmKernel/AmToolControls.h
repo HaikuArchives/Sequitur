@@ -24,7 +24,7 @@
 #ifndef AMKERNEL_AMTOOLCONTROLS_H
 #define AMKERNEL_AMTOOLCONTROLS_H
 
-#include <vector.h>
+#include <vector>
 #include <interface/View.h>
 #include "AmPublic/AmToolRef.h"
 class AmToolControlList;
@@ -35,7 +35,7 @@ class AmToolControlVis;
  * AM-TOOL-CONTROL
  ****************************************************************************/
 class _AmTcTarget;
-typedef vector<_AmTcTarget>		tctarget_vec;
+typedef std::vector<_AmTcTarget>		tctarget_vec;
 
 class AmToolControl
 {
@@ -103,7 +103,7 @@ const BBitmap*	mCurImage;
  * This class is the container for all tool controls.  Possibly it's
  * unnecessary, and I'll just end up using a vector.
  ****************************************************************************/
-typedef vector<AmToolControl*>	toolctrl_vec;
+typedef std::vector<AmToolControl*>	toolctrl_vec;
 
 class AmToolControlList
 {

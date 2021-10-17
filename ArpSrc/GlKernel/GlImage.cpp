@@ -1,4 +1,4 @@
-#include <string.h>
+#include <cstring>
 #include <ArpInterface/ArpBitmap.h>
 #include <GlPublic/GlDefs.h>
 #include <GlPublic/GlGlobalsI.h>

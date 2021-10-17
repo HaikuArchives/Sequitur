@@ -1,6 +1,6 @@
 /* AmEventInspectors.cpp
  */
-#include <stdio.h>
+#include <cstdio>
 #include <interface/StringView.h>
 #include <interface/Window.h>
 #include "ArpKernel/ArpDebug.h"
@@ -666,7 +666,7 @@ AmInspectorFactory::~AmInspectorFactory()
 	}
 }
 
-bool AmInspectorFactory::SetTrackRef(AmTrackRef trackRef, AmSelectionsI* selections = NULL)
+bool AmInspectorFactory::SetTrackRef(AmTrackRef trackRef, AmSelectionsI* selections)
 {
 	mTrackRef = trackRef;
 	for (uint32 k = 0; k < mViews.size(); k++) {

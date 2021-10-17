@@ -1,7 +1,7 @@
 /* AmMeasureBackground.cpp
  */
-#include <assert.h>
-#include <stdio.h>
+#include <cassert>
+#include <cstdio>
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmMeasureBackground.h"
 #include "AmPublic/AmPrefsI.h"

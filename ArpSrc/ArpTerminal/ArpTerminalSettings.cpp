@@ -79,7 +79,7 @@
 #include "ArpTerminalSettings.h"
 #endif
 
-#include <stdlib.h>
+#include <cstdlib>
 
 ArpMOD();
 
@@ -232,7 +232,7 @@ ArpTerminalSettings::ArpTerminalSettings(
 	int i;
 	
 	ArpD(cdb << ADH << "ArpTerminalSettings init vals: " << mSettings
-					<< endl);
+					<< std::endl);
 					
 	mColorPopUpMenu = new BPopUpMenu("color_menu");
 	mFontPopUpMenu = new BPopUpMenu("font_menu");
@@ -717,18 +717,18 @@ void ArpTerminalSettings::DetachedFromWindow()
 
 void ArpTerminalSettings::ShowCurrentColor(const ArpMessage& settings)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentColor()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentColor()" << std::endl);
 	if( mColorPopUpMenu ) {
 		BMenuItem* item = mColorPopUpMenu->FindMarked();
 		BMessage* msg = item ? item->Message() : 0;
 		if( msg && mColorPalette ) {
-			ArpD(cdb << ADH << "Color menu message: " << *msg << endl);
+			ArpD(cdb << ADH << "Color menu message: " << *msg << std::endl);
 			const char* cvar=0;
 			if( msg->FindString("color_var", &cvar) == B_OK ) {
-				ArpD(cdb << ADH << "Looking for color var: " << cvar << endl);
+				ArpD(cdb << ADH << "Looking for color var: " << cvar << std::endl);
 				rgb_color col = { 0,0,0 };
 				if( settings.FindRGBColor(cvar,&col) == B_OK ) {
-					ArpD(cdb << ADH << "Color is: " << col << endl);
+					ArpD(cdb << ADH << "Color is: " << col << std::endl);
 					mColorPalette->SetValue(col);
 				}
 				return;
@@ -739,15 +739,15 @@ void ArpTerminalSettings::ShowCurrentColor(const ArpMessage& settings)
 
 void ArpTerminalSettings::ChangeCurrentColor(void)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentColor()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentColor()" << std::endl);
 	if( mColorPopUpMenu ) {
 		BMenuItem* item = mColorPopUpMenu->FindMarked();
 		BMessage* msg = item ? item->Message() : 0;
 		if( msg && mColorPalette ) {
-			ArpD(cdb << ADH << "Color menu message: " << *msg << endl);
+			ArpD(cdb << ADH << "Color menu message: " << *msg << std::endl);
 			const char* cvar=0;
 			if( msg->FindString("color_var", &cvar) == B_OK ) {
-				ArpD(cdb << ADH << "Adding color var: " << cvar << endl);
+				ArpD(cdb << ADH << "Adding color var: " << cvar << std::endl);
 				rgb_color col = mColorPalette->ValueAsColor();
 				ArpMessage update(ARP_PUT_CONFIGURATION_MSG);
 				ArpMessage settings;
@@ -762,7 +762,7 @@ void ArpTerminalSettings::ChangeCurrentColor(void)
 
 void ArpTerminalSettings::ChangeStandardColor(void)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeStandardColor()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeStandardColor()" << std::endl);
 	ArpMessage values;
 	values.what = 0;
 	
@@ -796,7 +796,7 @@ void ArpTerminalSettings::ChangeStandardColor(void)
 
 void ArpTerminalSettings::ShowCurrentFont(const ArpMessage& settings)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentFont()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentFont()" << std::endl);
 	BFont font;
 	if( settings.FindFont(ArpRemoteTerminal::PlainFontConfigName,
 							&font) == B_OK ) {
@@ -804,7 +804,7 @@ void ArpTerminalSettings::ShowCurrentFont(const ArpMessage& settings)
 			font_family family;
 			font_style style;
 			font.GetFamilyAndStyle(&family, &style);
-			ArpD(cdb << ADH << "Showing family: " << family << endl);
+			ArpD(cdb << ADH << "Showing family: " << family << std::endl);
 			for( int32 i=0; i<mFontPopUpMenu->CountItems(); i++ ) {
 				BMenuItem* item = mFontPopUpMenu->ItemAt(i);
 				BMessage* msg = item ? item->Message() : 0;
@@ -812,10 +812,10 @@ void ArpTerminalSettings::ShowCurrentFont(const ArpMessage& settings)
 					const char* name;
 					if( msg->FindString("name", &name) == B_OK ) {
 						if( strcmp(family, name) == 0 ) {
-							ArpD(cdb << ADH << "Marking: " << name << endl);
+							ArpD(cdb << ADH << "Marking: " << name << std::endl);
 							item->SetMarked(true);
 						} else {
-							ArpD(cdb << ADH << "Unmarking: " << name << endl);
+							ArpD(cdb << ADH << "Unmarking: " << name << std::endl);
 							item->SetMarked(false);
 						}
 					}
@@ -831,7 +831,7 @@ void ArpTerminalSettings::ShowCurrentFont(const ArpMessage& settings)
 
 void ArpTerminalSettings::ChangeCurrentFont(void)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentFont()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentFont()" << std::endl);
 	BFont font;
 	if( mSettings.FindFont(ArpRemoteTerminal::PlainFontConfigName,
 							&font) == B_OK ) {
@@ -839,13 +839,13 @@ void ArpTerminalSettings::ChangeCurrentFont(void)
 			BMenuItem* item = mFontPopUpMenu->FindMarked();
 			BMessage* msg = item ? item->Message() : 0;
 			if( msg ) {
-				ArpD(cdb << ADH << "Found marked item: " << item->Label() << endl);
+				ArpD(cdb << ADH << "Found marked item: " << item->Label() << std::endl);
 				const char* name;
 				if( msg->FindString("name", &name) == B_OK ) {
 					font_family family;
 					family[0] = 0;
 					strncat(family, name, sizeof(family));
-					ArpD(cdb << ADH << "Setting family to: " << family << endl);
+					ArpD(cdb << ADH << "Setting family to: " << family << std::endl);
 					font.SetFamilyAndFace(family, B_REGULAR_FACE);
 				}
 			}
@@ -867,7 +867,7 @@ void ArpTerminalSettings::ChangeCurrentFont(void)
 
 void ArpTerminalSettings::ShowCurrentEncoding(const ArpMessage& settings)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentEncoding()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentEncoding()" << std::endl);
 	int32 encoding;
 	if( settings.FindInt32(ArpRemoteTerminal::EncodingConfigName,
 							&encoding) == B_OK ) {
@@ -879,10 +879,10 @@ void ArpTerminalSettings::ShowCurrentEncoding(const ArpMessage& settings)
 					int32 value;
 					if( msg->FindInt32("value", &value) == B_OK ) {
 						if( value == encoding ) {
-							ArpD(cdb << ADH << "Marking: " << value << endl);
+							ArpD(cdb << ADH << "Marking: " << value << std::endl);
 							item->SetMarked(true);
 						} else {
-							ArpD(cdb << ADH << "Unmarking: " << value << endl);
+							ArpD(cdb << ADH << "Unmarking: " << value << std::endl);
 							item->SetMarked(false);
 						}
 					}
@@ -894,7 +894,7 @@ void ArpTerminalSettings::ShowCurrentEncoding(const ArpMessage& settings)
 
 void ArpTerminalSettings::ChangeCurrentEncoding(void)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentEncoding()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentEncoding()" << std::endl);
 	int32 encoding;
 	if( mSettings.FindInt32(ArpRemoteTerminal::EncodingConfigName,
 							&encoding) == B_OK ) {
@@ -902,7 +902,7 @@ void ArpTerminalSettings::ChangeCurrentEncoding(void)
 			BMenuItem* item = mEncodingPopUpMenu->FindMarked();
 			BMessage* msg = item ? item->Message() : 0;
 			if( msg ) {
-				ArpD(cdb << ADH << "Found marked item: " << item->Label() << endl);
+				ArpD(cdb << ADH << "Found marked item: " << item->Label() << std::endl);
 				int32 value;
 				if( msg->FindInt32("value", &value) == B_OK ) {
 					encoding = value;
@@ -920,7 +920,7 @@ void ArpTerminalSettings::ChangeCurrentEncoding(void)
 
 void ArpTerminalSettings::ShowCurrentReceive(const ArpMessage& settings)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentReceive()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentReceive()" << std::endl);
 	const char* lf=0;
 	const char* cr=0;
 	if( settings.FindString(ArpRemoteTerminal::LFCharsConfigName,
@@ -937,10 +937,10 @@ void ArpTerminalSettings::ShowCurrentReceive(const ArpMessage& settings)
 					if( msg->FindString("lf", &lfit) == B_OK &&
 							msg->FindString("cr", &crit) == B_OK ) {
 						if( strcmp(lf,lfit) == 0 && strcmp(cr,crit) == 0 ) {
-							ArpD(cdb << ADH << "Marking: " << i << endl);
+							ArpD(cdb << ADH << "Marking: " << i << std::endl);
 							item->SetMarked(true);
 						} else {
-							ArpD(cdb << ADH << "Unmarking: " << i << endl);
+							ArpD(cdb << ADH << "Unmarking: " << i << std::endl);
 							item->SetMarked(false);
 						}
 					}
@@ -952,7 +952,7 @@ void ArpTerminalSettings::ShowCurrentReceive(const ArpMessage& settings)
 
 void ArpTerminalSettings::ChangeCurrentReceive(void)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentReceive()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentReceive()" << std::endl);
 	const char* lf=0;
 	const char* cr=0;
 	if( mSettings.FindString(ArpRemoteTerminal::LFCharsConfigName,
@@ -963,7 +963,7 @@ void ArpTerminalSettings::ChangeCurrentReceive(void)
 			BMenuItem* item = mReceivePopUpMenu->FindMarked();
 			BMessage* msg = item ? item->Message() : 0;
 			if( msg ) {
-				ArpD(cdb << ADH << "Found marked item: " << item->Label() << endl);
+				ArpD(cdb << ADH << "Found marked item: " << item->Label() << std::endl);
 				const char* lfit;
 				const char* crit;
 				if( msg->FindString("lf", &lfit) == B_OK &&
@@ -985,7 +985,7 @@ void ArpTerminalSettings::ChangeCurrentReceive(void)
 
 void ArpTerminalSettings::ShowCurrentSend(const ArpMessage& settings)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentSend()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentSend()" << std::endl);
 	const char* enter=0;
 	if( settings.FindString(ArpRemoteTerminal::EnterStreamConfigName,
 							&enter) == B_OK ) {
@@ -997,10 +997,10 @@ void ArpTerminalSettings::ShowCurrentSend(const ArpMessage& settings)
 					const char* value;
 					if( msg->FindString("stream", &value) == B_OK ) {
 						if( strcmp(enter,value) == 0 ) {
-							ArpD(cdb << ADH << "Marking: " << i << endl);
+							ArpD(cdb << ADH << "Marking: " << i << std::endl);
 							item->SetMarked(true);
 						} else {
-							ArpD(cdb << ADH << "Unmarking: " << i << endl);
+							ArpD(cdb << ADH << "Unmarking: " << i << std::endl);
 							item->SetMarked(false);
 						}
 					}
@@ -1012,7 +1012,7 @@ void ArpTerminalSettings::ShowCurrentSend(const ArpMessage& settings)
 
 void ArpTerminalSettings::ChangeCurrentSend(void)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentSend()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentSend()" << std::endl);
 	const char* enter=0;
 	if( mSettings.FindString(ArpRemoteTerminal::EnterStreamConfigName,
 							&enter) == B_OK ) {
@@ -1020,7 +1020,7 @@ void ArpTerminalSettings::ChangeCurrentSend(void)
 			BMenuItem* item = mSendPopUpMenu->FindMarked();
 			BMessage* msg = item ? item->Message() : 0;
 			if( msg ) {
-				ArpD(cdb << ADH << "Found marked item: " << item->Label() << endl);
+				ArpD(cdb << ADH << "Found marked item: " << item->Label() << std::endl);
 				const char* value;
 				if( msg->FindString("stream", &value) == B_OK ) {
 					enter = value;
@@ -1038,7 +1038,7 @@ void ArpTerminalSettings::ChangeCurrentSend(void)
 
 void ArpTerminalSettings::ShowCurrentMode(const ArpMessage& settings)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentMode()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentMode()" << std::endl);
 	int32 mode;
 	if( settings.FindInt32(ArpRemoteTerminal::ModeConfigName,
 							&mode) == B_OK ) {
@@ -1062,7 +1062,7 @@ void ArpTerminalSettings::ShowCurrentMode(const ArpMessage& settings)
 
 void ArpTerminalSettings::ChangeCurrentMode(void)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentMode()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentMode()" << std::endl);
 	int32 mode;
 	if( mSettings.FindInt32(ArpRemoteTerminal::ModeConfigName,
 							&mode) == B_OK ) {
@@ -1092,7 +1092,7 @@ void ArpTerminalSettings::ChangeCurrentMode(void)
 
 void ArpTerminalSettings::ShowCurrentVerifyPaste(const ArpMessage& settings)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentVerifyPaste()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentVerifyPaste()" << std::endl);
 	bool state;
 	if( settings.FindBool(ArpRemoteTerminal::VerifyPasteConfigName,
 							&state) == B_OK ) {
@@ -1104,7 +1104,7 @@ void ArpTerminalSettings::ShowCurrentVerifyPaste(const ArpMessage& settings)
 
 void ArpTerminalSettings::ChangeCurrentVerifyPaste(void)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentVerifyPaste()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentVerifyPaste()" << std::endl);
 	bool state;
 	if( mSettings.FindBool(ArpRemoteTerminal::VerifyPasteConfigName,
 							&state) == B_OK ) {
@@ -1122,7 +1122,7 @@ void ArpTerminalSettings::ChangeCurrentVerifyPaste(void)
 
 void ArpTerminalSettings::ShowCurrentQuickPaste(const ArpMessage& settings)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentQuickPaste()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentQuickPaste()" << std::endl);
 	bool state;
 	if( settings.FindBool(ArpRemoteTerminal::RMBPasteConfigName,
 							&state) == B_OK ) {
@@ -1134,7 +1134,7 @@ void ArpTerminalSettings::ShowCurrentQuickPaste(const ArpMessage& settings)
 
 void ArpTerminalSettings::ChangeCurrentQuickPaste(void)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentQuickPaste()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentQuickPaste()" << std::endl);
 	bool state;
 	if( mSettings.FindBool(ArpRemoteTerminal::RMBPasteConfigName,
 							&state) == B_OK ) {
@@ -1152,7 +1152,7 @@ void ArpTerminalSettings::ChangeCurrentQuickPaste(void)
 
 void ArpTerminalSettings::ShowCurrentAutoScroll(const ArpMessage& settings)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentAutoScroll()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentAutoScroll()" << std::endl);
 	int32 mode;
 	if( settings.FindInt32(ArpRemoteTerminal::AutoScrollConfigName,
 							&mode) == B_OK ) {
@@ -1171,7 +1171,7 @@ void ArpTerminalSettings::ShowCurrentAutoScroll(const ArpMessage& settings)
 
 void ArpTerminalSettings::ChangeCurrentAutoScroll(void)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentAutoScroll()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentAutoScroll()" << std::endl);
 	int32 mode;
 	if( mSettings.FindInt32(ArpRemoteTerminal::AutoScrollConfigName,
 							&mode) == B_OK ) {
@@ -1196,7 +1196,7 @@ void ArpTerminalSettings::ChangeCurrentAutoScroll(void)
 
 void ArpTerminalSettings::ShowCurrentHistorySize(const ArpMessage& settings)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentHistorySize()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentHistorySize()" << std::endl);
 	int32 size;
 	if( settings.FindInt32(ArpRemoteTerminal::HistorySizeConfigName,
 							&size) == B_OK ) {
@@ -1209,7 +1209,7 @@ void ArpTerminalSettings::ShowCurrentHistorySize(const ArpMessage& settings)
 
 void ArpTerminalSettings::ChangeCurrentHistorySize(void)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentHistorySize()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentHistorySize()" << std::endl);
 	int32 size;
 	if( mSettings.FindInt32(ArpRemoteTerminal::HistorySizeConfigName,
 							&size) == B_OK ) {
@@ -1230,7 +1230,7 @@ void ArpTerminalSettings::ChangeCurrentHistorySize(void)
 
 void ArpTerminalSettings::ShowCurrentHistoryUse(const ArpMessage& settings)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentHistoryUse()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ShowCurrentHistoryUse()" << std::endl);
 	int32 use;
 	if( settings.FindInt32(ArpRemoteTerminal::HistoryUseConfigName,
 							&use) == B_OK ) {
@@ -1242,10 +1242,10 @@ void ArpTerminalSettings::ShowCurrentHistoryUse(const ArpMessage& settings)
 					int32 value;
 					if( msg->FindInt32("value", &value) == B_OK ) {
 						if( value == use ) {
-							ArpD(cdb << ADH << "Marking: " << value << endl);
+							ArpD(cdb << ADH << "Marking: " << value << std::endl);
 							item->SetMarked(true);
 						} else {
-							ArpD(cdb << ADH << "Unmarking: " << value << endl);
+							ArpD(cdb << ADH << "Unmarking: " << value << std::endl);
 							item->SetMarked(false);
 						}
 					}
@@ -1257,7 +1257,7 @@ void ArpTerminalSettings::ShowCurrentHistoryUse(const ArpMessage& settings)
 
 void ArpTerminalSettings::ChangeCurrentHistoryUse(void)
 {
-	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentHistoryUse()" << endl);
+	ArpD(cdb << ADH << "ArpTerminalSettings::ChangeCurrentHistoryUse()" << std::endl);
 	int32 use;
 	if( mSettings.FindInt32(ArpRemoteTerminal::HistoryUseConfigName,
 							&use) == B_OK ) {
@@ -1265,7 +1265,7 @@ void ArpTerminalSettings::ChangeCurrentHistoryUse(void)
 			BMenuItem* item = mHistoryPopUpMenu->FindMarked();
 			BMessage* msg = item ? item->Message() : 0;
 			if( msg ) {
-				ArpD(cdb << ADH << "Found marked item: " << item->Label() << endl);
+				ArpD(cdb << ADH << "Found marked item: " << item->Label() << std::endl);
 				int32 value;
 				if( msg->FindInt32("value", &value) == B_OK ) {
 					use = value;
@@ -1284,7 +1284,7 @@ void ArpTerminalSettings::ChangeCurrentHistoryUse(void)
 void ArpTerminalSettings::MessageReceived(BMessage *message)
 {
 	if( message ) {
-		ArpD(cdb << ADH << "ArpTerminalSettings message: " << *message << endl);
+		ArpD(cdb << ADH << "ArpTerminalSettings message: " << *message << std::endl);
 		switch(message->what) {
 			case CHOOSE_COLOR_MSG:
 				ShowCurrentColor(mSettings);
@@ -1341,11 +1341,11 @@ void ArpTerminalSettings::MessageReceived(BMessage *message)
 				mTerminal.SendMessage(&reset);
 			} break;
 			case ARP_PUT_CONFIGURATION_MSG: {
-				ArpD(cdb << ADH << "*** Terminal configuration changed." << endl);
+				ArpD(cdb << ADH << "*** Terminal configuration changed." << std::endl);
 				ArpMessage settings;
 				if( message->FindMessage("settings", &settings) == B_OK ) {
 					mSettings.Update(settings);
-					ArpD(cdb << ADH << "New settings: " << mSettings << endl);
+					ArpD(cdb << ADH << "New settings: " << mSettings << std::endl);
 					ShowCurrentColor(settings);
 					ShowCurrentFont(settings);
 					ShowCurrentEncoding(settings);

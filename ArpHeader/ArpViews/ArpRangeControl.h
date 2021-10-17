@@ -24,7 +24,7 @@
 #ifndef ARPVIEWS_ARPRANGECONTROL_H
 #define ARPVIEWS_ARPRANGECONTROL_H
 
-#include <vector.h>
+#include <vector>
 #include <String.h>
 #include <View.h>
 class ArpRangeBand;
@@ -40,7 +40,7 @@ class _ArpValueTextWindow;
 #define ARP_DEFAULT_MIN_ZOOM	(0.1)
 #define ARP_DEFAULT_MAX_ZOOM	(10)
 
-typedef vector<ArpRangeBand*>		band_vec;
+typedef std::vector<ArpRangeBand*>		band_vec;
 
 // Flags for the SetDisplayFlags() method
 enum {

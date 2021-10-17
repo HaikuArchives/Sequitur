@@ -102,7 +102,7 @@ protected:
 
 private:
 	typedef BWindow				inherited;
-	vector<AmTrackRef>			mTrackRefs;
+	std::vector<AmTrackRef>			mTrackRefs;
 	AmSelectionsI*				mSelections;
 	AmTimeConverter				mMtc;
 	AmTime						mCachedEndTime;

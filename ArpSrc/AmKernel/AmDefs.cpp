@@ -6,7 +6,7 @@
 
 #include <Message.h>
 #include <storage/File.h>
-#include <stdio.h>
+#include <cstdio>
 
 status_t add_time(BMessage& msg, const char* name, AmTime timeVal)
 {

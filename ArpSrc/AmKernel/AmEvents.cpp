@@ -2,8 +2,8 @@
  */
 #define _BUILDING_AmKernel 1
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "ArpKernel/ArpDebug.h"
 #include "AmPublic/AmEvents.h"
 #include "AmPublic/AmFilterI.h"
@@ -141,7 +141,7 @@ AmEvent::AmEvent()
 	// debug...
 #if defined(ArpDEBUG)
 	int oldVal = atomic_add(&counter, 1);
-	ArpDL(__FILE__, 3, cdb << ADH << "creating event #" << oldVal << endl);
+	ArpDL(__FILE__, 3, cdb << ADH << "creating event #" << oldVal << std::endl);
 #endif
 	Initialize(0);
 }
@@ -152,7 +152,7 @@ AmEvent::AmEvent(AmTime timeArg)
 	// debug...
 #if defined(ArpDEBUG)
 	int oldVal = atomic_add(&counter, 1);
-	ArpDL(__FILE__, 3, cdb << ADH << "creating event #" << oldVal << endl);
+	ArpDL(__FILE__, 3, cdb << ADH << "creating event #" << oldVal << std::endl);
 #endif
 	Initialize(timeArg);
 }
@@ -168,7 +168,7 @@ AmEvent::AmEvent(const AmEvent& o)
 	// debug...
 #if defined(ArpDEBUG)
 	int oldVal = atomic_add(&counter, 1);
-	ArpDL(__FILE__, 3, cdb << ADH << "creating event #" << oldVal << endl);
+	ArpDL(__FILE__, 3, cdb << ADH << "creating event #" << oldVal << std::endl);
 #endif
 }
 
@@ -185,7 +185,7 @@ AmEvent::AmEvent(const BMessage& flatEvent)
 	// debug...
 #if defined(ArpDEBUG)
 	int oldVal = atomic_add(&counter, 1);
-	ArpDL(__FILE__, 3, cdb << ADH << "creating event #" << oldVal << endl);
+	ArpDL(__FILE__, 3, cdb << ADH << "creating event #" << oldVal << std::endl);
 #endif
 }
 
@@ -202,10 +202,10 @@ AmEvent::~AmEvent() {
 	int last;
 	if ( (last=atomic_add(&counter,-1)) == 1 ) {
 //		ArpDL(__FILE__, 2, cdb << ADH << "deleted FINAL event #"
-//								<< last-1 << " time: " << time << endl);
+//								<< last-1 << " time: " << time << std::endl);
 	} else {
 //		ArpDL(__FILE__, 3, cdb << ADH << "deleted event #"
-//								<< last-1 << " time: " << time << endl);
+//								<< last-1 << " time: " << time << std::endl);
 	}
 #endif
 }
@@ -311,28 +311,28 @@ void AmEvent::AppendEvent(AmEvent* event)
 	ArpVALIDATE(after != NULL && event != NULL && after != event, return);
 	#if NOISY
 	ArpD(cdb << ADH << "AppendEvent: after=" << after
-			<< ", event=" << event << endl);
+			<< ", event=" << event << std::endl);
 	#endif
 	AmEvent* const afterNext = after->NextEvent();
 	#if NOISY
-	ArpD(cdb << ADH << "AppendEvent: afterNext=" << afterNext << endl);
+	ArpD(cdb << ADH << "AppendEvent: afterNext=" << afterNext << std::endl);
 	#endif
 	event->SetNextEvent(afterNext);
 	event->SetPrevEvent(after);
 	#if NOISY
 	ArpD(cdb << ADH << "AppendEvent: linked event to next=" << afterNext
-					<< ", prev=" << after << endl);
+					<< ", prev=" << after << std::endl);
 	#endif
 	if( afterNext ) {
 		afterNext->SetPrevEvent(event);
 		#if NOISY
 		ArpD(cdb << ADH << "AppendEvent: linked afterNext to prev="
-						<< event << endl);
+						<< event << std::endl);
 		#endif
 	}
 	after->SetNextEvent(event);
 	#if NOISY
-	ArpD(cdb << ADH << "AppendEvent: linked after to next=" << event << endl);
+	ArpD(cdb << ADH << "AppendEvent: linked after to next=" << event << std::endl);
 	#endif
 }
 
@@ -387,13 +387,13 @@ AmEvent* AmEvent::MergeEvent(AmEvent* src)
 	AmEvent* destPos = this;
 	
 	#if NOISY
-	ArpD(cdb << ADH << "Merging " << src << " into " << destPos << endl);
+	ArpD(cdb << ADH << "Merging " << src << " into " << destPos << std::endl);
 	#endif
 	if( !destPos ) return src;
 	const AmTime srcTime = src->StartTime();
 	const AmEvent::AmEvent::EventType srcType = src->Type();
 	#if NOISY
-	ArpD(cdb << ADH << "Source time is " << srcTime << endl);
+	ArpD(cdb << ADH << "Source time is " << srcTime << std::endl);
 	#endif
 	AmEvent* tmp=NULL;
 	bool searched = false;
@@ -403,7 +403,7 @@ AmEvent* AmEvent::MergeEvent(AmEvent* src)
 	while( compare_events(destPos->StartTime(), destPos->Type(), srcTime, srcType) <= 0 ) {
 		#if NOISY
 		ArpD(cdb << ADH << "Dest time is " << destPos->StartTime()
-				<< ", going forward." << endl);
+				<< ", going forward." << std::endl);
 		#endif
 		tmp = destPos->NextEvent();
 		if( !tmp ) {
@@ -423,7 +423,7 @@ AmEvent* AmEvent::MergeEvent(AmEvent* src)
 		// we know this is where to put it.
 		#if NOISY
 		ArpD(cdb << ADH << "Found dest time " << destPos->Time()
-						<< ", inserting here." << endl);
+						<< ", inserting here." << std::endl);
 		#endif
 		destPos->InsertEvent(src);
 		return src;
@@ -434,7 +434,7 @@ AmEvent* AmEvent::MergeEvent(AmEvent* src)
 	while( compare_events(destPos->StartTime(), destPos->Type(), srcTime, srcType) > 0 ) {
 		#if NOISY
 		ArpD(cdb << ADH << "Dest time is " << destPos->StartTime()
-						<< ", going backward." << endl);
+						<< ", going backward." << std::endl);
 		#endif
 		tmp = destPos->PrevEvent();
 		if( !tmp ) {
@@ -452,7 +452,7 @@ AmEvent* AmEvent::MergeEvent(AmEvent* src)
 	// put it.
 	#if NOISY
 	ArpD(cdb << ADH << "Found dest time " << destPos->Time()
-					<< ", appending here." << endl);
+					<< ", appending here." << std::endl);
 	#endif
 	destPos->AppendEvent(src);
 	return src;
@@ -559,7 +559,7 @@ void AmEvent::DeleteChain()
 	AmEvent* event = this;
 	while( event ) {
 		#if NOISY
-		ArpD(cdb << ADH << "Delete chain: removing event " << event << endl);
+		ArpD(cdb << ADH << "Delete chain: removing event " << event << std::endl);
 		#endif
 		AmEvent* next = event->RemoveEvent();
 		event->Delete();
@@ -2583,7 +2583,7 @@ void AmLyric::RealDelete()
 * class AmKeyPressure
 ***************************************************************/
 
-AmKeyPressure::AmKeyPressure(uint8 noteArg, uint8 pressureArg, ulong timeArg)
+AmKeyPressure::AmKeyPressure(uint8 noteArg, uint8 pressureArg, uint32 timeArg)
 		: AmEvent(timeArg) {
 	note = noteArg;
 	pressure = pressureArg;

@@ -2,8 +2,8 @@
 */
 
 #define _BUILDING_AmKernel 1
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <app/Application.h>
 #include <StorageKit.h>
 #include <support/Autolock.h>
@@ -421,7 +421,7 @@ public:
 		 * itself again.
 		 */
 		uint32						k;
-		vector<AmFilterHolderI*>	f;
+		std::vector<AmFilterHolderI*>	f;
 		for (k = 0; k < mFilters.size(); k++) f.push_back(mFilters[k]);
 		mFilters.resize(0);
 		for (k = 0; k < f.size(); k++) {
@@ -463,7 +463,7 @@ public:
 	}
 
 private:
-	vector<AmFilterHolderI*>	mFilters;
+	std::vector<AmFilterHolderI*>	mFilters;
 };
 
 AmDeviceRoster* AmDeviceRoster::Default()

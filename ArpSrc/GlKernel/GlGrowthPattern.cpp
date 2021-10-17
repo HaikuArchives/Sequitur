@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 #include <ArpKernel/ArpDebug.h>
 #include <ArpCore/StlVector.h>
 #include <support/Errors.h>
@@ -64,7 +64,7 @@ private:
 		for (k = 0; k < GL_GROWTH_LIMIT; k++) total += dest[k];
 		if (total < 1) return B_ERROR;
 
-		vector<uint8>		vec;
+		std::vector<uint8>		vec;
 		uint32				i = 0;
 		for (k = 0; k < GL_GROWTH_LIMIT; k++) {
 			if (dest[k] > 0) {

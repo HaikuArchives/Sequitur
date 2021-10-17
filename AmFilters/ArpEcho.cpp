@@ -1,7 +1,7 @@
 #include "ArpEcho.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <InterfaceKit.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpLayout/ArpViewWrapper.h"
@@ -397,7 +397,7 @@ AmEvent* ArpEchoFilter::PerformMouseDistanceMode(	AmNoteOn* orig,
 	AmTime				xOffset = grid;
 	if (xDist < 0) {
 		xOffset = -grid;
-		xDist = abs(xDist);
+		xDist = llabs(xDist);
 	}
 	int32				yDist = toolParams->cur_y_value - toolParams->orig_y_value;
 	int32				yOffset = 1;
@@ -406,7 +406,7 @@ AmEvent* ArpEchoFilter::PerformMouseDistanceMode(	AmNoteOn* orig,
 		yDist = abs(yDist);
 	}
 	const int32			xSteps = xDist / grid, ySteps = yDist;
-	const int32			depth = min(mDepth, max(xSteps, ySteps));
+	const int32			depth = std::min(mDepth, std::max(xSteps, ySteps));
 	const uint8			origVelocity = orig->Velocity();
 	float				xChange = 1, yChange = 1;
 	if (ySteps == 0) yChange = 0;
@@ -454,7 +454,7 @@ AmEvent* ArpEchoFilter::PerformMouseLocationMode(	AmNoteOn* orig,
 	AmTime				xOffset = grid;
 	if (xDist < 0) {
 		xOffset = -grid;
-		xDist = abs(xDist);
+		xDist = llabs(xDist);
 	}
 	int32				yDist = toolParams->cur_y_value - orig->Note();
 	int32				yOffset = 1;
@@ -463,7 +463,7 @@ AmEvent* ArpEchoFilter::PerformMouseLocationMode(	AmNoteOn* orig,
 		yDist = abs(yDist);
 	}
 	const int32			xSteps = xDist / grid, ySteps = yDist;
-	const int32			depth = min(mDepth, max(xSteps, ySteps));
+	const int32			depth = std::min(mDepth, std::max(xSteps, ySteps));
 	const uint8			origVelocity = orig->Velocity();
 	float				xChange = 1, yChange = 1;
 	if (ySteps == 0) yChange = 0;
@@ -508,66 +508,66 @@ AmEvent* ArpEchoFilter::PerformMouseLocationMode(	AmNoteOn* orig,
 void ArpEchoFilterAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>I echo note events based on my parameters.</p>
-	<h4>Types</h4>
-	<UL>
-		<LI><I>Traditional</I>.  This is a standard echo, where each note is
-		repeated depth number of times.
-		<LI><I>Mouse distance</I>.  This works only when the filter is in a
-		tool pipeline.  Notes are echoed based on the distance the mouse has
-		traveled since being clicked.  For example, if a single note is selected,
-		as the mouse is dragged a tail forms that stretches from that note to
-		the mouse location.  If multiple notes are selected, they will all have
-		tails that mimic the one attached to the note that was clicked.
-		<LI><I>Mouse location</I>.  This works only when the filter is in a
-		tool pipeline.  Notes are echoed toward the current mouse location.  For
-		example, if three notes are selected, then tails will be drawn from those
-		three notes to the current mouse location.
-	</UL>
-	<h4>Duration</h4>
-		This is the amount of time between each echo.  If you select the \"Tools
-		use grid duration\" option, then when the Echo filter is used in a tool
-		its duration will come from the current note length of the track window
-		you are working in.
-	<h4>Depth</h4>
-		The number of additional notes to generate <em>after</em> the first.  In
-		<I>Mouse distance</I> and <I>Mouse location</I> modes, this is the maximum
-		number of additional notes to generate.
-	<h4>Velcocity</h4>
-	<UL>
-		<LI><I>Decending</I> Note velocity decreases with time.
-		<LI><I>Ascending</I> Note velocity increases with time.
-		<LI><I>No Change</I> Note velocity is constant over time.
-	</UL>
-	<h4>Start and Stop</h4>
-		These are the relative locations in the echo curve, ranging from 1.0 to
-		0.0, through which to spread note velocities.  For the full curve,
-		start is 1.0 and stop is 0.0; for a reversed curve, start is 0.0 and
-		stop is 1.0.
-	<h4>Curve</h4>
-	<UL>
-		<LI><I>Exponential</I>. Linear curve raised to the <I>Exponent</I> power.
-		<LI><I>Geometric</I>. Velocity is halved at each step.
-		<LI><I>Sinusoidal</I>. Sin curve repeated <I>Period</I> times raised to the <I>Exponent</I> power.
-		<LI><I>Sinusoidal Decay</I>. Sin curve repeated <I>Period</I> times
-		with linear modifier, raised to the <I>Exponent</I> power.
-		<LI><I>Random</I>. Random curve raised to the <I>Exponent</I> power.
-		<LI><I>Random Decay</I>. Random curve with linear modifier, raised to the <I>Exponent</I> power.
-	</UL>
-	<h4>Exponent</h4>
-		This is a modifier for all curves, raising the final value (ranging from 0.0
-		to 1.0) to this exponent's power.  A value of 1.0 here is a linear curve.  A value
-		greater than 1.0 creates a faster curve (it drops from 1.0 more quickly), while a
-		value less than 1.0 creates a slower curve.
-	<h4>Period</h4>
-		For a sinusoidal curve, this is the number of iterations of the sin functions
-		to include in the curve.  A value of 1.0 creates a single sin iteration, going
-		from 1.0 down to 0.0 and back up to 1.0.
-	<h4>Connections</h4>
-		This filter can have either one or two connections.  If it has a single connection,
-		then all events it receives and generates are sent out that connection.  If it has
-		two connections, then all events it receives are sent out the first connection, and
-		all events it generates are sent out the second.";
+	str << "<p>I echo note events based on my parameters.</p>\n"
+	"<h4>Types</h4>\n"
+	"<UL>\n"
+	"	<LI><I>Traditional</I>.  This is a standard echo, where each note is \n"
+	"	repeated depth number of times. \n"
+	"	<LI><I>Mouse distance</I>.  This works only when the filter is in a \n"
+	"	tool pipeline.  Notes are echoed based on the distance the mouse has \n"
+	"	traveled since being clicked.  For example, if a single note is selected, \n"
+	"	as the mouse is dragged a tail forms that stretches from that note to \n"
+	"	the mouse location.  If multiple notes are selected, they will all have \n"
+	"	tails that mimic the one attached to the note that was clicked. \n"
+	"	<LI><I>Mouse location</I>.  This works only when the filter is in a \n"
+	"	tool pipeline.  Notes are echoed toward the current mouse location.  For \n"
+	"	example, if three notes are selected, then tails will be drawn from those \n"
+	"	three notes to the current mouse location. \n"
+	"</UL>\n"
+	"<h4>Duration</h4>\n"
+	"	This is the amount of time between each echo.  If you select the \"Tools \n"
+	"	use grid duration\" option, then when the Echo filter is used in a tool \n"
+	"	its duration will come from the current note length of the track window \n"
+	"	you are working in. \n"
+	"<h4>Depth</h4>\n"
+	"	The number of additional notes to generate <em>after</em> the first.  In \n"
+	"	<I>Mouse distance</I> and <I>Mouse location</I> modes, this is the maximum \n"
+	"	number of additional notes to generate. \n"
+	"<h4>Velcocity</h4>\n"
+	"<UL>\n"
+	"	<LI><I>Decending</I> Note velocity decreases with time. \n"
+	"	<LI><I>Ascending</I> Note velocity increases with time. \n"
+	"	<LI><I>No Change</I> Note velocity is constant over time. \n"
+	"</UL>\n"
+	"<h4>Start and Stop</h4>\n"
+	"	These are the relative locations in the echo curve, ranging from 1.0 to \n"
+	"	0.0, through which to spread note velocities.  For the full curve, \n"
+	"	start is 1.0 and stop is 0.0; for a reversed curve, start is 0.0 and \n"
+	"	stop is 1.0. \n"
+	"<h4>Curve</h4>\n"
+	"<UL>\n"
+	"	<LI><I>Exponential</I>. Linear curve raised to the <I>Exponent</I> power. \n"
+	"	<LI><I>Geometric</I>. Velocity is halved at each step. \n"
+	"	<LI><I>Sinusoidal</I>. Sin curve repeated <I>Period</I> times raised to the <I>Exponent</I> power. \n"
+	"	<LI><I>Sinusoidal Decay</I>. Sin curve repeated <I>Period</I> times \n"
+	"	with linear modifier, raised to the <I>Exponent</I> power. \n"
+	"	<LI><I>Random</I>. Random curve raised to the <I>Exponent</I> power. \n"
+	"	<LI><I>Random Decay</I>. Random curve with linear modifier, raised to the <I>Exponent</I> power. \n"
+	"</UL>\n"
+	"<h4>Exponent</h4> \n"
+	"	This is a modifier for all curves, raising the final value (ranging from 0.0 \n"
+	"	to 1.0) to this exponent's power.  A value of 1.0 here is a linear curve.  A value \n"
+	"	greater than 1.0 creates a faster curve (it drops from 1.0 more quickly), while a \n"
+	"	value less than 1.0 creates a slower curve. \n"
+	"<h4>Period</h4>\n"
+	"	For a sinusoidal curve, this is the number of iterations of the sin functions \n"
+	"	to include in the curve.  A value of 1.0 creates a single sin iteration, going \n"
+	"	from 1.0 down to 0.0 and back up to 1.0. \n"
+	"<h4>Connections</h4>\n"
+	"	This filter can have either one or two connections.  If it has a single connection, \n"
+	"	then all events it receives and generates are sent out that connection.  If it has \n"
+	"	two connections, then all events it receives are sent out the first connection, and \n"
+	"	all events it generates are sent out the second.\n";
 }
 
 void ArpEchoFilterAddOn::GetVersion(int32* major, int32* minor) const

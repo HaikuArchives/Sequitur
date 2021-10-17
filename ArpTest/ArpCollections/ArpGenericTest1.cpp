@@ -1,7 +1,7 @@
 
 
 #include <Debug.h>
-#include <assert.h>
+#include <cassert>
 
 #include "ArpGenericTest1.h"
 

@@ -145,13 +145,13 @@ private:
 	BString						mEmail;
 	BString						mInputFilterKey;
 	bool						mIsValid;
-	vector<BString>				mControls;
-	vector< ArpRef<AmBank> >	mBanks;
+	std::vector<BString>				mControls;
+	std::vector< ArpRef<AmBank> >	mBanks;
 	AmBankChange*				mSelectionEvent;
 	BBitmap*					mIcon;
 	bool						mReadOnly;
 	BString						mFilePath;
-	vector<AmSysExCommand*>		mSysExCommands;
+	std::vector<AmSysExCommand*>		mSysExCommands;
 };
 
 

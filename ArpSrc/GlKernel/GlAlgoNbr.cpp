@@ -3,7 +3,7 @@
 #include <GlPublic/GlAlgoNbr.h>
 #include <GlPublic/GlAlgoNbrInput.h>
 
-static vector<int32>		gKeys;
+static std::vector<int32>		gKeys;
 
 /***************************************************************************
  * GL-ALGO-NBR

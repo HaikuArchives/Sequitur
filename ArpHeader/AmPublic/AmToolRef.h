@@ -22,7 +22,7 @@
 #ifndef AMPUBLIC_AMTOOLREF_H
 #define AMPUBLIC_AMTOOLREF_H
 
-#include <vector.h>
+#include <vector>
 #include <app/Messenger.h>
 #include <support/SupportDefs.h>
 #include "AmPublic/AmDefs.h"

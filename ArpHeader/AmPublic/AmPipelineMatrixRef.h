@@ -22,7 +22,7 @@
 #ifndef AMPUBLIC_AMPIPELINEMATRIXREF_H
 #define AMPUBLIC_AMPIPELINEMATRIXREF_H
 
-#include <vector.h>
+#include <vector>
 #include <app/Messenger.h>
 #include <support/SupportDefs.h>
 #include "AmPublic/AmPipelineMatrixI.h"
@@ -76,6 +76,6 @@ private:
 	AmPipelineMatrixI*	mMatrix;
 };
 
-typedef vector<AmPipelineMatrixRef>		pipelinematrixref_vec;
+typedef std::vector<AmPipelineMatrixRef>		pipelinematrixref_vec;
 
 #endif 

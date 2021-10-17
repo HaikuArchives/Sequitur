@@ -2,9 +2,9 @@
  */
 #define _BUILDING_AmKernel 1
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
 #include <interface/StringView.h>
 #include "ArpViewsPublic/ArpIntFormatterI.h"
 #include "ArpViewsPublic/ArpPrefsI.h"

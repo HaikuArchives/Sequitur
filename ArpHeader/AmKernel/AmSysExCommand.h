@@ -31,7 +31,7 @@
 #ifndef AMKERNEL_AMSYSEXCOMMAND_H
 #define AMKERNEL_AMSYSEXCOMMAND_H
 
-#include <vector.h>
+#include <vector>
 #include <support/SupportDefs.h>
 #include <support/String.h>
 #include "AmPublic/AmDefs.h"
@@ -84,7 +84,7 @@ class AmSysExCommand
 {
 public:
 	AmSysExCommand(	const BString& key, const _AmCommandValue& deviceId,
-					const _AmCommandValue& value, vector<BString>* valueLabels,
+					const _AmCommandValue& value, std::vector<BString>* valueLabels,
 					uint32 bitNum = 14, uint32 flags = ARP_TWOS_COMPLEMENT);
 	AmSysExCommand(const AmSysExCommand& o);
 	virtual ~AmSysExCommand();
@@ -124,7 +124,7 @@ protected:
 											AmSystemExclusive* dest) const;
 	
 private:	
-	vector<BString>		mValueLabels;
+	std::vector<BString>		mValueLabels;
 	uint32				mBitNum;
 	uint32				mFlags;
 
@@ -144,7 +144,7 @@ class AmSysExSingleCommand : public AmSysExCommand
 public:
 	AmSysExSingleCommand(	AmSystemExclusive* sysex, int32 initValue,
 							const BString& key, const _AmCommandValue& deviceId,
-							const _AmCommandValue& value, vector<BString>* valueLabels,
+							const _AmCommandValue& value, std::vector<BString>* valueLabels,
 							uint32 bitNum = 14, uint32 flags = ARP_TWOS_COMPLEMENT);
 	AmSysExSingleCommand(const AmSysExSingleCommand& o);
 	virtual ~AmSysExSingleCommand();
@@ -177,10 +177,10 @@ public:
 class AmSysExMultiCommand : public AmSysExCommand
 {
 public:
-	AmSysExMultiCommand(vector<AmSystemExclusive*>& sysex, int32 initValue, const BString& key,
+	AmSysExMultiCommand(std::vector<AmSystemExclusive*>& sysex, int32 initValue, const BString& key,
 						const _AmCommandValue& deviceId, const _AmCommandValue& value,
 						const _AmCommandValue* channel,
-						vector<BString>* valueLabels, uint32 bitNum = 14,
+						std::vector<BString>* valueLabels, uint32 bitNum = 14,
 						uint32 flags = ARP_TWOS_COMPLEMENT);
 	AmSysExMultiCommand(const AmSysExMultiCommand& o);
 	virtual ~AmSysExMultiCommand();
@@ -199,7 +199,7 @@ protected:
 
 private:
 	typedef AmSysExCommand		inherited;
-	vector<AmSystemExclusive*> mSysEx;	// Commands can contain multiple sysex data
+	std::vector<AmSystemExclusive*> mSysEx;	// Commands can contain multiple sysex data
 
 public:
 	virtual void		Print() const;

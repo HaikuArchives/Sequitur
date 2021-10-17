@@ -10,9 +10,9 @@
 #include "common.h"
 #endif
 
-#include <stdio.h>
+#include <cstdio>
 #include <MenuItem.h>
-#include <stdlib.h>
+#include <cstdlib>
 
 const int BOARD_SIZE = 30;
 

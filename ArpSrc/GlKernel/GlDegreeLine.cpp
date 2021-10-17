@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 #include <support/Errors.h>
 #include <ArpMath/ArpDefs.h>
 #include <GlPublic/GlDegreeLine.h>

@@ -1,7 +1,7 @@
 /* SeqPipelineMatrixView.cpp
  */
-#include <algo.h>
-#include <stdio.h>
+#include <algorithm>
+#include <cstdio>
 #include <InterfaceKit.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "ArpKernel/ArpDebug.h"
@@ -257,7 +257,7 @@ public:
 	void			DrawOn(BView* view, BRect frame, rgb_color viewColor);
 	bool			CanMakeConnection() const;
 
-	vector<_SeqFilterLoc> mConnections;
+	std::vector<_SeqFilterLoc> mConnections;
 
 	pipeline_id		mPipelineId;
 	filter_id		mFilterId;
@@ -680,8 +680,8 @@ void SeqPipelineMatrixView::MouseMoved(	BPoint where,
 			if (oldConnectionPt.y > b) b = oldConnectionPt.y;
 		}
 		mConnectionPt = where;
-		BRect	r2(	min(l, where.x), min(t, where.y),
-					max(rt, where.x), max(b, where.y) );
+		BRect	r2(	std::min(l, where.x), std::min(t, where.y),
+					std::max(rt, where.x), std::max(b, where.y) );
 		r2.left -= 3;  r2.top -= 3;  r2.right += 3;  r2.bottom += 3;
 		r = arp_merge_rects(r, r2);
 		/* Find the filter at the current location.  If it valid for a drop,
@@ -1266,7 +1266,7 @@ bool SeqPipelineMatrixView::LockedHandleAddOnDrop(	AmPipelineMatrixI* matrix,
 	bool		move = false;
 	filter_id	id = 0;
 	BPoint		where;
-	ulong		buttons;
+	uint32		buttons;
 	GetMouse(&where, &buttons, false);
 	if (msg->FindPointer("filter_id", &id) == B_OK) {
 		int32	dragButtons;
@@ -1705,7 +1705,7 @@ static BMenuItem* new_change_to_menu(	AmPipelineType pipelineType,
 	AmFilterRoster*		roster = AmFilterRoster::Default();
 	BMenu*				menu = new BMenu("Change to");
 	if (!menu) return NULL;
-	vector<BMenuItem*>		items;
+	std::vector<BMenuItem*>		items;
 	
 	roster->Locker()->Lock();
 	const int32				N = roster->CountAddOns();
@@ -2033,7 +2033,7 @@ status_t _SeqFilterGrid::ValidateConnection(_SeqFilterCell* fromCell, _SeqFilter
 	if (fromCell->Row() == toCell->Row() ) return B_ERROR;
 	/* From cell can not have more than one connection to toCell's pipeline.
 	 */
-	vector<_SeqFilterLoc>&		con = fromCell->FilterInfo()->mConnections;
+	std::vector<_SeqFilterLoc>&		con = fromCell->FilterInfo()->mConnections;
 	for (uint32 k = 0; k < con.size(); k++) {
 		if (con[k].mPid == toCell->PipelineId() ) return B_ERROR;
 	}
@@ -2052,7 +2052,7 @@ bool _SeqFilterGrid::ConnectionExists(_SeqFilterCell* fromCell, _SeqFilterCell* 
 {
 	if (!fromCell || !(fromCell->FilterInfo()) || !toCell || !(toCell->FilterInfo()) )
 		return false;
-	vector<_SeqFilterLoc>&		con = fromCell->FilterInfo()->mConnections;
+	std::vector<_SeqFilterLoc>&		con = fromCell->FilterInfo()->mConnections;
 	for (uint32 k = 0; k < con.size(); k++) {
 		if (con[k].mPid == toCell->PipelineId()
 				&& con[k].mFid == toCell->FilterId() )
@@ -2673,7 +2673,7 @@ public:
 	uint32					mRow, mCol;
 	uint32					mMinCol;
 	AmFilterHolderI*		mHolder;
-	vector<_LayoutCell*>	mConnections;
+	std::vector<_LayoutCell*>	mConnections;
 };
 
 status_t _SeqFilterGrid::NewLayout(const AmPipelineMatrixI* matrix)

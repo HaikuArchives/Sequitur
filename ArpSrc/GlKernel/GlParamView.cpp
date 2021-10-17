@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <ArpCore/StlVector.h>
 #include <ArpInterface/ArpPrefs.h>
 #include <ArpSupport/ArpUniversalStringMachine.h>
@@ -46,8 +46,8 @@ public:
 class _ParamViewData
 {
 public:
-	vector<_ParamViewEntry*>	entries;
-	vector<_ParamVisualEntry>	visuals;
+	std::vector<_ParamViewEntry*>	entries;
+	std::vector<_ParamVisualEntry>	visuals;
 	
 	_ParamViewData()			{ }
 

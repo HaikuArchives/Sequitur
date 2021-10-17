@@ -2,9 +2,9 @@
  */
 #include "ArpVelocityMap.h"
 
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpLayout/ArpViewWrapper.h"
 #include "ArpViewsPublic/ArpIntFormatterI.h"
@@ -202,11 +202,11 @@ status_t ArpVelocityMapFilter::Configure(ArpVectorI<BView*>& panels)
 void ArpVelocityMapAddOn::LongDescription(BString& name, BString& str) const
 {
 	AmFilterAddOn::LongDescription(name, str);
-	str << "<p>I take a range of velocities and transform it into a
-	new range.  Any velocities out of range are ignored (so use multiple
-	maps to get multiple bands of transformation).  I can be used to compress
-	(by setting the To values to a wider range than the From values) or expand
-	(by doing the opposite).</p>";
+	str << "<p>I take a range of velocities and transform it into a"
+	"new range.  Any velocities out of range are ignored (so use multiple"
+	"maps to get multiple bands of transformation).  I can be used to compress"
+	"(by setting the To values to a wider range than the From values) or expand"
+	"(by doing the opposite).</p>";
 }
 
 void ArpVelocityMapAddOn::GetVersion(int32* major, int32* minor) const

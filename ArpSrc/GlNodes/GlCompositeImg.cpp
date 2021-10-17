@@ -85,9 +85,9 @@ static const uint32		_SRC_2D_INDEX		= 3;
 static const int32		_MAP_KEY			= 'map_';
 static const uint32		_SRC_1D_INDEX		= 2;
 
-static void _verify_dest(	vector<GlImage*>& destImgs, vector<GlImage*>& srcImgs,
+static void _verify_dest(	std::vector<GlImage*>& destImgs, std::vector<GlImage*>& srcImgs,
 							GlNodeDataList& list);
-static void _align_sources(vector<GlImage*>& srcImgs);
+static void _align_sources(std::vector<GlImage*>& srcImgs);
 static void _override_plane_src(GlPlanes& pixels, int32* srcMode);
 
 /***************************************************************************
@@ -355,8 +355,8 @@ status_t _GlCompositeAlgo::Perform(GlNodeDataList& list, const gl_process_args* 
 	GlImage*			destImg;
 	GlImage*			srcImg;
 	uint32				k;
-	vector<GlImage*>	destImgs;
-	vector<GlImage*>	srcImgs;
+	std::vector<GlImage*>	destImgs;
+	std::vector<GlImage*>	srcImgs;
 	for (k = 0; (destImg = list.ImageAt(k)) != 0; k++) destImgs.push_back(destImg);
 	while ((srcImg = srcImgList.DetachImage()) != 0) srcImgs.push_back(srcImg);
 	srcImgList.DeleteContents();
@@ -631,7 +631,7 @@ bool _GlCompositeAlgo::MissingSource(GlImage* srcIm, GlAlgo1d* src1d, uint8* src
 /***************************************************************************
  * Misc
  ***************************************************************************/
-static void _verify_dest(	vector<GlImage*>& destImgs, vector<GlImage*>& srcImgs,
+static void _verify_dest(	std::vector<GlImage*>& destImgs, std::vector<GlImage*>& srcImgs,
 							GlNodeDataList& list)
 {
 	if (destImgs.size() > 0) return;
@@ -664,7 +664,7 @@ static void _verify_dest(	vector<GlImage*>& destImgs, vector<GlImage*>& srcImgs,
 	}
 }
 
-static void _align_sources(vector<GlImage*>& srcImgs)
+static void _align_sources(std::vector<GlImage*>& srcImgs)
 {
 	if (srcImgs.size() < 2) return;
 	int32			originX, originY, x, y;

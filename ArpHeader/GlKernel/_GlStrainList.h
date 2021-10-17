@@ -56,7 +56,7 @@ public:
 	status_t		Install(GlParamListI& target);
 
 private:
-	vector<_GlStrainListNode*>	mNodes;
+	std::vector<_GlStrainListNode*>	mNodes;
 
 	_GlStrainListParam*		Param(const gl_param_key& key, bool create = false);
 	_GlStrainListNode*		Node(gl_node_id nid, bool create = false);

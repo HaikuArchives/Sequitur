@@ -112,6 +112,7 @@ endif
 				$(SYSINCLUDE_SEP) \
 				$(addprefix $(SYSINCLUDE_FLAG) $(BEHEADERS)/,$(SYSTEM_INCLUDES)) \
 				$(SYSINCLUDE_FLAG) $(ARPROOT)/ArpHeader/BeExp/ \
+				$(SYSINCLUDE_FLAG)/boot/system/develop/headers/private/shared/ \
 				$(addprefix $(SYSINCLUDE_FLAG) ,$(SYSLOCAL_INCLUDES))
 
 #	create the list of resources

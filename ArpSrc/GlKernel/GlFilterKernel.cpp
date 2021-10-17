@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <ArpKernel/ArpDebug.h>
 #include <ArpCore/ArpChar.h>
 #include <support/Errors.h>

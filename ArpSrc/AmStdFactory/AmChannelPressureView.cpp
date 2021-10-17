@@ -1,8 +1,8 @@
 /* AmChannelPressureView.cpp
  */
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 #include <interface/MenuField.h>
 #include <interface/MenuItem.h>
 #include <interface/PopUpMenu.h>
@@ -323,7 +323,7 @@ AmEvent* _AmChannelPressureTarget::InterestingEventAt(	const AmTrack* track,
 			if( IsInteresting( n->Event() ) ) {
 				if (!closest)
 					closest = n->Event();
-				else if ( abs(time - eventRange.start) < abs(time - topPhrase.EventRange(closest).start) )
+				else if ( llabs(time - eventRange.start) < llabs(time - topPhrase.EventRange(closest).start) )
 					closest = n->Event();
 			}
 		} else {

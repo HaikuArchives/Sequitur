@@ -2,8 +2,8 @@
  * A collection of common defines for the Sequitur classes.
  */
 
-#ifndef SEQUITUR_SEQUITURDEFS_H
-#define SEQUITUR_SEQUITURDEFS_H
+#ifndef __ARPHEADER_SEQUITUR_SEQUITURDEFS_H__
+#define __ARPHEADER_SEQUITUR_SEQUITURDEFS_H__
 
 #include <experimental/ResourceSet.h>
 
@@ -236,4 +236,4 @@ rgb_color		seq_darken(rgb_color c, float f);
 
 
 
-#endif
+#endif // __ARPHEADER_SEQUITUR_SEQUITURDEFS_H__

@@ -1,9 +1,9 @@
 /* SeqPhraseTool.cpp
  */
-#include <algo.h>
-#include <math.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <cstdio>
 #include <interface/MenuItem.h>
 #include <interface/PopUpMenu.h>
 #include <interface/Window.h>
@@ -84,7 +84,7 @@ public:
 
 	AmTrack*				mSrcTrack;
 	AmTrack*				mDestTrack;
-	vector<AmPhraseEvent*>	mPhrases;
+	std::vector<AmPhraseEvent*>	mPhrases;
 };
 
 /*************************************************************************
@@ -227,7 +227,7 @@ bool SeqPhraseTool::HandleMessage(	const BMessage* msg,
 	int32		sourceTrack;
 	song_id		srcSongId;
 	song_id		destSongId = mSongRef.SongId();
-	vector<uint32> tracks;
+	std::vector<uint32> tracks;
 	target->View()->GetMouse(&where, &buttons, false);
 	AmTime		dropTime = target->TimeConverter()->PixelToTick( where.x );
 	if( find_time( *msg, START_STR, &(range.start) ) != B_OK ) return true;
@@ -241,7 +241,7 @@ bool SeqPhraseTool::HandleMessage(	const BMessage* msg,
 		tracks.push_back( uint32(trackIndex) );
 	}
 	if (tracks.size() < 1) return true;
-	sort( tracks.begin(), tracks.end(), less<uint32>() );
+	sort( tracks.begin(), tracks.end(), std::less<uint32>() );
 	bool		copy = false;
 	if (buttons&B_SECONDARY_MOUSE_BUTTON) {
 		bool	enableLink = (srcSongId == destSongId);
@@ -282,7 +282,7 @@ bool SeqPhraseTool::HandleMessage(	const BMessage* msg,
 void SeqPhraseTool::CreateLink(	track_id trackId,
 								AmRange range,
 								int32 sourceTrack,
-								vector<uint32>& tracks,
+								std::vector<uint32>& tracks,
 								AmTime dropTime)
 {
 	// WRITE SONG BLOCK
@@ -498,7 +498,7 @@ void SeqPhraseTool::PerformDrop(SeqSongToolTarget* target,
 								AmSong* srcSong,
 								AmSong* destSong,
 								AmRange range,
-								vector<uint32>& tracks,
+								std::vector<uint32>& tracks,
 								int32 trackDelta,
 								AmTime dropTime,
 								AmTime oldMeasureStart,
@@ -517,7 +517,7 @@ void SeqPhraseTool::PerformDrop(SeqSongToolTarget* target,
 	AmTime			newMeasureStart = sig.StartTime();
 	AmTrack*		srcTrack;
 	AmTrack*		destTrack;
-	vector<_AmDropEntry> entries;
+	std::vector<_AmDropEntry> entries;
 	int32			undoCount = 0;
 	AmEvent::EventType undoType = AmEvent::_NUM_TYPE;
 	

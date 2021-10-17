@@ -6,7 +6,7 @@
 class _ParamTypeListData
 {
 public:
-	vector<GlParamType*>		mParams;
+	std::vector<GlParamType*>		mParams;
 	
 	_ParamTypeListData()		{ }
 

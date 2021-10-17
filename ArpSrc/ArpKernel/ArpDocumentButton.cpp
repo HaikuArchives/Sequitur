@@ -45,8 +45,8 @@
 #include <ArpKernel/ArpDebug.h>
 #endif
 
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 
 ArpMOD();
 
@@ -141,9 +141,9 @@ void ArpDocumentButton::MessageReceived(BMessage* message)
 {
 	if( !message ) return;
 	
-	ArpD(cdb << ADH << "ArpDocumentButton::MessageReceived: " << *message << endl);
+	ArpD(cdb << ADH << "ArpDocumentButton::MessageReceived: " << *message << std::endl);
 	if( message->WasDropped() ) {
-		ArpD(cdb << ADH << "This was a dropped message." << endl);
+		ArpD(cdb << ADH << "This was a dropped message." << std::endl);
 		mDropped = false;
 		Invalidate();
 		switch( message->what ) {
@@ -153,7 +153,7 @@ void ArpDocumentButton::MessageReceived(BMessage* message)
 				if( GetDropRef(&ref, message, mDropped) == B_OK ) {
 					// Forward to target as an "open" action.
 					ArpD(cdb << ADH << "Sending to target as B_REFS_RECEIVED."
-								<< endl);
+								<< std::endl);
 					BMessage openMsg(*message);
 					openMsg.what = B_REFS_RECEIVED;
 					Invoke(&openMsg);
@@ -167,12 +167,12 @@ void ArpDocumentButton::MessageReceived(BMessage* message)
 					// have it send the final reply containing that data to our
 					// target.
 					ArpD(cdb << ADH << "Replying with desired action: " << data
-								<< endl);
+								<< std::endl);
 					message->SendReply(&data, Messenger());
 				}
 			} break;
 			default:
-				ArpD(cdb << ADH << "Not a drop I understand." << endl);
+				ArpD(cdb << ADH << "Not a drop I understand." << std::endl);
 				inherited::MessageReceived(message);
 		}
 		return;
@@ -184,7 +184,7 @@ void ArpDocumentButton::MessageReceived(BMessage* message)
 	int i;
 	for( i=0; mDragPrototype.FindInt32("be:actions", i, &action)==B_OK; i++ ) {
 		if( static_cast<type_code>(action) == message->what ) {
-			ArpD(cdb << ADH << "Forwarding this action to target." << endl);
+			ArpD(cdb << ADH << "Forwarding this action to target." << std::endl);
 			// Forward message on to target, making that target's reply
 			// go back to the originator.
 			InvokeReply(message);
@@ -199,12 +199,12 @@ void ArpDocumentButton::MessageReceived(BMessage* message)
 	// data message directly to our target, when responding to the initial
 	// drop.  However, just in case, we also catch data messages here.
 	if( message->what == B_MIME_DATA ) {
-		ArpD(cdb << ADH << "Forwarding this data to target." << endl);
+		ArpD(cdb << ADH << "Forwarding this data to target." << std::endl);
 		InvokeReply(message);
 		return;
 	}
 	
-	ArpD(cdb << ADH << "Not a message I understand." << endl);
+	ArpD(cdb << ADH << "Not a message I understand." << std::endl);
 	inherited::MessageReceived(message);
 }
 
@@ -238,8 +238,8 @@ void ArpDocumentButton::Draw(BRect)
 	
 	BRect bounds(Bounds());
 	
-	ArpD(cdb << ADH << "Drawing ArpDocument Button..." << endl);
-	ArpD(cdb << ADH << "Initial view bounds=" << bounds << endl);
+	ArpD(cdb << ADH << "Drawing ArpDocument Button..." << std::endl);
+	ArpD(cdb << ADH << "Initial view bounds=" << bounds << std::endl);
 	
 	int32* cmap = mPressed ? PressedMap : StandardMap;
 	
@@ -248,7 +248,7 @@ void ArpDocumentButton::Draw(BRect)
 	
 	if( bounds.IsValid() ) {
 		ArpD(cdb << ADH << "Drawing interior frame at bounds=" << bounds
-						<< endl);
+						<< std::endl);
 		curcol = tint_color(bgcolor, ColorTints[cmap[MedShineColor]]);
 		AddLine( BPoint(bounds.left, bounds.bottom),
 				 BPoint(bounds.left, bounds.top),
@@ -270,7 +270,7 @@ void ArpDocumentButton::Draw(BRect)
 	
 	if( bounds.IsValid() ) {
 		ArpD(cdb << ADH << "Drawing interior frame at bounds=" << bounds
-						<< endl);
+						<< std::endl);
 		curcol = tint_color(bgcolor, ColorTints[cmap[ShineColor]]);
 		if( IsFocus() ) curcol = ui_color(B_KEYBOARD_NAVIGATION_COLOR);
 		AddLine( BPoint(bounds.left, bounds.bottom),
@@ -313,7 +313,7 @@ void ArpDocumentButton::Draw(BRect)
 		}
 		
 		ArpD(cdb << ADH << "Current view bounds=" << bounds
-						<< ", icon bounds=" << ibounds << endl);
+						<< ", icon bounds=" << ibounds << std::endl);
 
 		SetHighColor(bgcolor);
 		const float xdiff = bounds.Width() - ibounds.Width();
@@ -328,13 +328,13 @@ void ArpDocumentButton::Draw(BRect)
 						   bounds.right, bounds.bottom));
 			bounds.left += xoff;
 			bounds.right -= (xdiff-xoff);
-			ArpD(cdb << ADH << "Fill view X to bounds=" << bounds << endl);
+			ArpD(cdb << ADH << "Fill view X to bounds=" << bounds << std::endl);
 		} else {
 			#if 1
 			ibounds.left -= xoff;
 			ibounds.right += (xdiff-xoff);
 			#endif
-			ArpD(cdb << ADH << "Indent icon X to bounds=" << ibounds << endl);
+			ArpD(cdb << ADH << "Indent icon X to bounds=" << ibounds << std::endl);
 		}
 		
 		const float ydiff = bounds.Height() - ibounds.Height();
@@ -349,19 +349,19 @@ void ArpDocumentButton::Draw(BRect)
 						   bounds.right, bounds.bottom));
 			bounds.top += yoff;
 			bounds.bottom -= (ydiff-yoff);
-			ArpD(cdb << ADH << "Fill view Y to bounds=" << bounds << endl);
+			ArpD(cdb << ADH << "Fill view Y to bounds=" << bounds << std::endl);
 		} else {
 			#if 1
 			ibounds.top -= yoff;
 			ibounds.bottom += (ydiff-yoff);
 			#endif
-			ArpD(cdb << ADH << "Indent icon Y to bounds=" << ibounds << endl);
+			ArpD(cdb << ADH << "Indent icon Y to bounds=" << ibounds << std::endl);
 		}
 	}
 	
 	if( bounds.IsValid() && ibounds.IsValid() && shownBitmap ) {
 		ArpD(cdb << ADH << "Drawing icon at bounds=" << bounds
-						<< ", icon bounds=" << ibounds << endl);
+						<< ", icon bounds=" << ibounds << std::endl);
 		SetHighColor(bgcolor);
 		SetLowColor(bgcolor);
 		FillRect(bounds);
@@ -374,7 +374,7 @@ void ArpDocumentButton::Draw(BRect)
 
 void ArpDocumentButton::MouseDown(BPoint point)
 {
-	ArpD(cdb << ADH << "Mouse down received." << endl);
+	ArpD(cdb << ADH << "Mouse down received." << std::endl);
 	
 	BMessage* msg = Window()->CurrentMessage();
 	if( !msg ) return;
@@ -420,7 +420,7 @@ void ArpDocumentButton::MouseMoved(BPoint point, uint32 transit,
 				curMsg->FindInt32("modifiers",&modifiers);
 				if( (modifiers&B_LEFT_CONTROL_KEY) != 0 ) control=true;
 				ArpD(cdb << ADH << "Drag entered view, ctrl=" << control
-							<< ", mouse move=" << *curMsg << endl);
+							<< ", mouse move=" << *curMsg << std::endl);
 			}
 			if( control || GetDropRef(0,message) == B_OK
 						|| GetDropAction(0,message) == B_OK ) {
@@ -428,7 +428,7 @@ void ArpDocumentButton::MouseMoved(BPoint point, uint32 transit,
 			}
 		}
 		if( newDropped != mDropped ) {
-			ArpD(if( message ) cdb << "Dragged message: " << *message << endl);
+			ArpD(if( message ) cdb << "Dragged message: " << *message << std::endl);
 			mDropped = newDropped;
 			Invalidate();
 		}
@@ -472,7 +472,7 @@ status_t ArpDocumentButton::InvokeReply(BMessage* msg)
 {
 	if( !msg ) return B_BAD_VALUE;
 	
-	ArpD(cdb << ADH << "Called InvokeReply() on: " << *msg << endl);
+	ArpD(cdb << ADH << "Called InvokeReply() on: " << *msg << std::endl);
 	
 	// Is the target in the same looper as this handler?  If so, we can't
 	// send this message to it and wait for a reply -- instead, we just
@@ -483,7 +483,7 @@ status_t ArpDocumentButton::InvokeReply(BMessage* msg)
 		BLooper* yourLooper = 0;
 		BHandler* yourHandler = Target(&yourLooper);
 		if( myLooper == yourLooper ) {
-			ArpD(cdb << ADH << "Directly calling target handler." << endl);
+			ArpD(cdb << ADH << "Directly calling target handler." << std::endl);
 			if( yourHandler ) yourHandler->MessageReceived(msg);
 			else yourLooper->DispatchMessage(msg, 0);
 			return B_OK;
@@ -493,9 +493,9 @@ status_t ArpDocumentButton::InvokeReply(BMessage* msg)
 	// Otherwise, send the message to our target, and wait for a reply.
 	// Then take this reply and use it as the reply to the original message.
 	BMessage reply;
-	ArpD(cdb << ADH << "Sending message to target." << endl);
+	ArpD(cdb << ADH << "Sending message to target." << std::endl);
 	status_t err = Messenger().SendMessage(msg, &reply);
-	ArpD(cdb << ADH << "Reply status=" << err << ", msg=" << reply << endl);
+	ArpD(cdb << ADH << "Reply status=" << err << ", msg=" << reply << std::endl);
 	if( !err ) {
 		msg->SendReply(&reply, this);
 	}
@@ -508,18 +508,18 @@ status_t ArpDocumentButton::GetDropRef(entry_ref* out, const BMessage* in,
 {
 	if( !in ) return B_BAD_VALUE;
 	
-	ArpD(cdb << ADH << "Checking reference in message: " << *in << endl);
-	ArpD(cdb << ADH << "Prototype is: " << mDropPrototype << endl);
+	ArpD(cdb << ADH << "Checking reference in message: " << *in << std::endl);
+	ArpD(cdb << ADH << "Prototype is: " << mDropPrototype << std::endl);
 	
 	entry_ref ref;
 	status_t ret;
 	if( (ret=in->FindRef("refs", &ref)) != B_OK ) {
-		ArpD(cdb << ADH << "No 'refs' value found." << endl);
+		ArpD(cdb << ADH << "No 'refs' value found." << std::endl);
 		return ret;
 	}
 	
 	if( always ) {
-		ArpD(cdb << ADH << "Always returning reference." << endl);
+		ArpD(cdb << ADH << "Always returning reference." << std::endl);
 		if( out ) *out = ref;
 		return B_OK;
 	}
@@ -528,36 +528,36 @@ status_t ArpDocumentButton::GetDropRef(entry_ref* out, const BMessage* in,
 	
 	BEntry entry(&ref, true);
 	if( (ret=entry.InitCheck()) != B_OK ) {
-		ArpD(cdb << ADH << "Unable to create BEntry from reference." << endl);
+		ArpD(cdb << ADH << "Unable to create BEntry from reference." << std::endl);
 		return ret;
 	}
 	BNode node(&entry);
 	if( (ret=node.InitCheck()) != B_OK ) {
-		ArpD(cdb << ADH << "Unable to create BNode from BEntry." << endl);
+		ArpD(cdb << ADH << "Unable to create BNode from BEntry." << std::endl);
 		return ret;
 	}
 	
 	char mimetype[B_MIME_TYPE_LENGTH];
 	if( (ret=node.ReadAttr("BEOS:TYPE", B_MIME_STRING_TYPE, 0,
 						   mimetype, sizeof(mimetype))) < 0 ) {
-		ArpD(cdb << ADH << "Unable to retrieve MIME type from node." << endl);
+		ArpD(cdb << ADH << "Unable to retrieve MIME type from node." << std::endl);
 		return ret;
 	}
 	
-	ArpD(cdb << ADH << "Node's MIME type is: " << &mimetype[0] << endl);
+	ArpD(cdb << ADH << "Node's MIME type is: " << &mimetype[0] << std::endl);
 	
 	const char* str;
 	for( int i=0; mDropPrototype.FindString("be:filetypes", i, &str)==B_OK; i++ ) {
 		// TO DO: Be able to match with MIME supertypes in the drop prototype.
-		ArpD(cdb << ADH << "Comparing with prototype: " << str << endl);
+		ArpD(cdb << ADH << "Comparing with prototype: " << str << std::endl);
 		if( strcasecmp(str, mimetype) == 0 ) {
-			ArpD(cdb << ADH << "Match!" << endl);
+			ArpD(cdb << ADH << "Match!" << std::endl);
 			if( out ) *out = ref;
 			return B_OK;
 		}
 	}
 	
-	ArpD(cdb << ADH << "No matches for node's MIME type!" << endl);
+	ArpD(cdb << ADH << "No matches for node's MIME type!" << std::endl);
 	return B_NOT_ALLOWED;
 }
 
@@ -566,8 +566,8 @@ status_t ArpDocumentButton::GetDropAction(BMessage* out, const BMessage* in,
 {
 	if( !in ) return B_BAD_VALUE;
 	
-	ArpD(cdb << ADH << "Checking known type in message: " << *in << endl);
-	ArpD(cdb << ADH << "Prototype is: " << mDropPrototype << endl);
+	ArpD(cdb << ADH << "Checking known type in message: " << *in << std::endl);
+	ArpD(cdb << ADH << "Prototype is: " << mDropPrototype << std::endl);
 	
 	int i, j;
 	
@@ -579,10 +579,10 @@ status_t ArpDocumentButton::GetDropAction(BMessage* out, const BMessage* in,
 		for( j=0; in->FindString("be:types", j, &inType)==B_OK; j++ ) {
 			ArpD(cdb << ADH << "Comparing type proto #" << i << " (" << dropType
 						<< ") with given #" << j << " (" << inType << ")..."
-						<< endl);
+						<< std::endl);
 			// TO DO: Be able to match with MIME supertypes in the drop prototype.
 			if( strcasecmp(dropType, inType) == 0 ) {
-				ArpD(cdb << ADH << "Match!" << endl);
+				ArpD(cdb << ADH << "Match!" << std::endl);
 				break;
 			}
 			inType = 0;
@@ -591,7 +591,7 @@ status_t ArpDocumentButton::GetDropAction(BMessage* out, const BMessage* in,
 	
 	// No matching type found?
 	if( !dropType || !inType ) {
-		ArpD(cdb << ADH << "No matching type was found in the drop." << endl);
+		ArpD(cdb << ADH << "No matching type was found in the drop." << std::endl);
 		return B_NOT_ALLOWED;
 	}
 	
@@ -602,16 +602,16 @@ status_t ArpDocumentButton::GetDropAction(BMessage* out, const BMessage* in,
 		for( j=0; in->FindInt32("be:actions", j, &inAction)==B_OK; j++ ) {
 			ArpD(cdb << ADH << "Comparing action proto #" << i << " (" << dropAction
 						<< ") with given #" << j << " (" << inAction << ")..."
-						<< endl);
+						<< std::endl);
 			if( dropAction == inAction ) {
-				ArpD(cdb << ADH << "Match!" << endl);
+				ArpD(cdb << ADH << "Match!" << std::endl);
 				break;
 			}
 			inAction = 0;
 		}
 		// If no actions supplied in drop message, default to B_COPY_TARGET.
 		if( !inAction && j == 0 && dropAction == B_COPY_TARGET ) {
-			ArpD(cdb << ADH << "No actions in drop; assuming COPY." << endl);
+			ArpD(cdb << ADH << "No actions in drop; assuming COPY." << std::endl);
 			inAction = B_COPY_TARGET;
 			break;
 		}
@@ -619,7 +619,7 @@ status_t ArpDocumentButton::GetDropAction(BMessage* out, const BMessage* in,
 	
 	// No matching action found?
 	if( dropAction == 0 || inAction == 0 ) {
-		ArpD(cdb << ADH << "No matching action was found in the drop." << endl);
+		ArpD(cdb << ADH << "No matching action was found in the drop." << std::endl);
 		return B_NOT_ALLOWED;
 	}
 	
@@ -642,9 +642,9 @@ status_t ArpDocumentButton::GetDropAction(BMessage* out, const BMessage* in,
 				// TO DO: Be able to match with MIME supertypes in the drop prototype.
 				ArpD(cdb << ADH << "Comparing file proto #" << i << " (" << dropType
 							<< ") with given #" << j << " (" << inType << ")..."
-							<< endl);
+							<< std::endl);
 				if( strcasecmp(dropType, inType) == 0 ) {
-					ArpD(cdb << ADH << "Match!" << endl);
+					ArpD(cdb << ADH << "Match!" << std::endl);
 					break;
 				}
 				inType = 0;
@@ -653,24 +653,24 @@ status_t ArpDocumentButton::GetDropAction(BMessage* out, const BMessage* in,
 		
 		// No matching type found?
 		if( !dropType || !inType ) {
-			ArpD(cdb << ADH << "No matching file type was found in the drop." << endl);
+			ArpD(cdb << ADH << "No matching file type was found in the drop." << std::endl);
 			return B_NOT_ALLOWED;
 		}
 	
 		if( out ) out->AddString("be:filetypes", dropType);
 	}
 	
-	ArpD(if( out ) cdb << "Reply message to drop: " << *out << endl; else cdb << "This is a good message drop." << endl);
+	ArpD(if( out ) cdb << "Reply message to drop: " << *out << std::endl; else cdb << "This is a good message drop." << std::endl);
 	
 	return B_OK;
 }
 
 void ArpDocumentButton::MouseUp(BPoint point)
 {
-	ArpD(cdb << ADH << "ArpDocumentButton: Mouse Up." << endl);
+	ArpD(cdb << ADH << "ArpDocumentButton: Mouse Up." << std::endl);
 	if( mAction == ButtonPressed ) {
 		if( IsPointIn(point) ) {
-			ArpD(cdb << ADH << "Invoking button action." << endl);
+			ArpD(cdb << ADH << "Invoking button action." << std::endl);
 			Invoke();
 		}
 	}

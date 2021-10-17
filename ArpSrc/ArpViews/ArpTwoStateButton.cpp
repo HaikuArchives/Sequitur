@@ -1,6 +1,6 @@
 /* ArpTwoStateButton.cpp
  */
-#include <stdio.h>
+#include <cstdio>
 #include <interface/Bitmap.h>
 #include "ArpKernel/ArpDebug.h"
 #include "ArpViews/ArpTwoStateButton.h"

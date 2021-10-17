@@ -94,7 +94,7 @@ class MIndexedList {
 									// nn, the next element will have events
 									// from nn+1 to mm, etc.  When we need to
 									// add higher events, we grow the chain.
-		long		count;			// the size of the chain
+		int32		count;			// the size of the chain
 
 	private:
 		int32			chainIndexes;	// The number of indexes we allow between chains.

@@ -1,10 +1,10 @@
 /* SeqTempoControl.cpp
  */
-#include <stdio.h>
-#include <assert.h>
-#include <string.h>
+#include <cstdio>
+#include <cassert>
+#include <cstring>
 #include <malloc.h>
-#include <math.h>
+#include <cmath>
 #include <interface/Window.h>
 #include "ArpKernel/ArpBitmapCache.h"
 #include "ArpViewsPublic/ArpPrefsI.h"

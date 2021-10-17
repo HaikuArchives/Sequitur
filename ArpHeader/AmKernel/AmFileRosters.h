@@ -26,7 +26,7 @@
 #ifndef AMKERNEL_AMFILEROSTERS_H
 #define AMKERNEL_AMFILEROSTERS_H
 
-#include <vector.h>
+#include <vector>
 #include <app/Handler.h>
 #include <support/Locker.h>
 #include "AmKernel/AmDevice.h"
@@ -125,7 +125,7 @@ private:
 /***************************************************************************
  * AM-DEVICE-ROSTER
  ***************************************************************************/
-typedef vector< ArpRef<AmDevice> >		device_vec;
+typedef std::vector< ArpRef<AmDevice> >		device_vec;
 class _AmDeviceObserver;
 
 class AmDeviceRoster : public AmFileRoster
@@ -220,13 +220,13 @@ protected:
 private:
 	typedef AmFileRoster	inherited;
 
-	vector<AmMotion*>		mMotions;
+	std::vector<AmMotion*>		mMotions;
 };
 
 /***************************************************************************
  * AM-MULTI-FILTER-ROSTER
  ***************************************************************************/
-typedef vector< ArpRef<AmMultiFilterAddOn> >		multifilter_vec;
+typedef std::vector< ArpRef<AmMultiFilterAddOn> >		multifilter_vec;
 
 class AmMultiFilterRoster : public AmFileRoster
 {

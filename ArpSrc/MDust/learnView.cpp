@@ -13,9 +13,9 @@
 bool steadyFlag;
 sem_id read_board_sem, write_board_sem;
 
-static long lifeThread(learnView *);
-static long drawThread(learnView *);
-static long frameThread(learnView *);
+static int32 lifeThread(learnView *);
+static int32 drawThread(learnView *);
+static int32 frameThread(learnView *);
 
 static GLfloat spin = 0.0;
 
@@ -292,7 +292,7 @@ void learnView::DrawFrame()
 	if (mSpace != 0) mSpace->Draw(this);
 }
 
-static long drawThread(learnView *mv)
+static int32 drawThread(learnView *mv)
 {
 	int generations = -1;
 	while(!(mv->QuitPending()))
@@ -330,7 +330,7 @@ static long drawThread(learnView *mv)
 	return 1;
 }
 
-static long
+static int32
 lifeThread(learnView *mv)
 {
 	uint32		lastFrame = mv->Frame();
@@ -361,7 +361,7 @@ lifeThread(learnView *mv)
 	return 1;
 }
 
-static long frameThread(learnView *mv)
+static int32 frameThread(learnView *mv)
 {
 	while(!(mv->QuitPending()))
 	{
