@@ -71,7 +71,7 @@ endif
 #					$(shell ls 2>/dev/null -1 *.rsrc) Makefile MakeApp
 
 #	specify any additional beos shared libraries needed.
-	ADD_BESHLIBS	= libcolumnlistview midi midi2 translation tracker media png
+	ADD_BESHLIBS	= columnlistview midi midi2 translation tracker media png
 
 #	specify additional non-beos shared libraries needed.
 	ADD_SHLIBS		= $(CPPLIB) AmKernel
