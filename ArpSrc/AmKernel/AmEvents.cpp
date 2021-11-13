@@ -2513,7 +2513,7 @@ status_t AmLyric::GetAsMessage(BMessage& msg) const
 {
 	status_t	err = AmEvent::GetAsMessage(msg);
 	if (err != B_OK) return err;
-	if( mLyric.String() > 0 && mLyric.Length() > 0 )
+	if( mLyric.String()[0] > 0 && mLyric.Length() > 0 )
 		msg.AddString( "lyric", mLyric.String() );
 	return B_OK;
 }
